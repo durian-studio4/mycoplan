@@ -8,7 +8,7 @@ interface Props {}
 const NotificationComponent: React.FC<Props> = () => {
   return (
     <div>
-      <h1>Notification</h1>
+      {/* <h1>Notification</h1> */}
 
       {/* <Table /> */}
     </div>

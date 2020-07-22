@@ -8,7 +8,7 @@ interface Props {}
 const GrafikStatistikComponent: React.FC<Props> = () => {
   return (
     <div>
-      <h1>Grafik Statistik</h1>
+      {/* <h1>Grafik Statistik</h1> */}
 
       {/* <Table /> */}
     </div>

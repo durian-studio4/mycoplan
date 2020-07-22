@@ -8,7 +8,7 @@ interface Props {}
 const ManageComponent: React.FC<Props> = () => {
   return (
     <div>
-      <h1>Manage</h1>
+      {/* <h1>Manage</h1> */}
 
       {/* <Table /> */}
     </div>

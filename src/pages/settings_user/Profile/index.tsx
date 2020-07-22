@@ -8,7 +8,7 @@ interface Props {}
 const ProfilePenggunaComponent: React.FC<Props> = () => {
   return (
     <div>
-      <h1>Profile Pengguna</h1>
+      {/* <h1>Profile Pengguna</h1> */}
 
       {/* <Table /> */}
     </div>

@@ -8,7 +8,7 @@ interface Props {}
 const PrivacyComponent: React.FC<Props> = () => {
   return (
     <div>
-      <h1>Privacy</h1>
+      {/* <h1>Privacy</h1> */}
 
       {/* <Table /> */}
     </div>

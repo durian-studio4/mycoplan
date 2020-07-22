@@ -8,7 +8,7 @@ interface Props {}
 const PaymentComponent: React.FC<Props> = () => {
   return (
     <div>
-      <h1>Payment</h1>
+      {/* <h1>Payment</h1> */}
 
       {/* <Table /> */}
     </div>

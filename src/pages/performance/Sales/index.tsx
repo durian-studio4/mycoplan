@@ -8,7 +8,7 @@ interface Props {}
 const SalesComponent: React.FC<Props> = () => {
   return (
     <div>
-      <h1>Sales</h1>
+      {/* <h1>Sales</h1> */}
 
       {/* <Table /> */}
     </div>
