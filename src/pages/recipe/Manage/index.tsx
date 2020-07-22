@@ -10,7 +10,7 @@ const ManageComponent: React.FC<Props> = () => {
     <div>
       <h1>Manage</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

@@ -10,7 +10,7 @@ const ActionComponent: React.FC<Props> = () => {
     <div>
       <h1>Action</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

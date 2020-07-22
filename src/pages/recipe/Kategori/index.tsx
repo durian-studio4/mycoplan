@@ -10,7 +10,7 @@ const KategoriComponent: React.FC<Props> = () => {
     <div>
       <h1>Kategori</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

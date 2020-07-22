@@ -10,7 +10,7 @@ const RoleComponent: React.FC<Props> = () => {
     <div>
       <h1>Role</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

@@ -10,7 +10,7 @@ const AddComponent: React.FC<Props> = () => {
     <div>
       <h1>Add</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

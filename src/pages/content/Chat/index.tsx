@@ -10,7 +10,7 @@ const ChatComponent: React.FC<Props> = () => {
     <div>
       <h1>Chat</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

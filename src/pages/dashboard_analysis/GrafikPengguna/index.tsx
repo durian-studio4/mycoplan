@@ -10,7 +10,7 @@ const GrafikPenggunaComponent: React.FC<Props> = () => {
     <div>
       <h1>Grafik Pengguna</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

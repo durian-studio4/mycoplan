@@ -10,7 +10,7 @@ const PaymentComponent: React.FC<Props> = () => {
     <div>
       <h1>Payment</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

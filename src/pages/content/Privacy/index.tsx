@@ -10,7 +10,7 @@ const PrivacyComponent: React.FC<Props> = () => {
     <div>
       <h1>Privacy</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

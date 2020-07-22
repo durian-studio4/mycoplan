@@ -10,7 +10,7 @@ const TotalPenggunaComponent: React.FC<Props> = () => {
     <div>
       <h1>Total Pengguna</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

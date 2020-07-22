@@ -10,7 +10,7 @@ const BannerComponent: React.FC<Props> = () => {
     <div>
       <h1>Banner</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

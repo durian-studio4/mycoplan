@@ -10,7 +10,7 @@ const SettingsComponent: React.FC<Props> = () => {
     <div>
       <h1>Settings</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

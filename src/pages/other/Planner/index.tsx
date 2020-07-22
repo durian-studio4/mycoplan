@@ -10,7 +10,7 @@ const PlannerComponent: React.FC<Props> = () => {
     <div>
       <h1>Planner</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

@@ -10,7 +10,7 @@ const GrafikStatistikComponent: React.FC<Props> = () => {
     <div>
       <h1>Grafik Statistik</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

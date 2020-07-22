@@ -10,7 +10,7 @@ const SalesComponent: React.FC<Props> = () => {
     <div>
       <h1>Sales</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

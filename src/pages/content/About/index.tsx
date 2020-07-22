@@ -10,7 +10,7 @@ const AboutComponent: React.FC<Props> = () => {
     <div>
       <h1>About</h1>
 
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };
