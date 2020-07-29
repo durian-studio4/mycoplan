@@ -19,75 +19,39 @@ const TableComponent: React.FC<Props> = () => {
     () => [
       {
         align: 'center',
-        title: 'Nama',
-        dataIndex: 'nama',
-        key: 'nama',
+        title: 'No',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         align: 'left',
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
+        title: 'Deskripsi Banner',
+        dataIndex: 'description',
+        key: 'description',
       },
       {
         align: 'center',
-        title: 'Nomor Telepon',
-        dataIndex: 'no_telepon',
-        key: 'no_telepon',
+        title: 'Start Time',
+        dataIndex: 'date',
+        key: 'date',
       },
       {
         align: 'center',
-        title: 'Tanggal Lahir',
-        dataIndex: 'tanggal_lahir',
-        key: 'tanggal_lahir',
+        title: 'Syarat & Ketentuan',
+        dataIndex: 'syarat',
+        key: 'syarat',
       },
       {
         align: 'center',
-        title: 'Usia',
-        dataIndex: 'age',
-        key: 'age',
-      },
-      {
-        align: 'center',
-        title: 'Jenis Kelamin',
-        dataIndex: 'gender',
-        key: 'gender',
-      },
-      {
-        align: 'center',
-        title: 'Alamat Utama',
-        dataIndex: 'alamat',
-        key: 'alamat',
-      },
-      {
-        align: 'center',
-        title: 'User Id',
-        dataIndex: 'user_id',
-        key: 'user_id',
-      },
-      {
-        align: 'center',
-        title: 'Metode Sign in',
-        dataIndex: 'metode',
-        key: 'metode',
+        title: 'Kode Promo',
+        dataIndex: 'promo',
+        key: 'promo',
       },
       {
         align: 'center',
         title: 'Status',
         key: 'status',
-        render: ({ id }: any) => {
-          {
-            if (id === 1) {
-              <Radio>Active</Radio>;
-            }
-            if (id === 2) {
-              <Radio>Running</Radio>;
-            }
-            if (id === 3) {
-              <Radio>Banned</Radio>;
-            }
-          }
-        },
+        render: ({ id }: any) => (id === 1 ? <Radio>Active</Radio> : <Radio>Deactive</Radio>),
       },
       {
         align: 'center',

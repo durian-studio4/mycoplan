@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Card, Row, Input } from 'antd';
-import TableComponent from './Table';
 import styles from './index.less';
 
 interface Props {}
@@ -19,7 +18,6 @@ const ProfileComponent: React.FC<Props> = () => {
           </Button>
         </Row>
         <TextArea className={styles.area} />
-        {/* <TableComponent /> */}
       </Card>
     </div>
   );
