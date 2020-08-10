@@ -17,7 +17,7 @@ const MerchantBannerComponent: React.FC<Props> = () => {
               className={styles.input_search}
               id="name"
               type="text"
-              placeholder="Search Nama Barang"
+              placeholder="Search Banner Merchant"
               // onChange={onChangeState}
               // value={name}
               // onKeyDown={handleKey}

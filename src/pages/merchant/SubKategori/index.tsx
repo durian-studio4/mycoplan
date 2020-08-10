@@ -23,7 +23,7 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
             className={styles.input_search}
             id="name"
             type="text"
-            placeholder="Search Nama Barang"
+            placeholder="Search Sub Kategori"
             // onChange={onChangeState}
             // value={name}
             // onKeyDown={handleKey}

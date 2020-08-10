@@ -20,7 +20,7 @@ const PesananComponent: React.FC<Props> = () => {
               className={styles.input_search}
               id="name"
               type="text"
-              placeholder="Search Nama Barang"
+              placeholder="Search Pesanan"
               // onChange={onChangeState}
               // value={name}
               // onKeyDown={handleKey}
