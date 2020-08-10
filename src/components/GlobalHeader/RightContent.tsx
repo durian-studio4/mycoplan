@@ -3,7 +3,6 @@ import { connect, ConnectProps } from 'umi';
 import { ConnectState } from '@/models/connect';
 import Avatar from './AvatarDropdown';
 import styles from './index.less';
-import NoticeIconView from './NoticeIconView';
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -22,7 +21,6 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = (props) => {
 
   return (
     <div className={className}>
-      <NoticeIconView />
       <Avatar menu />
     </div>
   );
