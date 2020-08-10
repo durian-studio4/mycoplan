@@ -43,17 +43,17 @@ export interface DefaultSettings {
 }
 
 export default {
-  "navTheme": "light",
-  "primaryColor": "#1890ff",
-  "layout": "sidemenu",
-  "contentWidth": "Fluid",
-  "fixedHeader": false,
-  "autoHideHeader": false,
-  "fixSiderbar": false,
-  "menu": {
-    "locale": true
+  navTheme: 'light',
+  primaryColor: '#ffc234',
+  layout: 'sidemenu',
+  contentWidth: 'Fluid',
+  fixedHeader: false,
+  autoHideHeader: false,
+  fixSiderbar: false,
+  menu: {
+    locale: true,
   },
-  "title": "Ant Design Pro",
-  "pwa": false,
-  "iconfontUrl": ""
+  title: 'Mycoplan',
+  pwa: false,
+  iconfontUrl: '',
 } as DefaultSettings;
