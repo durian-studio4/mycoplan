@@ -1,0 +1,158 @@
+@import '~antd/es/style/themes/default.less';
+
+.title {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.title_add {
+  color: #1890ff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    border-collapse: collapse;
+    outline: 0;
+  }
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.row_box {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal_body {
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+.col {
+  flex: 1 0;
+  max-width: 100%;
+}
+
+.box3 {
+  flex: 0 0 33%;
+  max-width: 33%;
+
+  @media screen and (max-width: 700px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 5px;
+  }
+}
+
+.box5 {
+  flex: 0 0 50%;
+  max-width: 50%;
+
+  @media screen and (max-width: 700px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 5px;
+  }
+}
+
+.box6 {
+  flex: 0 0 60%;
+  max-width: 60%;
+
+  @media screen and (max-width: 700px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 5px;
+  }
+}
+
+.box10 {
+  flex: 0 0 100%;
+  max-width: 100%;
+
+  @media screen and (max-width: 700px) {
+    margin-top: 5px;
+  }
+}
+
+.group {
+  padding: 1em;
+
+  @media screen and (max-width: 700px) {
+    margin-top: 0;
+  }
+}
+
+.label {
+  margin-bottom: 0.5em;
+  display: inline-block;
+  font-size: 1em;
+}
+
+.input {
+  height: 100%;
+  width: 100%;
+  border-radius: 0.25em;
+  border: 1px solid #d9d9d9;
+  padding: 0.4em;
+
+  &:focus {
+    border-color: #68adfa;
+    outline: none;
+  }
+}
+
+.button {
+  text-align: center;
+  margin: 5px;
+  border-radius: 0.25em;
+  min-width: 6em;
+  cursor: pointer;
+}
+
+.area {
+  min-height: calc(100px + 1em);
+  width: 100%;
+  border-radius: 0.25rem;
+  border: 1px solid #d9d9d9;
+}
+
+.span {
+  color: #1890ff;
+  cursor: pointer;
+}
+
+.p {
+  height: 100%;
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+
+  th {
+    padding: 10px 10px;
+    border-bottom: 1px solid #eee;
+  }
+
+  td {
+    padding: 1em;
+    border-bottom: 1px solid #eee;
+  }
+}
