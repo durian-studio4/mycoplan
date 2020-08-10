@@ -4,11 +4,7 @@ import styles from './index.less';
 
 interface Props {}
 
-<<<<<<< HEAD
 const SettingsProfileComponent: React.FC<Props> = () => {
-=======
-const ProfileComponent: React.FC<Props> = () => {
->>>>>>> c48e7a7b86fe7fda7a5fcc710910694f5f93dce5
   return (
     <div>
       <p className={styles.title}>Profile & Kata Sandi</p>
@@ -96,8 +92,4 @@ const ProfileComponent: React.FC<Props> = () => {
   );
 };
 
-<<<<<<< HEAD
 export default SettingsProfileComponent;
-=======
-export default ProfileComponent;
->>>>>>> c48e7a7b86fe7fda7a5fcc710910694f5f93dce5

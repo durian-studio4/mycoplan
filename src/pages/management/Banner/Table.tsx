@@ -24,7 +24,6 @@ const TableComponent: React.FC<Props> = () => {
         key: 'no',
       },
       {
-<<<<<<< HEAD
         align: 'center',
         title: 'Gambar',
       },
@@ -33,8 +32,6 @@ const TableComponent: React.FC<Props> = () => {
         title: 'Judul',
       },
       {
-=======
->>>>>>> c48e7a7b86fe7fda7a5fcc710910694f5f93dce5
         align: 'left',
         title: 'Deskripsi Banner',
         dataIndex: 'description',
@@ -42,17 +39,11 @@ const TableComponent: React.FC<Props> = () => {
       },
       {
         align: 'center',
-<<<<<<< HEAD
         title: 'Waktu Mulai',
       },
       {
         align: 'center',
         title: 'Waktu Akhir',
-=======
-        title: 'Start Time',
-        dataIndex: 'date',
-        key: 'date',
->>>>>>> c48e7a7b86fe7fda7a5fcc710910694f5f93dce5
       },
       {
         align: 'center',

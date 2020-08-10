@@ -1,5 +1,4 @@
 import React from 'react';
-<<<<<<< HEAD
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
 
@@ -30,26 +29,8 @@ const RecipeKategoriComponent: React.FC<Props> = () => {
         </Row>
         <TableComponent />
       </Card>
-=======
-import styles from './index.less';
-
-import Table from './Table';
-
-interface Props {}
-
-const KategoriComponent: React.FC<Props> = () => {
-  return (
-    <div>
-      {/* <h1>Kategori</h1> */}
-
-      {/* <Table /> */}
->>>>>>> c48e7a7b86fe7fda7a5fcc710910694f5f93dce5
     </div>
   );
 };
 
-<<<<<<< HEAD
 export default RecipeKategoriComponent;
-=======
-export default KategoriComponent;
->>>>>>> c48e7a7b86fe7fda7a5fcc710910694f5f93dce5
