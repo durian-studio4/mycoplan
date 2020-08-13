@@ -18,6 +18,12 @@ const TableComponent: React.FC<Props> = () => {
     () => [
       {
         align: 'center',
+        title: 'No',
+        dataIndex: 'no',
+        key: 'no',
+      },
+      {
+        align: 'center',
         title: 'Nama',
         dataIndex: 'nama',
         key: 'nama',

@@ -20,7 +20,7 @@ const PesananComponent: React.FC<Props> = () => {
               className={styles.input_search}
               id="name"
               type="text"
-              placeholder="Search Pesanan"
+              placeholder="Cari Pesanan"
               // onChange={onChangeState}
               // value={name}
               // onKeyDown={handleKey}
@@ -32,6 +32,9 @@ const PesananComponent: React.FC<Props> = () => {
         </Row>
         <Tabs>
           <TabPane tab="Delivery" key="1">
+            <TableComponent />
+          </TabPane>
+          <TabPane tab="Store Pick Up" key="2">
             <TableComponent />
           </TabPane>
         </Tabs>

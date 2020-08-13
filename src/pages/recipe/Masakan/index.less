@@ -39,9 +39,42 @@
   max-width: 100%;
 }
 
+.box1 {
+  flex: 0 0 10%;
+  max-width: 10%;
+
+  @media screen and (max-width: 700px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 5px;
+  }
+}
+
+.box2 {
+  flex: 0 0 20%;
+  max-width: 20%;
+
+  @media screen and (max-width: 700px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 5px;
+  }
+}
+
 .box3 {
   flex: 0 0 33%;
   max-width: 33%;
+
+  @media screen and (max-width: 700px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 5px;
+  }
+}
+
+.box4 {
+  flex: 0 0 40%;
+  max-width: 40%;
 
   @media screen and (max-width: 700px) {
     flex: 0 0 100%;
@@ -130,6 +163,24 @@
   border-radius: 0.25em;
   min-width: 6em;
   cursor: pointer;
+}
+
+.button_add {
+  text-align: center;
+  border-radius: 0.25em;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.button_delete {
+  text-align: center;
+  border-radius: 0.25em;
+  cursor: pointer;
+  margin-left: 5px;
+
+  @media screen and (max-width: 700px) {
+    margin-left: 0;
+  }
 }
 
 .button_search {

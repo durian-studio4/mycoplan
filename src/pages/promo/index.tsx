@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
 
@@ -8,6 +8,10 @@ import AddComponent from './Add';
 interface Props {}
 
 const PromoComponent: React.FC<Props> = () => {
+  const [visible, setVisible] = useState(false);
+
+  const handleVisible = () => setVisible(!visible);
+
   return (
     <div>
       <p className={styles.title}>Promo</p>
@@ -19,19 +23,19 @@ const PromoComponent: React.FC<Props> = () => {
               className={styles.input_search}
               id="name"
               type="text"
-              placeholder="Search Promo"
+              placeholder="Cari Promo"
               // onChange={onChangeState}
               // value={name}
               // onKeyDown={handleKey}
             />
-            <Button className={styles.button} type="primary">
+            <Button className={styles.button} type="primary" onClick={handleVisible}>
               Buat Promo
             </Button>
           </div>
         </Row>
         <TableComponent />
       </Card>
-      {/* <AddComponent /> */}
+      <AddComponent visible={visible} onCancel={handleVisible} />
     </div>
   );
 };

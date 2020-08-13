@@ -49,6 +49,7 @@ const TableComponent: React.FC<Props> = () => {
     <Card>
       <p className={styles.title}>Kategori Resep Pilihan</p>
       <Table columns={columns} />
+      <Button className={styles.button_add}>+ Tambah Kategori Pilihan</Button>
     </Card>
   );
 };

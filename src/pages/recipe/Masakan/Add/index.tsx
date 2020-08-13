@@ -2,16 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Card, Input, Button, Row, Upload } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Editor, EditorState } from 'draft-js';
-import styles from './index.less';
+import styles from '../index.less';
 import 'draft-js/dist/Draft.css';
 
 import SelectKesulitan from '@/components/Select/SelectKesulitan';
 import SelectJenisMakanan from '@/components/Select/SelectJenisMakanan';
+import KategoriComponent from './Kategori';
 
 interface Props {}
 
-const MasakanAddComponent: React.FC<Props> = () => {
+const AddComponent: React.FC<Props> = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  const [visible, setVisible] = useState(false);
+
+  const handleVisibleKategori = () => setVisible(!visible);
 
   return (
     <div>
@@ -99,6 +104,13 @@ const MasakanAddComponent: React.FC<Props> = () => {
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
+              <label className={styles.label} htmlFor="porsi">
+                Porsi
+              </label>
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
               <label className={styles.label} htmlFor="kesulitan">
                 Kesulitan
               </label>
@@ -116,6 +128,12 @@ const MasakanAddComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label}>Kategori Resep</label>
+              <div>
+                <Button onClick={handleVisibleKategori}>
+                  <PlusOutlined />
+                </Button>
+                <KategoriComponent visible={visible} onCancel={handleVisibleKategori} />
+              </div>
             </div>
           </div>
           <div className={styles.box10}>
@@ -180,4 +198,4 @@ const MasakanAddComponent: React.FC<Props> = () => {
   );
 };
 
-export default MasakanAddComponent;
+export default AddComponent;

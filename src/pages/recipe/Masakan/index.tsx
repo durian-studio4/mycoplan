@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button, Card, Row, Input } from 'antd';
-import TableComponent from './Table';
+import { NavLink } from 'umi';
 import styles from './index.less';
+
+import TableComponent from './Table';
 
 interface Props {}
 
@@ -17,14 +19,16 @@ const RecipeMasakanComponent: React.FC<Props> = () => {
               className={styles.input_search}
               id="name"
               type="text"
-              placeholder="Search Resep"
+              placeholder="Cari Resep"
               // onChange={onChangeState}
               // value={name}
               // onKeyDown={handleKey}
             />
-            <Button className={styles.button} type="primary">
-              +Tambah Resep
-            </Button>
+            <NavLink to="/recipe/masakan/add">
+              <Button className={styles.button} type="primary">
+                +Tambah Resep
+              </Button>
+            </NavLink>
           </div>
         </Row>
         <TableComponent />

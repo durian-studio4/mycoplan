@@ -17,7 +17,7 @@ const MerchantTotalProdukComponent: React.FC<Props> = () => {
               className={styles.input_search}
               id="name"
               type="text"
-              placeholder="Search Total"
+              placeholder="Cari Total"
               // onChange={onChangeState}
               // value={name}
               // onKeyDown={handleKey}

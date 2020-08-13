@@ -58,7 +58,7 @@ const TableComponent: React.FC<Props> = () => {
   return (
     <Card style={{ marginBottom: '1em' }}>
       <Row justify="space-between">
-        <p className={styles.title}>Penjualan Per Sub Kategori</p>
+        <p className={styles.title}>Penjualan Per Produk</p>
         <div className={styles.row_box}>
           <Button className={styles.button} type="primary">
             <DownloadOutlined /> Download CSV

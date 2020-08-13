@@ -18,7 +18,7 @@ const SettingsProfileComponent: React.FC<Props> = () => {
               className={styles.input}
               type="text"
               id="name"
-              placeholder="name"
+              placeholder="Name"
               // value={name}
               // onChange={handleChangeState}
             />
@@ -33,7 +33,7 @@ const SettingsProfileComponent: React.FC<Props> = () => {
               className={styles.input}
               type="email"
               id="email"
-              placeholder="email"
+              placeholder="Email"
               // value={email}
               // onChange={handleChangeState}
             />
@@ -48,7 +48,7 @@ const SettingsProfileComponent: React.FC<Props> = () => {
               className={styles.input}
               type="password"
               id="password"
-              placeholder="Password"
+              placeholder="Password Lama"
               // value={password}
               // onChange={handleChangeState}
             />
@@ -63,7 +63,7 @@ const SettingsProfileComponent: React.FC<Props> = () => {
               className={styles.input}
               type="password"
               id="new_password"
-              placeholder="New Password"
+              placeholder="Password Baru"
               // value={confirm_password}
               // onChange={handleChangeState}
             />
@@ -78,7 +78,7 @@ const SettingsProfileComponent: React.FC<Props> = () => {
               className={styles.input}
               type="password"
               id="confirm_password"
-              placeholder="Confirm Password"
+              placeholder="Konfirmasi Password Baru"
               // value={confirm_password}
               // onChange={handleChangeState}
             />

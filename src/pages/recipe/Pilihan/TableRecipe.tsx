@@ -61,6 +61,7 @@ const TableComponent: React.FC<Props> = () => {
     <Card style={{ marginBottom: '1em' }}>
       <p className={styles.title}>Resep Pilihan</p>
       <Table columns={columns} />
+      <Button className={styles.button_add}>+ Tambah Resep Pilihan</Button>
     </Card>
   );
 };

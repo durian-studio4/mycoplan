@@ -1,35 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Row, Input, Button, TimePicker, DatePicker } from 'antd';
+import { Card, Row, Input, Button, TimePicker, DatePicker, Upload, Modal } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import styles from '../index.less';
-
-import SelectPromo from '@/components/Select/SelectPromo';
 
 interface Props {
   visible: boolean;
   onCancel: () => void;
 }
 
+const { TextArea } = Input;
+
 const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
   return (
-    <Modal visible={visible} title="Buat Promo" closable={false} footer={null}>
+    <Modal visible={visible} title="Tambah Banner" width={800} closable={false} footer={null}>
       <div className={styles.modal_body}>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="no_id">
-              Kategori Promo
-            </label>
-            <SelectPromo />
-          </div>
-        </div>
-        <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="promo">
-              Kode Promo
+            <label className={styles.label} htmlFor="judul">
+              Judul Banner
             </label>
             <Input
               className={styles.input}
               type="text"
-              id="promo"
+              id="judul"
               placeholder=""
               // value={name}
               // onChange={handleChangeState}
@@ -38,55 +31,34 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="diskon">
-              Diskon
+            <label className={styles.label} htmlFor="gambar">
+              Gambar
             </label>
-            <Input
-              addonAfter="%"
-              type="text"
-              id="diskon"
-              placeholder=""
-              // value={email}
-              // onChange={handleChangeState}
-            />
+            <Upload name="avatar" listType="picture-card" id="gambar">
+              <div className={styles.group}>
+                <PlusOutlined />
+              </div>
+            </Upload>
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="max_diskon">
-              Maks. Diskon
+            <label className={styles.label} htmlFor="deskripsi">
+              Deskripsi Banner
             </label>
-            <Input
-              addonBefore="Rp."
-              type="text"
-              id="max_diskon"
-              placeholder=""
-              // value={username}
-              // onChange={handleChangeState}
-            />
-          </div>
-        </div>
-        <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="min_belanja">
-              Min. Belanja
-            </label>
-            <Input
-              addonBefore="Rp."
-              type="text"
-              id="min_belanja"
-              placeholder=""
-              // value={username}
-              // onChange={handleChangeState}
-            />
+            <TextArea className={styles.area} id="deskripsi" placeholder="Masukkan Keterangan..." />
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label}>Waktu Mulai</label>
             <Row>
-              <DatePicker className={styles.picker} style={{ marginRight: '5px' }} />
-              <TimePicker className={styles.picker} />
+              <div className={styles.box3}>
+                <DatePicker />
+              </div>
+              <div className={styles.box3}>
+                <TimePicker />
+              </div>
             </Row>
           </div>
         </div>
@@ -94,34 +66,45 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
           <div className={styles.group}>
             <label className={styles.label}>Waktu Akhir</label>
             <Row>
-              <DatePicker className={styles.picker} style={{ marginRight: '5px' }} />
-              <TimePicker className={styles.picker} />
+              <div className={styles.box3}>
+                <DatePicker />
+              </div>
+              <div className={styles.box3}>
+                <TimePicker />
+              </div>
             </Row>
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="limit">
-              Limit
+            <label className={styles.label} htmlFor="syarat">
+              Syarat & Ketentuan
+            </label>
+            <TextArea className={styles.area} id="syarat" placeholder="Masukkan Keterangan..." />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="kode">
+              Kode Promo
             </label>
             <Input
-              addonAfter="/ Pengguna"
               type="text"
-              id="limit"
+              id="kode"
               placeholder=""
-              // value={email}
+              // value={username}
               // onChange={handleChangeState}
             />
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="max_penukaran">
-              Maks. Penukaran
+            <label className={styles.label} htmlFor="tipe">
+              Tipe Banner
             </label>
             <Input
               type="text"
-              id="max_penukaran"
+              id="kode"
               placeholder=""
               // value={username}
               // onChange={handleChangeState}

@@ -4,11 +4,14 @@ import styles from './index.less';
 
 import SelectPeran from '@/components/Select/SelectPeran';
 
-interface Props {}
+interface Props {
+  visible: boolean;
+  onCancel: () => void;
+}
 
-const AddComponent: React.FC<Props> = () => {
+const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
   return (
-    <Modal visible={true} title="Tambah Akses" closable={false} footer={null}>
+    <Modal visible={visible} title="Tambah Akses" closable={false} footer={null}>
       <div className={styles.modal_body}>
         <div className={styles.box10}>
           <div className={styles.group}>
@@ -66,6 +69,7 @@ const AddComponent: React.FC<Props> = () => {
           className={styles.button}
           // disabled={onLoadButton}
           // onClick={handleClearState}
+          onClick={onCancel}
           type="primary"
           danger
         >

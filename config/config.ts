@@ -117,22 +117,10 @@ export default defineConfig({
                   component: './merchant/Daftar',
                 },
                 {
-                  name: 'Daftar Merchant Add',
-                  icon: 'smile',
-                  path: '/merchant/daftar/add',
-                  component: './merchant/DaftarAdd',
-                },
-                {
                   name: 'Banner Merchant',
                   icon: 'smile',
                   path: '/merchant/banner',
                   component: './merchant/Banner',
-                },
-                {
-                  name: 'Banner Merchant Add',
-                  icon: 'smile',
-                  path: '/merchant/banner/add',
-                  component: './merchant/BannerAdd',
                 },
                 {
                   name: 'Produk',
@@ -212,8 +200,9 @@ export default defineConfig({
                 {
                   name: 'Resep Masakan Add',
                   icon: 'smile',
+                  hideInMenu: true,
                   path: '/recipe/masakan/add',
-                  component: './recipe/MasakanAdd',
+                  component: './recipe/Masakan/Add',
                 },
                 {
                   name: 'Kategori Resep',
@@ -241,13 +230,7 @@ export default defineConfig({
                   component: './management/Banner',
                 },
                 {
-                  name: 'Banner Add',
-                  icon: 'smile',
-                  path: '/management/banner/add',
-                  component: './management/BannerAdd',
-                },
-                {
-                  name: 'About',
+                  name: 'Tentang mycoplan',
                   icon: 'smile',
                   path: '/management/about',
                   component: './management/About',
@@ -263,15 +246,8 @@ export default defineConfig({
             {
               name: 'Pengaturan',
               icon: 'smile',
-              path: '/settings',
-              routes: [
-                {
-                  name: 'Profile',
-                  icon: 'smile',
-                  path: '/settings/profile',
-                  component: './settings/Profile',
-                },
-              ],
+              path: '/settings/profile',
+              component: './settings/Profile',
             },
             {
               name: 'Penjualan',
