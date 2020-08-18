@@ -2,9 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Modal, Row, Input, Button, Table } from 'antd';
 import styles from './index.less';
 
-import SelectPeran from '@/components/Select/SelectPeran';
+// import SelectPeran from '@/components/Select/SelectPeran';
 
-interface Props {}
+interface Props {
+  visible: boolean;
+  onCancel: () => void;
+}
 
 const rowSelection = {
   onChange: (selectedRowKeys: any, selectedRows: any) => {
@@ -12,7 +15,7 @@ const rowSelection = {
   },
 };
 
-const KemasanComponent: React.FC<Props> = () => {
+const KemasanComponent: React.FC<Props> = ({ visible, onCancel }) => {
   const columns = useMemo(
     () => [
       {
@@ -25,7 +28,7 @@ const KemasanComponent: React.FC<Props> = () => {
   );
 
   return (
-    <Modal visible={true} title="Pilih Kemasan Lain" closable={false} footer={null}>
+    <Modal visible={visible} title="Pilih Kemasan Lain" closable={false} footer={null}>
       <div className={styles.modal_body}>
         <Row>
           <div className={styles.box10}>
@@ -44,7 +47,7 @@ const KemasanComponent: React.FC<Props> = () => {
                 <tr>
                   <td align="left">Sub Kategori</td>
                   <td align="center">:</td>
-                  <td align="left">PT. Alternate Farma</td>
+                  {/* <td align="left">PT. Alternate Farma</td> */}
                 </tr>
               </tbody>
             </table>
@@ -65,6 +68,7 @@ const KemasanComponent: React.FC<Props> = () => {
           className={styles.button}
           // disabled={onLoadButton}
           // onClick={handleClearState}
+          onClick={onCancel}
           type="primary"
           danger
         >

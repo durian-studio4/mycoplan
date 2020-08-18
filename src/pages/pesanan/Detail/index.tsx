@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button, Card, Row, Input } from 'antd';
+import { Button, Card, Row } from 'antd';
 import styles from './index.less';
 
 import TableComponent from './Table';
-import EditComponent from './Edit';
 
 interface Props {}
 

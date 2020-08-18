@@ -1,17 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Card, Input, Button, Row, Upload } from 'antd';
+import { Card, Input, Button, Row, Upload, Tag } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Editor, EditorState } from 'draft-js';
 import styles from './index.less';
 import 'draft-js/dist/Draft.css';
 
 import SelectUnit from '@/components/Select/SelectUnit';
+import SelectKategori from '@/components/Select/SelectKategori';
+import SelectSubKategori from '@/components/Select/SelectSubKategori';
 
 import KemasanComponent from './Kemasan';
 
 interface Props {}
 
 const ProdukAddComponent: React.FC<Props> = () => {
+  const [visible, setVisible] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const editor = useRef(null);
@@ -20,9 +23,11 @@ const ProdukAddComponent: React.FC<Props> = () => {
     focusEditor();
   }, []);
 
-  function focusEditor() {
+  const focusEditor = () => {
     editor.current.focus();
-  }
+  };
+
+  const handleVisible = () => setVisible(!visible);
 
   return (
     <div>
@@ -78,8 +83,8 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="qty">
               Unit
             </label>
-            <Row justify="space-between">
-              <div className={styles.box5}>
+            <Row>
+              <div className={styles.box_unit_left}>
                 <Input
                   className={styles.input}
                   id="qty"
@@ -88,7 +93,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
                   // onChange={onChangeQty}
                 />
               </div>
-              <div className={styles.box2}>
+              <div className={styles.box_unit_right}>
                 <SelectUnit />
               </div>
             </Row>
@@ -157,6 +162,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="kategori">
               Kategori
             </label>
+            <SelectKategori />
           </div>
         </div>
         <div className={styles.box10}>
@@ -164,6 +170,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="sub-kategori">
               Sub Kategori
             </label>
+            <SelectSubKategori />
           </div>
         </div>
         <div className={styles.box10}>
@@ -181,15 +188,20 @@ const ProdukAddComponent: React.FC<Props> = () => {
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="">
-              Kemasan Lain
+              Kemasan Lain (Opsional)
             </label>
+            <div className={styles.group}>
+              <Tag onClick={handleVisible}>
+                <PlusOutlined /> New Tag
+              </Tag>
+            </div>
           </div>
         </div>
         <Button className={styles.button} type="primary">
           Simpan
         </Button>
       </Card>
-      {/* <KemasanComponent /> */}
+      {visible ? <KemasanComponent visible={visible} onCancel={handleVisible} /> : null}
     </div>
   );
 };

@@ -6,7 +6,6 @@
 }
 
 .title_add {
-  color: #1890ff;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   cursor: pointer;
 
@@ -72,6 +71,32 @@
   }
 }
 
+.box_porsi_left {
+  flex: 0 0 20%;
+  max-width: 20%;
+  margin-right: 10px;
+
+  @media screen and (max-width: 700px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 5px;
+    margin-right: 0px;
+  }
+}
+
+.box_porsi_right {
+  flex: 0 0 20%;
+  max-width: 20%;
+  margin-left: 10px;
+
+  @media screen and (max-width: 700px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 5px;
+    margin-left: 0px;
+  }
+}
+
 .box4 {
   flex: 0 0 40%;
   max-width: 40%;
@@ -132,11 +157,10 @@
   height: 100%;
   width: 100%;
   border-radius: 0.25em;
-  border: 1px solid #d9d9d9;
   padding: 0.4em;
 
   &:focus {
-    border-color: #68adfa;
+    box-shadow: 0 0 0 rgb(255, 255, 255);
     outline: none;
   }
 }
@@ -147,13 +171,11 @@
   min-height: 1rem;
   width: calc(150px + 3vmax);
   border-radius: 0.25rem;
-  border: 1px solid #ced4da;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    border-collapse: collapse;
+    box-shadow: 0 0 0 rgb(255, 255, 255);
   }
 }
 
@@ -191,13 +213,12 @@
   text-align: center;
   color: white;
   border-radius: 0.25rem;
-  border-color: #68adfa;
   cursor: pointer;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   &:focus,
   &:active {
-    box-shadow: 0.15rem #68adfa;
+    box-shadow: 0 0 0 rgb(255, 255, 255);
     border-collapse: collapse;
     outline: 0;
   }
@@ -208,6 +229,13 @@
   width: 100%;
   border-radius: 0.25rem;
   border: 1px solid #d9d9d9;
+
+  &:focus,
+  &:active {
+    box-shadow: 0 0 0 rgb(255, 255, 255);
+    border-collapse: collapse;
+    outline: 0;
+  }
 }
 
 .p {

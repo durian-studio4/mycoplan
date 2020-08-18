@@ -1,11 +1,21 @@
 import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
+import { NavLink } from 'umi';
 import styles from './index.less';
 
 interface Props {}
 
 const TableComponent: React.FC<Props> = () => {
   // const [getColumnSearchProps] = useFilterColumn();
+
+  const data = [
+    {
+      no: 1,
+      id: 415,
+      pesanan: 123,
+      merchant: 'imam',
+    },
+  ];
 
   const columns = useMemo(
     () => [
@@ -56,7 +66,11 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Detail Pesanan',
-        render: () => <Button type="primary">Lihat Detail</Button>,
+        render: (props: any) => (
+          <NavLink to={`/pesanan/detail/${props.id}`}>
+            <Button type="primary">Lihat Detail</Button>,
+          </NavLink>
+        ),
       },
       {
         align: 'center',
@@ -66,9 +80,9 @@ const TableComponent: React.FC<Props> = () => {
         align: 'center',
         title: 'Action',
         render: (props: any) => (
-          <Row justify="space-around">
+          <Row justify="center">
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               // onClick={() => visibleUpdate(props.id)}
               type="primary"
@@ -76,7 +90,7 @@ const TableComponent: React.FC<Props> = () => {
               Terima
             </Button>
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               // onClick={() => visibleUpdate(props.id)}
               type="primary"
@@ -84,7 +98,7 @@ const TableComponent: React.FC<Props> = () => {
               Batalkan
             </Button>
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               // onClick={() => visibleUpdate(props.id)}
               type="primary"
@@ -92,7 +106,7 @@ const TableComponent: React.FC<Props> = () => {
               Request
             </Button>
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               // onClick={() => visibleUpdate(props.id)}
               type="primary"
@@ -100,7 +114,7 @@ const TableComponent: React.FC<Props> = () => {
               Penyesuaian
             </Button>
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               // onClick={() => remove(props.id)}
               type="primary"
@@ -120,7 +134,7 @@ const TableComponent: React.FC<Props> = () => {
   //   return <PageError status={status} />;
   // }
 
-  return <Table columns={columns} />;
+  return <Table columns={columns} dataSource={data} />;
 };
 
 export default TableComponent;

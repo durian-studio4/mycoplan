@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, Input, Button, Row, Upload } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Editor, EditorState } from 'draft-js';
 import styles from '../index.less';
 import 'draft-js/dist/Draft.css';
@@ -107,6 +107,15 @@ const AddComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="porsi">
                 Porsi
               </label>
+              <Row>
+                <div className={styles.box_porsi_left}>
+                  <Input addonAfter="Orang" />
+                </div>
+                <ArrowRightOutlined />
+                <div className={styles.box_porsi_right}>
+                  <Input addonAfter="Orang" />
+                </div>
+              </Row>
             </div>
           </div>
           <div className={styles.box10}>

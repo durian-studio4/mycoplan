@@ -1,19 +1,19 @@
 import React from 'react';
 import { Button, Card, Row, Input } from 'antd';
+import { NavLink } from 'umi';
 import styles from './index.less';
 
 import TableComponent from './Table';
-import SelectComponent from './Select';
 
 interface Props {}
 
 const MerchantProdukComponent: React.FC<Props> = () => {
   return (
     <div>
-      <p className={styles.title}>Produk</p>
+      <p className={styles.title}>Lotte Mart Kelapa Gading</p>
       <Card>
         <Row justify="space-between">
-          <p className={styles.title}>Daftar Produk</p>
+          <p className={styles.title}>Daftar Produk Lotte Mart Kelapa Gading</p>
           <div className={styles.row_box}>
             <Input
               className={styles.input_search}
@@ -24,9 +24,11 @@ const MerchantProdukComponent: React.FC<Props> = () => {
               // value={name}
               // onKeyDown={handleKey}
             />
-            <Button className={styles.button} type="primary">
-              + Tambah Produk
-            </Button>
+            <NavLink to="/merchant/produk/add">
+              <Button className={styles.button} type="primary">
+                + Tambah Produk
+              </Button>
+            </NavLink>
           </div>
         </Row>
         <TableComponent />

@@ -5,12 +5,15 @@ import styles from './index.less';
 import SelectPenyesuaianHarga from '@/components/Select/SelectPenyesuaianHarga';
 import SelectPenyesuaianJenis from '@/components/Select/SelectPenyesuaianJenis';
 
-interface Props {}
+interface Props {
+  visible: boolean;
+  onCancel: () => void;
+}
 
-const EditComponent: React.FC<Props> = () => {
+const EditComponent: React.FC<Props> = ({ visible, onCancel }) => {
   return (
     <Modal
-      visible={true}
+      visible={visible}
       title="Penyesuaian Harga & Stok"
       width={1000}
       closable={false}
@@ -77,6 +80,16 @@ const EditComponent: React.FC<Props> = () => {
       </div>
       <Row justify="end">
         {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}
+        <Button
+          className={styles.button}
+          // disabled={isDisabled || Boolean(loading_list)}
+          // onClick={onEdit}
+          onClick={onCancel}
+          type="primary"
+          danger
+        >
+          Batal
+        </Button>
         <Button
           className={styles.button}
           // disabled={isDisabled || Boolean(loading_list)}

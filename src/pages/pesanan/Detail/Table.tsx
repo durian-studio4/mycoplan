@@ -1,11 +1,25 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Table, Row, Button } from 'antd';
 import styles from './index.less';
+
+import EditComponent from './Edit';
 
 interface Props {}
 
 const TableComponent: React.FC<Props> = () => {
+  const [visible, setVisible] = useState(false);
+
+  const handleVisible = () => setVisible(!visible);
   // const [getColumnSearchProps] = useFilterColumn();
+
+  const data = [
+    {
+      no: 1,
+      id: 123,
+      sku: 'test',
+      nama_produk: 'panadol',
+    },
+  ];
 
   const columns = useMemo(
     () => [
@@ -88,12 +102,7 @@ const TableComponent: React.FC<Props> = () => {
         title: 'Action',
         render: (props: any) => (
           <Row justify="space-around">
-            <Button
-              className={styles.button}
-              id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
-              type="primary"
-            >
+            <Button className={styles.button} id={props.id} onClick={handleVisible} type="primary">
               Edit Harga
             </Button>
           </Row>
@@ -111,7 +120,8 @@ const TableComponent: React.FC<Props> = () => {
   return (
     <>
       <p className={styles.title}>Detail Pemesanan</p>
-      <Table columns={columns} />
+      <Table columns={columns} dataSource={data} />
+      {visible ? <EditComponent visible={visible} onCancel={handleVisible} /> : null}
     </>
   );
 };
