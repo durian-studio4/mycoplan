@@ -1,8 +1,50 @@
-import React, { useMemo } from 'react';
-import { Table, Row, Button, Dropdown, Menu, Radio, Checkbox } from 'antd';
+import React, { useMemo, useCallback, useRef, useState } from 'react';
+import { Table, Dropdown, Menu, Radio, Checkbox } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
+import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
 
 interface Props {}
+
+const RNDContext = createDndContext(HTML5Backend);
+
+const type = 'DragableBodyRow';
+
+const DragableBodyRow = ({ index, moveRow, className, style, ...restProps }: any) => {
+  const ref = React.useRef();
+  const [{ isOver, dropClassName }, drop] = useDrop({
+    accept: type,
+    collect: (monitor) => {
+      const { index: dragIndex } = monitor.getItem() || {};
+      if (dragIndex === index) {
+        return {};
+      }
+      return {
+        isOver: monitor.isOver(),
+        dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward',
+      };
+    },
+    drop: (item) => {
+      moveRow(item.index, index);
+    },
+  });
+  const [, drag] = useDrag({
+    item: { type, index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+  drop(drag(ref));
+  return (
+    <tr
+      ref={ref}
+      className={`${className}${isOver ? dropClassName : ''}`}
+      style={{ cursor: 'move', ...style }}
+      {...restProps}
+    />
+  );
+};
 
 const menu = (
   <Menu>
@@ -12,8 +54,48 @@ const menu = (
   </Menu>
 );
 
+const initialData = [
+  {
+    no: '1',
+    judul: 'Judul Banner',
+    description: 'Deskripsi',
+    syarat: 'none',
+    promo: 'none',
+  },
+  {
+    no: '2',
+    judul: 'Judul Banner',
+    description: 'Deskripsi',
+    syarat: 'none',
+    promo: 'none',
+  },
+];
+
 const TableComponent: React.FC<Props> = () => {
   // const [getColumnSearchProps] = useFilterColumn();
+  const [data, setData] = useState(initialData);
+  const manager = useRef(RNDContext);
+
+  const components = {
+    body: {
+      row: DragableBodyRow,
+    },
+  };
+
+  const moveRow = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragRow = data[dragIndex];
+      setData(
+        update(data, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragRow],
+          ],
+        }),
+      );
+    },
+    [data],
+  );
 
   const columns = useMemo(
     () => [
@@ -44,14 +126,10 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Waktu Mulai',
-        dataIndex: 'waktu_mulai',
-        key: 'waktu_mulai',
       },
       {
         align: 'center',
         title: 'Waktu Akhir',
-        dataIndex: 'waktu_akhir',
-        key: 'waktu_akhir',
       },
       {
         align: 'center',
@@ -122,7 +200,19 @@ const TableComponent: React.FC<Props> = () => {
   //   return <PageError status={status} />;
   // }
 
-  return <Table columns={columns} />;
+  return (
+    <DndProvider manager={manager.current.dragDropManager}>
+      <Table
+        columns={columns}
+        dataSource={data}
+        components={components}
+        onRow={(record, index) => ({
+          index,
+          moveRow,
+        })}
+      />
+    </DndProvider>
+  );
 };
 
 export default TableComponent;

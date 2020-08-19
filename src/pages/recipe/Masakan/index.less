@@ -187,6 +187,23 @@
   cursor: pointer;
 }
 
+.button_search {
+  padding: 3px;
+  min-height: 1rem;
+  margin: 5px;
+  text-align: center;
+  color: white;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &:focus,
+  &:active {
+    border-collapse: collapse;
+    outline: 0;
+  }
+}
+
 .button_add {
   text-align: center;
   border-radius: 0.25em;
@@ -209,7 +226,6 @@
   padding: 3px;
   min-height: 1rem;
   margin: 5px;
-  width: 4rem;
   text-align: center;
   color: white;
   border-radius: 0.25rem;
@@ -218,7 +234,6 @@
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0 rgb(255, 255, 255);
     border-collapse: collapse;
     outline: 0;
   }

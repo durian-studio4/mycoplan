@@ -207,7 +207,7 @@ export default defineConfig({
               component: './penjualan/Detail',
             },
             {
-              name: 'Manajemen Content',
+              name: 'Manajemen Konten',
               icon: 'dashboard',
               path: '/management',
               routes: [

@@ -27,7 +27,7 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
               // value={name}
               // onKeyDown={handleKey}
             />
-            <Button className={styles.button} onClick={handleVisible} type="primary">
+            <Button className={styles.button_search} onClick={handleVisible} type="primary">
               + Tambah Merchant
             </Button>
           </div>

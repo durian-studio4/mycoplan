@@ -25,8 +25,8 @@ const RecipeMasakanComponent: React.FC<Props> = () => {
               // onKeyDown={handleKey}
             />
             <NavLink to="/recipe/masakan/add">
-              <Button className={styles.button} type="primary">
-                +Tambah Resep
+              <Button className={styles.button_search} type="primary">
+                + Tambah Resep
               </Button>
             </NavLink>
           </div>

@@ -11,14 +11,14 @@ const SettingsProfileComponent: React.FC<Props> = () => {
       <Card>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="name">
+            <label className={styles.label} htmlFor="nama">
               Nama
             </label>
             <Input
               className={styles.input}
               type="text"
-              id="name"
-              placeholder="Name"
+              id="nama"
+              placeholder="Nama"
               // value={name}
               // onChange={handleChangeState}
             />

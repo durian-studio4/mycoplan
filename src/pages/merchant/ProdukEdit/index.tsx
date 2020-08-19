@@ -25,7 +25,7 @@ const MerchantProdukComponent: React.FC<Props> = () => {
               // onKeyDown={handleKey}
             />
             <NavLink to="/merchant/produk/add">
-              <Button className={styles.button} type="primary">
+              <Button className={styles.button_search} type="primary">
                 + Tambah Produk
               </Button>
             </NavLink>

@@ -158,7 +158,7 @@ const AddComponent: React.FC<Props> = () => {
             </div>
           </div>
           <div className={styles.box10}>
-            <Button className={styles.button} type="primary">
+            <Button className={styles.button_search} type="primary">
               + Tambah Supermarket
             </Button>
           </div>
