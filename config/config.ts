@@ -163,26 +163,25 @@ export default defineConfig({
               routes: [
                 {
                   name: 'Resep Masakan',
-                  icon: 'table',
+                  icon: 'profile',
                   path: '/recipe/masakan',
                   component: './recipe/Masakan',
                 },
                 {
                   name: 'Resep Masakan Add',
-                  icon: 'smile',
                   hideInMenu: true,
                   path: '/recipe/masakan/add',
                   component: './recipe/Masakan/Add',
                 },
                 {
                   name: 'Kategori Resep',
-                  icon: 'table',
+                  icon: 'tag',
                   path: '/recipe/kategori',
                   component: './recipe/Kategori',
                 },
                 {
                   name: 'Resep & Kategori Pilihan',
-                  icon: 'table',
+                  icon: 'tags',
                   path: '/recipe/pilihan',
                   component: './recipe/Pilihan',
                 },
