@@ -1,9 +1,9 @@
 import React, { useMemo, useCallback, useRef, useState } from 'react';
-import { Table, Dropdown, Menu, Radio, Checkbox } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import { Table, Row, Button } from 'antd';
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
+import styles from './index.less';
 
 interface Props {}
 
@@ -46,14 +46,6 @@ const DragableBodyRow = ({ index, moveRow, className, style, ...restProps }: any
   );
 };
 
-const menu = (
-  <Menu>
-    <Menu.Item key="0">Edit</Menu.Item>
-    <Menu.Item key="1">Deactive</Menu.Item>
-    <Menu.Item key="2">Delete</Menu.Item>
-  </Menu>
-);
-
 const initialData = [
   {
     no: '1',
@@ -61,6 +53,7 @@ const initialData = [
     description: 'Deskripsi',
     syarat: 'none',
     promo: 'none',
+    tipe_banner: 'Gambar Saja',
   },
   {
     no: '2',
@@ -68,6 +61,7 @@ const initialData = [
     description: 'Deskripsi',
     syarat: 'none',
     promo: 'none',
+    tipe_banner: 'Gambar & Detail',
   },
 ];
 
@@ -145,50 +139,53 @@ const TableComponent: React.FC<Props> = () => {
       },
       {
         align: 'center',
-        title: 'Banner',
+        title: 'Tipe Banner',
         key: 'banner',
-        render: () => <Checkbox />,
-      },
-      {
-        align: 'center',
-        title: 'Detail',
-        key: 'detail',
-        render: () => <Checkbox />,
+        dataIndex: 'tipe_banner',
       },
       {
         align: 'center',
         title: 'Status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <Radio>Active</Radio> : <Radio>Deactive</Radio>),
+        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Deactive</p>),
       },
       {
         align: 'center',
         title: 'Action',
         render: (props: any) => (
-          <Dropdown overlay={menu} trigger={['click']}>
-            <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-              <MenuOutlined />
-            </a>
-          </Dropdown>
-          // <Row justify="space-around">
-          //   <Button
-          //     className={styles.button}
-          //     id={props.id}
-          //     // onClick={() => visibleUpdate(props.id)}
-          //     type="primary"
-          //   >
-          //     Edit
-          //   </Button>
-          //   <Button
-          //     className={styles.button}
-          //     id={props.id}
-          //     // onClick={() => remove(props.id)}
-          //     type="primary"
-          //     danger
-          //   >
-          //     Delete
-          //   </Button>
-          // </Row>
+          // <Dropdown overlay={menu} trigger={['click']}>
+          //   <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+          //     <MenuOutlined />
+          //   </a>
+          // </Dropdown>
+          <Row justify="center">
+            <Button
+              className={styles.button_action}
+              id={props.id}
+              // onClick={() => visibleUpdate(props.id)}
+              type="primary"
+            >
+              Edit
+            </Button>
+            <Button
+              className={styles.button_action}
+              id={props.id}
+              // onClick={() => remove(props.id)}
+              type="primary"
+              danger
+            >
+              Deactive
+            </Button>
+            <Button
+              className={styles.button_action}
+              id={props.id}
+              // onClick={() => remove(props.id)}
+              type="primary"
+              danger
+            >
+              Delete
+            </Button>
+          </Row>
         ),
       },
     ],

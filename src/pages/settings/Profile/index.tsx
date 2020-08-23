@@ -7,7 +7,7 @@ interface Props {}
 const SettingsProfileComponent: React.FC<Props> = () => {
   return (
     <div>
-      <p className={styles.title}>Profile & Kata Sandi</p>
+      <p className={styles.title}>Profil & Kata Sandi</p>
       <Card>
         <div className={styles.box10}>
           <div className={styles.group}>

@@ -67,7 +67,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label}>Senen</label>
+            <label className={styles.label}>Senin</label>
             <Row>
               <RangePicker className={styles.picker} />
               <Checkbox className={styles.button_schedule}>Disabled</Checkbox>
