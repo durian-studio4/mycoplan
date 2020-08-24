@@ -100,6 +100,8 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Action',
+        fixed: 'right',
+        width: 150,
         render: (props: any) => (
           <Row justify="space-around">
             <Button className={styles.button} id={props.id} onClick={handleVisible} type="primary">
@@ -120,7 +122,7 @@ const TableComponent: React.FC<Props> = () => {
   return (
     <>
       <p className={styles.title}>Detail Pemesanan</p>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} />
       {visible ? <EditComponent visible={visible} onCancel={handleVisible} /> : null}
     </>
   );

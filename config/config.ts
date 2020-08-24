@@ -202,7 +202,8 @@ export default defineConfig({
             {
               name: 'Penjualan Detail',
               icon: 'stock',
-              path: '/penjualan/detail',
+              hideInMenu: true,
+              path: '/penjualan/detail/:id',
               component: './penjualan/Detail',
             },
             {
@@ -235,20 +236,12 @@ export default defineConfig({
               icon: 'user',
               path: '/admin',
               component: './admin/Access',
-              // routes: [
-              //   {
-              //     name: 'Access',
-              //     icon: 'smile',
-              //     path: '/admin/access',
-              //     component: './admin/Access',
-              //   },
-              //   {
-              //     name: 'Edit',
-              //     icon: 'smile',
-              //     path: '/admin/edit',
-              //     component: './admin/Edit',
-              //   },
-              // ],
+            },
+            {
+              name: 'Edit',
+              hideInMenu: true,
+              path: '/admin/edit/:id',
+              component: './admin/Edit',
             },
             {
               name: 'Pengaturan',

@@ -79,6 +79,8 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Action',
+        fixed: 'right',
+        width: 190,
         render: (props: any) => (
           <Row justify="center">
             <Button
@@ -134,7 +136,7 @@ const TableComponent: React.FC<Props> = () => {
   //   return <PageError status={status} />;
   // }
 
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} />;
 };
 
 export default TableComponent;

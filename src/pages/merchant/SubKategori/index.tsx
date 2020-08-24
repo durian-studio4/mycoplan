@@ -15,6 +15,7 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
       <p className={styles.title}>Sub Kategori Produk</p>
       <AddComponent />
       <Card>
+        <p className={styles.title}>Sub Kategori</p>
         <Row>
           <div className={styles.box3} style={{ margin: '5px' }}>
             <SelectAll />

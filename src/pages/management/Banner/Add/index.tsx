@@ -3,6 +3,8 @@ import { Card, Row, Input, Button, TimePicker, DatePicker, Upload, Modal } from 
 import { PlusOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 
+import SelectBannerTipe from '@/components/Select/SelectBannerTipe';
+
 interface Props {
   visible: boolean;
   onCancel: () => void;
@@ -102,13 +104,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
             <label className={styles.label} htmlFor="tipe">
               Tipe Banner
             </label>
-            <Input
-              type="text"
-              id="kode"
-              placeholder=""
-              // value={username}
-              // onChange={handleChangeState}
-            />
+            <SelectBannerTipe />
           </div>
         </div>
       </div>

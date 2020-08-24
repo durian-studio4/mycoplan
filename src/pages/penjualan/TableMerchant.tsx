@@ -1,12 +1,20 @@
 import React, { useMemo, Fragment } from 'react';
 import { Table, Row, Button, Card } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
+import { NavLink } from 'umi';
 import styles from './index.less';
 
 interface Props {}
 
 const TableComponent: React.FC<Props> = () => {
   // const [getColumnSearchProps] = useFilterColumn();
+
+  const data = [
+    {
+      no: 1,
+      id: 415,
+    },
+  ];
 
   const columns = useMemo(
     () => [
@@ -48,14 +56,14 @@ const TableComponent: React.FC<Props> = () => {
         align: 'center',
         title: 'Detail Penjualan',
         render: (props: any) => (
-          <Row justify="space-around">
+          <Row justify="center">
             <Button
               className={styles.button}
               id={props.id}
               // onClick={() => remove(props.id)}
               type="primary"
             >
-              Lihat Detail
+              <NavLink to={`/penjualan/detail/${props.id}`}>Lihat Detail</NavLink>
             </Button>
           </Row>
         ),
@@ -72,14 +80,14 @@ const TableComponent: React.FC<Props> = () => {
   return (
     <Card>
       <Row justify="space-between">
-        <p className={styles.title}>Total Semua Penjualan</p>
+        <p className={styles.title}>Penjualan Per Merchant</p>
         <div className={styles.row_box}>
           <Button className={styles.button} type="primary">
             <DownloadOutlined /> Download CSV
           </Button>
         </div>
       </Row>
-      <Table columns={columns} />
+      <Table columns={columns} dataSource={data} />
     </Card>
   );
 };

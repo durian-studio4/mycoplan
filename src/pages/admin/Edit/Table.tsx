@@ -1,11 +1,17 @@
 import React, { useMemo } from 'react';
-import { Table, Row, Button, Dropdown, Menu, Radio, Checkbox } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import { Table, Checkbox } from 'antd';
 
 interface Props {}
 
 const TableComponent: React.FC<Props> = () => {
   // const [getColumnSearchProps] = useFilterColumn();
+
+  const data = [
+    {
+      no: 1,
+      halaman: 'Dashboard',
+    },
+  ];
 
   const columns = useMemo(
     () => [
@@ -18,6 +24,8 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'left',
         title: 'Halaman',
+        dataIndex: 'halaman',
+        key: 'halaman',
       },
       {
         align: 'center',
@@ -52,7 +60,7 @@ const TableComponent: React.FC<Props> = () => {
   //   return <PageError status={status} />;
   // }
 
-  return <Table columns={columns} />;
+  return <Table columns={columns} dataSource={data} />;
 };
 
 export default TableComponent;
