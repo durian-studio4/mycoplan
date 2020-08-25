@@ -147,7 +147,7 @@ export default defineConfig({
             },
             {
               name: 'Pesanan',
-              icon: 'profile',
+              icon: 'shoppingCart',
               path: '/pesanan',
               component: './pesanan',
             },
@@ -158,7 +158,7 @@ export default defineConfig({
             },
             {
               name: 'Resep',
-              icon: 'profile',
+              icon: 'inbox',
               path: '/recipe',
               routes: [
                 {
@@ -189,7 +189,7 @@ export default defineConfig({
             },
             {
               name: 'Promo',
-              icon: 'profile',
+              icon: 'fileText',
               path: '/promo',
               component: './promo',
             },
