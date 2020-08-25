@@ -1,4 +1,5 @@
 import React, { useMemo, Fragment } from 'react';
+import { NavLink } from 'umi';
 import { Table, Row, Button, Card } from 'antd';
 import styles from './index.less';
 
@@ -61,7 +62,9 @@ const TableComponent: React.FC<Props> = () => {
     <Card style={{ marginBottom: '1em' }}>
       <p className={styles.title}>Resep Pilihan</p>
       <Table columns={columns} />
-      <Button className={styles.button_add}>+ Tambah Resep Pilihan</Button>
+      <Button className={styles.button_add}>
+        <NavLink to="/recipe/masakan/add">+ Tambah Resep Pilihan</NavLink>
+      </Button>
     </Card>
   );
 };

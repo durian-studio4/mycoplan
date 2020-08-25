@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, Input, Button, Row, Upload } from 'antd';
 import { PlusOutlined, DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { Editor, EditorState } from 'draft-js';
+import ReactQuill from 'react-quill';
 import styles from '../index.less';
-import 'draft-js/dist/Draft.css';
+import 'react-quill/dist/quill.snow.css';
 
 import SelectKesulitan from '@/components/Select/SelectKesulitan';
 import SelectJenisMakanan from '@/components/Select/SelectJenisMakanan';
@@ -12,9 +12,10 @@ import KategoriComponent from './Kategori';
 interface Props {}
 
 const AddComponent: React.FC<Props> = () => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
   const [visible, setVisible] = useState(false);
+
+  const [valueBahan, setValueBahan] = useState('');
+  const [valueMasak, setValueMasak] = useState('');
 
   const handleVisibleKategori = () => setVisible(!visible);
 
@@ -55,23 +56,13 @@ const AddComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label}>Bahan</label>
-              <div className={styles.area}>
-                <Editor
-                  editorState={editorState}
-                  onChange={(editorState) => setEditorState(editorState)}
-                />
-              </div>
+              <ReactQuill theme="snow" value={valueBahan} onChange={setValueBahan} />
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label}>Cara Masak</label>
-              <div className={styles.area}>
-                <Editor
-                  editorState={editorState}
-                  onChange={(editorState) => setEditorState(editorState)}
-                />
-              </div>
+              <ReactQuill theme="snow" value={valueMasak} onChange={setValueMasak} />
             </div>
           </div>
           <div className={styles.box10}>

@@ -7,12 +7,12 @@ const Option = Select.Option;
 
 interface Props {
   //   address: string;
-  //   initial?: string;
+  initial?: string;
   //   handleChange: (value: any, option: any) => void;
   //   disabled?: boolean;
 }
 
-const SelectAllComponent: React.FC<Props> = () =>
+const SelectAllComponent: React.FC<Props> = ({ initial = '' }) =>
   // { address, initial, handleChange, disabled }
   {
     const [data, setData] = useState([]);
@@ -46,7 +46,7 @@ const SelectAllComponent: React.FC<Props> = () =>
     return (
       <Select
         labelInValue
-        // defaultValue={{ key: initial || 'Mohon Pilih' }}
+        defaultValue={{ key: initial }}
         style={{
           width: '100%',
           minHeight: '2em',

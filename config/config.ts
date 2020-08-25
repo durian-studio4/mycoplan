@@ -163,7 +163,7 @@ export default defineConfig({
               routes: [
                 {
                   name: 'Resep Masakan',
-                  icon: 'profile',
+                  icon: 'schedule',
                   path: '/recipe/masakan',
                   component: './recipe/Masakan',
                 },

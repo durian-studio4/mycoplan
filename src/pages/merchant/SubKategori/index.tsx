@@ -16,9 +16,9 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
       <AddComponent />
       <Card>
         <p className={styles.title}>Sub Kategori</p>
-        <Row>
+        <Row style={{ marginBottom: '1em' }}>
           <div className={styles.box3} style={{ margin: '5px' }}>
-            <SelectAll />
+            <SelectAll initial="Daging" />
           </div>
           <Input
             className={styles.input_search}

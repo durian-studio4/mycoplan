@@ -1,12 +1,13 @@
-import React from 'react';
-import { Button, Card, Row, Input } from 'antd';
+import React, { useState } from 'react';
+import { Button, Card, Row } from 'antd';
+import ReactQuill from 'react-quill';
 import styles from './index.less';
+import 'react-quill/dist/quill.snow.css';
 
 interface Props {}
 
-const { TextArea } = Input;
-
 const ManagementAboutComponent: React.FC<Props> = () => {
+  const [value, setValue] = useState('');
   return (
     <div>
       <p className={styles.title}>Tentang mycoplan</p>
@@ -17,7 +18,7 @@ const ManagementAboutComponent: React.FC<Props> = () => {
             Edit Kontent
           </Button>
         </Row>
-        <TextArea className={styles.area} />
+        <ReactQuill theme="snow" value={value} onChange={setValue} />
       </Card>
     </div>
   );

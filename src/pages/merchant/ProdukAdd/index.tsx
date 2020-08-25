@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, Input, Button, Row, Upload, Tag } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { Editor, EditorState } from 'draft-js';
+import ReactQuill from 'react-quill';
 import styles from './index.less';
-import 'draft-js/dist/Draft.css';
+import 'react-quill/dist/quill.snow.css';
 
 import SelectUnit from '@/components/Select/SelectUnit';
 import SelectKategori from '@/components/Select/SelectKategori';
@@ -15,17 +15,9 @@ interface Props {}
 
 const ProdukAddComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
-  const editor = useRef(null);
-
-  useEffect(() => {
-    focusEditor();
-  }, []);
-
-  const focusEditor = () => {
-    editor.current.focus();
-  };
+  const [valueDeskripsi, setValueDeskripsi] = useState('');
+  const [valueProduk, setValueProduk] = useState('');
 
   const handleVisible = () => setVisible(!visible);
 
@@ -134,13 +126,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="deskripsi">
               Deskripsi Produk
             </label>
-            <div onClick={focusEditor} className={styles.area}>
-              <Editor
-                ref={editor}
-                editorState={editorState}
-                onChange={(editorState) => setEditorState(editorState)}
-              />
-            </div>
+            <ReactQuill theme="snow" value={valueDeskripsi} onChange={setValueDeskripsi} />
           </div>
         </div>
         <div className={styles.box10}>
@@ -148,13 +134,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="informasi">
               Informasi Lain
             </label>
-            <div onClick={focusEditor} className={styles.area}>
-              <Editor
-                ref={editor}
-                editorState={editorState}
-                onChange={(editorState) => setEditorState(editorState)}
-              />
-            </div>
+            <ReactQuill theme="snow" value={valueProduk} onChange={setValueProduk} />
           </div>
         </div>
         <div className={styles.box10}>

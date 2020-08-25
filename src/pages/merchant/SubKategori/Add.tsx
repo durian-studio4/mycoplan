@@ -14,15 +14,17 @@ const MerchantKategoriAddComponent: React.FC<Props> = () => {
         <Row style={{ marginBottom: '1em' }}>
           <div className={styles.col}>
             <div className={styles.box3}>
-              <SelectAll />
+              <SelectAll initial="Daging" />
             </div>
             <br />
             <div className={styles.box3}>
-              <Input className={styles.input} />
+              <Input className={styles.input} placeholder="Ikan" />
             </div>
           </div>
         </Row>
-        <Button className={styles.button}>Simpan</Button>
+        <Button className={styles.button} type="primary">
+          Simpan
+        </Button>
       </Card>
     </div>
   );
