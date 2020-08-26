@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Table, Row, Button, Radio } from 'antd';
+import { Table, Row, Button } from 'antd';
 import styles from './index.less';
 
 interface Props {}
@@ -79,7 +79,7 @@ const TableComponent: React.FC<Props> = () => {
         align: 'center',
         title: 'Status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <Radio>Active</Radio> : <Radio>Deactive</Radio>),
+        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Non-Active</p>),
       },
       {
         align: 'center',
@@ -87,7 +87,7 @@ const TableComponent: React.FC<Props> = () => {
         render: (props: any) => (
           <Row justify="space-around">
             <Button
-              className={styles.button}
+              className={styles.button_edit}
               id={props.id}
               // onClick={() => visibleUpdate(props.id)}
               type="primary"
@@ -95,15 +95,15 @@ const TableComponent: React.FC<Props> = () => {
               Edit
             </Button>
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               // onClick={() => visibleUpdate(props.id)}
               type="primary"
             >
-              Deactive
+              Deactivate
             </Button>
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               // onClick={() => remove(props.id)}
               type="primary"

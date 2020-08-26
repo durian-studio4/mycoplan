@@ -12,7 +12,7 @@ const TableComponent: React.FC<Props> = () => {
     () => [
       {
         align: 'center',
-        title: 'No',
+        title: 'No.',
       },
       {
         align: 'center',

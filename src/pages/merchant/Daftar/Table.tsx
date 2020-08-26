@@ -30,7 +30,7 @@ const TableComponent: React.FC<Props> = () => {
     () => [
       {
         align: 'center',
-        title: 'No',
+        title: 'No.',
         dataIndex: 'no',
         key: 'no',
       },
@@ -74,11 +74,12 @@ const TableComponent: React.FC<Props> = () => {
         align: 'center',
         title: 'Status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Deactive</p>),
+        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Non-Active</p>),
       },
       {
         align: 'center',
         title: 'Action',
+        width: 150,
         render: (props: any) => (
           // <Dropdown overlay={menu} trigger={['click']}>
           //   <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
@@ -87,7 +88,7 @@ const TableComponent: React.FC<Props> = () => {
           // </Dropdown>
           <Row justify="center">
             <Button
-              className={styles.button_action}
+              className={styles.button_edit}
               id={props.id}
               // onClick={() => visibleUpdate(props.id)}
               type="primary"
@@ -97,11 +98,10 @@ const TableComponent: React.FC<Props> = () => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => remove(props.id)}
+              // onClick={() => visibleUpdate(props.id)}
               type="primary"
-              danger
             >
-              Deactive
+              Deactivate
             </Button>
             <Button
               className={styles.button_action}

@@ -21,7 +21,7 @@ const TableComponent: React.FC<Props> = () => {
     () => [
       {
         align: 'center',
-        title: 'No',
+        title: 'No.',
         dataIndex: 'no',
         key: 'no',
       },
@@ -120,7 +120,6 @@ const TableComponent: React.FC<Props> = () => {
               id={props.id}
               // onClick={() => remove(props.id)}
               type="primary"
-              danger
             >
               Pesanan Selesai
             </Button>

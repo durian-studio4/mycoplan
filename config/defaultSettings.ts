@@ -54,6 +54,6 @@ export default {
     locale: true,
   },
   title: 'Mycoplan',
-  pwa: false,
+  pwa: true,
   iconfontUrl: '',
 } as DefaultSettings;

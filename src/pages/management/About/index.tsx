@@ -15,7 +15,7 @@ const ManagementAboutComponent: React.FC<Props> = () => {
         <Row justify="space-between">
           <p className={styles.title}>Konten tentang mycoplan</p>
           <Button className={styles.button} type="primary">
-            Edit Kontent
+            Edit Konten
           </Button>
         </Row>
         <ReactQuill theme="snow" value={value} onChange={setValue} />

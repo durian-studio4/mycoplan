@@ -1,16 +1,8 @@
 import React, { useMemo } from 'react';
-import { Table, Row, Button, Dropdown, Menu, Radio } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import { Table, Row, Button } from 'antd';
+import styles from './index.less';
 
 interface Props {}
-
-const menu = (
-  <Menu>
-    <Menu.Item key="0">Edit</Menu.Item>
-    <Menu.Item key="1">Deactive</Menu.Item>
-    <Menu.Item key="2">Delete</Menu.Item>
-  </Menu>
-);
 
 const TableComponent: React.FC<Props> = () => {
   // const [getColumnSearchProps] = useFilterColumn();
@@ -19,7 +11,7 @@ const TableComponent: React.FC<Props> = () => {
     () => [
       {
         align: 'center',
-        title: 'No',
+        title: 'No.',
         dataIndex: 'no',
         key: 'no',
       },
@@ -36,31 +28,35 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Action',
+        width: 150,
         render: (props: any) => (
-          <Dropdown overlay={menu} trigger={['click']}>
-            <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-              <MenuOutlined />
-            </a>
-          </Dropdown>
-          // <Row justify="space-around">
-          //   <Button
-          //     className={styles.button}
-          //     id={props.id}
-          //     // onClick={() => visibleUpdate(props.id)}
-          //     type="primary"
-          //   >
-          //     Edit
-          //   </Button>
-          //   <Button
-          //     className={styles.button}
-          //     id={props.id}
-          //     // onClick={() => remove(props.id)}
-          //     type="primary"
-          //     danger
-          //   >
-          //     Delete
-          //   </Button>
-          // </Row>
+          <Row justify="space-around">
+            <Button
+              className={styles.button_edit}
+              id={props.id}
+              // onClick={() => visibleUpdate(props.id)}
+              type="primary"
+            >
+              Edit
+            </Button>
+            <Button
+              className={styles.button_action}
+              id={props.id}
+              // onClick={() => visibleUpdate(props.id)}
+              type="primary"
+            >
+              Deactivate
+            </Button>
+            <Button
+              className={styles.button_action}
+              id={props.id}
+              // onClick={() => remove(props.id)}
+              type="primary"
+              danger
+            >
+              Delete
+            </Button>
+          </Row>
         ),
       },
     ],

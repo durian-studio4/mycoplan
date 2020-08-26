@@ -13,7 +13,7 @@ import styles from '../style.less';
 const columns = [
   {
     align: 'center',
-    title: <FormattedMessage id="no" defaultMessage="No" />,
+    title: <FormattedMessage id="no" defaultMessage="No." />,
   },
   {
     align: 'center',
