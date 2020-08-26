@@ -21,7 +21,7 @@ const MerchantKategoriAddComponent: React.FC<Props> = () => {
           </div>
           <div className={styles.box3}>
             <div className={styles.group}>
-              <Input className={styles.input} />
+              <Input className={styles.input} placeholder="Nama Kategori Resep" />
             </div>
           </div>
         </Row>
