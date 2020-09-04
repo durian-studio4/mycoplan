@@ -1,54 +1,156 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Input, Button, TimePicker, DatePicker, Upload, Modal } from 'antd';
+import { Row, Input, Button, DatePicker, Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { format } from 'date-fns';
 import styles from '../index.less';
 
 import SelectBannerTipe from '@/components/Select/SelectBannerTipe';
 
+import useSelect from '@/hooks/useSelect';
+
+import { Banner } from '../index';
+
 interface Props {
   visible: boolean;
+  onCreate: ({ formData, clear }: Banner) => void;
   onCancel: () => void;
+  onLoadButton: boolean;
 }
 
 const { TextArea } = Input;
 
-const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
+const initialDate = format(new Date(), 'yyyy-MM-dd');
+
+const initialState = {
+  title: '',
+  description: '',
+  syarat: '',
+};
+
+const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButton }) => {
+  const [{ description, syarat, title }, setState] = useState(initialState);
+  const [isDisabled, setDisabled] = useState(false);
+  const [start, setStart] = useState(initialDate);
+  const [end, setEnd] = useState(initialDate);
+
+  const [file_img, setFileImg] = useState([]);
+
+  const [banner_type, onChangeBannerType, onClearBannerType] = useSelect('0');
+
+  useEffect(() => {
+    if (!syarat) {
+      return setDisabled(true);
+    }
+    if (!title) {
+      return setDisabled(true);
+    }
+    if (!description) {
+      return setDisabled(true);
+    }
+    return setDisabled(false);
+  }, [syarat, title, description]);
+
+  const onChangeStart = (date: any, dateString: any) => {
+    setStart(dateString);
+  };
+
+  const onChangeEnd = (date: any, dateString: any) => {
+    setEnd(dateString);
+  };
+
+  const onChangeState = (e: any) => {
+    const { id, value } = e.target;
+
+    setState((state) => ({ ...state, [id]: value }));
+  };
+
+  const onChangeImage = (file: any) => {
+    setFileImg((state) => [...state, file]);
+    return false;
+  };
+
+  const onRemoveImage = () => {
+    setFileImg([]);
+  };
+
+  const onClearState = () => {
+    setState({ ...initialState });
+    setStart(initialDate);
+    setEnd(initialDate);
+    setFileImg([]);
+    onClearBannerType();
+    onCancel();
+  };
+
+  const DataJSON = {
+    description,
+    syarat,
+    title,
+    start,
+    end,
+    banner_type,
+  };
+
+  const createBanner = () => {
+    onCreate({
+      formData: DataJSON,
+      clear: onClearState,
+    });
+  };
+
   return (
-    <Modal visible={visible} title="Tambah Banner" width={800} closable={false} footer={null}>
+    <Modal visible={visible} title="Tambah Banner" width={600} closable={false} footer={null}>
       <div className={styles.modal_body}>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="judul">
+            <label className={styles.label} htmlFor="title">
               Judul Banner
             </label>
             <Input
               className={styles.input}
               type="text"
-              id="judul"
+              id="title"
               placeholder=""
-              // value={name}
-              // onChange={handleChangeState}
+              value={title}
+              onChange={onChangeState}
             />
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="gambar">
-              Gambar
-            </label>
-            <Upload name="avatar" listType="picture-card" id="gambar">
-              <div className={styles.group}>
-                <PlusOutlined />
-              </div>
-            </Upload>
+            <label className={styles.label}>Gambar</label>
+            <div>
+              <Upload
+                name="avatar"
+                listType="picture"
+                id="gambar"
+                onRemove={onRemoveImage}
+                beforeUpload={onChangeImage}
+              >
+                <Button
+                  className={styles.button}
+                  type="primary"
+                  disabled={Boolean(file_img.length)}
+                >
+                  Upload Foto
+                  <PlusOutlined />
+                </Button>
+              </Upload>
+            </div>
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="deskripsi">
+            <label className={styles.label} htmlFor="description">
               Deskripsi Banner
             </label>
-            <TextArea className={styles.area} id="deskripsi" placeholder="Masukkan Keterangan..." />
+            <TextArea
+              className={styles.area}
+              id="description"
+              onChange={onChangeState}
+              value={description}
+              placeholder="Masukkan Keterangan..."
+            />
           </div>
         </div>
         <div className={styles.box10}>
@@ -56,10 +158,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
             <label className={styles.label}>Waktu Mulai</label>
             <Row>
               <div className={styles.box3}>
-                <DatePicker />
-              </div>
-              <div className={styles.box3}>
-                <TimePicker />
+                <DatePicker onChange={onChangeStart} />
               </div>
             </Row>
           </div>
@@ -69,10 +168,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
             <label className={styles.label}>Waktu Akhir</label>
             <Row>
               <div className={styles.box3}>
-                <DatePicker />
-              </div>
-              <div className={styles.box3}>
-                <TimePicker />
+                <DatePicker onChange={onChangeEnd} />
               </div>
             </Row>
           </div>
@@ -82,7 +178,13 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
             <label className={styles.label} htmlFor="syarat">
               Syarat & Ketentuan
             </label>
-            <TextArea className={styles.area} id="syarat" placeholder="Masukkan Keterangan..." />
+            <TextArea
+              className={styles.area}
+              id="syarat"
+              onChange={onChangeState}
+              value={syarat}
+              placeholder="Masukkan Keterangan..."
+            />
           </div>
         </div>
         <div className={styles.box10}>
@@ -95,7 +197,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
               id="kode"
               placeholder=""
               // value={username}
-              // onChange={handleChangeState}
+              // onChange={onChangeState}
             />
           </div>
         </div>
@@ -104,7 +206,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
             <label className={styles.label} htmlFor="tipe">
               Tipe Banner
             </label>
-            <SelectBannerTipe />
+            <SelectBannerTipe initial="Gambar Saja" handleChange={onChangeBannerType} />
           </div>
         </div>
       </div>
@@ -112,9 +214,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
         {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}
         <Button
           className={styles.button}
-          // disabled={onLoadButton}
-          // onClick={handleClearState}
-          onClick={onCancel}
+          disabled={onLoadButton}
+          onClick={onClearState}
           type="primary"
           danger
         >
@@ -122,8 +223,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel }) => {
         </Button>
         <Button
           className={styles.button}
-          // onClick={createKaryawan}
-          // disabled={isDisabled || onLoadButton}
+          onClick={createBanner}
+          disabled={isDisabled || onLoadButton}
           type="primary"
         >
           Simpan

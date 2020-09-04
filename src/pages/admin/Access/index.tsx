@@ -5,12 +5,39 @@ import styles from './index.less';
 import TableComponent from './Table';
 import AddComponent from './Add';
 
+import useFetch from '@/hooks/useFetch';
+import useCreate from '@/hooks/useCreate';
+
+export interface Admin {
+  json: {};
+  clear: () => void;
+}
+
 interface Props {}
 
 const AdminAksesComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
 
+  const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
+
   const handleVisible = () => setVisible(!visible);
+
+  const createAdmin = ({ json, clear }: Admin) => {
+    postCreate(`${REACT_APP_ENV}/register/admin`, json, clear);
+  };
+
+  // const deactiveAdmin = (id: string) => {
+  //   postUpdate(`${REACT_APP_ENV}/register/admin${id}`, JSON.stringify({ status: 'deactive' }));
+  // };
+
+  // const updateAdmin = ({ json }: any) => {
+  //   postUpdate(`${REACT_APP_ENV}/register/admin${id_update}`, json);
+  // };
+
+  const deleteAdmin = (id: string) => {
+    postDelete(`${REACT_APP_ENV}/register/admin/${id}`);
+  };
+
   return (
     <div>
       <p className={styles.title}>Akses Admin</p>
@@ -33,7 +60,12 @@ const AdminAksesComponent: React.FC<Props> = () => {
           </div>
         </Row>
         <TableComponent />
-        <AddComponent visible={visible} onCancel={handleVisible} />
+        <AddComponent
+          visible={visible}
+          onCreate={createAdmin}
+          onCancel={handleVisible}
+          onLoadButton={Boolean(loading_update)}
+        />
       </Card>
     </div>
   );

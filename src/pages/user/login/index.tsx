@@ -1,149 +1,113 @@
-import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
-import { Alert, Checkbox } from 'antd';
 import React, { useState } from 'react';
-import { Dispatch, AnyAction, Link, connect } from 'umi';
-import { StateType } from './model';
+import request from 'umi-request';
+import { Redirect } from 'umi';
+import Cookie from 'js-cookie';
+import { setAuthority } from '@/utils/authority';
 import styles from './style.less';
-import { LoginParamsType } from './service';
+
 import LoginFrom from './components/Login';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
-interface LoginProps {
-  dispatch: Dispatch<AnyAction>;
-  userAndlogin: StateType;
-  submitting?: boolean;
-}
+const { UserName, Password, Submit } = LoginFrom;
 
-const LoginMessage: React.FC<{
-  content: string;
-}> = ({ content }) => (
-  <Alert
-    style={{
-      marginBottom: 24,
-    }}
-    message={content}
-    type="error"
-    showIcon
-  />
-);
+// const LoginMessage: React.FC<{
+//   content: string;
+// }> = ({ content }) => (
+//   <Alert
+//     style={{
+//       marginBottom: 24,
+//     }}
+//     message={content}
+//     type="error"
+//     showIcon
+//   />
+// );
 
-const Login: React.FC<LoginProps> = (props) => {
-  const { userAndlogin = {}, submitting } = props;
-  const { status, type: loginType } = userAndlogin;
-  const [autoLogin, setAutoLogin] = useState(true);
-  const [type, setType] = useState<string>('account');
+const initialState = {
+  email: '',
+  password: '',
+};
 
-  const handleSubmit = (values: LoginParamsType) => {
-    const { dispatch } = props;
-    dispatch({
-      type: 'userAndlogin/login',
-      payload: {
-        ...values,
-        type,
-      },
-    });
+const Login: React.FC = (props) => {
+  const [{ email, password }, setState] = useState(initialState);
+  const [loading, setLoading] = useState(false);
+  const [isLogin, setLogin] = useState(false);
+
+  const handleChangeState = (e: any) => {
+    const { id, value } = e.target;
+    setState((state) => ({ ...state, [id]: value }));
   };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    try {
+      const postRequest = await request.post(`${REACT_APP_ENV}/login/admin`, {
+        data: JSON.stringify({ email, password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setLoading(false);
+      setAuthority(postRequest.data.role);
+      localStorage.setItem('name', postRequest.data.name);
+      Cookie.set('token', postRequest.access_token);
+      setLogin(true);
+    } catch (error) {
+      console.log(error);
+      setLogin(false);
+      setLoading(false);
+    }
+  };
+
+  if (isLogin) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <div className={styles.main}>
-      <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-        <Tab key="account" tab="账户密码登录">
-          {status === 'error' && loginType === 'account' && !submitting && (
-            <LoginMessage content="账户或密码错误（admin/ant.design）" />
-          )}
+      <LoginFrom onSubmit={handleSubmit}>
+        {/* {status === 'error' && loginType === 'account' && !submitting && (
+          <LoginMessage content="账户或密码错误（admin/ant.design）" />
+        )} */}
 
-          <UserName
-            name="userName"
-            placeholder="用户名: admin or user"
-            rules={[
-              {
-                required: true,
-                message: '请输入用户名!',
-              },
-            ]}
-          />
-          <Password
-            name="password"
-            placeholder="密码: ant.design"
-            rules={[
-              {
-                required: true,
-                message: '请输入密码！',
-              },
-            ]}
-          />
-        </Tab>
-        <Tab key="mobile" tab="手机号登录">
-          {status === 'error' && loginType === 'mobile' && !submitting && (
-            <LoginMessage content="验证码错误" />
-          )}
-          <Mobile
-            name="mobile"
-            placeholder="手机号"
-            rules={[
-              {
-                required: true,
-                message: '请输入手机号！',
-              },
-              {
-                pattern: /^1\d{10}$/,
-                message: '手机号格式错误！',
-              },
-            ]}
-          />
-          <Captcha
-            name="captcha"
-            placeholder="验证码"
-            countDown={120}
-            getCaptchaButtonText=""
-            getCaptchaSecondText="秒"
-            rules={[
-              {
-                required: true,
-                message: '请输入验证码！',
-              },
-            ]}
-          />
-        </Tab>
-        <div>
+        <UserName
+          name="email"
+          placeholder="Email"
+          id="email"
+          onChange={handleChangeState}
+          rules={[
+            {
+              required: true,
+              message: 'email tidak boleh kosong!',
+            },
+          ]}
+        />
+        <Password
+          name="password"
+          placeholder="Password"
+          id="password"
+          onChange={handleChangeState}
+          rules={[
+            {
+              required: true,
+              message: 'password tidak boleh kosong!',
+            },
+          ]}
+        />
+        {/* <div>
           <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
-            自动登录
+            Remember me!
           </Checkbox>
-          <a
-            style={{
-              float: 'right',
-            }}
-          >
-            忘记密码
-          </a>
-        </div>
-        <Submit loading={submitting}>登录</Submit>
-        <div className={styles.other}>
-          其他登录方式
-          <AlipayCircleOutlined className={styles.icon} />
-          <TaobaoCircleOutlined className={styles.icon} />
-          <WeiboCircleOutlined className={styles.icon} />
+        </div> */}
+        <Submit loading={loading}>Login</Submit>
+        {/* <div className={styles.other}>
           <Link className={styles.register} to="/user/register">
-            注册账户
+            Register
           </Link>
-        </div>
+        </div> */}
       </LoginFrom>
     </div>
   );
 };
 
-export default connect(
-  ({
-    userAndlogin,
-    loading,
-  }: {
-    userAndlogin: StateType;
-    loading: {
-      effects: {
-        [key: string]: boolean;
-      };
-    };
-  }) => ({
-    userAndlogin,
-    submitting: loading.effects['userAndlogin/login'],
-  }),
-)(Login);
+export default Login;

@@ -1,16 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
 
+import useFetch from '@/hooks/useFetch';
+import useCreate from '@/hooks/useCreate';
+
+export interface Banner {
+  formData: any;
+  clear: () => void;
+}
+
 interface Props {}
 
 const ManagementBannerComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
 
+  const [data_banner, status_banner, loading_banner, error_banner, fetchBanner] = useFetch();
+  const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      fetchBanner(`${REACT_APP_ENV}/admin/banners`);
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update]);
+
   const handleVisible = () => setVisible(!visible);
+
+  const createBanner = ({ formData, clear }: Banner) => {
+    postCreate(`${REACT_APP_ENV}/admin/banners`, formData, clear);
+  };
+
+  // const updateBanner = ({ json }: any) => {
+  //   postUpdate(`${REACT_APP_ENV}/admin/vouchers/${id_update}`, json);
+  // };
+
+  const deactiveBanner = (id: string) => {
+    postUpdate(`${REACT_APP_ENV}/admin/banners/${id}`, JSON.stringify({ status: 'deactive' }));
+  };
+
+  const deleteBanner = (id: string) => {
+    postDelete(`${REACT_APP_ENV}/admin/banners/${id}`);
+  };
+
   return (
     <div>
       <p className={styles.title}>Banner Beranda</p>
@@ -32,8 +68,18 @@ const ManagementBannerComponent: React.FC<Props> = () => {
             </Button>
           </div>
         </Row>
-        <TableComponent />
-        <AddComponent visible={visible} onCancel={handleVisible} />
+        <TableComponent
+          data={data_banner}
+          loading={Boolean(loading_banner)}
+          status={Number(status_banner)}
+          error={error_banner}
+        />
+        <AddComponent
+          visible={visible}
+          onCreate={createBanner}
+          onCancel={handleVisible}
+          onLoadButton={Boolean(loading_update)}
+        />
       </Card>
     </div>
   );

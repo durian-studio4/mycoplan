@@ -2,20 +2,17 @@ import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
 import styles from './index.less';
 
-interface Props {}
+import PageError from '@/components/PageError';
 
-const TableComponent: React.FC<Props> = () => {
+interface Props {
+  data: any;
+  loading: boolean;
+  status: number;
+  error: any;
+}
+
+const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
   // const [getColumnSearchProps] = useFilterColumn();
-
-  const data = [
-    {
-      no: 1,
-      id: 1,
-      description: 'test',
-      syarat: 'test',
-    },
-  ];
-
   const columns = useMemo(
     () => [
       {
@@ -104,11 +101,11 @@ const TableComponent: React.FC<Props> = () => {
     [],
   );
 
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
+  if (error || status !== 200) {
+    return <PageError />;
+  }
 
-  return <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} />;
+  return <Table columns={columns} dataSource={data} loading={loading} scroll={{ x: 1300 }} />;
 };
 
 export default TableComponent;

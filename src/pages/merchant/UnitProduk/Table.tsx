@@ -2,9 +2,25 @@ import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
 import styles from './index.less';
 
-interface Props {}
+import PageError from '@/components/PageError';
 
-const TableComponent: React.FC<Props> = () => {
+interface Props {
+  data: any;
+  loading: boolean;
+  status: number;
+  error: any;
+  onDelete: (id: string) => void;
+  visibleUpdate: (id: string) => void;
+}
+
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  onDelete,
+  visibleUpdate,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
   const columns = useMemo(
@@ -27,7 +43,7 @@ const TableComponent: React.FC<Props> = () => {
             <Button
               className={styles.button}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => visibleUpdate(props.id)}
               type="primary"
             >
               Edit
@@ -35,7 +51,7 @@ const TableComponent: React.FC<Props> = () => {
             <Button
               className={styles.button}
               id={props.id}
-              // onClick={() => remove(props.id)}
+              onClick={() => onDelete(props.id)}
               type="primary"
               danger
             >
@@ -49,11 +65,11 @@ const TableComponent: React.FC<Props> = () => {
     [],
   );
 
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
+  if (error) {
+    return <PageError status={status} />;
+  }
 
-  return <Table columns={columns} />;
+  return <Table columns={columns} dataSource={data} loading={loading} />;
 };
 
 export default TableComponent;

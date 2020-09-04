@@ -6,6 +6,8 @@ import { history, ConnectProps, connect } from 'umi';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
 import HeaderDropdown from '../HeaderDropdown';
+import Cookie from 'js-cookie';
+import request from 'umi-request';
 import styles from './index.less';
 
 export interface GlobalHeaderRightProps extends Partial<ConnectProps> {
@@ -21,6 +23,12 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
       const { dispatch } = this.props;
 
       if (dispatch) {
+        request
+          .post(`${REACT_APP_ENV}/logout`)
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
+        localStorage.clear();
+        Cookie.remove('token');
         dispatch({
           type: 'login/logout',
         });
@@ -33,13 +41,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
   };
 
   render(): React.ReactNode {
-    const {
-      currentUser = {
-        avatar: '',
-        name: '',
-      },
-      menu,
-    } = this.props;
+    const currentUser = localStorage.getItem('name');
     const menuHeaderDropdown = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
         <Menu.Item key="logout">
@@ -48,11 +50,12 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
         </Menu.Item>
       </Menu>
     );
-    return currentUser && currentUser.name ? (
+
+    return currentUser ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-          <span className={styles.name}>Halo, (Nama Admin)</span>
+          {/* <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" /> */}
+          <span className={styles.name}>Halo, {currentUser}</span>
         </span>
       </HeaderDropdown>
     ) : (

@@ -1,17 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
 
+import useFetch from '@/hooks/useFetch';
+import useCreate from '@/hooks/useCreateForm';
+
+export interface Kategori {
+  formData: any;
+  clear: () => void;
+}
+
 interface Props {}
 
 const RecipeKategoriComponent: React.FC<Props> = () => {
+  const [data_resep, status_resep, loading_resep, error_resep, fetchResep] = useFetch();
+  const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      fetchResep(`${REACT_APP_ENV}/admin/recipe/categories`);
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update]);
+
+  const createKategori = ({ formData, clear }: Kategori) => {
+    postCreate(`${REACT_APP_ENV}/admin/recipe/categories`, formData, clear);
+  };
+
+  // const updatePromo = ({ json }: any) => {
+  //   postUpdate(`${REACT_APP_ENV}/admin/recipe/categories/${id_update}`, json);
+  // };
+
+  const deleteKategori = (id: string) => {
+    postDelete(`${REACT_APP_ENV}/admin/recipe/categories/${id}`);
+  };
+
   return (
     <div>
       <p className={styles.title}>Kategori Resep</p>
-      <AddComponent />
+      <AddComponent onCreate={createKategori} onLoadButton={Boolean(loading_update)} />
       <Card>
         <Row justify="space-between">
           <p className={styles.title}>Daftar Kategori Resep</p>
@@ -27,7 +58,13 @@ const RecipeKategoriComponent: React.FC<Props> = () => {
             />
           </div>
         </Row>
-        <TableComponent />
+        <TableComponent
+          data={data_resep}
+          loading={Boolean(loading_resep)}
+          status={Number(status_resep)}
+          error={error_resep}
+          onDelete={deleteKategori}
+        />
       </Card>
     </div>
   );

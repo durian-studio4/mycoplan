@@ -2,20 +2,27 @@ import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
 import styles from './index.less';
 
-interface Props {}
+import PageError from '@/components/PageError';
 
-const TableComponent: React.FC<Props> = () => {
-  // const [getColumnSearchProps] = useFilterColumn();
+interface Props {
+  data: any;
+  loading: boolean;
+  status: number;
+  error: any;
+  visibleUpdate: (id: string) => void;
+  onDeactive: (id: string) => void;
+  onDelete: (id: string) => void;
+}
 
-  const data = [
-    {
-      no: 1,
-      id: 415,
-      pesanan: 123,
-      merchant: 'imam',
-    },
-  ];
-
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  visibleUpdate,
+  onDeactive,
+  onDelete,
+}) => {
   const columns = useMemo(
     () => [
       {
@@ -84,7 +91,7 @@ const TableComponent: React.FC<Props> = () => {
             <Button
               className={styles.button_edit}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => visibleUpdate(props.id)}
               type="primary"
             >
               Edit
@@ -92,7 +99,7 @@ const TableComponent: React.FC<Props> = () => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => onDeactive(props.id)}
               type="primary"
             >
               Deactivate
@@ -100,7 +107,7 @@ const TableComponent: React.FC<Props> = () => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => remove(props.id)}
+              onClick={() => onDelete(props.id)}
               type="primary"
               danger
             >
@@ -114,11 +121,11 @@ const TableComponent: React.FC<Props> = () => {
     [],
   );
 
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
+  if (error || status !== 200) {
+    return <PageError />;
+  }
 
-  return <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} />;
+  return <Table columns={columns} dataSource={data} loading={loading} scroll={{ x: 1300 }} />;
 };
 
 export default TableComponent;

@@ -51,18 +51,18 @@ export default defineConfig({
               path: '/user/login',
               component: './user/login',
             },
-            {
-              name: 'register-result',
-              icon: 'smile',
-              path: '/user/register-result',
-              component: './user/register-result',
-            },
-            {
-              name: 'register',
-              icon: 'smile',
-              path: '/user/register',
-              component: './user/register',
-            },
+            // {
+            //   name: 'register-result',
+            //   icon: 'smile',
+            //   path: '/user/register-result',
+            //   component: './user/register-result',
+            // },
+            // {
+            //   name: 'register',
+            //   icon: 'smile',
+            //   path: '/user/register',
+            //   component: './user/register',
+            // },
             {
               component: '404',
             },
@@ -72,7 +72,6 @@ export default defineConfig({
           path: '/',
           component: '../layouts/BasicLayout',
           Routes: ['src/pages/Authorized'],
-          authority: ['admin', 'user'],
           routes: [
             // {
             //   name: 'Baru',
@@ -85,63 +84,74 @@ export default defineConfig({
               icon: 'home',
               path: '/dashboard',
               component: './Dashboard',
+              authority: ['admin', 'master'],
             },
             {
               name: 'Pengguna',
               icon: 'user',
               path: '/pengguna',
               component: './pengguna',
+              authority: ['admin', 'master'],
             },
             {
               name: 'Merchant',
               icon: 'shop',
               path: '/merchant',
+              authority: ['admin', 'master', 'merchant'],
               routes: [
                 {
                   name: 'Daftar Merchant',
                   icon: 'shop',
                   path: '/merchant/daftar',
                   component: './merchant/Daftar',
+                  authority: ['merchant'],
                 },
                 {
                   name: 'Banner Merchant',
                   icon: 'picture',
                   path: '/merchant/banner',
                   component: './merchant/Banner',
+                  authority: ['merchant'],
                 },
                 {
                   name: 'Produk',
                   icon: 'profile',
                   path: '/merchant/produk',
                   component: './merchant/Produk',
+                  authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   hideInMenu: true,
                   path: '/merchant/produk/add',
                   component: './merchant/ProdukAdd',
+                  authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   hideInMenu: true,
                   path: '/merchant/produk/:id',
                   component: './merchant/ProdukEdit',
+                  authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   name: 'Kategori Produk',
                   icon: 'tag',
                   path: '/merchant/kategori',
                   component: './merchant/Kategori',
+                  authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   name: 'Sub Kategori Produk',
                   icon: 'tags',
                   path: '/merchant/subkategori',
                   component: './merchant/SubKategori',
+                  authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   name: 'Unit Produk',
                   icon: 'schedule',
                   path: '/merchant/unit',
                   component: './merchant/UnitProduk',
+                  authority: ['admin', 'master'],
                 },
               ],
             },
@@ -150,6 +160,7 @@ export default defineConfig({
               icon: 'shoppingCart',
               path: '/pesanan',
               component: './pesanan',
+              authority: ['admin', 'master', 'merchant'],
             },
             {
               hideInMenu: true,
@@ -160,6 +171,7 @@ export default defineConfig({
               name: 'Resep',
               icon: 'inbox',
               path: '/recipe',
+              authority: ['admin', 'master'],
               routes: [
                 {
                   name: 'Resep Masakan',
@@ -192,12 +204,14 @@ export default defineConfig({
               icon: 'fileText',
               path: '/promo',
               component: './promo',
+              authority: ['admin', 'master', 'merchant'],
             },
             {
               name: 'Penjualan',
               icon: 'stock',
               path: '/penjualan',
               component: './penjualan',
+              authority: ['admin', 'master'],
             },
             {
               name: 'Penjualan Detail',
@@ -205,11 +219,13 @@ export default defineConfig({
               hideInMenu: true,
               path: '/penjualan/detail/:id',
               component: './penjualan/Detail',
+              authority: ['admin', 'master'],
             },
             {
               name: 'Manajemen Konten',
               icon: 'dashboard',
               path: '/management',
+              authority: ['admin', 'master'],
               routes: [
                 {
                   name: 'Banner Beranda',
@@ -236,18 +252,21 @@ export default defineConfig({
               icon: 'user',
               path: '/admin',
               component: './admin/Access',
+              authority: ['admin', 'master'],
             },
             {
               name: 'Edit',
               hideInMenu: true,
               path: '/admin/edit/:id',
               component: './admin/Edit',
+              authority: ['admin', 'master'],
             },
             {
               name: 'Pengaturan',
               icon: 'setting',
               path: '/settings/profile',
               component: './settings/Profile',
+              authority: ['admin', 'master'],
             },
             // {
             //   name: 'result',
@@ -312,7 +331,7 @@ export default defineConfig({
     'primary-color': defaultSettings.primaryColor,
   },
   define: {
-    REACT_APP_ENV: REACT_APP_ENV || false,
+    REACT_APP_ENV: 'https://api.mycoplan.id/cms/v1',
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
       ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
   },

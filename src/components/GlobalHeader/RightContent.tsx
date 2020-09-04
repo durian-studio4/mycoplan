@@ -16,13 +16,15 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = (props) => {
   const { theme, layout } = props;
   let className = styles.right;
 
+  const role = localStorage.getItem('role');
+
   if (theme === 'dark' && layout === 'topmenu') {
     className = `${styles.right}  ${styles.dark}`;
   }
 
   return (
     <div className={className}>
-      <Notification />
+      {JSON.parse(String(role)) ? <Notification /> : null}
       <Avatar menu />
     </div>
   );
