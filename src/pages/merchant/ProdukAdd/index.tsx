@@ -9,17 +9,68 @@ import SelectUnit from '@/components/Select/SelectUnit';
 import SelectKategori from '@/components/Select/SelectKategori';
 import SelectSubKategori from '@/components/Select/SelectSubKategori';
 
+import useSelect from '@/hooks/useSelect';
+
 import KemasanComponent from './Kemasan';
 
 interface Props {}
 
+const initialState = {
+  name: '',
+  sku: '',
+  quantity: '',
+  price: '',
+  discount: '',
+};
+
 const ProdukAddComponent: React.FC<Props> = () => {
+  const [{ name, sku, quantity, price, discount }, setState] = useState(initialState);
+  const [image, setFileImg] = useState([]);
+
   const [visible, setVisible] = useState(false);
 
   const [valueDeskripsi, setValueDeskripsi] = useState('');
-  const [valueProduk, setValueProduk] = useState('');
+  const [valueInformasi, setValueInformasi] = useState('');
+
+  const [categories, onChangeCategories, onClearCategories] = useSelect('0');
+  const [sub_categories, onChangeSubCategories, onClearSubCategories] = useSelect('0');
 
   const handleVisible = () => setVisible(!visible);
+
+  const onChangeState = (e: any) => {
+    const { id, value } = e.target;
+
+    setState((state) => ({ ...state, [id]: value }));
+  };
+
+  const onChangeImage = (file: any) => {
+    setFileImg((state) => [...state, file]);
+    return false;
+  };
+
+  const onRemoveImage = () => {
+    setFileImg([]);
+  };
+
+  const onClearState = () => {
+    setState({ ...initialState });
+    setFileImg([]);
+    setValueDeskripsi('');
+    setValueInformasi('');
+    onClearCategories();
+    onClearSubCategories();
+  };
+
+  const DataJSON = {
+    name,
+    sku,
+    quantity,
+    price,
+    discount,
+    image,
+    description: valueDeskripsi,
+    information: valueInformasi,
+  };
 
   return (
     <div>
@@ -27,46 +78,46 @@ const ProdukAddComponent: React.FC<Props> = () => {
       <Card>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="name_produk">
+            <label className={styles.label} htmlFor="name">
               Nama Produk
             </label>
             <Input
               className={styles.input}
               type="text"
-              id="name_produk"
+              id="name"
               placeholder=""
-              // value={name}
-              // onChange={handleChangeState}
+              value={name}
+              onChange={onChangeState}
             />
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="harga">
+            <label className={styles.label} htmlFor="price">
               Harga
             </label>
             <Input
               addonBefore="Rp."
               type="text"
-              id="harga"
+              id="price"
               placeholder=""
-              // value={name}
-              // onChange={handleChangeState}
+              value={price}
+              onChange={onChangeState}
             />
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="harga_diskon">
+            <label className={styles.label} htmlFor="discount">
               Harga Diskon (Optional)
             </label>
             <Input
               addonBefore="Rp."
               type="text"
-              id="harga_diskon"
+              id="discount"
               placeholder=""
-              // value={name}
-              // onChange={handleChangeState}
+              value={discount}
+              onChange={onChangeState}
             />
           </div>
         </div>
@@ -101,23 +152,23 @@ const ProdukAddComponent: React.FC<Props> = () => {
               type="text"
               id="sku"
               placeholder=""
-              // value={email}
-              // onChange={handleChangeState}
+              value={sku}
+              onChange={onChangeState}
             />
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="stok">
+            <label className={styles.label} htmlFor="quantity">
               Stok
             </label>
             <Input
               className={styles.input}
               type="text"
-              id="stok"
+              id="quantity"
               placeholder=""
-              // value={password}
-              // onChange={handleChangeState}
+              value={quantity}
+              onChange={onChangeState}
             />
           </div>
         </div>
@@ -134,7 +185,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="informasi">
               Informasi Lain
             </label>
-            <ReactQuill theme="snow" value={valueProduk} onChange={setValueProduk} />
+            <ReactQuill theme="snow" value={valueInformasi} onChange={setValueInformasi} />
           </div>
         </div>
         <div className={styles.box10}>
@@ -158,11 +209,24 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="gambar">
               Gambar
             </label>
-            <Upload name="avatar" listType="picture-card">
-              <div className={styles.group}>
-                <PlusOutlined />
-              </div>
-            </Upload>
+            <div>
+              <Upload
+                name="avatar"
+                listType="picture"
+                onRemove={onRemoveImage}
+                beforeUpload={onChangeImage}
+              >
+                <Button
+                  className={styles.button}
+                  type="primary"
+                  id="gambar"
+                  disabled={Boolean(image.length)}
+                >
+                  Upload
+                  <PlusOutlined />
+                </Button>
+              </Upload>
+            </div>
           </div>
         </div>
         <div className={styles.box10}>

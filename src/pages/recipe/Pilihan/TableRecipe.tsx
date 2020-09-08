@@ -69,7 +69,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
   return (
     <Card style={{ marginBottom: '1em' }}>
       <p className={styles.title}>Resep Pilihan</p>
-      <Table columns={columns} loading={loading} dataSource={data} />
+      <Table columns={columns} loading={loading} dataSource={data.data} />
 
       <Button className={styles.button_add}>
         <NavLink to="/recipe/masakan/add">+ Tambah Resep Pilihan</NavLink>

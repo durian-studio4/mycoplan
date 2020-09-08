@@ -6,7 +6,7 @@ import TableComponent from './Table';
 import AddComponent from './Add';
 
 import useFetch from '@/hooks/useFetch';
-import useCreate from '@/hooks/useCreate';
+import useCreate from '@/hooks/useCreateForm';
 
 export interface Banner {
   formData: any;
@@ -40,7 +40,10 @@ const ManagementBannerComponent: React.FC<Props> = () => {
   // };
 
   const deactiveBanner = (id: string) => {
-    postUpdate(`${REACT_APP_ENV}/admin/banners/${id}`, JSON.stringify({ status: 'deactive' }));
+    const formData = new FormData();
+    formData.append('status', 'inactive');
+
+    postCreate(`${REACT_APP_ENV}/admin/banners/${id}?_method=put`, formData);
   };
 
   const deleteBanner = (id: string) => {
@@ -73,13 +76,18 @@ const ManagementBannerComponent: React.FC<Props> = () => {
           loading={Boolean(loading_banner)}
           status={Number(status_banner)}
           error={error_banner}
+          onDelete={deleteBanner}
+          onDeactive={deactiveBanner}
         />
-        <AddComponent
-          visible={visible}
-          onCreate={createBanner}
-          onCancel={handleVisible}
-          onLoadButton={Boolean(loading_update)}
-        />
+
+        {visible ? (
+          <AddComponent
+            visible={visible}
+            onCreate={createBanner}
+            onCancel={handleVisible}
+            onLoadButton={Boolean(loading_update)}
+          />
+        ) : null}
       </Card>
     </div>
   );

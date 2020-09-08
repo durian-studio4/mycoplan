@@ -3,18 +3,18 @@ import { Table, Row, Button } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
 
-interface Props {}
+import PageError from '@/components/PageError';
 
-const TableComponent: React.FC<Props> = () => {
+interface Props {
+  data: any;
+  loading: boolean;
+  status: number;
+  error: any;
+  onDelete: (id: string) => void;
+}
+
+const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelete }) => {
   // const [getColumnSearchProps] = useFilterColumn();
-
-  const data = [
-    {
-      no: 1,
-      id: 415,
-      nama: 'test',
-    },
-  ];
 
   const columns = useMemo(
     () => [
@@ -74,7 +74,7 @@ const TableComponent: React.FC<Props> = () => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => remove(props.id)}
+              onClick={() => onDelete(props.id)}
               type="primary"
               danger
             >
@@ -88,11 +88,11 @@ const TableComponent: React.FC<Props> = () => {
     [],
   );
 
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
+  if (error || status !== 200) {
+    return <PageError />;
+  }
 
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={data.data} loading={loading} />;
 };
 
 export default TableComponent;

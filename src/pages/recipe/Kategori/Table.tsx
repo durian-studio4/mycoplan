@@ -9,10 +9,18 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
+  visibleUpdate: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
-const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelete }) => {
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  onDelete,
+  visibleUpdate,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
   const columns = useMemo(
@@ -20,18 +28,22 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
         title: 'Gambar',
-        dataIndex: 'gambar',
+        render: (props) => (
+          <img alt={`gambar_kategori-${props.id}`} width="10%" height="10%" src={props.image} />
+        ),
         key: 'gambar',
       },
       {
         align: 'center',
         title: 'Kategori Resep',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'center',
@@ -41,7 +53,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
             <Button
               className={styles.button}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => visibleUpdate(props.id)}
               type="primary"
             >
               Edit

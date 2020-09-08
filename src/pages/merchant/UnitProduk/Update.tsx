@@ -28,8 +28,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   }, []);
 
   useEffect(() => {
+    const data = data_update.data && data_update.data.name;
     if (data_update) {
-      setName(data_update);
+      setName(data);
     }
   }, [data_update]);
 
@@ -43,13 +44,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     onCancel();
   };
 
-  const DataJSON = JSON.stringify({
-    name,
-  });
-
   const updateUnit = () => {
     onUpdate({
-      json: DataJSON,
+      json: { name },
     });
     onClearState();
   };
@@ -64,13 +61,13 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="name">
-                Kode Promo
+                Unit Produk
               </label>
               <Input
                 className={styles.input}
                 type="text"
                 id="name"
-                placeholder=""
+                placeholder="Unit Produk"
                 value={name}
                 onChange={onChangeState}
               />

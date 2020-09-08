@@ -11,6 +11,8 @@ import useFetch from '@/hooks/useFetch';
 import PageError from '@/components/PageError';
 import PageLoading from '@/components/PageLoading';
 
+const { TextArea } = Input;
+
 interface Props {
   visible: boolean;
   id: string;
@@ -20,27 +22,41 @@ interface Props {
 }
 
 const initialState = {
+  name: '',
   code: '',
   discount: '',
   max_discount: '',
   min_purchase: '',
   quantity: '',
   user_limit: '',
+  description: '',
+  terms_conditions: '',
 };
 
 const initialDate = format(new Date(), 'yyyy-MM-dd');
 
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
-  const [{ code, discount, max_discount, min_purchase, quantity, user_limit }, setState] = useState(
-    initialState,
-  );
+  const [
+    {
+      name,
+      code,
+      discount,
+      max_discount,
+      min_purchase,
+      quantity,
+      user_limit,
+      description,
+      terms_conditions,
+    },
+    setState,
+  ] = useState(initialState);
   const [isDisabled, setDisabled] = useState(false);
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
 
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
-  const [id_categories, onChangeCategories, onClearCategories] = useSelect('0');
+  const [category, onChangeCategory, onClearCategory] = useSelect(data_update.category);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -51,12 +67,18 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   }, []);
 
   useEffect(() => {
-    if (data_update) {
+    const timeOut = setTimeout(() => {
       setState(data_update);
-    }
+      setStart(data_update.start);
+      setEnd(data_update.end);
+    }, 100);
+    return () => clearTimeout(timeOut);
   }, [data_update]);
 
   useEffect(() => {
+    if (!name) {
+      return setDisabled(true);
+    }
     if (!code) {
       return setDisabled(true);
     }
@@ -72,11 +94,27 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     if (!quantity) {
       return setDisabled(true);
     }
+    if (!description) {
+      return setDisabled(true);
+    }
+    if (!terms_conditions) {
+      return setDisabled(true);
+    }
     if (!user_limit) {
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [code, discount, max_discount, min_purchase, quantity, user_limit]);
+  }, [
+    name,
+    code,
+    discount,
+    max_discount,
+    min_purchase,
+    quantity,
+    user_limit,
+    description,
+    terms_conditions,
+  ]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -96,11 +134,12 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     setState({ ...initialState });
     setStart(initialDate);
     setEnd(initialDate);
-    onClearCategories();
+    onClearCategory();
     onCancel();
   };
 
-  const DataJSON = JSON.stringify({
+  const DataJSON = {
+    name,
     code,
     discount,
     max_discount,
@@ -109,8 +148,10 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     user_limit,
     start,
     end,
-    id_categories,
-  });
+    category,
+    description,
+    terms_conditions,
+  };
 
   const updatePromo = () => {
     onUpdate({
@@ -131,7 +172,25 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               <label className={styles.label} htmlFor="no_id">
                 Kategori Promo
               </label>
-              <SelectPromo handleChange={onChangeCategories} initial="Pesanan" />
+              <SelectPromo
+                handleChange={onChangeCategory}
+                initial={data_update && data_update.category}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="name">
+                Nama Promo
+              </label>
+              <Input
+                className={styles.input}
+                type="text"
+                id="name"
+                placeholder=""
+                value={name}
+                onChange={onChangeState}
+              />
             </div>
           </div>
           <div className={styles.box10}>
@@ -243,6 +302,32 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 id="quantity"
                 placeholder=""
                 value={quantity}
+                onChange={onChangeState}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="description">
+                Deskripsi
+              </label>
+              <TextArea
+                id="description"
+                placeholder=""
+                value={description}
+                onChange={onChangeState}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="terms_conditions">
+                Syarat & Ketentuan
+              </label>
+              <TextArea
+                id="terms_conditions"
+                placeholder=""
+                value={terms_conditions}
                 onChange={onChangeState}
               />
             </div>

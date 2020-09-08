@@ -252,14 +252,14 @@ export default defineConfig({
               icon: 'user',
               path: '/admin',
               component: './admin/Access',
-              authority: ['admin', 'master'],
+              authority: ['master'],
             },
             {
               name: 'Edit',
               hideInMenu: true,
               path: '/admin/edit/:id',
               component: './admin/Edit',
-              authority: ['admin', 'master'],
+              authority: ['master'],
             },
             {
               name: 'Pengaturan',

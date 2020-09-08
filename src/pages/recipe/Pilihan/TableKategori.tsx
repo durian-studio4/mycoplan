@@ -21,12 +21,20 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        dataIndex: 'id',
+        key: 'id',
+      },
+      {
+        align: 'center',
+        title: 'Gambar',
+        render: (props) => <img alt={`gambar_kategori-${props.id}`} src={props.image} />,
+        key: 'gambar',
       },
       {
         align: 'center',
         title: 'Kategori Resep',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'center',
@@ -57,7 +65,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
   return (
     <Card>
       <p className={styles.title}>Kategori Resep Pilihan</p>
-      <Table columns={columns} dataSource={data} loading={loading} />
+      <Table columns={columns} dataSource={data.data} loading={loading} />
 
       <Button className={styles.button_add}>
         <NavLink to="/recipe/kategori">+ Tambah Kategori Pilihan</NavLink>

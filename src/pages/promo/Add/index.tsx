@@ -8,6 +8,9 @@ import SelectPromo from '@/components/Select/SelectPromo';
 import useSelect from '@/hooks/useSelect';
 
 import { Promo } from '../index';
+
+const { TextArea } = Input;
+
 interface Props {
   visible: boolean;
   onCancel: () => void;
@@ -16,27 +19,44 @@ interface Props {
 }
 
 const initialState = {
+  name: '',
   code: '',
   discount: '',
   max_discount: '',
   min_purchase: '',
   quantity: '',
   user_limit: '',
+  description: '',
+  terms_conditions: '',
 };
 
 const initialDate = format(new Date(), 'yyyy-MM-dd');
 
 const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButton }) => {
-  const [{ code, discount, max_discount, min_purchase, quantity, user_limit }, setState] = useState(
-    initialState,
-  );
+  const [
+    {
+      name,
+      code,
+      discount,
+      max_discount,
+      min_purchase,
+      quantity,
+      user_limit,
+      description,
+      terms_conditions,
+    },
+    setState,
+  ] = useState(initialState);
   const [isDisabled, setDisabled] = useState(false);
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
 
-  const [id_categories, onChangeCategories, onClearCategories] = useSelect('0');
+  const [category, onChangeCategory, onClearCategory] = useSelect('Pesanan');
 
   useEffect(() => {
+    if (!name) {
+      return setDisabled(true);
+    }
     if (!code) {
       return setDisabled(true);
     }
@@ -52,11 +72,27 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
     if (!quantity) {
       return setDisabled(true);
     }
+    if (!description) {
+      return setDisabled(true);
+    }
+    if (!terms_conditions) {
+      return setDisabled(true);
+    }
     if (!user_limit) {
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [code, discount, max_discount, min_purchase, quantity, user_limit]);
+  }, [
+    name,
+    code,
+    discount,
+    max_discount,
+    min_purchase,
+    quantity,
+    user_limit,
+    description,
+    terms_conditions,
+  ]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -76,11 +112,12 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
     setState({ ...initialState });
     setStart(initialDate);
     setEnd(initialDate);
-    onClearCategories();
+    onClearCategory();
     onCancel();
   };
 
-  const DataJSON = JSON.stringify({
+  const DataJSON = {
+    name,
     code,
     discount,
     max_discount,
@@ -89,8 +126,11 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
     user_limit,
     start,
     end,
-    id_categories,
-  });
+    category,
+    description,
+    terms_conditions,
+    status: 'active',
+  };
 
   const createPromo = () => {
     onCreate({
@@ -107,7 +147,22 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
             <label className={styles.label} htmlFor="no_id">
               Kategori Promo
             </label>
-            <SelectPromo handleChange={onChangeCategories} initial="Pesanan" />
+            <SelectPromo handleChange={onChangeCategory} initial="Pesanan" />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="name">
+              Nama Promo
+            </label>
+            <Input
+              className={styles.input}
+              type="text"
+              id="name"
+              placeholder=""
+              value={name}
+              onChange={onChangeState}
+            />
           </div>
         </div>
         <div className={styles.box10}>
@@ -219,6 +274,32 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
               id="quantity"
               placeholder=""
               value={quantity}
+              onChange={onChangeState}
+            />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="description">
+              Deskripsi
+            </label>
+            <TextArea
+              id="description"
+              placeholder=""
+              value={description}
+              onChange={onChangeState}
+            />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="terms_conditions">
+              Syarat & Ketentuan
+            </label>
+            <TextArea
+              id="terms_conditions"
+              placeholder=""
+              value={terms_conditions}
               onChange={onChangeState}
             />
           </div>

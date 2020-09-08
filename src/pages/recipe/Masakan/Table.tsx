@@ -111,7 +111,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
   if (error || status !== 200) {
     return <PageError />;
   }
-  return <Table columns={columns} dataSource={data} loading={loading} scroll={{ x: 1300 }} />;
+  return <Table columns={columns} dataSource={data.data} loading={loading} scroll={{ x: 1300 }} />;
 };
 
 export default TableComponent;

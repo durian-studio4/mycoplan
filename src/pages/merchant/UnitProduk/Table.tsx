@@ -28,18 +28,21 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
         title: 'Unit Produk',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'center',
         title: 'Action',
+        width: 200,
         render: (props: any) => (
-          <Row justify="space-around">
+          <Row justify="center">
             <Button
               className={styles.button}
               id={props.id}

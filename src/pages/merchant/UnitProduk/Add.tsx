@@ -17,7 +17,7 @@ const MerchantUnitProdukAddComponent: React.FC<Props> = ({ onCreate, onLoadButto
 
   const createUnit = () => {
     onCreate({
-      json: JSON.stringify(name),
+      json: { name },
       clear: onClearState,
     });
   };

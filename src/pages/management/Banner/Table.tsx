@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
+import { format } from 'date-fns';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
@@ -9,17 +10,26 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
+  onDelete: (id: string) => void;
+  onDeactive: (id: string) => void;
 }
 
-const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  onDelete,
+  onDeactive,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
   const columns = useMemo(
     () => [
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
@@ -28,6 +38,8 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
       {
         align: 'center',
         title: 'Judul',
+        dataIndex: 'title',
+        key: 'title',
       },
       {
         align: 'left',
@@ -38,16 +50,20 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
       {
         align: 'center',
         title: 'Waktu Mulai',
+        dataIndex: 'start',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
       {
         align: 'center',
         title: 'Waktu Akhir',
+        dataIndex: 'end',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
       {
         align: 'center',
         title: 'Syarat & Ketentuan',
-        dataIndex: 'syarat',
-        key: 'syarat',
+        dataIndex: 'terms_conditions',
+        key: 'terms_conditions',
       },
       {
         align: 'center',
@@ -58,8 +74,8 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
       {
         align: 'center',
         title: 'Status',
+        dataIndex: 'status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Non-Active</p>),
       },
       {
         align: 'center',
@@ -79,7 +95,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => onDeactive(props.id)}
               type="primary"
             >
               Deactivate
@@ -87,7 +103,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => remove(props.id)}
+              onClick={() => onDelete(props.id)}
               type="primary"
               danger
             >

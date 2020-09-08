@@ -49,7 +49,7 @@ const PromoComponent: React.FC<Props> = () => {
   };
 
   const deactivePromo = (id: string) => {
-    postUpdate(`${REACT_APP_ENV}/admin/vouchers/${id}`, JSON.stringify({ status: 'deactive' }));
+    postUpdate(`${REACT_APP_ENV}/admin/vouchers/${id}`, { status: 'inactive' });
   };
 
   const updatePromo = ({ json }: any) => {

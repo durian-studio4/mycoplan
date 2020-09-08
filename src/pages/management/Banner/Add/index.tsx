@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import styles from '../index.less';
 
 import SelectBannerTipe from '@/components/Select/SelectBannerTipe';
+import SelectAll from '@/components/Select/SelectAll';
 
 import useSelect from '@/hooks/useSelect';
 
@@ -24,11 +25,11 @@ const initialDate = format(new Date(), 'yyyy-MM-dd');
 const initialState = {
   title: '',
   description: '',
-  syarat: '',
+  terms_conditions: '',
 };
 
 const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButton }) => {
-  const [{ description, syarat, title }, setState] = useState(initialState);
+  const [{ description, terms_conditions, title }, setState] = useState(initialState);
   const [isDisabled, setDisabled] = useState(false);
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
@@ -36,9 +37,10 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   const [file_img, setFileImg] = useState([]);
 
   const [banner_type, onChangeBannerType, onClearBannerType] = useSelect('0');
+  const [id_voucher, onChangeVoucher, onClearVoucher] = useSelect('');
 
   useEffect(() => {
-    if (!syarat) {
+    if (!terms_conditions) {
       return setDisabled(true);
     }
     if (!title) {
@@ -47,8 +49,11 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     if (!description) {
       return setDisabled(true);
     }
+    if (!id_voucher) {
+      return setDisabled(true);
+    }
     return setDisabled(false);
-  }, [syarat, title, description]);
+  }, [id_voucher, terms_conditions, title, description]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -69,7 +74,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     return false;
   };
 
-  const onRemoveImage = () => {
+  const onRemoveImage = (e: any) => {
     setFileImg([]);
   };
 
@@ -79,21 +84,31 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     setEnd(initialDate);
     setFileImg([]);
     onClearBannerType();
+    onClearVoucher();
     onCancel();
   };
 
   const DataJSON = {
-    description,
-    syarat,
+    id_voucher: String(id_voucher),
     title,
+    description,
+    terms_conditions,
     start,
     end,
-    banner_type,
+    image: file_img[0],
+    banner_type: String(banner_type),
+    status: 'active',
   };
 
   const createBanner = () => {
+    const formData = new FormData();
+
+    for (let [key, value] of Object.entries(DataJSON)) {
+      formData.append(key, value);
+    }
+
     onCreate({
-      formData: DataJSON,
+      formData,
       clear: onClearState,
     });
   };
@@ -118,12 +133,13 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label}>Gambar</label>
+            <label className={styles.label} htmlFor="gambar">
+              Gambar
+            </label>
             <div>
               <Upload
                 name="avatar"
                 listType="picture"
-                id="gambar"
                 onRemove={onRemoveImage}
                 beforeUpload={onChangeImage}
               >
@@ -132,7 +148,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
                   type="primary"
                   disabled={Boolean(file_img.length)}
                 >
-                  Upload Foto
+                  Upload
                   <PlusOutlined />
                 </Button>
               </Upload>
@@ -175,14 +191,14 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="syarat">
+            <label className={styles.label} htmlFor="terms_conditions">
               Syarat & Ketentuan
             </label>
             <TextArea
               className={styles.area}
-              id="syarat"
+              id="terms_conditions"
               onChange={onChangeState}
-              value={syarat}
+              value={terms_conditions}
               placeholder="Masukkan Keterangan..."
             />
           </div>
@@ -192,13 +208,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             <label className={styles.label} htmlFor="kode">
               Kode Promo
             </label>
-            <Input
-              type="text"
-              id="kode"
-              placeholder=""
-              // value={username}
-              // onChange={onChangeState}
-            />
+            <SelectAll address={`${REACT_APP_ENV}/admin/vouchers`} handleChange={onChangeVoucher} />
           </div>
         </div>
         <div className={styles.box10}>

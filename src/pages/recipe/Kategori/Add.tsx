@@ -10,7 +10,7 @@ interface Props {
 }
 
 const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton }) => {
-  const [image, setFileImg] = useState('');
+  const [image, setFileImg] = useState([]);
   const [name, setName] = useState('');
 
   const [isDisabled, setDisabled] = useState(false);
@@ -19,14 +19,14 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
     if (!name) {
       return setDisabled(true);
     }
-    if (!image) {
+    if (!image.length) {
       return setDisabled(true);
     }
     return setDisabled(false);
   }, [name, image]);
 
   const onChangeImage = (file: any) => {
-    setFileImg(file);
+    setFileImg((state) => [...state, file]);
     return false;
   };
 
@@ -37,22 +37,28 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
   };
 
   const onRemoveImage = () => {
-    setFileImg('');
+    setFileImg([]);
   };
 
   const onClearState = () => {
     setName('');
-    setFileImg('');
+    onRemoveImage();
   };
 
   const DataJSON = {
     name,
-    image,
+    image: image[0],
   };
 
   const createKategori = () => {
+    const formData = new FormData();
+
+    for (let [key, value] of Object.entries(DataJSON)) {
+      formData.append(key, value);
+    }
+
     onCreate({
-      formData: DataJSON,
+      formData,
       clear: onClearState,
     });
   };

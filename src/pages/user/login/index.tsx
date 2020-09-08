@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import request from 'umi-request';
+import axios from 'axios';
 import { Redirect } from 'umi';
-import Cookie from 'js-cookie';
 import { setAuthority } from '@/utils/authority';
 import styles from './style.less';
 
@@ -39,19 +38,19 @@ const Login: React.FC = (props) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-
     try {
-      const postRequest = await request.post(`${REACT_APP_ENV}/login/admin`, {
-        data: JSON.stringify({ email, password }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const postRequest = await axios({
+        method: 'post',
+        baseURL: `${REACT_APP_ENV}/login`,
+        data: { email, password },
+        withCredentials: true,
       });
+      const result = await postRequest.data;
       setLoading(false);
-      setAuthority(postRequest.data.role);
-      localStorage.setItem('name', postRequest.data.name);
-      Cookie.set('token', postRequest.access_token);
+      setAuthority(result.data.role);
+      localStorage.setItem('name', result.data.name);
       setLogin(true);
+      return result;
     } catch (error) {
       console.log(error);
       setLogin(false);

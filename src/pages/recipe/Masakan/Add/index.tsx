@@ -9,15 +9,57 @@ import SelectKesulitan from '@/components/Select/SelectKesulitan';
 import SelectJenisMakanan from '@/components/Select/SelectJenisMakanan';
 import KategoriComponent from './Kategori';
 
+import useCreate from '@/hooks/useCreateForm';
+
+export interface Resep {
+  formData: any;
+  clear: () => void;
+}
+
 interface Props {}
+
+const initialState = {
+  name: '',
+  author: '',
+  video: '',
+  production_time: '',
+  portion_min: '',
+  portion_max: '',
+  difficulty: '',
+};
 
 const AddComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
 
+  const [image, setFileImg] = useState([]);
+
   const [valueBahan, setValueBahan] = useState('');
   const [valueMasak, setValueMasak] = useState('');
 
+  const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
+
   const handleVisibleKategori = () => setVisible(!visible);
+
+  const onChangeImage = (file: any) => {
+    setFileImg((state) => [...state, file]);
+    return false;
+  };
+
+  const onRemoveImage = () => {
+    setFileImg([]);
+  };
+
+  const createResep = ({ formData, clear }: Resep) => {
+    postCreate(`${REACT_APP_ENV}/admin/recipes`, formData, clear);
+  };
+
+  // const updateResep = ({ json }: any) => {
+  //   postUpdate(`${REACT_APP_ENV}/admin/recipes/${id_update}`, json);
+  // };
+
+  const deleteResep = (id: string) => {
+    postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
+  };
 
   return (
     <div>
@@ -141,11 +183,24 @@ const AddComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="gambar">
                 Gambar
               </label>
-              <Upload name="avatar" listType="picture-card">
-                <div className={styles.group}>
-                  <PlusOutlined />
-                </div>
-              </Upload>
+              <div>
+                <Upload
+                  name="avatar"
+                  listType="picture"
+                  onRemove={onRemoveImage}
+                  beforeUpload={onChangeImage}
+                >
+                  <Button
+                    className={styles.button}
+                    id="gambar"
+                    type="primary"
+                    disabled={Boolean(image.length)}
+                  >
+                    Upload
+                    <PlusOutlined />
+                  </Button>
+                </Upload>
+              </div>
             </div>
           </div>
           <div className={styles.box10}>

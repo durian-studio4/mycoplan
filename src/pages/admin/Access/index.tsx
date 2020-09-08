@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
 
@@ -14,11 +14,20 @@ export interface Admin {
 }
 
 interface Props {}
-
+// /master/admins/
 const AdminAksesComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
 
+  const [data_admin, status_admin, loading_admin, error_admin, fetchAdmin] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      fetchAdmin(`${REACT_APP_ENV}/master/admins`);
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update]);
 
   const handleVisible = () => setVisible(!visible);
 
@@ -35,7 +44,7 @@ const AdminAksesComponent: React.FC<Props> = () => {
   // };
 
   const deleteAdmin = (id: string) => {
-    postDelete(`${REACT_APP_ENV}/register/admin/${id}`);
+    postDelete(`${REACT_APP_ENV}/master/admins/${id}`);
   };
 
   return (
@@ -59,13 +68,21 @@ const AdminAksesComponent: React.FC<Props> = () => {
             </Button>
           </div>
         </Row>
-        <TableComponent />
-        <AddComponent
-          visible={visible}
-          onCreate={createAdmin}
-          onCancel={handleVisible}
-          onLoadButton={Boolean(loading_update)}
+        <TableComponent
+          data={data_admin}
+          loading={Boolean(loading_admin)}
+          status={Number(status_admin)}
+          error={error_admin}
+          onDelete={deleteAdmin}
         />
+        {visible ? (
+          <AddComponent
+            visible={visible}
+            onCreate={createAdmin}
+            onCancel={handleVisible}
+            onLoadButton={Boolean(loading_update)}
+          />
+        ) : null}
       </Card>
     </div>
   );

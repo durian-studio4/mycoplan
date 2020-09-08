@@ -33,7 +33,7 @@ const SelectPromoComponent: React.FC<Props> = ({ initial, handleChange }) => {
       {data &&
         data.map((data) => {
           return (
-            <Option key={data.id} id={data.id} value={data.value}>
+            <Option key={data.value} id={data.id} value={data.value}>
               {data.value}
             </Option>
           );

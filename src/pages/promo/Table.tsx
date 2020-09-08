@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
+import { format } from 'date-fns';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
@@ -28,58 +29,84 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        dataIndex: 'id',
+        key: 'id',
+      },
+      {
+        align: 'center',
+        title: 'Nama',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'center',
         title: 'Kategori',
+        dataIndex: 'category',
+        key: 'category',
       },
       {
         align: 'center',
         title: 'Kode Promo',
+        dataIndex: 'code',
+        key: 'code',
       },
       {
         align: 'center',
         title: 'Diskon (%)',
+        dataIndex: 'discount',
+        key: 'discount',
       },
       {
         align: 'center',
         title: 'Maks. Diskon (Rp)',
+        dataIndex: 'max_discount',
+        key: 'max_discount',
       },
       {
         align: 'center',
         title: 'Min Belanja (Rp)',
+        dataIndex: 'min_purchase',
+        key: 'min_purchase',
       },
       {
         align: 'center',
         title: 'Waktu Mulai',
+        dataIndex: 'start',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
       {
         align: 'center',
         title: 'Waktu Akhir',
+        dataIndex: 'end',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
       {
         align: 'center',
         title: 'Limit Pengguna',
+        dataIndex: 'user_limit',
+        key: 'user_limit',
       },
       {
         align: 'center',
         title: 'Maks. Penukaran',
+        dataIndex: 'quantity',
+        key: 'quantity',
       },
       {
         align: 'center',
         title: 'Sudah Ditukar',
+        dataIndex: 'used',
+        key: 'used',
       },
-      {
-        align: 'center',
-        title: 'Total Ditukar (Rp)',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Total Ditukar (Rp)',
+      // },
       {
         align: 'center',
         title: 'Status',
+        dataIndex: 'status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Non-Active</p>),
       },
       {
         align: 'center',

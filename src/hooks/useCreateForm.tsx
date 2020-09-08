@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import request from 'umi-request';
+import axios from 'axios';
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -8,19 +8,19 @@ function App() {
   const handlePost = async (url: string, data: any, clearState: () => void) => {
     setLoading(true);
     try {
-      const posting = await request.post(url, {
+      const posting = await axios({
+        method: 'post',
+        baseURL: url,
         data,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { 'Content-Type': 'multipart/form-data', Accept: 'application/json' },
+        withCredentials: true,
       });
-      const result = await posting;
+      const result = await posting.data;
       setLoading(false);
       setRerender(Date.now());
       clearState();
       return result;
     } catch (error) {
-      console.log(error, 'error');
       console.log(error.response, 'error');
       setLoading(false);
     }
@@ -29,13 +29,16 @@ function App() {
   const handleUpdate = async (url: string, data: any) => {
     setLoading(true);
     try {
-      const posting = await request.post(url, {
+      const posting = await axios({
+        method: 'put',
+        baseURL: url,
         data,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       });
-      const result = await posting;
+      const result = await posting.data;
       setLoading(false);
       setRerender(Date.now());
       return result;
@@ -49,12 +52,12 @@ function App() {
   const handleDelete = async (url: string) => {
     setLoading(true);
     try {
-      const posting = await request.delete(url, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const posting = await axios({
+        method: 'delete',
+        baseURL: url,
+        withCredentials: true,
       });
-      const result = await posting;
+      const result = await posting.data;
       setLoading(false);
       setRerender(Date.now());
       return result;

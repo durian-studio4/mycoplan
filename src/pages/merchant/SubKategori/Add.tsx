@@ -1,12 +1,37 @@
-import React from 'react';
-import { Card, Row, Input, Button, Col, Divider } from 'antd';
+import React, { useState } from 'react';
+import { Card, Row, Input, Button } from 'antd';
 import styles from './index.less';
 
 import SelectAll from '@/components/Select/SelectAll';
 
-interface Props {}
+import useSelect from '@/hooks/useSelect';
 
-const MerchantKategoriAddComponent: React.FC<Props> = () => {
+import { Kategori } from './index';
+
+interface Props {
+  onCreate: ({ json, clear }: Kategori) => void;
+  onLoadButton: boolean;
+}
+
+const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton }) => {
+  const [name, setName] = useState('');
+
+  const [id_product_category, onChangeCategories, onClearCategories] = useSelect('0');
+
+  const onChangeState = (e: { target: HTMLInputElement }) => setName(e.target.value);
+
+  const onClearState = () => {
+    setName('');
+    onClearCategories();
+  };
+
+  const createUnit = () => {
+    onCreate({
+      json: { name, id_product_category },
+      clear: onClearState,
+    });
+  };
+
   return (
     <div style={{ margin: '1em 0px' }}>
       <Card>
@@ -18,11 +43,21 @@ const MerchantKategoriAddComponent: React.FC<Props> = () => {
             </div>
             <br />
             <div className={styles.box3}>
-              <Input className={styles.input} placeholder="Ikan" />
+              <Input
+                className={styles.input}
+                placeholder="Nama"
+                value={name}
+                onChange={onChangeState}
+              />
             </div>
           </div>
         </Row>
-        <Button className={styles.button} type="primary">
+        <Button
+          className={styles.button}
+          type="primary"
+          disabled={onLoadButton}
+          onClick={createUnit}
+        >
           Simpan
         </Button>
       </Card>

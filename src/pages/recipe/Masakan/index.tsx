@@ -22,6 +22,18 @@ const RecipeMasakanComponent: React.FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
 
+  // const createResep = ({ formData, clear }: Resep) => {
+  //   postCreate(`${REACT_APP_ENV}/admin/recipes`, formData, clear);
+  // };
+
+  // const updateResep = ({ json }: any) => {
+  //   postUpdate(`${REACT_APP_ENV}/admin/recipes/${id_update}`, json);
+  // };
+
+  // const deleteResep = (id: string) => {
+  //   postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
+  // };
+
   return (
     <div>
       <p className={styles.title}>Resep Masakan</p>

@@ -6,7 +6,6 @@ import { history, ConnectProps, connect } from 'umi';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
 import HeaderDropdown from '../HeaderDropdown';
-import Cookie from 'js-cookie';
 import request from 'umi-request';
 import styles from './index.less';
 
@@ -28,7 +27,6 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
           .then((res) => console.log(res))
           .catch((err) => console.log(err));
         localStorage.clear();
-        Cookie.remove('token');
         dispatch({
           type: 'login/logout',
         });
