@@ -4,6 +4,7 @@ import styles from './index.less';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
+import UpdateComponent from './Update';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreateForm';
@@ -17,6 +18,8 @@ interface Props {}
 
 const ManagementBannerComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
+  const [visible_update, setVisibleUpdate] = useState(false);
+  const [id_update, setIdUpdate] = useState('');
 
   const [data_banner, status_banner, loading_banner, error_banner, fetchBanner] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
@@ -31,19 +34,31 @@ const ManagementBannerComponent: React.FC<Props> = () => {
 
   const handleVisible = () => setVisible(!visible);
 
+  const handleVisibleUpdate = (id: string) => {
+    setIdUpdate(id);
+    setVisibleUpdate(true);
+  };
+
+  const handleVisibleUpdateCancel = () => {
+    setIdUpdate('');
+    setVisibleUpdate(false);
+  };
+
   const createBanner = ({ formData, clear }: Banner) => {
     postCreate(`${REACT_APP_ENV}/admin/banners`, formData, clear);
   };
 
-  // const updateBanner = ({ json }: any) => {
-  //   postUpdate(`${REACT_APP_ENV}/admin/vouchers/${id_update}`, json);
-  // };
+  const updateBanner = ({ json }: any) => {
+    postUpdate(`${REACT_APP_ENV}/admin/banners/${id_update}`, json);
+  };
+
+  const onClear = () => console.log('deactivated');
 
   const deactiveBanner = (id: string) => {
     const formData = new FormData();
     formData.append('status', 'inactive');
 
-    postCreate(`${REACT_APP_ENV}/admin/banners/${id}?_method=put`, formData);
+    postCreate(`${REACT_APP_ENV}/admin/banners/${id}?_method=put`, formData, onClear);
   };
 
   const deleteBanner = (id: string) => {
@@ -76,6 +91,7 @@ const ManagementBannerComponent: React.FC<Props> = () => {
           loading={Boolean(loading_banner)}
           status={Number(status_banner)}
           error={error_banner}
+          visibleUpdate={handleVisibleUpdate}
           onDelete={deleteBanner}
           onDeactive={deactiveBanner}
         />
@@ -85,6 +101,16 @@ const ManagementBannerComponent: React.FC<Props> = () => {
             visible={visible}
             onCreate={createBanner}
             onCancel={handleVisible}
+            onLoadButton={Boolean(loading_update)}
+          />
+        ) : null}
+
+        {visible_update ? (
+          <UpdateComponent
+            visible={visible_update}
+            id={id_update}
+            onUpdate={updateBanner}
+            onCancel={handleVisibleUpdateCancel}
             onLoadButton={Boolean(loading_update)}
           />
         ) : null}

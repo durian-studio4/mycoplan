@@ -24,6 +24,14 @@ const PromoComponent: React.FC<Props> = () => {
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      fetchList(`${REACT_APP_ENV}/admin/vouchers/`);
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update]);
+
   const handleVisible = () => setVisible(!visible);
 
   const handleVisibleUpdate = (id: string) => {
@@ -35,14 +43,6 @@ const PromoComponent: React.FC<Props> = () => {
     setIdUpdate('');
     setVisibleUpdate(false);
   };
-
-  useEffect(() => {
-    const timeOut = setTimeout(() => {
-      fetchList(`${REACT_APP_ENV}/admin/vouchers/`);
-    }, 0);
-    return () => clearTimeout(timeOut);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status_update]);
 
   const createPromo = ({ json, clear }: Promo) => {
     postCreate(`${REACT_APP_ENV}/admin/vouchers`, json, clear);

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Row, Input, Button, DatePicker } from 'antd';
+import { Modal, Row, Input, Button, DatePicker, Upload } from 'antd';
 import { format } from 'date-fns';
+import { PlusOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 
-import SelectPromo from '@/components/Select/SelectPromo';
+import SelectBannerTipe from '@/components/Select/SelectBannerTipe';
+import SelectAll from '@/components/Select/SelectAll';
 
 import useSelect from '@/hooks/useSelect';
 import useFetch from '@/hooks/useFetch';
 
 import PageError from '@/components/PageError';
 import PageLoading from '@/components/PageLoading';
-
-const { TextArea } = Input;
 
 interface Props {
   visible: boolean;
@@ -21,30 +21,52 @@ interface Props {
   onLoadButton: boolean;
 }
 
-const initialState = {};
+const { TextArea } = Input;
 
 const initialDate = format(new Date(), 'yyyy-MM-dd');
 
+const initialState = {
+  title: '',
+  description: '',
+  terms_conditions: '',
+};
+
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
-  const [{}, setState] = useState(initialState);
+  const [{ description, terms_conditions, title }, setState] = useState(initialState);
   const [isDisabled, setDisabled] = useState(false);
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
 
+  const [file_img, setFileImg] = useState([]);
+
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
+
+  const [banner_type, onChangeBannerType, onClearBannerType] = useSelect('0');
+  const [id_voucher, onChangeVoucher, onClearVoucher] = useSelect('');
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      // fetchUpdate(`${REACT_APP_ENV}/admin/vouchers/${id}`);
+      fetchUpdate(`${REACT_APP_ENV}/admin/banners/${id}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    const timeOut = setTimeout(() => {}, 100);
-    return () => clearTimeout(timeOut);
-  }, [data_update]);
+    if (!terms_conditions) {
+      return setDisabled(true);
+    }
+    if (!title) {
+      return setDisabled(true);
+    }
+    if (!description) {
+      return setDisabled(true);
+    }
+    if (!id_voucher) {
+      return setDisabled(true);
+    }
+    return setDisabled(false);
+  }, [id_voucher, terms_conditions, title, description]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -69,9 +91,27 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     setFileImg([]);
   };
 
-  const onClearState = () => {};
+  const onClearState = () => {
+    setState({ ...initialState });
+    setStart(initialDate);
+    setEnd(initialDate);
+    setFileImg([]);
+    onClearBannerType();
+    onClearVoucher();
+    onCancel();
+  };
 
-  const DataJSON = {};
+  const DataJSON = {
+    id_voucher: String(id_voucher),
+    title,
+    description,
+    terms_conditions,
+    start,
+    end,
+    image: file_img[0],
+    banner_type: String(banner_type),
+    status: 'active',
+  };
 
   const updatePromo = () => {
     onUpdate({

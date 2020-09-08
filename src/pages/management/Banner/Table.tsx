@@ -10,6 +10,7 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
+  visibleUpdate: (id: string) => void;
   onDelete: (id: string) => void;
   onDeactive: (id: string) => void;
 }
@@ -19,6 +20,7 @@ const TableComponent: React.FC<Props> = ({
   loading,
   status,
   error,
+  visibleUpdate,
   onDelete,
   onDeactive,
 }) => {
@@ -34,6 +36,11 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Gambar',
+        width: 200,
+        render: (props) => (
+          <img alt={`gambar_banner-${props.id}`} width="100%" height="20%" src={props.image} />
+        ),
+        key: 'image',
       },
       {
         align: 'center',
@@ -87,7 +94,7 @@ const TableComponent: React.FC<Props> = ({
             <Button
               className={styles.button_edit}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => visibleUpdate(props.id)}
               type="primary"
             >
               Edit
