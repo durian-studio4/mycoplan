@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
 import { NavLink } from 'umi';
+import { format } from 'date-fns';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
@@ -21,26 +22,32 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
         title: 'Nama',
-        dataIndex: 'nama',
-        key: 'nama',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'left',
         title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
       },
       {
         align: 'center',
         title: 'Peran',
+        dataIndex: 'role',
+        key: 'role',
       },
       {
         align: 'center',
         title: 'Tanggal Dimasukkan',
+        dataIndex: 'created_at',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
       // {
       //   align: 'center',
@@ -92,7 +99,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data.data} loading={loading} />;
+  return <Table columns={columns} dataSource={data} loading={loading} />;
 };
 
 export default TableComponent;
