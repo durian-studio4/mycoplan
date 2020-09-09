@@ -11,6 +11,7 @@ function App() {
       const posting = await axios({
         method: 'post',
         baseURL: url,
+        headers: { 'content-type': 'application/json' },
         data,
         withCredentials: true,
       });
@@ -32,6 +33,7 @@ function App() {
       const posting = await axios({
         method: 'put',
         baseURL: url,
+        headers: { 'content-type': 'application/json' },
         data,
         withCredentials: true,
       });
