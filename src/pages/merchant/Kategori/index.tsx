@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
+import UpdateComponent from './Update';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreateForm';
@@ -16,6 +17,9 @@ export interface Kategori {
 interface Props {}
 
 const MerchantKategoriComponent: React.FC<Props> = () => {
+  const [visible_update, setVisibleUpdate] = useState(false);
+  const [id_update, setIdUpdate] = useState('');
+
   const [data_resep, status_resep, loading_resep, error_resep, fetchResep] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
@@ -27,13 +31,23 @@ const MerchantKategoriComponent: React.FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
 
+  const handleVisibleUpdate = (id: string) => {
+    setIdUpdate(id);
+    setVisibleUpdate(true);
+  };
+
+  const handleVisibleUpdateCancel = () => {
+    setIdUpdate('');
+    setVisibleUpdate(false);
+  };
+
   const createKategori = ({ formData, clear }: Kategori) => {
     postCreate(`${REACT_APP_ENV}/admin/product/categories`, formData, clear);
   };
 
-  // const updatePromo = ({ json }: any) => {
-  //   postUpdate(`${REACT_APP_ENV}/admin/product/categories/${id_update}`, json);
-  // };
+  const updateKategori = ({ json }: any) => {
+    postUpdate(`${REACT_APP_ENV}/admin/product/categories/${id_update}`, json);
+  };
 
   const deleteKategori = (id: string) => {
     postDelete(`${REACT_APP_ENV}/admin/product/categories/${id}`);
@@ -63,9 +77,19 @@ const MerchantKategoriComponent: React.FC<Props> = () => {
           loading={Boolean(loading_resep)}
           status={Number(status_resep)}
           error={error_resep}
+          visibleUpdate={handleVisibleUpdate}
           onDelete={deleteKategori}
         />
       </Card>
+      {visible_update ? (
+        <UpdateComponent
+          visible={visible_update}
+          id={id_update}
+          onCancel={handleVisibleUpdateCancel}
+          onUpdate={updateKategori}
+          onLoadButton={Boolean(loading_update)}
+        />
+      ) : null}
     </div>
   );
 };

@@ -1,52 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Row, Input, Upload, Button } from 'antd';
-import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
+import SelectKategori from '@/components/Select/SelectKategori';
+
 import useFetch from '@/hooks/useFetch';
+import useSelect from '@/hooks/useSelect';
 
 import PageError from '@/components/PageError';
 import PageLoading from '@/components/PageLoading';
-
-import { Kategori } from './index';
 
 interface Props {
   visible: boolean;
   id: string;
   onCancel: () => void;
-  onUpdate: ({ formData, clear }: Kategori) => void;
+  onUpdate: ({ formData }: any) => void;
   onLoadButton: boolean;
 }
 
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
-  const [image, setFileImg] = useState([]);
   const [name, setName] = useState('');
+
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
-  const [clear, setClear] = useState([]);
+  const [id_product, onChangeProduct, onClearProduct] = useSelect(data_update.id_product_category);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchUpdate(`${REACT_APP_ENV}/admin/recipe/categories/${id}`);
+      fetchUpdate(`${REACT_APP_ENV}/admin/product/subcategories/${id}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    const data_name = data_update.name;
-    const data_img = data_update.image;
     if (data_update) {
-      setName(data_name);
-      setFileImg([data_img]);
-      setClear([data_img]);
+      setName(data_update.name);
     }
   }, [data_update]);
-
-  const onChangeImage = (file: any) => {
-    setFileImg((state) => [...state, file]);
-    return false;
-  };
 
   const onChangeState = (e: any) => {
     const { value } = e.target;
@@ -54,20 +45,15 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     setName(value);
   };
 
-  const onRemoveImage = () => {
-    setFileImg([]);
-    setClear([]);
-  };
-
   const onClearState = () => {
     setName('');
-    onRemoveImage();
+    onClearProduct();
     onCancel();
   };
 
   const DataJSON = {
     name,
-    image: image[0],
+    id_product_category: String(id_product),
   };
 
   const updateKategori = () => {
@@ -77,7 +63,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     }
     onUpdate({
       formData: formData,
-      clear: onClearState,
     });
     onClearState();
   };
@@ -91,6 +76,14 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
         <div className={styles.modal_body}>
           <div className={styles.box10}>
             <div className={styles.group}>
+              <SelectKategori
+                handleChange={onChangeProduct}
+                // initial={data_update.merchant && data_update.merchant.name}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
               <Input
                 className={styles.input}
                 placeholder="Nama Kategori Resep"
@@ -99,38 +92,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               />
             </div>
           </div>
-          <div className={styles.box5}>
-            <Row>
-              <div className={styles.group}>
-                <Upload
-                  name="avatar"
-                  listType="picture"
-                  onRemove={onRemoveImage}
-                  beforeUpload={onChangeImage}
-                >
-                  <Button className={styles.button} type="primary" disabled={Boolean(image.length)}>
-                    Upload
-                    <PlusOutlined />
-                  </Button>
-                </Upload>
-              </div>
-              {Boolean(clear.length) ? (
-                <div className={styles.group}>
-                  <Button className={styles.button} onClick={onRemoveImage} type="primary">
-                    Clear
-                    <MinusOutlined />
-                  </Button>
-                </div>
-              ) : null}
-            </Row>
-          </div>
-          {Boolean(clear.length) ? (
-            <div className={styles.box10}>
-              <div className={styles.group}>
-                <img alt="category-image" src={data_update.image} width="100%" height="50%" />
-              </div>
-            </div>
-          ) : null}
         </div>
       )}
       <Row justify="end">
@@ -147,7 +108,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
         <Button
           className={styles.button}
           onClick={updateKategori}
-          disabled={!name || !image.length || onLoadButton}
+          disabled={!name || !id_product || onLoadButton}
           type="primary"
         >
           Simpan

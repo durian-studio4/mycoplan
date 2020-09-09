@@ -9,10 +9,18 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
+  visibleUpdate: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
-const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelete }) => {
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  visibleUpdate,
+  onDelete,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
   const columns = useMemo(
@@ -20,28 +28,31 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
         title: 'Sub Kategori Produk',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'center',
         title: 'Action',
+        width: 200,
         render: (props: any) => (
           <Row justify="space-around">
             <Button
-              className={styles.button}
+              className={styles.button_edit}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => visibleUpdate(props.id)}
               type="primary"
             >
               Edit
             </Button>
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               onClick={() => onDelete(props.id)}
               type="primary"
@@ -57,10 +68,10 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
     [],
   );
 
-  if (error) {
-    return <PageError status={status} />;
+  if (error || status !== 200) {
+    return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data.data} loading={loading} />;
+  return <Table columns={columns} dataSource={data} loading={loading} />;
 };
 export default TableComponent;

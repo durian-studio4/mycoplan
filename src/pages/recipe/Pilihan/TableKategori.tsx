@@ -27,7 +27,9 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
       {
         align: 'center',
         title: 'Gambar',
-        render: (props) => <img alt={`gambar_kategori-${props.id}`} src={props.image} />,
+        render: (props) => (
+          <img alt={`gambar_kategori-${props.id}`} width="30%" height="20%" src={props.image} />
+        ),
         key: 'gambar',
       },
       {
@@ -39,6 +41,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
       {
         align: 'center',
         title: 'Action',
+        width: 200,
         render: (props: any) => (
           <Row justify="space-around">
             <Button
@@ -65,7 +68,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
   return (
     <Card>
       <p className={styles.title}>Kategori Resep Pilihan</p>
-      <Table columns={columns} dataSource={data.data} loading={loading} />
+      <Table columns={columns} dataSource={data} loading={loading} />
 
       <Button className={styles.button_add}>
         <NavLink to="/recipe/kategori">+ Tambah Kategori Pilihan</NavLink>

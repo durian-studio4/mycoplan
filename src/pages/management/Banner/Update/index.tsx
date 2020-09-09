@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Row, Input, Button, DatePicker, Upload } from 'antd';
+import moment from 'moment';
 import { format } from 'date-fns';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 
 import SelectBannerTipe from '@/components/Select/SelectBannerTipe';
@@ -38,11 +39,12 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   const [end, setEnd] = useState(initialDate);
 
   const [file_img, setFileImg] = useState([]);
+  const [clear, setClear] = useState([]);
 
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
-  const [banner_type, onChangeBannerType, onClearBannerType] = useSelect('0');
-  const [id_voucher, onChangeVoucher, onClearVoucher] = useSelect('');
+  const [banner_type, onChangeBannerType, onClearBannerType] = useSelect(data_update.banner_type);
+  const [id_voucher, onChangeVoucher, onClearVoucher] = useSelect(data_update.id_voucher);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -51,6 +53,20 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (data_update) {
+      setState({
+        title: data_update.title,
+        description: data_update.description,
+        terms_conditions: data_update.terms_conditions,
+      });
+      setStart(data_update.start);
+      setEnd(data_update.end);
+      setFileImg([data_update.image]);
+      setClear([data_update.image]);
+    }
+  }, [data_update]);
 
   useEffect(() => {
     if (!terms_conditions) {
@@ -65,8 +81,11 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     if (!id_voucher) {
       return setDisabled(true);
     }
+    if (!file_img.length) {
+      return setDisabled(true);
+    }
     return setDisabled(false);
-  }, [id_voucher, terms_conditions, title, description]);
+  }, [id_voucher, terms_conditions, file_img, title, description]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -89,6 +108,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
 
   const onRemoveImage = (e: any) => {
     setFileImg([]);
+    setClear([]);
   };
 
   const onClearState = () => {
@@ -163,6 +183,24 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                     <PlusOutlined />
                   </Button>
                 </Upload>
+                {Boolean(clear.length) ? (
+                  <>
+                    <Button className={styles.button} onClick={onRemoveImage} type="primary">
+                      Clear
+                      <MinusOutlined />
+                    </Button>
+                    <div className={styles.box10}>
+                      <div className={styles.group}>
+                        <img
+                          alt="category-image"
+                          src={data_update.image}
+                          width="100%"
+                          height="50%"
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : null}
               </div>
             </div>
           </div>
@@ -185,7 +223,10 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               <label className={styles.label}>Waktu Mulai</label>
               <Row>
                 <div className={styles.box3}>
-                  <DatePicker onChange={onChangeStart} />
+                  <DatePicker
+                    onChange={onChangeStart}
+                    defaultValue={moment(new Date(start), 'yyyy-MM-dd')}
+                  />
                 </div>
               </Row>
             </div>
@@ -195,7 +236,10 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               <label className={styles.label}>Waktu Akhir</label>
               <Row>
                 <div className={styles.box3}>
-                  <DatePicker onChange={onChangeEnd} />
+                  <DatePicker
+                    onChange={onChangeEnd}
+                    defaultValue={moment(new Date(end), 'yyyy-MM-dd')}
+                  />
                 </div>
               </Row>
             </div>
@@ -221,6 +265,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               </label>
               <SelectAll
                 address={`${REACT_APP_ENV}/admin/vouchers`}
+                initial={data_update.voucher && data_update.voucher.name}
                 handleChange={onChangeVoucher}
               />
             </div>
@@ -230,7 +275,10 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               <label className={styles.label} htmlFor="tipe">
                 Tipe Banner
               </label>
-              <SelectBannerTipe initial="Gambar Saja" handleChange={onChangeBannerType} />
+              <SelectBannerTipe
+                initial={data_update.banner_type === 'gambar' ? 'Gambar Saja' : 'Gambar & Detail'}
+                handleChange={onChangeBannerType}
+              />
             </div>
           </div>
         </div>

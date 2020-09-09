@@ -13,10 +13,12 @@ const SelectBannerTipeComponent: React.FC<Props> = ({ initial, handleChange }) =
     {
       id: 0,
       value: 'Gambar Saja',
+      data: 'gambar',
     },
     {
       id: 1,
       value: 'Gambar & Detail',
+      data: 'gambar_detail',
     },
   ];
 
@@ -33,7 +35,7 @@ const SelectBannerTipeComponent: React.FC<Props> = ({ initial, handleChange }) =
       {data &&
         data.map((data) => {
           return (
-            <Option key={data.id} id={data.id} value={data.value}>
+            <Option key={data.data} id={data.id} value={data.value}>
               {data.value}
             </Option>
           );

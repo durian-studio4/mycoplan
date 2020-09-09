@@ -35,7 +35,7 @@ const TableComponent: React.FC<Props> = ({
         align: 'center',
         title: 'Gambar',
         render: (props) => (
-          <img alt={`gambar_kategori-${props.id}`} width="10%" height="10%" src={props.image} />
+          <img alt={`gambar_kategori-${props.id}`} width="30%" height="20%" src={props.image} />
         ),
         key: 'gambar',
       },
@@ -51,7 +51,7 @@ const TableComponent: React.FC<Props> = ({
         render: (props: any) => (
           <Row justify="space-around">
             <Button
-              className={styles.button}
+              className={styles.button_edit}
               id={props.id}
               onClick={() => visibleUpdate(props.id)}
               type="primary"
@@ -59,7 +59,7 @@ const TableComponent: React.FC<Props> = ({
               Edit
             </Button>
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               onClick={() => onDelete(props.id)}
               type="primary"

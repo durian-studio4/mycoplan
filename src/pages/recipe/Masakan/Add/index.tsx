@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Input, Button, Row, Upload } from 'antd';
 import { PlusOutlined, DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
@@ -10,11 +10,7 @@ import SelectJenisMakanan from '@/components/Select/SelectJenisMakanan';
 import KategoriComponent from './Kategori';
 
 import useCreate from '@/hooks/useCreateForm';
-
-export interface Resep {
-  formData: any;
-  clear: () => void;
-}
+import useSelect from '@/hooks/useSelect';
 
 interface Props {}
 
@@ -25,20 +21,63 @@ const initialState = {
   production_time: '',
   portion_min: '',
   portion_max: '',
-  difficulty: '',
 };
 
 const AddComponent: React.FC<Props> = () => {
+  const [{ name, author, video, production_time, portion_max, portion_min }, setState] = useState(
+    initialState,
+  );
   const [visible, setVisible] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const [image, setFileImg] = useState([]);
 
-  const [valueBahan, setValueBahan] = useState('');
-  const [valueMasak, setValueMasak] = useState('');
+  const [ingredients, setIngredients] = useState('');
+  const [steps, setSteps] = useState('');
 
-  const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
+  const [difficulty, onChangeDifficult, onClearDifficult] = useSelect('0');
+  const [id_recipe_type, onChangeRecipeType, onClearRecipeType] = useSelect('1');
+
+  const [loading_update, status_update, postCreate] = useCreate();
+
+  useEffect(() => {
+    if (!name) {
+      return setDisabled(true);
+    }
+    if (!author) {
+      return setDisabled(true);
+    }
+    if (!video) {
+      return setDisabled(true);
+    }
+    if (!production_time) {
+      return setDisabled(true);
+    }
+    if (!portion_min) {
+      return setDisabled(true);
+    }
+    if (!portion_max) {
+      return setDisabled(true);
+    }
+    if (!ingredients) {
+      return setDisabled(true);
+    }
+    if (!steps) {
+      return setDisabled(true);
+    }
+    if (!image.length) {
+      return setDisabled(true);
+    }
+    return setDisabled(false);
+  }, [name, author, video, production_time, portion_min, portion_max, ingredients, steps, image]);
 
   const handleVisibleKategori = () => setVisible(!visible);
+
+  const onChangeState = (e: any) => {
+    const { id, value } = e.target;
+
+    setState((state) => ({ ...state, [id]: value }));
+  };
 
   const onChangeImage = (file: any) => {
     setFileImg((state) => [...state, file]);
@@ -49,17 +88,47 @@ const AddComponent: React.FC<Props> = () => {
     setFileImg([]);
   };
 
-  const createResep = ({ formData, clear }: Resep) => {
-    postCreate(`${REACT_APP_ENV}/admin/recipes`, formData, clear);
+  const onClearState = () => {
+    setState({ ...initialState });
+    setFileImg([]);
+    setIngredients('');
+    setSteps('');
+    onClearDifficult();
+    onClearRecipeType();
+  };
+
+  const DataJSON = {
+    name,
+    author,
+    video,
+    production_time,
+    portion_max,
+    portion_min,
+    images: image[0],
+    ingredients,
+    steps,
+    difficulty: String(difficulty),
+    id_recipe_type: String(id_recipe_type),
+    status: 'active',
+  };
+
+  const createResep = () => {
+    const formData = new FormData();
+
+    for (let [key, value] of Object.entries(DataJSON)) {
+      formData.append(key, value);
+    }
+
+    postCreate(`${REACT_APP_ENV}/admin/recipes`, formData, onClearState);
   };
 
   // const updateResep = ({ json }: any) => {
   //   postUpdate(`${REACT_APP_ENV}/admin/recipes/${id_update}`, json);
   // };
 
-  const deleteResep = (id: string) => {
-    postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
-  };
+  // const deleteResep = (id: string) => {
+  //   postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
+  // };
 
   return (
     <div>
@@ -68,103 +137,107 @@ const AddComponent: React.FC<Props> = () => {
         <Row>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label} htmlFor="name_recipe">
+              <label className={styles.label} htmlFor="name">
                 Nama Resep
               </label>
               <Input
                 className={styles.input}
                 type="text"
-                id="name_recipe"
+                id="name"
                 placeholder=""
-                // value={name}
-                // onChange={handleChangeState}
+                value={name}
+                onChange={onChangeState}
               />
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label} htmlFor="pembuat">
+              <label className={styles.label} htmlFor="author">
                 Pembuat
               </label>
               <Input
                 type="text"
-                id="pembuat"
+                id="author"
                 placeholder=""
-                // value={name}
-                // onChange={handleChangeState}
+                value={author}
+                onChange={onChangeState}
               />
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label}>Bahan</label>
-              <ReactQuill theme="snow" value={valueBahan} onChange={setValueBahan} />
+              <label className={styles.label} htmlFor="bahan">
+                Bahan
+              </label>
+              <ReactQuill theme="snow" id="bahan" value={ingredients} onChange={setIngredients} />
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label}>Cara Masak</label>
-              <ReactQuill theme="snow" value={valueMasak} onChange={setValueMasak} />
+              <label className={styles.label} htmlFor="step">
+                Cara Masak
+              </label>
+              <ReactQuill theme="snow" id="step" value={steps} onChange={setSteps} />
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label} htmlFor="link">
+              <label className={styles.label} htmlFor="video">
                 Link Youtube
               </label>
-              <Input
-                type="text"
-                id="link"
-                placeholder=""
-                // value={name}
-                // onChange={handleChangeState}
-              />
+              <Input type="text" id="video" placeholder="" value={video} onChange={onChangeState} />
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label} htmlFor="duration">
+              <label className={styles.label} htmlFor="production_time">
                 Durasi Masak
               </label>
               <Input
                 addonAfter="Menit"
-                id="duration"
+                id="production_time"
                 placeholder="0"
-                // value={qty}
-                // onChange={onChangeQty}
+                value={production_time}
+                onChange={onChangeState}
               />
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label} htmlFor="porsi">
+              <label className={styles.label} htmlFor="portion_min">
                 Porsi
               </label>
               <Row>
                 <div className={styles.box_porsi_left}>
-                  <Input addonAfter="Orang" />
+                  <Input
+                    addonAfter="Orang"
+                    id="portion_min"
+                    value={portion_min}
+                    onChange={onChangeState}
+                  />
                 </div>
                 <ArrowRightOutlined />
                 <div className={styles.box_porsi_right}>
-                  <Input addonAfter="Orang" />
+                  <Input
+                    addonAfter="Orang"
+                    id="portion_max"
+                    value={portion_max}
+                    onChange={onChangeState}
+                  />
                 </div>
               </Row>
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label} htmlFor="kesulitan">
-                Kesulitan
-              </label>
-              <SelectKesulitan />
+              <label className={styles.label}>Kesulitan</label>
+              <SelectKesulitan handleChange={onChangeDifficult} initial="mudah" />
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label} htmlFor="jenis">
-                Jenis Makanan
-              </label>
-              <SelectJenisMakanan />
+              <label className={styles.label}>Jenis Makanan</label>
+              <SelectJenisMakanan handleChange={onChangeRecipeType} initial="Menu Utama" />
             </div>
           </div>
           <div className={styles.box10}>
@@ -174,7 +247,9 @@ const AddComponent: React.FC<Props> = () => {
                 <Button onClick={handleVisibleKategori}>
                   <PlusOutlined />
                 </Button>
-                <KategoriComponent visible={visible} onCancel={handleVisibleKategori} />
+                {visible ? (
+                  <KategoriComponent visible={visible} onCancel={handleVisibleKategori} />
+                ) : null}
               </div>
             </div>
           </div>
@@ -244,7 +319,12 @@ const AddComponent: React.FC<Props> = () => {
             </Button>
           </div>
         </Row>
-        <Button className={styles.button} type="primary">
+        <Button
+          className={styles.button}
+          disabled={disabled || Boolean(loading_update)}
+          onClick={createResep}
+          type="primary"
+        >
           Simpan
         </Button>
       </Card>

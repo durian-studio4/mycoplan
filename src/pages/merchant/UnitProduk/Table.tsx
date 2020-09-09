@@ -44,7 +44,7 @@ const TableComponent: React.FC<Props> = ({
         render: (props: any) => (
           <Row justify="center">
             <Button
-              className={styles.button}
+              className={styles.button_edit}
               id={props.id}
               onClick={() => visibleUpdate(props.id)}
               type="primary"
@@ -52,7 +52,7 @@ const TableComponent: React.FC<Props> = ({
               Edit
             </Button>
             <Button
-              className={styles.button}
+              className={styles.button_action}
               id={props.id}
               onClick={() => onDelete(props.id)}
               type="primary"

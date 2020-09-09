@@ -36,7 +36,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
 
   const [file_img, setFileImg] = useState([]);
 
-  const [banner_type, onChangeBannerType, onClearBannerType] = useSelect('0');
+  const [banner_type, onChangeBannerType, onClearBannerType] = useSelect('gambar');
   const [id_voucher, onChangeVoucher, onClearVoucher] = useSelect('');
 
   useEffect(() => {

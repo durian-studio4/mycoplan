@@ -10,7 +10,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const SelectJenisComponent: React.FC<Props> = ({ initial, disabled, handleChange }) => {
+const SelectMerchant: React.FC<Props> = ({ initial, disabled, handleChange }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -26,7 +26,7 @@ const SelectJenisComponent: React.FC<Props> = ({ initial, disabled, handleChange
     try {
       const wait = await axios({
         method: 'get',
-        baseURL: `${REACT_APP_ENV}/admin/recipe/types`,
+        baseURL: `${REACT_APP_ENV}/admin/merchants`,
         withCredentials: true,
       });
       const json = await wait.data;
@@ -42,7 +42,7 @@ const SelectJenisComponent: React.FC<Props> = ({ initial, disabled, handleChange
   return (
     <Select
       labelInValue
-      defaultValue={{ key: initial || 'Mohon Pilih Jenis Makanan' }}
+      defaultValue={{ key: initial || 'Mohon Pilih Merchant' }}
       style={{
         width: '100%',
         minHeight: '2em',
@@ -63,4 +63,4 @@ const SelectJenisComponent: React.FC<Props> = ({ initial, disabled, handleChange
   );
 };
 
-export default SelectJenisComponent;
+export default SelectMerchant;

@@ -12,7 +12,7 @@ function App() {
         method: 'post',
         baseURL: url,
         data,
-        headers: { 'Content-Type': 'multipart/form-data', Accept: 'application/json' },
+        headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
       });
       const result = await posting.data;

@@ -3,9 +3,13 @@ import { Card, Row, Upload, Input, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
-import { Kategori } from './index';
-
 import PageLoading from '@/components/PageLoading';
+
+import SelectMerchant from '@/components/Select/SelectMerchant';
+
+import useSelect from '@/hooks/useSelect';
+
+import { Kategori } from './index';
 interface Props {
   onCreate: ({ formData, clear }: Kategori) => void;
   onLoadButton: boolean;
@@ -13,12 +17,13 @@ interface Props {
 
 const initialState = {
   name: '',
-  id_merchant: '',
 };
 
 const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton }) => {
   const [image, setFileImg] = useState([]);
-  const [{ name, id_merchant }, setState] = useState(initialState);
+  const [{ name }, setState] = useState(initialState);
+
+  const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect('');
 
   const [isDisabled, setDisabled] = useState(false);
 
@@ -51,12 +56,13 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
 
   const onClearState = () => {
     setState({ ...initialState });
+    onClearMerchant();
     setFileImg([]);
   };
 
   const DataJSON = {
     name,
-    id_merchant,
+    id_merchant: String(id_merchant),
     image: image[0],
   };
 
@@ -107,13 +113,7 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
             </div>
             <div className={styles.box3}>
               <div className={styles.group}>
-                <Input
-                  id="id_merchant"
-                  className={styles.input}
-                  placeholder="ID Merchant"
-                  value={id_merchant}
-                  onChange={onChangeState}
-                />
+                <SelectMerchant handleChange={onChangeMerchant} />
               </div>
             </div>
           </Row>

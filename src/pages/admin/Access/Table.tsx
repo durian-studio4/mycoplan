@@ -73,11 +73,11 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
         width: 150,
         render: (props: any) => (
           <Row justify="center">
-            <Button type="primary" className={styles.button_action}>
+            {/* <Button type="primary" className={styles.button_action}>
               <NavLink to={`/admin/edit/${props.id}`} id={props.id}>
                 Edit
               </NavLink>
-            </Button>
+            </Button> */}
             <Button
               className={styles.button_action}
               id={props.id}

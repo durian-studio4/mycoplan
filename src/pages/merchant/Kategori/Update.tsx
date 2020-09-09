@@ -3,31 +3,35 @@ import { Modal, Row, Input, Upload, Button } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
+import SelectMerchant from '@/components/Select/SelectMerchant';
+
 import useFetch from '@/hooks/useFetch';
+import useSelect from '@/hooks/useSelect';
 
 import PageError from '@/components/PageError';
 import PageLoading from '@/components/PageLoading';
-
-import { Kategori } from './index';
 
 interface Props {
   visible: boolean;
   id: string;
   onCancel: () => void;
-  onUpdate: ({ formData, clear }: Kategori) => void;
+  onUpdate: ({ formData }: any) => void;
   onLoadButton: boolean;
 }
 
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
   const [image, setFileImg] = useState([]);
   const [name, setName] = useState('');
+
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
+
+  const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect(data_update.id_merchant);
 
   const [clear, setClear] = useState([]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchUpdate(`${REACT_APP_ENV}/admin/recipe/categories/${id}`);
+      fetchUpdate(`${REACT_APP_ENV}/admin/product/categories/${id}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,11 +66,13 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   const onClearState = () => {
     setName('');
     onRemoveImage();
+    onClearMerchant();
     onCancel();
   };
 
   const DataJSON = {
     name,
+    id_merchant: String(id_merchant),
     image: image[0],
   };
 
@@ -77,7 +83,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     }
     onUpdate({
       formData: formData,
-      clear: onClearState,
     });
     onClearState();
   };
@@ -96,6 +101,14 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 placeholder="Nama Kategori Resep"
                 value={name}
                 onChange={onChangeState}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <SelectMerchant
+                handleChange={onChangeMerchant}
+                initial={data_update.merchant && data_update.merchant.name}
               />
             </div>
           </div>

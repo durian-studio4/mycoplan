@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
+import UpdateComponent from './Update';
 
-import SelectAll from '@/components/Select/SelectAll';
+import SelectKategori from '@/components/Select/SelectKategori';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
@@ -18,6 +19,9 @@ export interface Kategori {
 interface Props {}
 
 const MerchantSubKategoriComponent: React.FC<Props> = () => {
+  const [visible_update, setVisibleUpdate] = useState(false);
+  const [id_update, setIdUpdate] = useState('');
+
   const [
     data_kategori,
     status_kategori,
@@ -36,13 +40,23 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
 
+  const handleVisibleUpdate = (id: string) => {
+    setIdUpdate(id);
+    setVisibleUpdate(true);
+  };
+
+  const handleVisibleUpdateCancel = () => {
+    setIdUpdate('');
+    setVisibleUpdate(false);
+  };
+
   const createKategori = ({ json, clear }: Kategori) => {
     postCreate(`${REACT_APP_ENV}/admin/product/subcategories`, json, clear);
   };
 
-  // const updateKategori = ({ json }: any) => {
-  //   postUpdate(`${REACT_APP_ENV}/admin/product/subcategories/${id_update}`, json);
-  // };
+  const updateKategori = ({ json }: any) => {
+    postUpdate(`${REACT_APP_ENV}/admin/product/subcategories/${id_update}`, json);
+  };
 
   const deleteKategori = (id: string) => {
     postDelete(`${REACT_APP_ENV}/admin/product/subcategories/${id}`);
@@ -56,7 +70,7 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
         <p className={styles.title}>Sub Kategori</p>
         <Row style={{ marginBottom: '1em' }}>
           <div className={styles.box3} style={{ margin: '5px' }}>
-            <SelectAll initial="Daging" />
+            <SelectKategori />
           </div>
           <Input
             className={styles.input_search}
@@ -73,9 +87,19 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
           loading={Boolean(loading_kategori)}
           status={Number(status_kategori)}
           error={error_kategori}
+          visibleUpdate={handleVisibleUpdate}
           onDelete={deleteKategori}
         />
       </Card>
+      {visible_update ? (
+        <UpdateComponent
+          visible={visible_update}
+          id={id_update}
+          onCancel={handleVisibleUpdateCancel}
+          onUpdate={updateKategori}
+          onLoadButton={Boolean(loading_update)}
+        />
+      ) : null}
     </div>
   );
 };
