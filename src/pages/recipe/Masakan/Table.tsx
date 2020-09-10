@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
+import { format } from 'date-fns';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
@@ -9,11 +10,21 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
+  onLoadButton: boolean;
+  onDeactive: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  onLoadButton,
+  onDeactive,
+  onDelete,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
-
   const columns = useMemo(
     () => [
       {
@@ -37,18 +48,26 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
       {
         align: 'center',
         title: 'Nama Resep',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'center',
         title: 'Pembuat',
+        dataIndex: 'author',
+        key: 'author',
       },
       {
         align: 'center',
         title: 'Link Youtube',
+        dataIndex: 'video',
+        key: 'video',
       },
       {
         align: 'center',
         title: 'Durasi Masak',
+        dataIndex: 'production_time',
+        key: 'production_time',
       },
       {
         align: 'center',
@@ -57,6 +76,8 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
       {
         align: 'center',
         title: 'Kesulitan',
+        dataIndex: 'difficulty',
+        key: 'difficulty',
       },
       {
         align: 'center',
@@ -69,24 +90,26 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
       {
         align: 'center',
         title: 'Tanggal Dimasukkan',
+        dataIndex: 'created_at',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
       {
         align: 'center',
         title: 'Status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Non-Active</p>),
+        dataIndex: 'status',
       },
       {
         align: 'center',
         title: 'Action',
         fixed: 'right',
-        width: 140,
+        width: 200,
         render: (props: any) => (
           <Row justify="center">
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => onDeactive(props.id)}
               type="primary"
             >
               Deactivate
@@ -94,7 +117,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => remove(props.id)}
+              onClick={() => onDelete(props.id)}
               type="primary"
               danger
             >
@@ -111,7 +134,14 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
   if (error || status !== 200) {
     return <PageError />;
   }
-  return <Table columns={columns} dataSource={data.data} loading={loading} scroll={{ x: 1300 }} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      loading={loading || onLoadButton}
+      scroll={{ x: 1300 }}
+    />
+  );
 };
 
 export default TableComponent;

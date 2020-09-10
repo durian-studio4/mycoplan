@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Card, Input, Button, Row, Upload, Tag } from 'antd';
+import { history } from 'umi';
 import { PlusOutlined, DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
 import styles from '../index.less';
@@ -35,15 +36,13 @@ const AddComponent: React.FC<Props> = () => {
 
   const [supermarket, setSupermarket] = useState([
     {
-      name: '',
+      id_merchant: '',
+      name_merchant: '',
       produk: [
         {
-          value: '',
-        },
-      ],
-      jumlah: [
-        {
-          value: '',
+          id_product: '',
+          name_product: '',
+          qty: '',
         },
       ],
     },
@@ -55,7 +54,7 @@ const AddComponent: React.FC<Props> = () => {
   const [ingredients, setIngredients] = useState('');
   const [steps, setSteps] = useState('');
 
-  const [difficulty, onChangeDifficult, onClearDifficult] = useSelect('0');
+  const [difficulty, onChangeDifficult, onClearDifficult] = useSelect('mudah');
   const [id_recipe_type, onChangeRecipeType, onClearRecipeType] = useSelect('1');
 
   const [loading_update, status_update, postCreate] = useCreate();
@@ -108,15 +107,13 @@ const AddComponent: React.FC<Props> = () => {
     setSupermarket((state) => [
       ...state,
       {
-        name: '',
+        id_merchant: '',
+        name_merchant: '',
         produk: [
           {
-            value: '',
-          },
-        ],
-        jumlah: [
-          {
-            value: '',
+            id_product: '',
+            name_product: '',
+            qty: '',
           },
         ],
       },
@@ -125,8 +122,11 @@ const AddComponent: React.FC<Props> = () => {
 
   const onAddProduct = (e: any, i: number) => {
     const state = [...supermarket];
-    state[i].produk.push({ value: '' });
-    state[i].jumlah.push({ value: '' });
+    state[i].produk.push({
+      id_product: '',
+      name_product: '',
+      qty: '',
+    });
     setSupermarket(state);
   };
 
@@ -139,29 +139,28 @@ const AddComponent: React.FC<Props> = () => {
   const onRemoveProduct = (e: any, i: number, indexProduk: number) => {
     const state = [...supermarket];
     state[i].produk.splice(indexProduk, 1);
-    state[i].jumlah.splice(indexProduk, 1);
     setSupermarket(state);
   };
 
-  const onChangeName = (e: any, i: number) => {
-    const { value } = e.target;
+  const onChangeName = (value: any, option: any, i: number) => {
     const state = [...supermarket];
-    state[i].name = value;
-    setState(state);
+    state[i].id_merchant = option.id;
+    state[i].name_merchant = option.value;
+    setSupermarket(state);
   };
 
-  const onChangeProduct = (e: any, i: number, indexProduct: number) => {
-    const { value } = e.target;
+  const onChangeProduct = (value: any, option: any, i: number, indexProduct: number) => {
     const state = [...supermarket];
-    state[i].produk[indexProduct].value = value;
-    setState(state);
+    state[i].produk[indexProduct].id_product = option.id;
+    state[i].produk[indexProduct].name_product = option.value;
+    setSupermarket(state);
   };
 
-  const onChangeJumlah = (e: any, i: number, indexJumlah: number) => {
+  const onChangeJumlah = (e: any, i: number, indexProduct: number) => {
     const { value } = e.target;
     const state = [...supermarket];
-    state[i].jumlah[indexJumlah].value = value;
-    setState(state);
+    state[i].produk[indexProduct].qty = value;
+    setSupermarket(state);
   };
 
   const onRemoveImage = () => {
@@ -175,6 +174,7 @@ const AddComponent: React.FC<Props> = () => {
     setSteps('');
     onClearDifficult();
     onClearRecipeType();
+    history.push('/recipe/masakan');
   };
 
   const DataJSON = {
@@ -187,8 +187,10 @@ const AddComponent: React.FC<Props> = () => {
     images: image[0],
     ingredients,
     steps,
+    supermarkets: JSON.stringify(supermarket),
     difficulty: String(difficulty),
     id_recipe_type: String(id_recipe_type),
+    id_recipe_categories: JSON.stringify(categories),
     status: 'active',
   };
 
@@ -201,14 +203,6 @@ const AddComponent: React.FC<Props> = () => {
 
     postCreate(`${REACT_APP_ENV}/admin/recipes`, formData, onClearState);
   };
-
-  // const updateResep = ({ json }: any) => {
-  //   postUpdate(`${REACT_APP_ENV}/admin/recipes/${id_update}`, json);
-  // };
-
-  // const deleteResep = (id: string) => {
-  //   postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
-  // };
 
   return (
     <div>
@@ -371,15 +365,14 @@ const AddComponent: React.FC<Props> = () => {
             </Button>
           </div>
         </Row>
-        {supermarket.map(({ name, produk, jumlah }, i) => (
+        {supermarket.map(({ produk }, i) => (
           <Fragment key={i}>
             <Row style={{ marginTop: '1em' }}>
               <div className={styles.box1}>
                 <label htmlFor="supermarket">Supermarket {i + 1}</label>
               </div>
               <div className={styles.box4}>
-                {/* <Input id="supermarket" value={name} onChange={(e) => onChangeName(e, i)} /> */}
-                <SelectMerchant />
+                <SelectMerchant handleChange={(v: any, o: any) => onChangeName(v, o, i)} />
               </div>
               <div className={styles.box1}>
                 <Button
@@ -393,70 +386,65 @@ const AddComponent: React.FC<Props> = () => {
               </div>
             </Row>
             <Row>
-              <div className={styles.box4}>
-                <Row style={{ marginTop: '1em' }}>
-                  {produk.map((data, indexProduk) => (
-                    <Fragment>
-                      <div className={styles.box4} style={{ marginTop: '10px' }}>
-                        <label htmlFor="produk">Produk {indexProduk + 1}</label>
+              {produk.map((data, indexProduk) => (
+                <Fragment key={indexProduk}>
+                  <div className={styles.box4}>
+                    <Row style={{ marginTop: '1em' }}>
+                      <Fragment>
+                        <div className={styles.box4} style={{ marginTop: '10px' }}>
+                          <label htmlFor="produk">Produk {indexProduk + 1}</label>
+                        </div>
+                        <div className={styles.box4} style={{ marginTop: '10px' }}>
+                          <SelectProduk
+                            handleChange={(v: any, o: any) => onChangeProduct(v, o, i, indexProduk)}
+                          />
+                        </div>
+                      </Fragment>
+                    </Row>
+                  </div>
+                  <div className={styles.box4}>
+                    <Row style={{ marginTop: '1em' }}>
+                      <Fragment>
+                        <div
+                          className={styles.box4}
+                          style={{ textAlign: 'center', marginTop: '10px' }}
+                        >
+                          <label htmlFor="produk">Jumlah</label>
+                        </div>
+                        <div className={styles.box4} style={{ marginTop: '10px' }}>
+                          <Input
+                            id="produk"
+                            value={data.qty}
+                            onChange={(e) => onChangeJumlah(e, i, indexProduk)}
+                          />
+                        </div>
+                      </Fragment>
+                    </Row>
+                  </div>
+                  <div className={styles.box2}>
+                    <Row style={{ marginTop: '1em' }}>
+                      <div className={styles.box10} key={indexProduk} style={{ marginTop: '10px' }}>
+                        <Button
+                          className={styles.button_delete}
+                          onClick={(e) => onRemoveProduct(e, i, indexProduk)}
+                          disabled={Boolean(!indexProduk)}
+                          type="primary"
+                          danger
+                        >
+                          <DeleteOutlined />
+                        </Button>
+                        <Button
+                          className={styles.button_add}
+                          onClick={(e) => onAddProduct(e, i)}
+                          type="primary"
+                        >
+                          <PlusOutlined />
+                        </Button>
                       </div>
-                      <div className={styles.box4} style={{ marginTop: '10px' }}>
-                        {/* <Input
-                          id="produk"
-                          value={data.value}
-                          onChange={(e) => onChangeProduct(e, i, indexProduk)}
-                        /> */}
-                        <SelectProduk />
-                      </div>
-                    </Fragment>
-                  ))}
-                </Row>
-              </div>
-              <div className={styles.box4}>
-                <Row style={{ marginTop: '1em' }}>
-                  {jumlah.map((data, indexJumlah) => (
-                    <Fragment>
-                      <div
-                        className={styles.box4}
-                        style={{ textAlign: 'center', marginTop: '10px' }}
-                      >
-                        <label htmlFor="produk">Jumlah</label>
-                      </div>
-                      <div className={styles.box4} style={{ marginTop: '10px' }}>
-                        <Input
-                          id="produk"
-                          value={data.value}
-                          onChange={(e) => onChangeJumlah(e, i, indexJumlah)}
-                        />
-                      </div>
-                    </Fragment>
-                  ))}
-                </Row>
-              </div>
-              <div className={styles.box2}>
-                <Row style={{ marginTop: '1em' }}>
-                  {produk.map((data, indexProduk) => (
-                    <div className={styles.box10} key={indexProduk} style={{ marginTop: '10px' }}>
-                      <Button
-                        className={styles.button_delete}
-                        onClick={(e) => onRemoveProduct(e, i, indexProduk)}
-                        disabled={Boolean(!indexProduk)}
-                        type="primary"
-                        danger
-                      >
-                        <DeleteOutlined />
-                      </Button>
-                      <Button
-                        className={styles.button_add}
-                        onClick={(e) => onAddProduct(e, i)}
-                        type="primary"
-                      >
-                        <PlusOutlined />
-                      </Button>
-                    </div>
-                  ))}
-                </Row>
-              </div>
+                    </Row>
+                  </div>
+                </Fragment>
+              ))}
             </Row>
           </Fragment>
         ))}

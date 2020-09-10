@@ -22,17 +22,13 @@ const RecipeMasakanComponent: React.FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
 
-  // const createResep = ({ formData, clear }: Resep) => {
-  //   postCreate(`${REACT_APP_ENV}/admin/recipes`, formData, clear);
-  // };
+  const deactiveResep = (id: string) => {
+    postUpdate(`${REACT_APP_ENV}/admin/recipes/${id}`, { status: 'inactive' });
+  };
 
-  // const updateResep = ({ json }: any) => {
-  //   postUpdate(`${REACT_APP_ENV}/admin/recipes/${id_update}`, json);
-  // };
-
-  // const deleteResep = (id: string) => {
-  //   postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
-  // };
+  const deleteResep = (id: string) => {
+    postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
+  };
 
   return (
     <div>
@@ -62,6 +58,9 @@ const RecipeMasakanComponent: React.FC<Props> = () => {
           loading={Boolean(loading_resep)}
           status={Number(status_resep)}
           error={error_resep}
+          onLoadButton={Boolean(loading_update)}
+          onDelete={deleteResep}
+          onDeactive={deactiveResep}
         />
       </Card>
     </div>
