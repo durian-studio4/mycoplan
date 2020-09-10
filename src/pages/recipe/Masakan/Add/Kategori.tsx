@@ -1,25 +1,18 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
 import { Modal, Row, Input, Button, Table } from 'antd';
 import styles from '../index.less';
 
 interface Props {
   visible: boolean;
+  onSet: Dispatch<SetStateAction<never[]>>;
   onCancel: () => void;
 }
 
-const rowSelection = {
-  onChange: (selectedRowKeys: any, selectedRows: any) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-  getCheckboxProps: (record: any) => ({
-    name: record.name,
-  }),
-};
-
-const KategoriComponent: React.FC<Props> = ({ visible, onCancel }) => {
+const KategoriComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [kategori, setKategori] = useState([]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -46,6 +39,21 @@ const KategoriComponent: React.FC<Props> = ({ visible, onCancel }) => {
     }
   };
 
+  const onSave = () => {
+    onSet(kategori);
+    onCancel();
+  };
+
+  const rowSelection = {
+    onChange: (selectedRowKeys: any, selectedRows: any) => {
+      console.log('selected', selectedRows);
+      setKategori(selectedRows);
+    },
+    getCheckboxProps: (record: any) => ({
+      name: record.name,
+    }),
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -63,6 +71,7 @@ const KategoriComponent: React.FC<Props> = ({ visible, onCancel }) => {
   for (let key in data) {
     data_array.push({
       key: data[key].id,
+      id: data[key].id,
       name: data[key].name,
     });
   }
@@ -94,7 +103,7 @@ const KategoriComponent: React.FC<Props> = ({ visible, onCancel }) => {
         </Button>
         <Button
           className={styles.button}
-          // onClick={createKaryawan}
+          onClick={onSave}
           // disabled={isDisabled || onLoadButton}
           type="primary"
         >

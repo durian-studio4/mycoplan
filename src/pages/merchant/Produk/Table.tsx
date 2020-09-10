@@ -3,32 +3,30 @@ import { Table, Row, Button } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
 
-interface Props {}
+import PageError from '@/components/PageError';
+interface Props {
+  data: any;
+  loading: boolean;
+  status: number;
+  error: any;
+}
 
-const TableComponent: React.FC<Props> = () => {
+const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
   // const [getColumnSearchProps] = useFilterColumn();
-
-  const data = [
-    {
-      no: 1,
-      id: 123,
-      nama_merchant: 'imam ramadhan',
-    },
-  ];
 
   const columns = useMemo(
     () => [
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
         title: 'ID Merchant',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'id_merchant',
+        key: 'id_merchant',
       },
       {
         align: 'center',
@@ -39,6 +37,8 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Jumlah Produk',
+        dataIndex: 'quantity',
+        key: 'quantity',
       },
       {
         align: 'center',
@@ -61,11 +61,11 @@ const TableComponent: React.FC<Props> = () => {
     [],
   );
 
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
+  if (error || status !== 200) {
+    return <PageError />;
+  }
 
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={data} loading={loading} />;
 };
 
 export default TableComponent;

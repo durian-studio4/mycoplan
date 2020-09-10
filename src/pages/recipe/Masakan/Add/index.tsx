@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Input, Button, Row, Upload } from 'antd';
+import React, { useState, useEffect, Fragment } from 'react';
+import { Card, Input, Button, Row, Upload, Tag } from 'antd';
 import { PlusOutlined, DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
 import styles from '../index.less';
@@ -7,6 +7,9 @@ import 'react-quill/dist/quill.snow.css';
 
 import SelectKesulitan from '@/components/Select/SelectKesulitan';
 import SelectJenisMakanan from '@/components/Select/SelectJenisMakanan';
+import SelectMerchant from '@/components/Select/SelectMerchant';
+import SelectProduk from '@/components/Select/SelectProduk';
+
 import KategoriComponent from './Kategori';
 
 import useCreate from '@/hooks/useCreateForm';
@@ -30,7 +33,24 @@ const AddComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
+  const [supermarket, setSupermarket] = useState([
+    {
+      name: '',
+      produk: [
+        {
+          value: '',
+        },
+      ],
+      jumlah: [
+        {
+          value: '',
+        },
+      ],
+    },
+  ]);
+
   const [image, setFileImg] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [ingredients, setIngredients] = useState('');
   const [steps, setSteps] = useState('');
@@ -82,6 +102,66 @@ const AddComponent: React.FC<Props> = () => {
   const onChangeImage = (file: any) => {
     setFileImg((state) => [...state, file]);
     return false;
+  };
+
+  const onAddSupermarket = () => {
+    setSupermarket((state) => [
+      ...state,
+      {
+        name: '',
+        produk: [
+          {
+            value: '',
+          },
+        ],
+        jumlah: [
+          {
+            value: '',
+          },
+        ],
+      },
+    ]);
+  };
+
+  const onAddProduct = (e: any, i: number) => {
+    const state = [...supermarket];
+    state[i].produk.push({ value: '' });
+    state[i].jumlah.push({ value: '' });
+    setSupermarket(state);
+  };
+
+  const onRemoveSupermarket = (e: any, i: number) => {
+    const state = [...supermarket];
+    state.splice(i, 1);
+    setSupermarket(state);
+  };
+
+  const onRemoveProduct = (e: any, i: number, indexProduk: number) => {
+    const state = [...supermarket];
+    state[i].produk.splice(indexProduk, 1);
+    state[i].jumlah.splice(indexProduk, 1);
+    setSupermarket(state);
+  };
+
+  const onChangeName = (e: any, i: number) => {
+    const { value } = e.target;
+    const state = [...supermarket];
+    state[i].name = value;
+    setState(state);
+  };
+
+  const onChangeProduct = (e: any, i: number, indexProduct: number) => {
+    const { value } = e.target;
+    const state = [...supermarket];
+    state[i].produk[indexProduct].value = value;
+    setState(state);
+  };
+
+  const onChangeJumlah = (e: any, i: number, indexJumlah: number) => {
+    const { value } = e.target;
+    const state = [...supermarket];
+    state[i].jumlah[indexJumlah].value = value;
+    setState(state);
   };
 
   const onRemoveImage = () => {
@@ -244,11 +324,18 @@ const AddComponent: React.FC<Props> = () => {
             <div className={styles.group}>
               <label className={styles.label}>Kategori Resep</label>
               <div>
+                {categories.map((data, i) => (
+                  <Tag key={i}>{data.name}</Tag>
+                ))}
                 <Button onClick={handleVisibleKategori}>
                   <PlusOutlined />
                 </Button>
                 {visible ? (
-                  <KategoriComponent visible={visible} onCancel={handleVisibleKategori} />
+                  <KategoriComponent
+                    visible={visible}
+                    onSet={setCategories}
+                    onCancel={handleVisibleKategori}
+                  />
                 ) : null}
               </div>
             </div>
@@ -279,46 +366,100 @@ const AddComponent: React.FC<Props> = () => {
             </div>
           </div>
           <div className={styles.box10}>
-            <Button className={styles.button_search} type="primary">
+            <Button className={styles.button_search} type="primary" onClick={onAddSupermarket}>
               + Tambah Supermarket
             </Button>
           </div>
         </Row>
-        <Row style={{ marginTop: '1em' }}>
-          <div className={styles.box1}>
-            <label htmlFor="supermarket">Supermarket 1</label>
-          </div>
-          <div className={styles.box4}>
-            <Input id="supermarket" />
-          </div>
-          <div className={styles.box1}>
-            <Button className={styles.button_delete} type="primary" danger>
-              <DeleteOutlined />
-            </Button>
-          </div>
-        </Row>
-        <Row style={{ marginTop: '1em' }}>
-          <div className={styles.box1}>
-            <label htmlFor="produk">Produk 1</label>
-          </div>
-          <div className={styles.box2}>
-            <Input id="produk" />
-          </div>
-          <div className={styles.box1} style={{ textAlign: 'center' }}>
-            <label htmlFor="produk">Jumlah</label>
-          </div>
-          <div className={styles.box1}>
-            <Input id="produk" />
-          </div>
-          <div className={styles.box1}>
-            <Button className={styles.button_delete} type="primary" danger>
-              <DeleteOutlined />
-            </Button>
-            <Button className={styles.button_add} type="primary">
-              <PlusOutlined />
-            </Button>
-          </div>
-        </Row>
+        {supermarket.map(({ name, produk, jumlah }, i) => (
+          <Fragment key={i}>
+            <Row style={{ marginTop: '1em' }}>
+              <div className={styles.box1}>
+                <label htmlFor="supermarket">Supermarket {i + 1}</label>
+              </div>
+              <div className={styles.box4}>
+                {/* <Input id="supermarket" value={name} onChange={(e) => onChangeName(e, i)} /> */}
+                <SelectMerchant />
+              </div>
+              <div className={styles.box1}>
+                <Button
+                  className={styles.button_delete}
+                  type="primary"
+                  danger
+                  onClick={(e) => onRemoveSupermarket(e, i)}
+                >
+                  <DeleteOutlined />
+                </Button>
+              </div>
+            </Row>
+            <Row>
+              <div className={styles.box4}>
+                <Row style={{ marginTop: '1em' }}>
+                  {produk.map((data, indexProduk) => (
+                    <Fragment>
+                      <div className={styles.box4} style={{ marginTop: '10px' }}>
+                        <label htmlFor="produk">Produk {indexProduk + 1}</label>
+                      </div>
+                      <div className={styles.box4} style={{ marginTop: '10px' }}>
+                        {/* <Input
+                          id="produk"
+                          value={data.value}
+                          onChange={(e) => onChangeProduct(e, i, indexProduk)}
+                        /> */}
+                        <SelectProduk />
+                      </div>
+                    </Fragment>
+                  ))}
+                </Row>
+              </div>
+              <div className={styles.box4}>
+                <Row style={{ marginTop: '1em' }}>
+                  {jumlah.map((data, indexJumlah) => (
+                    <Fragment>
+                      <div
+                        className={styles.box4}
+                        style={{ textAlign: 'center', marginTop: '10px' }}
+                      >
+                        <label htmlFor="produk">Jumlah</label>
+                      </div>
+                      <div className={styles.box4} style={{ marginTop: '10px' }}>
+                        <Input
+                          id="produk"
+                          value={data.value}
+                          onChange={(e) => onChangeJumlah(e, i, indexJumlah)}
+                        />
+                      </div>
+                    </Fragment>
+                  ))}
+                </Row>
+              </div>
+              <div className={styles.box2}>
+                <Row style={{ marginTop: '1em' }}>
+                  {produk.map((data, indexProduk) => (
+                    <div className={styles.box10} key={indexProduk} style={{ marginTop: '10px' }}>
+                      <Button
+                        className={styles.button_delete}
+                        onClick={(e) => onRemoveProduct(e, i, indexProduk)}
+                        disabled={Boolean(!indexProduk)}
+                        type="primary"
+                        danger
+                      >
+                        <DeleteOutlined />
+                      </Button>
+                      <Button
+                        className={styles.button_add}
+                        onClick={(e) => onAddProduct(e, i)}
+                        type="primary"
+                      >
+                        <PlusOutlined />
+                      </Button>
+                    </div>
+                  ))}
+                </Row>
+              </div>
+            </Row>
+          </Fragment>
+        ))}
         <Button
           className={styles.button}
           disabled={disabled || Boolean(loading_update)}

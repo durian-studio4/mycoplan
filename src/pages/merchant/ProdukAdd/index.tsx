@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Input, Button, Row, Upload, Tag } from 'antd';
+import { history } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
 import styles from './index.less';
@@ -7,9 +8,11 @@ import 'react-quill/dist/quill.snow.css';
 
 import SelectUnit from '@/components/Select/SelectUnit';
 import SelectKategori from '@/components/Select/SelectKategori';
-import SelectSubKategori from '@/components/Select/SelectSubKategori';
+import SelectMerchant from '@/components/Select/SelectMerchant';
+// import SelectSubKategori from '@/components/Select/SelectSubKategori';
 
 import useSelect from '@/hooks/useSelect';
+import useCreate from '@/hooks/useCreateForm';
 
 import KemasanComponent from './Kemasan';
 
@@ -25,15 +28,19 @@ const initialState = {
 
 const ProdukAddComponent: React.FC<Props> = () => {
   const [{ name, sku, quantity, price, discount }, setState] = useState(initialState);
-  const [image, setFileImg] = useState([]);
+  const [images, setFileImg] = useState([]);
+  const [other_packaging, setOtherPackaging] = useState([]);
 
   const [visible, setVisible] = useState(false);
 
-  const [valueDeskripsi, setValueDeskripsi] = useState('');
-  const [valueInformasi, setValueInformasi] = useState('');
+  const [description, setDescription] = useState('');
+  const [information, setInformation] = useState('');
 
-  const [categories, onChangeCategories, onClearCategories] = useSelect('0');
-  const [sub_categories, onChangeSubCategories, onClearSubCategories] = useSelect('0');
+  const [categories, onChangeCategories, onClearCategories] = useSelect('');
+  const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect('');
+  const [id_unit, onChangeUnit, onClearUnit] = useSelect('');
+
+  const [loading_update, status_update, postCreate] = useCreate();
 
   const handleVisible = () => setVisible(!visible);
 
@@ -55,11 +62,22 @@ const ProdukAddComponent: React.FC<Props> = () => {
   const onClearState = () => {
     setState({ ...initialState });
     setFileImg([]);
-    setValueDeskripsi('');
-    setValueInformasi('');
+    setDescription('');
+    setInformation('');
+    onClearMerchant();
     onClearCategories();
-    onClearSubCategories();
+    onClearUnit();
+    // onClearSubCategories();
+    history.push('/merchant/produk');
   };
+
+  let data_packaging = [];
+
+  for (let key in other_packaging) {
+    data_packaging.push({
+      id_product: other_packaging[key].id,
+    });
+  }
 
   const DataJSON = {
     name,
@@ -67,15 +85,38 @@ const ProdukAddComponent: React.FC<Props> = () => {
     quantity,
     price,
     discount,
-    image,
-    description: valueDeskripsi,
-    information: valueInformasi,
+    id_merchant: String(id_merchant),
+    id_unit: String(id_unit),
+    id_product_category: String(categories),
+    images: images[0],
+    other_packaging: JSON.stringify(data_packaging),
+    description,
+    information,
+    status: 'active',
+  };
+
+  const createProduk = () => {
+    const formData = new FormData();
+
+    for (let [key, value] of Object.entries(DataJSON)) {
+      formData.append(key, value);
+    }
+
+    postCreate(`${REACT_APP_ENV}/admin/products`, formData, onClearState);
   };
 
   return (
     <div>
       <p className={styles.title}>Tambah Produk</p>
       <Card>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="name">
+              Nama Merchant
+            </label>
+            <SelectMerchant handleChange={onChangeMerchant} />
+          </div>
+        </div>
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="name">
@@ -123,23 +164,10 @@ const ProdukAddComponent: React.FC<Props> = () => {
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="qty">
+            <label className={styles.label} htmlFor="quantity">
               Unit
             </label>
-            <Row>
-              <div className={styles.box_unit_left}>
-                <Input
-                  className={styles.input}
-                  id="qty"
-                  placeholder="0"
-                  // value={qty}
-                  // onChange={onChangeQty}
-                />
-              </div>
-              <div className={styles.box_unit_right}>
-                <SelectUnit />
-              </div>
-            </Row>
+            <SelectUnit handleChange={onChangeUnit} />
           </div>
         </div>
         <div className={styles.box10}>
@@ -177,7 +205,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="deskripsi">
               Deskripsi Produk
             </label>
-            <ReactQuill theme="snow" value={valueDeskripsi} onChange={setValueDeskripsi} />
+            <ReactQuill theme="snow" value={description} onChange={setDescription} />
           </div>
         </div>
         <div className={styles.box10}>
@@ -185,25 +213,21 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="informasi">
               Informasi Lain
             </label>
-            <ReactQuill theme="snow" value={valueInformasi} onChange={setValueInformasi} />
+            <ReactQuill theme="snow" value={information} onChange={setInformation} />
           </div>
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="kategori">
-              Kategori
-            </label>
-            <SelectKategori />
+            <label className={styles.label}>Kategori</label>
+            <SelectKategori handleChange={onChangeCategories} />
           </div>
         </div>
-        <div className={styles.box10}>
+        {/* <div className={styles.box10}>
           <div className={styles.group}>
-            <label className={styles.label} htmlFor="sub-kategori">
-              Sub Kategori
-            </label>
-            <SelectSubKategori />
+            <label className={styles.label}>Sub Kategori</label>
+            <SelectSubKategori handleChange={onChangeSubCategories} />
           </div>
-        </div>
+        </div> */}
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="gambar">
@@ -220,7 +244,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
                   className={styles.button}
                   type="primary"
                   id="gambar"
-                  disabled={Boolean(image.length)}
+                  disabled={Boolean(images.length)}
                 >
                   Upload
                   <PlusOutlined />
@@ -235,17 +259,27 @@ const ProdukAddComponent: React.FC<Props> = () => {
               Kemasan Lain (Opsional)
             </label>
             <div className={styles.group}>
+              {other_packaging.map((data) => (
+                <Tag>{data.name}</Tag>
+              ))}
               <Tag onClick={handleVisible}>
                 <PlusOutlined /> New Tag
               </Tag>
             </div>
           </div>
         </div>
-        <Button className={styles.button} type="primary">
+        <Button
+          className={styles.button}
+          onClick={createProduk}
+          disabled={Boolean(loading_update)}
+          type="primary"
+        >
           Simpan
         </Button>
       </Card>
-      {visible ? <KemasanComponent visible={visible} onCancel={handleVisible} /> : null}
+      {visible ? (
+        <KemasanComponent visible={visible} onSet={setOtherPackaging} onCancel={handleVisible} />
+      ) : null}
     </div>
   );
 };
