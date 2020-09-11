@@ -73,12 +73,14 @@ const TableComponent: React.FC<Props> = ({
         align: 'center',
         title: 'Maks. Diskon (Rp)',
         dataIndex: 'max_discount',
+        render: (props) => <p>{Number(props).toLocaleString()}</p>,
         key: 'max_discount',
       },
       {
         align: 'center',
         title: 'Min Belanja (Rp)',
         dataIndex: 'min_purchase',
+        render: (props) => <p>{Number(props).toLocaleString()}</p>,
         key: 'min_purchase',
       },
       {

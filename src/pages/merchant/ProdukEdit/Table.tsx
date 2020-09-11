@@ -2,9 +2,25 @@ import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
 import styles from './index.less';
 
-interface Props {}
+import PageError from '@/components/PageError';
 
-const TableComponent: React.FC<Props> = () => {
+interface Props {
+  data: any;
+  loading: boolean;
+  status: number;
+  error: any;
+  onDeactive: (id: string) => void;
+  onDelete: (id: string) => void;
+}
+
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  onDeactive,
+  onDelete,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
   const columns = useMemo(
@@ -12,14 +28,14 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'No',
-        dataIndex: 'no',
-        key: 'no',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
         title: 'ID Produk',
-        dataIndex: 'id',
-        key: 'id',
+        // dataIndex: 'id',
+        // key: 'id',
       },
       {
         align: 'center',
@@ -30,60 +46,62 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Stok',
-        dataIndex: 'stok',
-        key: 'stok',
+        dataIndex: 'quantity',
+        key: 'quantity',
       },
       {
         align: 'center',
         title: 'Nama Produk',
-        dataIndex: 'nama_produk',
-        key: 'nama_produk',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'center',
         title: 'Gambar',
-        dataIndex: 'gambar',
-        key: 'gambar',
+        // dataIndex: 'gambar',
+        // key: 'gambar',
       },
       {
         align: 'center',
         title: 'Harga (Rp.)',
-        dataIndex: 'harga',
-        key: 'harga',
+        dataIndex: 'price',
+        render: (props) => <p>{Number(props).toLocaleString()}</p>,
+        key: 'price',
       },
       {
         align: 'center',
         title: 'Unit',
-        dataIndex: 'unit',
-        key: 'unit',
+        // dataIndex: 'unit',
+        // key: 'unit',
       },
       {
         align: 'center',
         title: 'Kategori',
-        dataIndex: 'kategori',
-        key: 'kategori',
+        // dataIndex: 'kategori',
+        // key: 'kategori',
       },
-      {
-        align: 'center',
-        title: 'Sub Kategori',
-        dataIndex: 'sub_kategori',
-        key: 'sub_kategori',
-      },
-      {
-        align: 'center',
-        title: 'Terjual',
-        dataIndex: 'terjual',
-        key: 'terjual',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Sub Kategori',
+      //   dataIndex: 'sub_kategori',
+      //   key: 'sub_kategori',
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Terjual',
+      //   dataIndex: 'terjual',
+      //   key: 'terjual',
+      // },
       {
         align: 'center',
         title: 'Status',
+        dataIndex: 'status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Non-Active</p>),
       },
       {
         align: 'center',
         title: 'Action',
+        width: 200,
         render: (props: any) => (
           <Row justify="space-around">
             <Button
@@ -97,7 +115,7 @@ const TableComponent: React.FC<Props> = () => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => onDeactive(props.id)}
               type="primary"
             >
               Deactivate
@@ -105,7 +123,7 @@ const TableComponent: React.FC<Props> = () => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => remove(props.id)}
+              onClick={() => onDelete(props.id)}
               type="primary"
               danger
             >
@@ -119,11 +137,11 @@ const TableComponent: React.FC<Props> = () => {
     [],
   );
 
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
+  if (error || status !== 200) {
+    return <PageError />;
+  }
 
-  return <Table columns={columns} />;
+  return <Table columns={columns} dataSource={data.products} loading={loading} />;
 };
 
 export default TableComponent;

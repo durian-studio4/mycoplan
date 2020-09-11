@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
-import TableComponent from './Table';
 import styles from './index.less';
+
+import TableComponent from './Table';
+
+import useFetch from '@/hooks/useFetch';
 
 interface Props {}
 
 const PenggunaComponent: React.FC<Props> = () => {
+  const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      fetchList(`https://api.mycoplan.id/api/get-user`);
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <p className={styles.title}>Pengguna</p>
@@ -28,7 +41,12 @@ const PenggunaComponent: React.FC<Props> = () => {
             </Button>
           </div>
         </Row>
-        <TableComponent />
+        <TableComponent
+          data={data_list}
+          loading={Boolean(loading_list)}
+          status={Number(status_list)}
+          error={error_list}
+        />
       </Card>
     </div>
   );

@@ -2,19 +2,17 @@ import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
 import styles from './index.less';
 
-interface Props {}
+import PageError from '@/components/PageError';
 
-const TableComponent: React.FC<Props> = () => {
+interface Props {
+  data: any;
+  loading: boolean;
+  status: number;
+  error: any;
+}
+
+const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
   // const [getColumnSearchProps] = useFilterColumn();
-
-  const data = [
-    {
-      no: 1,
-      id: 1,
-      nama: 'test',
-      email: 'leikosuko@gmail.com',
-    },
-  ];
 
   const columns = useMemo(
     () => [
@@ -33,8 +31,8 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Nama',
-        dataIndex: 'nama',
-        key: 'nama',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'center',
@@ -45,36 +43,43 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'No. Telepon',
+        dataIndex: 'phone',
+        key: 'phone',
       },
       {
         align: 'center',
         title: 'Tanggal Lahir',
+        dataIndex: 'dob',
+        key: 'dob',
       },
-      {
-        align: 'center',
-        title: 'Usia',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Usia',
+      // },
       {
         align: 'center',
         title: 'Jenis Kelamin',
+        dataIndex: 'gender',
+        render: (props) => <p>{props === 'L' ? 'Laki-Laki' : 'Perempuan'}</p>,
+        key: 'gender',
       },
-      {
-        align: 'center',
-        title: 'Alamat Utama',
-      },
-      {
-        align: 'center',
-        title: 'Metode Sign In',
-      },
-      {
-        align: 'center',
-        title: 'Tanggal Terdaftar',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Alamat Utama',
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Metode Sign In',
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Tanggal Terdaftar',
+      // },
       {
         align: 'center',
         title: 'Status',
+        dataIndex: 'status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Non-Active</p>),
       },
       {
         align: 'center',
@@ -116,11 +121,13 @@ const TableComponent: React.FC<Props> = () => {
     [],
   );
 
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
+  if (error || status !== 200) {
+    return <PageError />;
+  }
 
-  return <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} />;
+  return (
+    <Table columns={columns} dataSource={data.vouchers} loading={loading} scroll={{ x: 1300 }} />
+  );
 };
 
 export default TableComponent;

@@ -1,19 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
-import { NavLink } from 'umi';
+import { NavLink, useParams } from 'umi';
 import styles from './index.less';
 
 import TableComponent from './Table';
 
+import useFetch from '@/hooks/useFetch';
+import useCreate from '@/hooks/useCreateForm';
+
 interface Props {}
 
 const MerchantProdukComponent: React.FC<Props> = () => {
+  const { id } = useParams();
+
+  const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
+  const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      fetchList(`${REACT_APP_ENV}/admin/merchants/${id}`);
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update]);
+
+  const consoleLog = () => console.log('inactive');
+
+  const deactiveProduk = (id: string) => {
+    const formData = new FormData();
+    formData.append('status', 'inactive');
+    postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
+  };
+
+  // const updatePromo = ({ formData, clear }: any) => {
+  //   postCreate(`${REACT_APP_ENV}/admin/merchants/${id_update}?_method=put`, formData, clear);
+  // };
+
+  const deleteProduk = (id: string) => {
+    postDelete(`${REACT_APP_ENV}/admin/merchants/${id}`);
+  };
+
   return (
     <div>
-      <p className={styles.title}>Lotte Mart Kelapa Gading</p>
+      <p className={styles.title}>{data_list.name}</p>
       <Card>
         <Row justify="space-between">
-          <p className={styles.title}>Daftar Produk Lotte Mart Kelapa Gading</p>
+          <p className={styles.title}>Daftar Produk {data_list.name}</p>
           <div className={styles.row_box}>
             <Input
               className={styles.input_search}
@@ -31,7 +63,14 @@ const MerchantProdukComponent: React.FC<Props> = () => {
             </NavLink>
           </div>
         </Row>
-        <TableComponent />
+        <TableComponent
+          data={data_list}
+          loading={Boolean(loading_list)}
+          status={Number(status_list)}
+          error={error_list}
+          onDeactive={deactiveProduk}
+          onDelete={deleteProduk}
+        />
       </Card>
     </div>
   );

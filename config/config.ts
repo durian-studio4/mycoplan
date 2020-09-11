@@ -105,6 +105,7 @@ export default defineConfig({
                   path: '/merchant/daftar',
                   component: './merchant/Daftar',
                   authority: ['merchant'],
+                  // authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   name: 'Banner Merchant',
@@ -112,6 +113,7 @@ export default defineConfig({
                   path: '/merchant/banner',
                   component: './merchant/Banner',
                   authority: ['merchant'],
+                  // authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   name: 'Produk',

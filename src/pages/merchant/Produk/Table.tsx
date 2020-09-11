@@ -14,6 +14,18 @@ interface Props {
 const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push({
+      id: data[key].id,
+      name: data[key].name,
+      quantity: data[key].quantity,
+      id_merchant: data[key].id_merchant,
+      nama_merchant: data[key].merchant.name,
+    });
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -65,7 +77,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data} loading={loading} />;
+  return <Table columns={columns} dataSource={data_array} loading={loading} />;
 };
 
 export default TableComponent;

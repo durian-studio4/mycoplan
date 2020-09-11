@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
-// import { NavLink } from 'umi';
 import styles from './index.less';
 
 import TableComponent from './Table';

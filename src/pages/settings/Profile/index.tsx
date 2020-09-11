@@ -19,9 +19,7 @@ const initialState = {
 };
 
 const SettingsProfileComponent: React.FC<Props> = () => {
-  const [{ name, email, password, new_password, confirm_password }, setState] = useState(
-    initialState,
-  );
+  const [{ name, email, password }, setState] = useState(initialState);
 
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate] = useCreate();
@@ -50,8 +48,8 @@ const SettingsProfileComponent: React.FC<Props> = () => {
     name,
     email,
     password,
-    new_password,
-    confirm_password,
+    // new_password,
+    // confirm_password,
   };
 
   const updateSettings = () => {
@@ -108,13 +106,13 @@ const SettingsProfileComponent: React.FC<Props> = () => {
                 className={styles.input}
                 type="password"
                 id="password"
-                placeholder="Kata Sandi Lama"
+                placeholder="Kata Sandi"
                 value={password}
                 onChange={handleChangeState}
               />
             </div>
           </div>
-          <div className={styles.box10}>
+          {/* <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="new_password">
                 Kata Sandi Baru
@@ -128,8 +126,8 @@ const SettingsProfileComponent: React.FC<Props> = () => {
                 onChange={handleChangeState}
               />
             </div>
-          </div>
-          <div className={styles.box10}>
+          </div> */}
+          {/* <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="confirm_password">
                 Konfirmasi Kata Sandi Baru
@@ -143,8 +141,13 @@ const SettingsProfileComponent: React.FC<Props> = () => {
                 onChange={handleChangeState}
               />
             </div>
-          </div>
-          <Button className={styles.button} type="primary">
+          </div> */}
+          <Button
+            className={styles.button}
+            onClick={updateSettings}
+            type="primary"
+            disabled={Boolean(loading_update) || !password}
+          >
             Simpan
           </Button>
         </Card>
