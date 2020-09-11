@@ -40,6 +40,19 @@ const TableComponent: React.FC<Props> = ({
       },
       {
         align: 'center',
+        title: 'Gambar',
+        width: 200,
+        render: (props) => (
+          <img
+            alt={`gambar_kategori-${props.id}`}
+            style={{ width: '100%', height: '30%' }}
+            src={props.image}
+          />
+        ),
+        key: 'gambar',
+      },
+      {
+        align: 'center',
         title: 'Kategori',
         dataIndex: 'category',
         key: 'category',

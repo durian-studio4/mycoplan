@@ -7,10 +7,10 @@ import AddComponent from './Add';
 import UpdateComponent from './Update';
 
 import useFetch from '@/hooks/useFetch';
-import useCreate from '@/hooks/useCreate';
+import useCreate from '@/hooks/useCreateForm';
 
 export interface Promo {
-  json: {};
+  formData: any;
   clear: () => void;
 }
 
@@ -44,16 +44,20 @@ const PromoComponent: React.FC<Props> = () => {
     setVisibleUpdate(false);
   };
 
-  const createPromo = ({ json, clear }: Promo) => {
-    postCreate(`${REACT_APP_ENV}/admin/vouchers`, json, clear);
+  const createPromo = ({ formData, clear }: Promo) => {
+    postCreate(`${REACT_APP_ENV}/admin/vouchers`, formData, clear);
   };
+
+  const consoleLog = () => console.log('inactive');
 
   const deactivePromo = (id: string) => {
-    postUpdate(`${REACT_APP_ENV}/admin/vouchers/${id}`, { status: 'inactive' });
+    const formData = new FormData();
+    formData.append('status', 'inactive');
+    postCreate(`${REACT_APP_ENV}/admin/vouchers/${id}?_method=put`, formData, consoleLog);
   };
 
-  const updatePromo = ({ json }: any) => {
-    postUpdate(`${REACT_APP_ENV}/admin/vouchers/${id_update}`, json);
+  const updatePromo = ({ formData, clear }: any) => {
+    postCreate(`${REACT_APP_ENV}/admin/vouchers/${id_update}?_method=put`, formData, clear);
   };
 
   const deletePromo = (id: string) => {

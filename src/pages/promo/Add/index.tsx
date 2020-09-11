@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Row, Input, Button, DatePicker } from 'antd';
+import { Modal, Row, Input, Button, Upload, DatePicker } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { format } from 'date-fns';
 import styles from '../index.less';
 
@@ -14,7 +15,7 @@ const { TextArea } = Input;
 interface Props {
   visible: boolean;
   onCancel: () => void;
-  onCreate: ({ json, clear }: Promo) => void;
+  onCreate: ({ formData, clear }: Promo) => void;
   onLoadButton: boolean;
 }
 
@@ -50,6 +51,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
   const [isDisabled, setDisabled] = useState(false);
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
+
+  const [file_img, setFileImg] = useState([]);
 
   const [category, onChangeCategory, onClearCategory] = useSelect('Pesanan');
 
@@ -108,10 +111,20 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
     setState((state) => ({ ...state, [id]: value }));
   };
 
+  const onChangeImage = (file: any) => {
+    setFileImg((state) => [...state, file]);
+    return false;
+  };
+
+  const onRemoveImage = (e: any) => {
+    setFileImg([]);
+  };
+
   const onClearState = () => {
     setState({ ...initialState });
     setStart(initialDate);
     setEnd(initialDate);
+    setFileImg([]);
     onClearCategory();
     onCancel();
   };
@@ -126,15 +139,21 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
     user_limit,
     start,
     end,
-    category,
+    category: String(category),
+    image: file_img[0],
     description,
     terms_conditions,
     status: 'active',
   };
 
   const createPromo = () => {
+    const formData = new FormData();
+
+    for (let [key, value] of Object.entries(DataJSON)) {
+      formData.append(key, value);
+    }
     onCreate({
-      json: DataJSON,
+      formData,
       clear: onClearState,
     });
   };
@@ -302,6 +321,30 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
               value={terms_conditions}
               onChange={onChangeState}
             />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="gambar">
+              Gambar
+            </label>
+            <div>
+              <Upload
+                name="avatar"
+                listType="picture"
+                onRemove={onRemoveImage}
+                beforeUpload={onChangeImage}
+              >
+                <Button
+                  className={styles.button}
+                  type="primary"
+                  disabled={Boolean(file_img.length)}
+                >
+                  Upload
+                  <PlusOutlined />
+                </Button>
+              </Upload>
+            </div>
           </div>
         </div>
       </div>
