@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import { NavLink, useParams } from 'umi';
 import styles from './index.less';
 
 import TableComponent from './Table';
+import UpdateComponent from './Update';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreateForm';
@@ -24,17 +25,17 @@ const MerchantProdukComponent: React.FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
 
-  const consoleLog = () => console.log('inactive');
+  // const consoleLog = () => console.log('inactive');
 
-  const deactiveProduk = (id: string) => {
-    const formData = new FormData();
-    formData.append('status', 'inactive');
-    postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
-  };
-
-  // const updatePromo = ({ formData, clear }: any) => {
-  //   postCreate(`${REACT_APP_ENV}/admin/merchants/${id_update}?_method=put`, formData, clear);
+  // const deactiveProduk = (id: string) => {
+  //   const formData = new FormData();
+  //   formData.append('status', 'inactive');
+  //   postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
   // };
+
+  const updateProduk = ({ formData, clear }: any) => {
+    postCreate(`${REACT_APP_ENV}/admin/merchants/${id_update}?_method=put`, formData, clear);
+  };
 
   const deleteProduk = (id: string) => {
     postDelete(`${REACT_APP_ENV}/admin/merchants/${id}`);
@@ -68,7 +69,7 @@ const MerchantProdukComponent: React.FC<Props> = () => {
           loading={Boolean(loading_list)}
           status={Number(status_list)}
           error={error_list}
-          onDeactive={deactiveProduk}
+          // onDeactive={deactiveProduk}
           onDelete={deleteProduk}
         />
       </Card>

@@ -58,7 +58,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
         render: (props: any) => (
           <Row justify="space-around">
             <NavLink
-              to={`/merchant/produk/${props.id}`}
+              to={`/merchant/produk/${props.id_merchant}`}
               // onClick={() => visibleUpdate(props.id)}
             >
               <Button className={styles.button} type="primary">

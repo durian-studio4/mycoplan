@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
+import { NavLink } from 'umi';
 import styles from './index.less';
 
 import TableComponent from './Table';
@@ -35,11 +36,11 @@ const MerchantTotalProdukComponent: React.FC<Props> = () => {
               // value={name}
               // onKeyDown={handleKey}
             />
-            {/* <NavLink to="/merchant/produk/add">
+            <NavLink to="/merchant/produk/add">
               <Button className={styles.button} type="primary">
                 Tambah Produk
               </Button>
-            </NavLink> */}
+            </NavLink>
           </div>
         </Row>
         <TableComponent

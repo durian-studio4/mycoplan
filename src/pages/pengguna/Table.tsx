@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
+import { format } from 'date-fns';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
@@ -9,9 +10,20 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
+  onLoadButton: boolean;
+  onDeactive: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  onLoadButton,
+  onDeactive,
+  onDelete,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
   const columns = useMemo(
@@ -50,6 +62,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
         align: 'center',
         title: 'Tanggal Lahir',
         dataIndex: 'dob',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
         key: 'dob',
       },
       // {
@@ -67,14 +80,19 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
       //   align: 'center',
       //   title: 'Alamat Utama',
       // },
-      // {
-      //   align: 'center',
-      //   title: 'Metode Sign In',
-      // },
-      // {
-      //   align: 'center',
-      //   title: 'Tanggal Terdaftar',
-      // },
+      {
+        align: 'center',
+        title: 'Metode Sign In',
+        dataIndex: 'login_method',
+        key: 'login_method',
+      },
+      {
+        align: 'center',
+        title: 'Tanggal Terdaftar',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+        dataIndex: 'created_at',
+        key: 'created_at',
+      },
       {
         align: 'center',
         title: 'Status',
@@ -99,16 +117,18 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => onDeactive(props.id)}
               type="primary"
+              disabled={onLoadButton}
             >
               Deactivate
             </Button>
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => remove(props.id)}
+              onClick={() => onDelete(props.id)}
               type="primary"
+              disabled={onLoadButton}
               danger
             >
               Delete
@@ -125,9 +145,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
     return <PageError />;
   }
 
-  return (
-    <Table columns={columns} dataSource={data.vouchers} loading={loading} scroll={{ x: 1300 }} />
-  );
+  return <Table columns={columns} dataSource={data} loading={loading} scroll={{ x: 1300 }} />;
 };
 
 export default TableComponent;

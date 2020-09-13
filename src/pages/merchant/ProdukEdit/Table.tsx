@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
+import { NavLink } from 'umi';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
@@ -9,7 +10,8 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
-  onDeactive: (id: string) => void;
+  // onDeactive: (id: string) => void;
+  visibleUpdate: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
@@ -18,7 +20,7 @@ const TableComponent: React.FC<Props> = ({
   loading,
   status,
   error,
-  onDeactive,
+  // onDeactive,
   onDelete,
 }) => {
   // const [getColumnSearchProps] = useFilterColumn();
@@ -28,14 +30,14 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'No',
-        dataIndex: 'id',
-        key: 'id',
+        // dataIndex: 'id',
+        // key: 'id',
       },
       {
         align: 'center',
         title: 'ID Produk',
-        // dataIndex: 'id',
-        // key: 'id',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
@@ -104,22 +106,22 @@ const TableComponent: React.FC<Props> = ({
         width: 200,
         render: (props: any) => (
           <Row justify="space-around">
-            <Button
-              className={styles.button_edit}
-              id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
-              type="primary"
-            >
-              Edit
+            <Button className={styles.button_edit} type="primary">
+              <NavLink
+                to={`/merchant/produk/edit/${props.id}`}
+                // onClick={() => visibleUpdate(props.id)}
+              >
+                Edit
+              </NavLink>
             </Button>
-            <Button
+            {/* <Button
               className={styles.button_action}
               id={props.id}
               onClick={() => onDeactive(props.id)}
               type="primary"
             >
               Deactivate
-            </Button>
+            </Button> */}
             <Button
               className={styles.button_action}
               id={props.id}

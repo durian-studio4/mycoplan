@@ -135,6 +135,12 @@ export default defineConfig({
                   authority: ['admin', 'master', 'merchant'],
                 },
                 {
+                  hideInMenu: true,
+                  path: '/merchant/produk/edit/:id',
+                  component: './merchant/ProdukEdit/Update',
+                  authority: ['admin', 'master', 'merchant'],
+                },
+                {
                   name: 'Kategori Produk',
                   icon: 'tag',
                   path: '/merchant/kategori',
