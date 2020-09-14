@@ -30,7 +30,7 @@ const initialState = {
   discount: '',
 };
 
-const ProdukAddComponent: React.FC<Props> = () => {
+const ProdukUpdateComponent: React.FC<Props> = () => {
   const { id } = useParams();
 
   const [{ name, sku, quantity, price, discount }, setState] = useState(initialState);
@@ -62,7 +62,16 @@ const ProdukAddComponent: React.FC<Props> = () => {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       if (data_list) {
-        const { name, sku, quantity, price, discount, other_packaging } = data_list;
+        const {
+          name,
+          sku,
+          quantity,
+          price,
+          discount,
+          other_packaging,
+          information,
+          description,
+        } = data_list;
         setState({
           name,
           sku,
@@ -70,10 +79,9 @@ const ProdukAddComponent: React.FC<Props> = () => {
           price,
           discount,
         });
-        console.log(other_packaging);
-        // setOtherPackaging((state) => [...state, other_packaging]);
-        // setDescription(data_list.description);
-        // setInformation(data_list.information);
+        setInformation(information);
+        setDescription(description);
+        setOtherPackaging(JSON.parse(other_packaging));
       }
     }, 100);
     return () => clearTimeout(timeOut);
@@ -108,13 +116,27 @@ const ProdukAddComponent: React.FC<Props> = () => {
     history.push('/merchant/produk');
   };
 
-  console.log(other_packaging);
+  let data_packaging = [];
 
-  // let data_packaging = [];
+  for (let key in other_packaging) {
+    data_packaging.push({
+      id_product: other_packaging[key].id_product,
+      name: other_packaging[key].name,
+    });
+  }
 
-  // for (let key in other_packaging) {
-  //   data_packaging.push({
-  //     id_product: other_packaging[key].id,
+  // // reCreate new Object and set File Data into it
+  // let data_img: any = [];
+
+  // for (let key in images) {
+  //   data_img.push({
+  //     uid: images[key].uid,
+  //     name: images[key].name,
+  //     lastModified: images[key].lastModified,
+  //     lastModifiedDate: images[key].lastModifiedDate,
+  //     webkitRelativePath: images[key].webkitRelativePath,
+  //     size: images[key].size,
+  //     type: images[key].type,
   //   });
   // }
 
@@ -127,21 +149,24 @@ const ProdukAddComponent: React.FC<Props> = () => {
     id_merchant: String(id_merchant),
     id_unit: String(id_unit),
     id_product_category: String(categories),
-    images: images[0],
-    // other_packaging: JSON.stringify(data_packaging),
+    other_packaging: JSON.stringify(data_packaging),
     description,
     information,
     status: 'active',
   };
 
-  const createProduk = () => {
+  const updateProduk = () => {
     const formData = new FormData();
 
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
 
-    postCreate(`${REACT_APP_ENV}/admin/products`, formData, onClearState);
+    for (let key in images) {
+      formData.append('images[]', images[key]);
+    }
+
+    postCreate(`${REACT_APP_ENV}/admin/products/${id}?_method=put`, formData, onClearState);
   };
 
   return (
@@ -211,7 +236,10 @@ const ProdukAddComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label}>Unit</label>
-              <SelectUnit handleChange={onChangeUnit} />
+              <SelectUnit
+                handleChange={onChangeUnit}
+                initial={data_list.unit && data_list.unit.name}
+              />
             </div>
           </div>
           <div className={styles.box10}>
@@ -249,7 +277,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="deskripsi">
                 Deskripsi Produk
               </label>
-              <ReactQuill theme="snow" value={description} onChange={setDescription} />
+              <ReactQuill theme="snow" value={description || ''} onChange={setDescription} />
             </div>
           </div>
           <div className={styles.box10}>
@@ -257,13 +285,16 @@ const ProdukAddComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="informasi">
                 Informasi Lain
               </label>
-              <ReactQuill theme="snow" value={information} onChange={setInformation} />
+              <ReactQuill theme="snow" value={information || ''} onChange={setInformation} />
             </div>
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label}>Kategori</label>
-              <SelectKategori handleChange={onChangeCategories} />
+              <SelectKategori
+                handleChange={onChangeCategories}
+                initial={data_list.product_category && data_list.product_category.name}
+              />
             </div>
           </div>
           {/* <div className={styles.box10}>
@@ -315,7 +346,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
 
           <Button
             className={styles.button}
-            onClick={createProduk}
+            onClick={updateProduk}
             disabled={Boolean(loading_update)}
             type="primary"
           >
@@ -330,4 +361,4 @@ const ProdukAddComponent: React.FC<Props> = () => {
   );
 };
 
-export default ProdukAddComponent;
+export default ProdukUpdateComponent;

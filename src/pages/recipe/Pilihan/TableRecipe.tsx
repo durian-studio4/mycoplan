@@ -27,6 +27,8 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
       {
         align: 'center',
         title: 'ID Resep',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
@@ -35,10 +37,14 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
       {
         align: 'center',
         title: 'Nama Resep',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'center',
         title: 'Pembuat',
+        dataIndex: 'author',
+        key: 'author',
       },
       {
         align: 'center',

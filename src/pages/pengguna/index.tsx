@@ -4,6 +4,7 @@ import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
 import TableComponent from './Table';
+import UpdateComponent from './Update';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
@@ -11,6 +12,9 @@ import useCreate from '@/hooks/useCreate';
 interface Props {}
 
 const PenggunaComponent: React.FC<Props> = () => {
+  const [visible_update, setVisibleUpdate] = useState(false);
+  const [id_update, setIdUpdate] = useState('');
+
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
@@ -22,13 +26,23 @@ const PenggunaComponent: React.FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
 
+  const handleVisibleUpdate = (id: string) => {
+    setIdUpdate(id);
+    setVisibleUpdate(true);
+  };
+
+  const handleVisibleUpdateCancel = () => {
+    setIdUpdate('');
+    setVisibleUpdate(false);
+  };
+
   const deactiveUser = (id: string) => {
     postUpdate(`${REACT_APP_ENV}/admin/users/${id}`, { status: 'inactive' });
   };
 
-  // const updateUser = ({ formData, clear }: any) => {
-  //   postCreate(`${REACT_APP_ENV}/admin/users/${id_update}`, formData, clear);
-  // };
+  const updateUser = ({ json, clear }: any) => {
+    postUpdate(`${REACT_APP_ENV}/admin/users/${id_update}`, json, clear);
+  };
 
   const deleteUser = (id: string) => {
     postDelete(`${REACT_APP_ENV}/admin/users/${id}`);
@@ -60,11 +74,21 @@ const PenggunaComponent: React.FC<Props> = () => {
           loading={Boolean(loading_list)}
           status={Number(status_list)}
           error={error_list}
+          visibleUpdate={handleVisibleUpdate}
           onLoadButton={Boolean(loading_update)}
           onDeactive={deactiveUser}
           onDelete={deleteUser}
         />
       </Card>
+      {visible_update ? (
+        <UpdateComponent
+          visible={visible_update}
+          id={id_update}
+          onCancel={handleVisibleUpdateCancel}
+          onUpdate={updateUser}
+          onLoadButton={Boolean(loading_update)}
+        />
+      ) : null}
     </div>
   );
 };

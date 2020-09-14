@@ -33,9 +33,9 @@ const MerchantProdukComponent: React.FC<Props> = () => {
   //   postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
   // };
 
-  const updateProduk = ({ formData, clear }: any) => {
-    postCreate(`${REACT_APP_ENV}/admin/merchants/${id_update}?_method=put`, formData, clear);
-  };
+  // const updateProduk = ({ formData, clear }: any) => {
+  //   postCreate(`${REACT_APP_ENV}/admin/merchants/${id_update}?_method=put`, formData, clear);
+  // };
 
   const deleteProduk = (id: string) => {
     postDelete(`${REACT_APP_ENV}/admin/merchants/${id}`);

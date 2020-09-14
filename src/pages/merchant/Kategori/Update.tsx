@@ -38,13 +38,16 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   }, []);
 
   useEffect(() => {
-    const data_name = data_update.name;
-    const data_img = data_update.image;
-    if (data_update) {
-      setName(data_name);
-      setFileImg([data_img]);
-      setClear([data_img]);
-    }
+    const timeOut = setTimeout(() => {
+      if (data_update) {
+        const data_name = data_update.name;
+        const data_img = data_update.image;
+        setName(data_name);
+        setFileImg([data_img]);
+        setClear([data_img]);
+      }
+    }, 100);
+    return () => clearTimeout(timeOut);
   }, [data_update]);
 
   const onChangeImage = (file: any) => {

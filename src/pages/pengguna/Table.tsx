@@ -11,6 +11,7 @@ interface Props {
   status: number;
   error: any;
   onLoadButton: boolean;
+  visibleUpdate: (id: string) => void;
   onDeactive: (id: string) => void;
   onDelete: (id: string) => void;
 }
@@ -21,6 +22,7 @@ const TableComponent: React.FC<Props> = ({
   status,
   error,
   onLoadButton,
+  visibleUpdate,
   onDeactive,
   onDelete,
 }) => {
@@ -109,7 +111,7 @@ const TableComponent: React.FC<Props> = ({
             <Button
               className={styles.button_edit}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => visibleUpdate(props.id)}
               type="primary"
             >
               Edit

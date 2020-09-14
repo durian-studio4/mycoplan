@@ -75,7 +75,8 @@ const ProdukAddComponent: React.FC<Props> = () => {
 
   for (let key in other_packaging) {
     data_packaging.push({
-      id_product: other_packaging[key].id,
+      id_product: other_packaging[key].id_product,
+      name: other_packaging[key].name,
     });
   }
 
@@ -88,7 +89,6 @@ const ProdukAddComponent: React.FC<Props> = () => {
     id_merchant: String(id_merchant),
     id_unit: String(id_unit),
     id_product_category: String(categories),
-    images: images[0],
     other_packaging: JSON.stringify(data_packaging),
     description,
     information,
@@ -101,6 +101,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
+    formData.append('images[]', images);
 
     postCreate(`${REACT_APP_ENV}/admin/products`, formData, onClearState);
   };

@@ -11,7 +11,6 @@ interface Props {
   status: number;
   error: any;
   // onDeactive: (id: string) => void;
-  visibleUpdate: (id: string) => void;
   onDelete: (id: string) => void;
 }
 

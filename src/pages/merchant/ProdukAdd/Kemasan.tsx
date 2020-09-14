@@ -71,7 +71,7 @@ const KemasanComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
   for (let key in data) {
     data_array.push({
       key: data[key].id,
-      id: data[key].id,
+      id_product: data[key].id,
       name: data[key].name,
     });
   }
