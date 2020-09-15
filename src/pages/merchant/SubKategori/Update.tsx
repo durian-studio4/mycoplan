@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Row, Input, Upload, Button } from 'antd';
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
 import SelectKategori from '@/components/Select/SelectKategori';
@@ -20,10 +21,13 @@ interface Props {
 
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
   const [name, setName] = useState('');
+  const [image, setFileImg] = useState([]);
 
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
   const [id_product, onChangeProduct, onClearProduct] = useSelect(data_update.id_product_category);
+
+  const [clear, setClear] = useState([]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -36,8 +40,15 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   useEffect(() => {
     if (data_update) {
       setName(data_update.name);
+      setFileImg([data_update.image]);
+      setClear([data_update.image]);
     }
   }, [data_update]);
+
+  const onChangeImage = (file: any) => {
+    setFileImg((state) => [...state, file]);
+    return false;
+  };
 
   const onChangeState = (e: any) => {
     const { value } = e.target;
@@ -45,6 +56,10 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     setName(value);
   };
 
+  const onRemoveImage = () => {
+    setFileImg([]);
+    setClear([]);
+  };
   const onClearState = () => {
     setName('');
     onClearProduct();
@@ -54,6 +69,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   const DataJSON = {
     name,
     id_product_category: String(id_product),
+    image: image[0],
   };
 
   const updateKategori = () => {
@@ -92,6 +108,38 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               />
             </div>
           </div>
+          <div className={styles.box5}>
+            <Row>
+              <div className={styles.group}>
+                <Upload
+                  name="avatar"
+                  listType="picture"
+                  onRemove={onRemoveImage}
+                  beforeUpload={onChangeImage}
+                >
+                  <Button className={styles.button} type="primary" disabled={Boolean(image.length)}>
+                    Upload
+                    <PlusOutlined />
+                  </Button>
+                </Upload>
+              </div>
+              {Boolean(clear.length) ? (
+                <div className={styles.group}>
+                  <Button className={styles.button} onClick={onRemoveImage} type="primary">
+                    Clear
+                    <MinusOutlined />
+                  </Button>
+                </div>
+              ) : null}
+            </Row>
+          </div>
+          {Boolean(clear.length) ? (
+            <div className={styles.box10}>
+              <div className={styles.group}>
+                <img alt="category-image" src={data_update.image} width="100%" height="50%" />
+              </div>
+            </div>
+          ) : null}
         </div>
       )}
       <Row justify="end">

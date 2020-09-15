@@ -9,10 +9,10 @@ import UpdateComponent from './Update';
 import SelectKategori from '@/components/Select/SelectKategori';
 
 import useFetch from '@/hooks/useFetch';
-import useCreate from '@/hooks/useCreate';
+import useCreate from '@/hooks/useCreateForm';
 
 export interface Kategori {
-  json: {};
+  formData: any;
   clear: () => void;
 }
 
@@ -50,8 +50,8 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
     setVisibleUpdate(false);
   };
 
-  const createKategori = ({ json, clear }: Kategori) => {
-    postCreate(`${REACT_APP_ENV}/admin/product/subcategories`, json, clear);
+  const createKategori = ({ formData, clear }: Kategori) => {
+    postCreate(`${REACT_APP_ENV}/admin/product/subcategories`, formData, clear);
   };
 
   const updateKategori = ({ json }: any) => {
