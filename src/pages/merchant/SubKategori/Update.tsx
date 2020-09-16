@@ -68,7 +68,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
 
   const DataJSON = {
     name,
-    id_product_category: String(id_product),
+    id_parent: String(id_product),
     image: image[0],
   };
 

@@ -24,7 +24,7 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = (props) => {
 
   return (
     <div className={className}>
-      {JSON.parse(String(role)) ? <Notification /> : null}
+      {JSON.parse(role) ? <Notification /> : null}
       <Avatar menu />
     </div>
   );

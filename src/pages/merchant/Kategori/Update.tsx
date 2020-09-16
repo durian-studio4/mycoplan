@@ -3,10 +3,10 @@ import { Modal, Row, Input, Upload, Button } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
-import SelectMerchant from '@/components/Select/SelectMerchant';
+// import SelectMerchant from '@/components/Select/SelectMerchant';
 
 import useFetch from '@/hooks/useFetch';
-import useSelect from '@/hooks/useSelect';
+// import useSelect from '@/hooks/useSelect';
 
 import PageError from '@/components/PageError';
 import PageLoading from '@/components/PageLoading';
@@ -25,7 +25,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
 
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
-  const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect(data_update.id_merchant);
+  // const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect(data_update.id_merchant);
 
   const [clear, setClear] = useState([]);
 
@@ -75,7 +75,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
 
   const DataJSON = {
     name,
-    id_merchant: String(id_merchant),
+    // id_parent: String(id_merchant),
     image: image[0],
   };
 
@@ -107,14 +107,14 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               />
             </div>
           </div>
-          <div className={styles.box10}>
+          {/* <div className={styles.box10}>
             <div className={styles.group}>
               <SelectMerchant
                 handleChange={onChangeMerchant}
                 initial={data_update.merchant && data_update.merchant.name}
               />
             </div>
-          </div>
+          </div> */}
           <div className={styles.box5}>
             <Row>
               <div className={styles.group}>

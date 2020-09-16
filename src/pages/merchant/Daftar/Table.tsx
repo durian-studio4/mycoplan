@@ -1,30 +1,19 @@
 import React, { useMemo, useState } from 'react';
 import { Table, Row, Button } from 'antd';
+import { format } from 'date-fns';
 import styles from './index.less';
 
-interface Props {}
+import PageError from '@/components/PageError';
 
-const initialData = [
-  {
-    no: '1',
-    judul: 'Judul Banner',
-    description: 'Deskripsi',
-    syarat: 'none',
-    promo: 'none',
-  },
-  {
-    no: '2',
-    judul: 'Judul Banner',
-    description: 'Deskripsi',
-    syarat: 'none',
-    promo: 'none',
-  },
-];
+interface Props {
+  data: any;
+  loading: boolean;
+  status: number;
+  error: any;
+}
 
-const TableComponent: React.FC<Props> = () => {
+const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
   // const [getColumnSearchProps] = useFilterColumn();
-
-  const [data, setData] = useState(initialData);
 
   const columns = useMemo(
     () => [
@@ -43,14 +32,17 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Gambar',
-        dataIndex: 'gambar',
+        width: 300,
+        render: (props) => (
+          <img alt={`gambar_merchant-${props.id}`} width="50%" height="5%" src={props.logo} />
+        ),
         key: 'gambar',
       },
       {
         align: 'center',
         title: 'Nama Merchant',
-        dataIndex: 'nama_merchant',
-        key: 'nama_merchant',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         align: 'left',
@@ -67,25 +59,22 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Tanggal Terdaftar',
-        dataIndex: 'tanggal',
+        dataIndex: 'created_at',
+        render: (props) => <p>{format(new Date(props), 'dd-MM-yyyy')}</p>,
         key: 'tanggal',
       },
       {
         align: 'center',
         title: 'Status',
+        dataIndex: 'status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Non-Active</p>),
       },
       {
         align: 'center',
         title: 'Action',
+        fixed: 'right',
         width: 150,
         render: (props: any) => (
-          // <Dropdown overlay={menu} trigger={['click']}>
-          //   <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-          //     <MenuOutlined />
-          //   </a>
-          // </Dropdown>
           <Row justify="center">
             <Button
               className={styles.button_edit}
@@ -120,11 +109,11 @@ const TableComponent: React.FC<Props> = () => {
     [],
   );
 
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
+  if (error || status !== 200) {
+    return <PageError />;
+  }
 
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} loading={loading} dataSource={data} scroll={{ x: 1300 }} />;
 };
 
 export default TableComponent;

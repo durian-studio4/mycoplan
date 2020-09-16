@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Input, Button, Row, Upload, Tag } from 'antd';
 import { history } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
@@ -36,11 +36,62 @@ const ProdukAddComponent: React.FC<Props> = () => {
   const [description, setDescription] = useState('');
   const [information, setInformation] = useState('');
 
+  const [disabled, setDisabled] = useState(false);
+
   const [categories, onChangeCategories, onClearCategories] = useSelect('');
   const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect('');
   const [id_unit, onChangeUnit, onClearUnit] = useSelect('');
 
   const [loading_update, status_update, postCreate] = useCreate();
+
+  useEffect(() => {
+    if (!name) {
+      return setDisabled(true);
+    }
+    if (!sku) {
+      return setDisabled(true);
+    }
+    if (!quantity) {
+      return setDisabled(true);
+    }
+    if (!price) {
+      return setDisabled(true);
+    }
+    if (!description) {
+      return setDisabled(true);
+    }
+    if (!information) {
+      return setDisabled(true);
+    }
+    if (!images.length) {
+      return setDisabled(true);
+    }
+    if (!other_packaging.length) {
+      return setDisabled(true);
+    }
+    if (!categories) {
+      return setDisabled(true);
+    }
+    if (!id_merchant) {
+      return setDisabled(true);
+    }
+    if (!id_unit) {
+      return setDisabled(true);
+    }
+    return setDisabled(false);
+  }, [
+    name,
+    sku,
+    quantity,
+    price,
+    description,
+    information,
+    images,
+    other_packaging,
+    categories,
+    id_merchant,
+    id_unit,
+  ]);
 
   const handleVisible = () => setVisible(!visible);
 
@@ -74,10 +125,11 @@ const ProdukAddComponent: React.FC<Props> = () => {
   let data_packaging = [];
 
   for (let key in other_packaging) {
-    data_packaging.push({
-      id_product: other_packaging[key].id_product,
-      name: other_packaging[key].name,
-    });
+    // data_packaging.push({
+    //   id_product: other_packaging[key].id_product,
+    //   name: other_packaging[key].name,
+    // });
+    data_packaging.push(other_packaging[key].id_product);
   }
 
   const DataJSON = {
@@ -101,7 +153,9 @@ const ProdukAddComponent: React.FC<Props> = () => {
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
-    formData.append('images[]', images);
+    for (let key in images) {
+      formData.append('images[]', images[key]);
+    }
 
     postCreate(`${REACT_APP_ENV}/admin/products`, formData, onClearState);
   };
@@ -273,7 +327,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
         <Button
           className={styles.button}
           onClick={createProduk}
-          disabled={Boolean(loading_update)}
+          disabled={Boolean(loading_update) || disabled}
           type="primary"
         >
           Simpan

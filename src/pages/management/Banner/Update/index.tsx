@@ -30,10 +30,14 @@ const initialState = {
   title: '',
   description: '',
   terms_conditions: '',
+  owner: '',
+  target_url: '',
 };
 
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
-  const [{ description, terms_conditions, title }, setState] = useState(initialState);
+  const [{ description, target_url, owner, terms_conditions, title }, setState] = useState(
+    initialState,
+  );
   const [isDisabled, setDisabled] = useState(false);
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
@@ -56,15 +60,27 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
 
   useEffect(() => {
     if (data_update) {
+      const {
+        description,
+        target_url,
+        owner,
+        terms_conditions,
+        title,
+        start,
+        end,
+        image,
+      } = data_update;
       setState({
-        title: data_update.title,
-        description: data_update.description,
-        terms_conditions: data_update.terms_conditions,
+        title,
+        description,
+        terms_conditions,
+        owner,
+        target_url,
       });
-      setStart(data_update.start);
-      setEnd(data_update.end);
-      setFileImg([data_update.image]);
-      setClear([data_update.image]);
+      setStart(start);
+      setEnd(end);
+      setFileImg([image]);
+      setClear([image]);
     }
   }, [data_update]);
 
@@ -78,14 +94,14 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     if (!description) {
       return setDisabled(true);
     }
-    if (!id_voucher) {
+    if (!owner) {
       return setDisabled(true);
     }
     if (!file_img.length) {
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [id_voucher, terms_conditions, file_img, title, description]);
+  }, [owner, terms_conditions, file_img, title, description]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -128,6 +144,8 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     terms_conditions,
     start,
     end,
+    owner,
+    target_url,
     image: file_img[0],
     banner_type: String(banner_type),
     status: 'active',
@@ -158,6 +176,36 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 id="title"
                 placeholder=""
                 value={title}
+                onChange={onChangeState}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="owner">
+                Owner
+              </label>
+              <Input
+                className={styles.input}
+                type="text"
+                id="owner"
+                placeholder=""
+                value={owner}
+                onChange={onChangeState}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="target_url">
+                Target URL
+              </label>
+              <Input
+                className={styles.input}
+                type="text"
+                id="target_url"
+                placeholder=""
+                value={target_url}
                 onChange={onChangeState}
               />
             </div>

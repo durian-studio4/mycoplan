@@ -104,8 +104,7 @@ export default defineConfig({
                   icon: 'shop',
                   path: '/merchant/daftar',
                   component: './merchant/Daftar',
-                  authority: ['merchant'],
-                  // authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   name: 'Banner Merchant',

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, Fragment } from 'react';
 import { Table, Row, Button } from 'antd';
 import { format } from 'date-fns';
 import styles from './index.less';
@@ -25,6 +25,23 @@ const TableComponent: React.FC<Props> = ({
   onDelete,
 }) => {
   // const [getColumnSearchProps] = useFilterColumn();
+
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push({
+      id: data[key].id,
+      name: data[key].name,
+      author: data[key].author,
+      video: data[key].video,
+      production_time: data[key].production_time,
+      difficulty: data[key].difficulty,
+      images: data[key].images,
+      created_at: data[key].created_at,
+      status: data[key].status,
+    });
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -42,8 +59,20 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Gambar',
-        dataIndex: 'gambar',
-        key: 'gambar',
+        width: 200,
+        render: ({ images }: any) => (
+          <Fragment>
+            {images.map(({ id, url }: any, i: any) => (
+              <img
+                key={id}
+                alt={`recipe-images-${id}`}
+                src={url || ''}
+                style={{ width: '100%', height: '30%', margin: '5px' }}
+              />
+            ))}
+          </Fragment>
+        ),
+        key: 'images',
       },
       {
         align: 'center',

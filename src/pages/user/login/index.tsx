@@ -52,7 +52,6 @@ const Login: React.FC = (props) => {
       setLogin(true);
       return result;
     } catch (error) {
-      console.log(error);
       setLogin(false);
       setLoading(false);
     }

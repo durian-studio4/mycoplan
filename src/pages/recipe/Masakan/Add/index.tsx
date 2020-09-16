@@ -37,11 +37,9 @@ const AddComponent: React.FC<Props> = () => {
   const [supermarket, setSupermarket] = useState([
     {
       id_merchant: '',
-      name_merchant: '',
       produk: [
         {
           id_product: '',
-          name_product: '',
           qty: '',
         },
       ],
@@ -87,8 +85,26 @@ const AddComponent: React.FC<Props> = () => {
     if (!image.length) {
       return setDisabled(true);
     }
+    if (!categories.length) {
+      return setDisabled(true);
+    }
+    if (!supermarket.length) {
+      return setDisabled(true);
+    }
     return setDisabled(false);
-  }, [name, author, video, production_time, portion_min, portion_max, ingredients, steps, image]);
+  }, [
+    name,
+    author,
+    categories,
+    supermarket,
+    video,
+    production_time,
+    portion_min,
+    portion_max,
+    ingredients,
+    steps,
+    image,
+  ]);
 
   const handleVisibleKategori = () => setVisible(!visible);
 
@@ -108,11 +124,9 @@ const AddComponent: React.FC<Props> = () => {
       ...state,
       {
         id_merchant: '',
-        name_merchant: '',
         produk: [
           {
             id_product: '',
-            name_product: '',
             qty: '',
           },
         ],
@@ -124,7 +138,6 @@ const AddComponent: React.FC<Props> = () => {
     const state = [...supermarket];
     state[i].produk.push({
       id_product: '',
-      name_product: '',
       qty: '',
     });
     setSupermarket(state);
@@ -145,14 +158,12 @@ const AddComponent: React.FC<Props> = () => {
   const onChangeName = (value: any, option: any, i: number) => {
     const state = [...supermarket];
     state[i].id_merchant = option.id;
-    state[i].name_merchant = option.value;
     setSupermarket(state);
   };
 
   const onChangeProduct = (value: any, option: any, i: number, indexProduct: number) => {
     const state = [...supermarket];
     state[i].produk[indexProduct].id_product = option.id;
-    state[i].produk[indexProduct].name_product = option.value;
     setSupermarket(state);
   };
 
@@ -177,6 +188,12 @@ const AddComponent: React.FC<Props> = () => {
     history.push('/recipe/masakan');
   };
 
+  let id_recipe_categories = [];
+
+  for (let key in categories) {
+    id_recipe_categories.push(categories[key].id);
+  }
+
   const DataJSON = {
     name,
     author,
@@ -184,13 +201,12 @@ const AddComponent: React.FC<Props> = () => {
     production_time,
     portion_max,
     portion_min,
-    images: image[0],
     ingredients,
     steps,
     supermarkets: JSON.stringify(supermarket),
     difficulty: String(difficulty),
     id_recipe_type: String(id_recipe_type),
-    id_recipe_categories: JSON.stringify(categories),
+    id_recipe_categories: JSON.stringify(id_recipe_categories),
     status: 'active',
   };
 
@@ -200,6 +216,7 @@ const AddComponent: React.FC<Props> = () => {
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
+    formData.append('images[]', image[0]);
 
     postCreate(`${REACT_APP_ENV}/admin/recipes`, formData, onClearState);
   };

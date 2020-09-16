@@ -26,10 +26,14 @@ const initialState = {
   title: '',
   description: '',
   terms_conditions: '',
+  owner: '',
+  target_url: '',
 };
 
 const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButton }) => {
-  const [{ description, terms_conditions, title }, setState] = useState(initialState);
+  const [{ description, target_url, owner, terms_conditions, title }, setState] = useState(
+    initialState,
+  );
   const [isDisabled, setDisabled] = useState(false);
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
@@ -49,11 +53,14 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     if (!description) {
       return setDisabled(true);
     }
-    if (!id_voucher) {
+    if (!owner) {
+      return setDisabled(true);
+    }
+    if (!file_img.length) {
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [id_voucher, terms_conditions, title, description]);
+  }, [owner, file_img, terms_conditions, title, description]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -95,6 +102,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     terms_conditions,
     start,
     end,
+    owner,
+    target_url,
     image: file_img[0],
     banner_type: String(banner_type),
     status: 'active',
@@ -127,6 +136,36 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
               id="title"
               placeholder=""
               value={title}
+              onChange={onChangeState}
+            />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="owner">
+              Owner
+            </label>
+            <Input
+              className={styles.input}
+              type="text"
+              id="owner"
+              placeholder=""
+              value={owner}
+              onChange={onChangeState}
+            />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="target_url">
+              Target URL
+            </label>
+            <Input
+              className={styles.input}
+              type="text"
+              id="target_url"
+              placeholder=""
+              value={target_url}
               onChange={onChangeState}
             />
           </div>

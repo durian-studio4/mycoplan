@@ -56,7 +56,7 @@ const MerchantSubKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButt
 
   const DataJSON = {
     name,
-    id_product_category: String(id_product_category),
+    id_parent: String(id_product_category),
     image: image[0],
   };
 

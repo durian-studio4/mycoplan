@@ -5,9 +5,9 @@ import styles from './index.less';
 
 import PageLoading from '@/components/PageLoading';
 
-import SelectMerchant from '@/components/Select/SelectMerchant';
+// import SelectMerchant from '@/components/Select/SelectMerchant';
 
-import useSelect from '@/hooks/useSelect';
+// import useSelect from '@/hooks/useSelect';
 
 import { Kategori } from './index';
 interface Props {
@@ -23,7 +23,7 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
   const [image, setFileImg] = useState([]);
   const [{ name }, setState] = useState(initialState);
 
-  const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect('');
+  // const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect('');
 
   const [isDisabled, setDisabled] = useState(false);
 
@@ -34,11 +34,15 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
     if (!image.length) {
       return setDisabled(true);
     }
-    if (!id_merchant) {
-      return setDisabled(true);
-    }
+    // if (!id_merchant) {
+    //   return setDisabled(true);
+    // }
     return setDisabled(false);
-  }, [name, id_merchant, image]);
+  }, [
+    name,
+    // id_merchant,
+    image,
+  ]);
 
   const onChangeImage = (file: any) => {
     setFileImg((state) => [...state, file]);
@@ -62,7 +66,7 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
 
   const DataJSON = {
     name,
-    id_merchant: String(id_merchant),
+    // id_parent: String(id_merchant),
     image: image[0],
   };
 
@@ -111,11 +115,11 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
                 />
               </div>
             </div>
-            <div className={styles.box3}>
+            {/* <div className={styles.box3}>
               <div className={styles.group}>
                 <SelectMerchant handleChange={onChangeMerchant} />
               </div>
-            </div>
+            </div> */}
           </Row>
         )}
         <Button

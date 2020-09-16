@@ -34,7 +34,7 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchKategori(`${REACT_APP_ENV}/admin/product/subcategories`);
+      fetchKategori(`${REACT_APP_ENV}/admin/product/categories`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,15 +51,15 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
   };
 
   const createKategori = ({ formData, clear }: Kategori) => {
-    postCreate(`${REACT_APP_ENV}/admin/product/subcategories`, formData, clear);
+    postCreate(`${REACT_APP_ENV}/admin/product/categories`, formData, clear);
   };
 
   const updateKategori = ({ json }: any) => {
-    postUpdate(`${REACT_APP_ENV}/admin/product/subcategories/${id_update}`, json);
+    postUpdate(`${REACT_APP_ENV}/admin/product/categories/${id_update}`, json);
   };
 
   const deleteKategori = (id: string) => {
-    postDelete(`${REACT_APP_ENV}/admin/product/subcategories/${id}`);
+    postDelete(`${REACT_APP_ENV}/admin/product/categories/${id}`);
   };
 
   return (
