@@ -15,7 +15,7 @@ interface Props {
   visible: boolean;
   id: string;
   onCancel: () => void;
-  onUpdate: ({ formData }: any) => void;
+  onUpdate: ({ formData, clear }: any) => void;
   onLoadButton: boolean;
 }
 
@@ -25,13 +25,13 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
 
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
-  const [id_product, onChangeProduct, onClearProduct] = useSelect(data_update.id_product_category);
+  const [id_product, onChangeProduct, onClearProduct] = useSelect(data_update.id_parent);
 
   const [clear, setClear] = useState([]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchUpdate(`${REACT_APP_ENV}/admin/product/subcategories/${id}`);
+      fetchUpdate(`${REACT_APP_ENV}/admin/product/categories/${id}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,9 +78,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
       formData.append(key, value);
     }
     onUpdate({
-      formData: formData,
+      formData,
+      clear: onClearState,
     });
-    onClearState();
   };
 
   return (

@@ -83,7 +83,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
         });
         setInformation(information);
         setDescription(description);
-        setOtherPackaging(JSON.parse(other_packaging));
+        setOtherPackaging(other_packaging);
       }
     }, 100);
     return () => clearTimeout(timeOut);
@@ -386,9 +386,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
                 Kemasan Lain (Opsional)
               </label>
               <div className={styles.group}>
-                {other_packaging.map((data) => (
-                  <Tag>{data.name}</Tag>
-                ))}
+                {other_packaging && other_packaging.map((data) => <Tag>{data.name}</Tag>)}
                 <Tag onClick={handleVisible}>
                   <PlusOutlined /> New Tag
                 </Tag>

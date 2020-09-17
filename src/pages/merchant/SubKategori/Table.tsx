@@ -23,6 +23,23 @@ const TableComponent: React.FC<Props> = ({
 }) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push(data[key].children);
+  }
+
+  let data_children = [];
+
+  for (let key in data_array) {
+    console.log(data_array[key], 'key');
+    data_children.push(data_array[key][0]);
+  }
+
+  let children_filtered = data_children.filter(function (el) {
+    return el != null;
+  });
+
   const columns = useMemo(
     () => [
       {
@@ -35,10 +52,9 @@ const TableComponent: React.FC<Props> = ({
         align: 'center',
         title: 'Gambar',
         width: 200,
-        render: (props) => (
+        render: (props: any) => (
           <img alt={`gambar_subkategori-${props.id}`} width="50%" height="5%" src={props.image} />
         ),
-        key: 'gambar',
       },
       {
         align: 'center',

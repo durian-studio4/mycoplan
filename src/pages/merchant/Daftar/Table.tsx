@@ -10,9 +10,20 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
+  visibleUpdate: (id: string) => void;
+  onDeactive: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  visibleUpdate,
+  onDeactive,
+  onDelete,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
   const columns = useMemo(
@@ -79,7 +90,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
             <Button
               className={styles.button_edit}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => visibleUpdate(props.id)}
               type="primary"
             >
               Edit
@@ -87,7 +98,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => onDeactive(props.id)}
               type="primary"
             >
               Deactivate
@@ -95,7 +106,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => remove(props.id)}
+              onClick={() => onDelete(props.id)}
               type="primary"
               danger
             >

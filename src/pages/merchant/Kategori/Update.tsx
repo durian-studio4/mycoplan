@@ -15,7 +15,7 @@ interface Props {
   visible: boolean;
   id: string;
   onCancel: () => void;
-  onUpdate: ({ formData }: any) => void;
+  onUpdate: ({ formData, clear }: any) => void;
   onLoadButton: boolean;
 }
 
@@ -69,7 +69,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   const onClearState = () => {
     setName('');
     onRemoveImage();
-    onClearMerchant();
+    // onClearMerchant();
     onCancel();
   };
 
@@ -85,9 +85,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
       formData.append(key, value);
     }
     onUpdate({
-      formData: formData,
+      formData,
+      clear: onClearState,
     });
-    onClearState();
   };
 
   return (

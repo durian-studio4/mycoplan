@@ -45,8 +45,12 @@ const MerchantKategoriComponent: React.FC<Props> = () => {
     postCreate(`${REACT_APP_ENV}/admin/product/categories`, formData, clear);
   };
 
-  const updateKategori = ({ json }: any) => {
-    postUpdate(`${REACT_APP_ENV}/admin/product/categories/${id_update}`, json);
+  const updateKategori = ({ formData, clear }: any) => {
+    postCreate(
+      `${REACT_APP_ENV}/admin/product/categories/${id_update}?_method=put`,
+      formData,
+      clear,
+    );
   };
 
   const deleteKategori = (id: string) => {
