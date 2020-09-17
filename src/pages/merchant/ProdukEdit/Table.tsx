@@ -56,12 +56,12 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'name',
         key: 'name',
       },
-      {
-        align: 'center',
-        title: 'Gambar',
-        // dataIndex: 'gambar',
-        // key: 'gambar',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Gambar',
+      //   dataIndex: 'gambar',
+      //   key: 'gambar',
+      // },
       {
         align: 'center',
         title: 'Harga (Rp.)',
@@ -69,18 +69,18 @@ const TableComponent: React.FC<Props> = ({
         render: (props) => <p>{Number(props).toLocaleString()}</p>,
         key: 'price',
       },
-      {
-        align: 'center',
-        title: 'Unit',
-        // dataIndex: 'unit',
-        // key: 'unit',
-      },
-      {
-        align: 'center',
-        title: 'Kategori',
-        // dataIndex: 'kategori',
-        // key: 'kategori',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Unit',
+      //   dataIndex: 'unit',
+      //   key: 'unit',
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Kategori',
+      //   dataIndex: 'kategori',
+      //   key: 'kategori',
+      // },
       // {
       //   align: 'center',
       //   title: 'Sub Kategori',

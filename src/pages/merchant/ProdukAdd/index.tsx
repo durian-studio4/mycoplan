@@ -106,8 +106,9 @@ const ProdukAddComponent: React.FC<Props> = () => {
     return false;
   };
 
-  const onRemoveImage = () => {
-    setFileImg([]);
+  const onRemoveImage = (e: any) => {
+    let list = images.filter((data) => data.uid !== e.uid);
+    setFileImg(list);
   };
 
   const onClearState = () => {
@@ -295,12 +296,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
                 onRemove={onRemoveImage}
                 beforeUpload={onChangeImage}
               >
-                <Button
-                  className={styles.button}
-                  type="primary"
-                  id="gambar"
-                  disabled={Boolean(images.length)}
-                >
+                <Button className={styles.button} type="primary" id="gambar">
                   Upload
                   <PlusOutlined />
                 </Button>
