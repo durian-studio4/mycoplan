@@ -26,7 +26,7 @@ const KategoriComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
     try {
       const wait = await axios({
         method: 'get',
-        baseURL: `${REACT_APP_ENV}/admin/recipe/categories`,
+        baseURL: `${REACT_APP_ENV}/admin/products`,
         withCredentials: true,
       });
       const json = await wait.data;

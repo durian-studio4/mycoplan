@@ -71,7 +71,7 @@ const MapContainer: React.FC = () => {
   };
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyDqgK13bJ-62XoposscuhcQfaFOlx1Tt5I">
+    <LoadScript googleMapsApiKey={REACT_APP_ENV_GMAPS}>
       <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={currentPosition}>
         {locations.map((item) => {
           return <Marker key={item.name} position={item.location} onClick={() => onSelect(item)} />;

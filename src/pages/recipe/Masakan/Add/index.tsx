@@ -174,8 +174,9 @@ const AddComponent: React.FC<Props> = () => {
     setSupermarket(state);
   };
 
-  const onRemoveImage = () => {
-    setFileImg([]);
+  const onRemoveImage = (e: any) => {
+    let list = image.filter((data) => data.uid !== e.uid);
+    setFileImg(list);
   };
 
   const onClearState = () => {
@@ -216,7 +217,10 @@ const AddComponent: React.FC<Props> = () => {
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
-    formData.append('images[]', image[0]);
+
+    for (let key in image) {
+      formData.append('images[]', image[key]);
+    }
 
     postCreate(`${REACT_APP_ENV}/admin/recipes`, formData, onClearState);
   };
@@ -363,12 +367,7 @@ const AddComponent: React.FC<Props> = () => {
                   onRemove={onRemoveImage}
                   beforeUpload={onChangeImage}
                 >
-                  <Button
-                    className={styles.button}
-                    id="gambar"
-                    type="primary"
-                    disabled={Boolean(image.length)}
-                  >
+                  <Button className={styles.button} id="gambar" type="primary">
                     Upload
                     <PlusOutlined />
                   </Button>
