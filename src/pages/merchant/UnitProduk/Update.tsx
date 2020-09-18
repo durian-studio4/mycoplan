@@ -52,7 +52,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   };
 
   return (
-    <Modal visible={visible} title="Buat Promo" closable={false} footer={null}>
+    <Modal visible={visible} title="Edit Unit Produk" closable={false} footer={null}>
       {status_update !== 200 || error_update ? <PageError /> : null}
       {loading_update ? (
         <PageLoading />

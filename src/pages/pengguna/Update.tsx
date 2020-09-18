@@ -71,8 +71,8 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   const DataJSON = {
     name,
     phone,
-    gender,
-    dob: date,
+    gender: String(gender),
+    dob: String(date),
   };
 
   const updateUser = () => {

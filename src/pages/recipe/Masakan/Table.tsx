@@ -44,12 +44,12 @@ const TableComponent: React.FC<Props> = ({
 
   const columns = useMemo(
     () => [
-      {
-        align: 'center',
-        title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'No.',
+      //   dataIndex: 'no',
+      //   key: 'no',
+      // },
       {
         align: 'center',
         title: 'ID Resep',
@@ -101,6 +101,9 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Porsi',
+        render: ({ portion_max, portion_min }: number) => (
+          <p>{`${portion_min} - ${portion_max}`}</p>
+        ),
       },
       {
         align: 'center',
@@ -108,14 +111,14 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'difficulty',
         key: 'difficulty',
       },
-      {
-        align: 'center',
-        title: 'Jenis Makanan',
-      },
-      {
-        align: 'center',
-        title: 'Kategori Resep',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Jenis Makanan',
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Kategori Resep',
+      // },
       {
         align: 'center',
         title: 'Tanggal Dimasukkan',

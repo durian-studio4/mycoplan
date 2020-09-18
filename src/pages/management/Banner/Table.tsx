@@ -25,6 +25,23 @@ const TableComponent: React.FC<Props> = ({
   onDeactive,
 }) => {
   // const [getColumnSearchProps] = useFilterColumn();
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push({
+      id: data[key].id,
+      name: data[key].name,
+      title: data[key].title,
+      description: data[key].description,
+      start: data[key].start,
+      end: data[key].end,
+      terms_conditions: data[key].terms_conditions,
+      image: data[key].image,
+      promo: data[key].voucher.code,
+      status: data[key].status,
+    });
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -128,7 +145,7 @@ const TableComponent: React.FC<Props> = ({
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data} loading={loading} scroll={{ x: 1300 }} />;
+  return <Table columns={columns} dataSource={data_array} loading={loading} scroll={{ x: 1300 }} />;
 };
 
 export default TableComponent;

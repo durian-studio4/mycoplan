@@ -64,8 +64,8 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Alamat Merchant',
-        dataIndex: 'alamat',
-        key: 'alamat',
+        dataIndex: 'address',
+        key: 'address',
       },
       {
         align: 'center',

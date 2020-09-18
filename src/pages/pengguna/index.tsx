@@ -36,12 +36,17 @@ const PenggunaComponent: React.FC<Props> = () => {
     setVisibleUpdate(false);
   };
 
+  const consoleLog = () => console.log('deactivated');
+
   const deactiveUser = (id: string) => {
-    postUpdate(`${REACT_APP_ENV}/admin/users/${id}`, { status: 'inactive' });
+    const formData = new FormData();
+    formData.append('status', 'inactive');
+
+    postCreate(`${REACT_APP_ENV}/admin/users/${id}?_method=put`, formData, consoleLog);
   };
 
   const updateUser = ({ json, clear }: any) => {
-    postUpdate(`${REACT_APP_ENV}/admin/users/${id_update}`, json, clear);
+    postCreate(`${REACT_APP_ENV}/admin/users/${id_update}?_method=put`, json, clear);
   };
 
   const deleteUser = (id: string) => {
