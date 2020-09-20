@@ -29,13 +29,13 @@ const MerchantProdukComponent: React.FC<Props> = () => {
   const deactiveProduk = (id: string) => {
     const formData = new FormData();
     formData.append('status', 'inactive');
-    postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
+    postCreate(`${REACT_APP_ENV}/admin/products/${id}?_method=put`, formData, consoleLog);
   };
 
   const activeProduk = (id: string) => {
     const formData = new FormData();
     formData.append('status', 'active');
-    postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
+    postCreate(`${REACT_APP_ENV}/admin/products/${id}?_method=put`, formData, consoleLog);
   };
 
   // const updateProduk = ({ formData, clear }: any) => {
