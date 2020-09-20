@@ -103,7 +103,7 @@ const MerchantSubKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButt
               <div className={styles.group}>
                 <Input
                   className={styles.input}
-                  placeholder="Nama"
+                  placeholder="Nama Sub Kategori"
                   value={name}
                   onChange={onChangeState}
                 />

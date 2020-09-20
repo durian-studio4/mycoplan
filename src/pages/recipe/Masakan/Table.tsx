@@ -11,6 +11,7 @@ interface Props {
   status: number;
   error: any;
   onLoadButton: boolean;
+  onActive: (id: string) => void;
   onDeactive: (id: string) => void;
   onDelete: (id: string) => void;
 }
@@ -20,6 +21,7 @@ const TableComponent: React.FC<Props> = ({
   loading,
   status,
   error,
+  onActive,
   onLoadButton,
   onDeactive,
   onDelete,
@@ -30,6 +32,7 @@ const TableComponent: React.FC<Props> = ({
 
   for (let key in data) {
     data_array.push({
+      no: Number(key) + 1,
       id: data[key].id,
       name: data[key].name,
       author: data[key].author,
@@ -38,18 +41,20 @@ const TableComponent: React.FC<Props> = ({
       difficulty: data[key].difficulty,
       images: data[key].images,
       created_at: data[key].created_at,
+      portion_max: data[key].portion_max,
+      portion_min: data[key].portion_min,
       status: data[key].status,
     });
   }
 
   const columns = useMemo(
     () => [
-      // {
-      //   align: 'center',
-      //   title: 'No.',
-      //   dataIndex: 'no',
-      //   key: 'no',
-      // },
+      {
+        align: 'center',
+        title: 'No.',
+        dataIndex: 'no',
+        key: 'no',
+      },
       {
         align: 'center',
         title: 'ID Resep',
@@ -60,18 +65,16 @@ const TableComponent: React.FC<Props> = ({
         align: 'center',
         title: 'Gambar',
         width: 200,
-        render: ({ images }: any) => (
-          <Fragment>
-            {images.map(({ id, url }: any, i: any) => (
-              <img
-                key={id}
-                alt={`recipe-images-${id}`}
-                src={url || ''}
-                style={{ width: '100%', height: '30%', margin: '5px' }}
-              />
-            ))}
-          </Fragment>
-        ),
+        render: ({ images, id }: any) => {
+          return (
+            <img
+              // key={id}
+              alt={`recipe-images-${id}`}
+              src={images[0].url}
+              style={{ width: '100%', height: '50%', margin: '5px' }}
+            />
+          );
+        },
         key: 'images',
       },
       {
@@ -138,14 +141,27 @@ const TableComponent: React.FC<Props> = ({
         width: 200,
         render: (props: any) => (
           <Row justify="center">
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDeactive(props.id)}
-              type="primary"
-            >
-              Deactivate
-            </Button>
+            {props.status === 'active' ? (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onDeactive(props.id)}
+                type="primary"
+                disabled={onLoadButton}
+              >
+                Deactivate
+              </Button>
+            ) : (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onActive(props.id)}
+                type="primary"
+                disabled={onLoadButton}
+              >
+                Activate
+              </Button>
+            )}
             <Button
               className={styles.button_action}
               id={props.id}
@@ -169,7 +185,7 @@ const TableComponent: React.FC<Props> = ({
   return (
     <Table
       columns={columns}
-      dataSource={data}
+      dataSource={data_array}
       loading={loading || onLoadButton}
       scroll={{ x: 1300 }}
     />

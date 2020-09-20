@@ -156,20 +156,22 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             </div>
           </div>
         </div>
-        <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="description">
-              Deskripsi Banner
-            </label>
-            <TextArea
-              className={styles.area}
-              id="description"
-              onChange={onChangeState}
-              value={description}
-              placeholder="Masukkan Keterangan..."
-            />
+        {banner_type === 'gambar' ? (
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="description">
+                Deskripsi Banner
+              </label>
+              <TextArea
+                className={styles.area}
+                id="description"
+                onChange={onChangeState}
+                value={description}
+                placeholder="Masukkan Keterangan..."
+              />
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label}>Waktu Mulai</label>
@@ -190,20 +192,22 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             </Row>
           </div>
         </div>
-        <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="terms_conditions">
-              Syarat & Ketentuan
-            </label>
-            <TextArea
-              className={styles.area}
-              id="terms_conditions"
-              onChange={onChangeState}
-              value={terms_conditions}
-              placeholder="Masukkan Keterangan..."
-            />
+        {banner_type === 'gambar' ? (
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="terms_conditions">
+                Syarat & Ketentuan
+              </label>
+              <TextArea
+                className={styles.area}
+                id="terms_conditions"
+                onChange={onChangeState}
+                value={terms_conditions}
+                placeholder="Masukkan Keterangan..."
+              />
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="kode">

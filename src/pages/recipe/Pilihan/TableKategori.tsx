@@ -16,19 +16,35 @@ interface Props {
 const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelete }) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push({
+      no: Number(key) + 1,
+      id: data[key].id,
+      name: data[key].name,
+      image: data[key].image,
+    });
+  }
+
   const columns = useMemo(
     () => [
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         align: 'center',
         title: 'Gambar',
+        width: 200,
         render: (props) => (
-          <img alt={`gambar_kategori-${props.id}`} width="30%" height="20%" src={props.image} />
+          <img
+            alt={`gambar_kategori-${props.id}`}
+            style={{ width: '100%', height: '50%' }}
+            src={props.image}
+          />
         ),
         key: 'gambar',
       },
@@ -68,7 +84,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
   return (
     <Card>
       <p className={styles.title}>Kategori Resep Pilihan</p>
-      <Table columns={columns} dataSource={data} loading={loading} />
+      <Table columns={columns} dataSource={data_array} loading={loading} />
 
       <Button className={styles.button_add}>
         <NavLink to="/recipe/kategori">+ Tambah Kategori Pilihan</NavLink>

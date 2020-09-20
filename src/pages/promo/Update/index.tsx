@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Row, Input, Button, Upload, DatePicker } from 'antd';
 import { format } from 'date-fns';
+import moment from 'moment';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 
@@ -75,7 +76,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
       setState(data_update);
       setStart(data_update.start);
       setEnd(data_update.end);
-      setFileImg([data_update.image]);
       setClear([data_update.image]);
     }, 100);
     return () => clearTimeout(timeOut);
@@ -109,15 +109,11 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     if (!user_limit) {
       return setDisabled(true);
     }
-    if (!image.length) {
-      return setDisabled(true);
-    }
     return setDisabled(false);
   }, [
     name,
     code,
     discount,
-    image,
     max_discount,
     min_purchase,
     quantity,
@@ -159,7 +155,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     onCancel();
   };
 
-  const DataJSON = {
+  let DataJSON = {
     name,
     code,
     discount,
@@ -169,7 +165,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     user_limit,
     start,
     end,
-    image: image[0],
     category: String(category),
     description,
     terms_conditions,
@@ -187,8 +182,12 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     });
   };
 
+  if (image.length) {
+    DataJSON['image'] = image[0];
+  }
+
   return (
-    <Modal visible={visible} title="Buat Promo" closable={false} footer={null}>
+    <Modal visible={visible} title="Edit Promo" closable={false} footer={null}>
       {status_update !== 200 || error_update ? <PageError /> : null}
       {loading_update ? (
         <PageLoading />
@@ -288,6 +287,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                   className={styles.picker}
                   onChange={onChangeStart}
                   style={{ marginRight: '5px' }}
+                  defaultValue={moment(data_update.start)}
                 />
               </Row>
             </div>
@@ -300,6 +300,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                   className={styles.picker}
                   onChange={onChangeEnd}
                   style={{ marginRight: '5px' }}
+                  defaultValue={moment(data_update.end)}
                 />
               </Row>
             </div>

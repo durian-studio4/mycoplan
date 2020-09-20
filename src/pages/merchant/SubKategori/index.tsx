@@ -34,7 +34,7 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchKategori(`${REACT_APP_ENV}/admin/product/categories`);
+      fetchKategori(`${REACT_APP_ENV}/admin/product/categories?sub=1`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps

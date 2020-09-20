@@ -26,34 +26,32 @@ const TableComponent: React.FC<Props> = ({
   let data_array = [];
 
   for (let key in data) {
-    data_array.push(data[key].children);
+    data_array.push({
+      no: Number(key) + 1,
+      id: data[key].id,
+      name: data[key].name,
+      image: data[key].image,
+    });
   }
-
-  let data_children = [];
-
-  for (let key in data_array) {
-    console.log(data_array[key], 'key');
-    data_children.push(data_array[key][0]);
-  }
-
-  let children_filtered = data_children.filter(function (el) {
-    return el != null;
-  });
 
   const columns = useMemo(
     () => [
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         align: 'center',
         title: 'Gambar',
         width: 200,
         render: (props: any) => (
-          <img alt={`gambar_subkategori-${props.id}`} width="50%" height="5%" src={props.image} />
+          <img
+            alt={`gambar_subkategori-${props.id}`}
+            style={{ width: '100%', height: '50%' }}
+            src={props.image}
+          />
         ),
       },
       {
@@ -97,6 +95,6 @@ const TableComponent: React.FC<Props> = ({
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data} loading={loading} />;
+  return <Table columns={columns} dataSource={data_array} loading={loading} />;
 };
 export default TableComponent;

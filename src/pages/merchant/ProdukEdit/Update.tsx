@@ -111,9 +111,6 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     if (!images.length) {
       return setDisabled(true);
     }
-    if (!other_packaging.length) {
-      return setDisabled(true);
-    }
     if (!categories) {
       return setDisabled(true);
     }
@@ -132,7 +129,6 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     description,
     information,
     images,
-    other_packaging,
     categories,
     id_merchant,
     id_unit,

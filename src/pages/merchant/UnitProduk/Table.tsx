@@ -23,13 +23,23 @@ const TableComponent: React.FC<Props> = ({
 }) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push({
+      no: Number(key) + 1,
+      id: data[key].id,
+      name: data[key].name,
+    });
+  }
+
   const columns = useMemo(
     () => [
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         align: 'center',
@@ -72,7 +82,7 @@ const TableComponent: React.FC<Props> = ({
     return <PageError status={status} />;
   }
 
-  return <Table columns={columns} dataSource={data} loading={loading} />;
+  return <Table columns={columns} dataSource={data_array} loading={loading} />;
 };
 
 export default TableComponent;

@@ -3,6 +3,7 @@ import { Table, Row, Button } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
 
+import useFilterColumn from '@/hooks/useFilterColumn';
 import PageError from '@/components/PageError';
 interface Props {
   data: any;
@@ -12,17 +13,18 @@ interface Props {
 }
 
 const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
 
   let data_array = [];
 
   for (let key in data) {
     data_array.push({
+      no: Number(key) + 1,
       id: data[key].id,
       name: data[key].name,
-      quantity: data[key].quantity,
-      id_merchant: data[key].id_merchant,
-      nama_merchant: data[key].merchant.name,
+      // quantity: data[key].quantity,
+      // id_merchant: data[key].id_merchant,
+      // nama_merchant: data[key].merchant.name,
     });
   }
 
@@ -31,26 +33,30 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'no',
+        key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
         title: 'ID Merchant',
-        dataIndex: 'id_merchant',
-        key: 'id_merchant',
+        dataIndex: 'id',
+        key: 'id',
+        ...getColumnSearchProps('id'),
       },
       {
         align: 'center',
         title: 'Nama Merchant',
-        dataIndex: 'nama_merchant',
-        key: 'nama_merchant',
+        dataIndex: 'name',
+        key: 'name',
+        ...getColumnSearchProps('name'),
       },
       {
         align: 'center',
         title: 'Jumlah Produk',
         dataIndex: 'quantity',
         key: 'quantity',
+        ...getColumnSearchProps('quantity'),
       },
       {
         align: 'center',
@@ -58,7 +64,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
         render: (props: any) => (
           <Row justify="space-around">
             <NavLink
-              to={`/merchant/produk/${props.id_merchant}`}
+              to={`/merchant/produk/${props.id}`}
               // onClick={() => visibleUpdate(props.id)}
             >
               <Button className={styles.button} type="primary">

@@ -14,8 +14,6 @@ const initialState = {
   name: '',
   email: '',
   password: '',
-  new_password: '',
-  confirm_password: '',
 };
 
 const SettingsProfileComponent: React.FC<Props> = () => {
@@ -35,6 +33,7 @@ const SettingsProfileComponent: React.FC<Props> = () => {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setState({ ...data_list });
+      localStorage.setItem('name', data_list.name);
     }, 100);
     return () => clearTimeout(timeOut);
   }, [data_list]);
@@ -48,8 +47,6 @@ const SettingsProfileComponent: React.FC<Props> = () => {
     name,
     email,
     password,
-    // new_password,
-    // confirm_password,
   };
 
   const updateSettings = () => {

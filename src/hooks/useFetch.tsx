@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
   const [status, setStatus] = useState(200);
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const history = useHistory();
 
   const handleFetch = async (url: string) => {
     setLoading(true);
@@ -19,10 +21,11 @@ function App() {
       setLoading(false);
       return result;
     } catch (err) {
-      console.log(err);
-      // setStatus(err.response.status);
       setIsError(true);
       setLoading(false);
+      if (err.response && err.response.data && err.response.data.message === 'Unauthenticated.') {
+        history.push('/user/login');
+      }
     }
   };
 

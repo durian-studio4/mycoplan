@@ -48,15 +48,22 @@ const ManagementBannerComponent: React.FC<Props> = () => {
     postCreate(`${REACT_APP_ENV}/admin/banners`, formData, clear);
   };
 
-  const updateBanner = ({ json }: any) => {
-    postUpdate(`${REACT_APP_ENV}/admin/banners/${id_update}`, json);
+  const updateBanner = ({ formData, clear }: any) => {
+    postCreate(`${REACT_APP_ENV}/admin/banners/${id_update}?_method=put`, formData, clear);
   };
 
-  const onClear = () => console.log('deactivated');
+  const onClear = () => console.log('success');
 
   const deactiveBanner = (id: string) => {
     const formData = new FormData();
     formData.append('status', 'inactive');
+
+    postCreate(`${REACT_APP_ENV}/admin/banners/${id}?_method=put`, formData, onClear);
+  };
+
+  const activeBanner = (id: string) => {
+    const formData = new FormData();
+    formData.append('status', 'active');
 
     postCreate(`${REACT_APP_ENV}/admin/banners/${id}?_method=put`, formData, onClear);
   };
@@ -92,6 +99,7 @@ const ManagementBannerComponent: React.FC<Props> = () => {
           status={Number(status_banner)}
           error={error_banner}
           visibleUpdate={handleVisibleUpdate}
+          onActive={activeBanner}
           onDelete={deleteBanner}
           onDeactive={deactiveBanner}
         />

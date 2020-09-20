@@ -12,6 +12,7 @@ interface Props {
   error: any;
   visibleUpdate: (id: string) => void;
   onDelete: (id: string) => void;
+  onActive: (id: string) => void;
   onDeactive: (id: string) => void;
 }
 
@@ -21,6 +22,7 @@ const TableComponent: React.FC<Props> = ({
   status,
   error,
   visibleUpdate,
+  onActive,
   onDelete,
   onDeactive,
 }) => {
@@ -29,6 +31,7 @@ const TableComponent: React.FC<Props> = ({
 
   for (let key in data) {
     data_array.push({
+      no: Number(key) + 1,
       id: data[key].id,
       name: data[key].name,
       title: data[key].title,
@@ -47,15 +50,19 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         align: 'center',
         title: 'Gambar',
         width: 200,
         render: (props) => (
-          <img alt={`gambar_banner-${props.id}`} width="100%" height="20%" src={props.image} />
+          <img
+            alt={`gambar_banner-${props.id}`}
+            style={{ width: '100%', height: '50%' }}
+            src={props.image}
+          />
         ),
         key: 'image',
       },
@@ -116,14 +123,25 @@ const TableComponent: React.FC<Props> = ({
             >
               Edit
             </Button>
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDeactive(props.id)}
-              type="primary"
-            >
-              Deactivate
-            </Button>
+            {props.status === 'active' ? (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onDeactive(props.id)}
+                type="primary"
+              >
+                Deactivate
+              </Button>
+            ) : (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onActive(props.id)}
+                type="primary"
+              >
+                Activate
+              </Button>
+            )}
             <Button
               className={styles.button_action}
               id={props.id}

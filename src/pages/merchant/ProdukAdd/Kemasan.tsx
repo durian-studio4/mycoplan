@@ -28,7 +28,7 @@ const KemasanComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
     try {
       const wait = await axios({
         method: 'get',
-        baseURL: `${REACT_APP_ENV}/admin/products`,
+        baseURL: `${REACT_APP_ENV}/admin/product/categories?category=1`,
         withCredentials: true,
       });
       const json = await wait.data;

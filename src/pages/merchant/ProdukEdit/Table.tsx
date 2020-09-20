@@ -3,6 +3,7 @@ import { Table, Row, Button } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
 
+import useFilterColumn from '@/hooks/useFilterColumn';
 import PageError from '@/components/PageError';
 
 interface Props {
@@ -10,7 +11,8 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
-  // onDeactive: (id: string) => void;
+  onDeactive: (id: string) => void;
+  onActive: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
@@ -19,42 +21,62 @@ const TableComponent: React.FC<Props> = ({
   loading,
   status,
   error,
-  // onDeactive,
+  onActive,
+  onDeactive,
   onDelete,
 }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
+
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push({
+      no: Number(key) + 1,
+      id: data[key].id,
+      name: data[key].name,
+      sku: data[key].sku,
+      quantity: data[key].quantity,
+      price: data[key].price,
+      status: data[key].status,
+    });
+  }
 
   const columns = useMemo(
     () => [
       {
         align: 'center',
         title: 'No',
-        // dataIndex: 'id',
-        // key: 'id',
+        dataIndex: 'no',
+        key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
         title: 'ID Produk',
         dataIndex: 'id',
         key: 'id',
+        ...getColumnSearchProps('id'),
       },
       {
         align: 'center',
         title: 'SKU',
         dataIndex: 'sku',
         key: 'sku',
+        ...getColumnSearchProps('sku'),
       },
       {
         align: 'center',
         title: 'Stok',
         dataIndex: 'quantity',
         key: 'quantity',
+        ...getColumnSearchProps('quantity'),
       },
       {
         align: 'center',
         title: 'Nama Produk',
         dataIndex: 'name',
         key: 'name',
+        ...getColumnSearchProps('name'),
       },
       // {
       //   align: 'center',
@@ -68,6 +90,7 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'price',
         render: (props) => <p>{Number(props).toLocaleString()}</p>,
         key: 'price',
+        ...getColumnSearchProps('price'),
       },
       // {
       //   align: 'center',
@@ -113,14 +136,25 @@ const TableComponent: React.FC<Props> = ({
                 Edit
               </NavLink>
             </Button>
-            {/* <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDeactive(props.id)}
-              type="primary"
-            >
-              Deactivate
-            </Button> */}
+            {props.status === 'active' ? (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onDeactive(props.id)}
+                type="primary"
+              >
+                Deactivate
+              </Button>
+            ) : (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onActive(props.id)}
+                type="primary"
+              >
+                Activate
+              </Button>
+            )}
             <Button
               className={styles.button_action}
               id={props.id}
@@ -142,7 +176,7 @@ const TableComponent: React.FC<Props> = ({
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data.products} loading={loading} />;
+  return <Table columns={columns} dataSource={data_array} loading={loading} />;
 };
 
 export default TableComponent;

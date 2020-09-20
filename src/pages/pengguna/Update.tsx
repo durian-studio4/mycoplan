@@ -26,7 +26,7 @@ const initialState = {
 
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
   const [{ name, phone }, setState] = useState(initialState);
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
 
   const [data, status, loading, error, fetchUpdate] = useFetch();
 
@@ -41,16 +41,13 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   }, [id]);
 
   useEffect(() => {
-    const timeOut = setTimeout(() => {
-      if (data) {
-        setState({
-          name: data.name,
-          phone: data.phone,
-        });
-        setDate(data.dob);
-      }
-    }, 100);
-    return () => clearTimeout(timeOut);
+    if (data) {
+      setState({
+        name: data.name,
+        phone: data.phone,
+      });
+      setDate(data.dob);
+    }
   }, [data]);
 
   const onChangeState = (e: { target: HTMLInputElement }) => {
@@ -83,7 +80,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   };
 
   return (
-    <Modal visible={visible} title="Buat Promo" closable={false} footer={null}>
+    <Modal visible={visible} title="Edit Pengguna" closable={false} footer={null}>
       {status !== 200 || error ? <PageError /> : null}
       {loading ? (
         <PageLoading />
@@ -128,14 +125,16 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               />
             </div>
           </div>
-          <div className={styles.box10}>
-            <div className={styles.group}>
-              <label className={styles.label}>Tanggal Lahir</label>
-              <div className={styles.box10}>
-                <DatePicker defaultValue={moment(date)} onChange={onChangeDate} />
+          {date ? (
+            <div className={styles.box10}>
+              <div className={styles.group}>
+                <label className={styles.label}>Tanggal Lahir</label>
+                <div className={styles.box10}>
+                  <DatePicker defaultValue={moment(date)} onChange={onChangeDate} />
+                </div>
               </div>
             </div>
-          </div>
+          ) : null}
         </div>
       )}
       <Row justify="end">

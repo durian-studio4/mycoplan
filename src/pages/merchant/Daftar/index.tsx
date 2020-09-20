@@ -54,11 +54,17 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
     postCreate(`${REACT_APP_ENV}/admin/merchants/`, formData, clear);
   };
 
-  const consoleLog = () => console.log('inactive');
+  const consoleLog = () => console.log('success');
 
   const deactiveMerchant = (id: string) => {
     const formData = new FormData();
     formData.append('status', 'inactive');
+    postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
+  };
+
+  const activeMerchant = (id: string) => {
+    const formData = new FormData();
+    formData.append('status', 'active');
     postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
   };
 
@@ -77,15 +83,15 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
         <Row justify="space-between">
           <p className={styles.title}>Daftar Merchant</p>
           <div className={styles.row_box}>
-            <Input
+            {/* <Input
               className={styles.input_search}
               id="name"
               type="text"
               placeholder="Cari Merchant"
-              // onChange={onChangeState}
-              // value={name}
-              // onKeyDown={handleKey}
-            />
+              onChange={onChangeState}
+              value={name}
+              onKeyDown={handleKey}
+            /> */}
             <Button className={styles.button_search} onClick={handleVisible} type="primary">
               + Tambah Merchant
             </Button>
@@ -98,6 +104,7 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
           error={error_merchant}
           visibleUpdate={handleVisibleUpdate}
           onDeactive={deactiveMerchant}
+          onActive={activeMerchant}
           onDelete={deleteMerchant}
         />
         {visible ? <AddComponent visible={visible} onCancel={handleVisible} /> : null}

@@ -26,7 +26,7 @@ const SelectKategoriComponent: React.FC<Props> = ({ initial, disabled, handleCha
     try {
       const wait = await axios({
         method: 'get',
-        baseURL: `${REACT_APP_ENV}/admin/product/categories`,
+        baseURL: `${REACT_APP_ENV}/admin/product/categories?category=1`,
         withCredentials: true,
       });
       const json = await wait.data;

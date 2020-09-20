@@ -12,6 +12,7 @@ interface Props {
   error: any;
   visibleUpdate: (id: string) => void;
   onDeactive: (id: string) => void;
+  onActive: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
@@ -21,16 +22,39 @@ const TableComponent: React.FC<Props> = ({
   status,
   error,
   visibleUpdate,
+  onActive,
   onDeactive,
   onDelete,
 }) => {
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push({
+      no: Number(key) + 1,
+      id: data[key].id,
+      name: data[key].name,
+      image: data[key].image,
+      category: data[key].category,
+      code: data[key].code,
+      discount: data[key].discount,
+      max_discount: data[key].max_discount,
+      min_purchase: data[key].min_purchase,
+      start: data[key].start,
+      end: data[key].end,
+      user_limit: data[key].user_limit,
+      quantity: data[key].quantity,
+      used: data[key].used,
+      status: data[key].status,
+    });
+  }
+
   const columns = useMemo(
     () => [
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         align: 'center',
@@ -138,14 +162,25 @@ const TableComponent: React.FC<Props> = ({
             >
               Edit
             </Button>
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDeactive(props.id)}
-              type="primary"
-            >
-              Deactivate
-            </Button>
+            {props.status === 'active' ? (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onDeactive(props.id)}
+                type="primary"
+              >
+                Deactivate
+              </Button>
+            ) : (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onActive(props.id)}
+                type="primary"
+              >
+                Activate
+              </Button>
+            )}
             <Button
               className={styles.button_action}
               id={props.id}
@@ -167,7 +202,7 @@ const TableComponent: React.FC<Props> = ({
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data} loading={loading} scroll={{ x: 1300 }} />;
+  return <Table columns={columns} dataSource={data_array} loading={loading} scroll={{ x: 1300 }} />;
 };
 
 export default TableComponent;

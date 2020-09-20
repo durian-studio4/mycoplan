@@ -48,11 +48,17 @@ const PromoComponent: React.FC<Props> = () => {
     postCreate(`${REACT_APP_ENV}/admin/vouchers`, formData, clear);
   };
 
-  const consoleLog = () => console.log('inactive');
+  const consoleLog = () => console.log('success');
 
   const deactivePromo = (id: string) => {
     const formData = new FormData();
     formData.append('status', 'inactive');
+    postCreate(`${REACT_APP_ENV}/admin/vouchers/${id}?_method=put`, formData, consoleLog);
+  };
+
+  const activePromo = (id: string) => {
+    const formData = new FormData();
+    formData.append('status', 'active');
     postCreate(`${REACT_APP_ENV}/admin/vouchers/${id}?_method=put`, formData, consoleLog);
   };
 
@@ -91,6 +97,7 @@ const PromoComponent: React.FC<Props> = () => {
           status={Number(status_list)}
           error={error_list}
           visibleUpdate={handleVisibleUpdate}
+          onActive={activePromo}
           onDeactive={deactivePromo}
           onDelete={deletePromo}
         />

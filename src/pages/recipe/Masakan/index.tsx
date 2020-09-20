@@ -26,6 +26,10 @@ const RecipeMasakanComponent: React.FC<Props> = () => {
     postUpdate(`${REACT_APP_ENV}/admin/recipes/${id}`, { status: 'inactive' });
   };
 
+  const activeResep = (id: string) => {
+    postUpdate(`${REACT_APP_ENV}/admin/recipes/${id}`, { status: 'active' });
+  };
+
   const deleteResep = (id: string) => {
     postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
   };
@@ -59,6 +63,7 @@ const RecipeMasakanComponent: React.FC<Props> = () => {
           status={Number(status_resep)}
           error={error_resep}
           onLoadButton={Boolean(loading_update)}
+          onActive={activeResep}
           onDelete={deleteResep}
           onDeactive={deactiveResep}
         />

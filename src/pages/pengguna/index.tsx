@@ -36,11 +36,18 @@ const PenggunaComponent: React.FC<Props> = () => {
     setVisibleUpdate(false);
   };
 
-  const consoleLog = () => console.log('deactivated');
+  const consoleLog = () => console.log('success');
 
   const deactiveUser = (id: string) => {
     const formData = new FormData();
     formData.append('status', 'inactive');
+
+    postCreate(`${REACT_APP_ENV}/admin/users/${id}?_method=put`, formData, consoleLog);
+  };
+
+  const activeUser = (id: string) => {
+    const formData = new FormData();
+    formData.append('status', 'active');
 
     postCreate(`${REACT_APP_ENV}/admin/users/${id}?_method=put`, formData, consoleLog);
   };
@@ -60,15 +67,6 @@ const PenggunaComponent: React.FC<Props> = () => {
         <Row justify="space-between">
           <p className={styles.title}>Daftar Pengguna</p>
           <div className={styles.row_box}>
-            <Input
-              className={styles.input_search}
-              id="name"
-              type="text"
-              placeholder="Cari Pengguna"
-              // onChange={onChangeState}
-              // value={name}
-              // onKeyDown={handleKey}
-            />
             <Button className={styles.button} type="primary">
               <DownloadOutlined /> Download CSV
             </Button>
@@ -82,6 +80,7 @@ const PenggunaComponent: React.FC<Props> = () => {
           visibleUpdate={handleVisibleUpdate}
           onLoadButton={Boolean(loading_update)}
           onDeactive={deactiveUser}
+          onActive={activeUser}
           onDelete={deleteUser}
         />
       </Card>

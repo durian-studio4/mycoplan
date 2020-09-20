@@ -17,13 +17,25 @@ interface Props {
 const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelete }) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push({
+      no: Number(key) + 1,
+      id: data[key].id,
+      name: data[key].name,
+      role: data[key].role,
+      created_at: data[key].created_at,
+    });
+  }
+
   const columns = useMemo(
     () => [
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         align: 'center',
@@ -73,11 +85,11 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
         width: 150,
         render: (props: any) => (
           <Row justify="center">
-            {/* <Button type="primary" className={styles.button_action}>
+            <Button type="primary" className={styles.button_action}>
               <NavLink to={`/admin/edit/${props.id}`} id={props.id}>
                 Edit
               </NavLink>
-            </Button> */}
+            </Button>
             <Button
               className={styles.button_action}
               id={props.id}
@@ -99,7 +111,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data} loading={loading} />;
+  return <Table columns={columns} dataSource={data_array} loading={loading} />;
 };
 
 export default TableComponent;

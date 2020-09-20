@@ -43,7 +43,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
         const data_name = data_update.name;
         const data_img = data_update.image;
         setName(data_name);
-        setFileImg([data_img]);
         setClear([data_img]);
       }
     }, 100);
@@ -73,10 +72,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     onCancel();
   };
 
-  const DataJSON = {
+  let DataJSON = {
     name,
     // id_parent: String(id_merchant),
-    image: image[0],
   };
 
   const updateKategori = () => {
@@ -89,6 +87,10 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
       clear: onClearState,
     });
   };
+
+  if (image.length) {
+    DataJSON['image'] = image[0];
+  }
 
   return (
     <Modal visible={visible} title="Update Kategori" closable={false} footer={null}>
@@ -163,7 +165,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
         <Button
           className={styles.button}
           onClick={updateKategori}
-          disabled={!name || !image.length || onLoadButton}
+          disabled={!name || onLoadButton}
           type="primary"
         >
           Simpan

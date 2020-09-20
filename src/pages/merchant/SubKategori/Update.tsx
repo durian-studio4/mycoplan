@@ -40,7 +40,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   useEffect(() => {
     if (data_update) {
       setName(data_update.name);
-      setFileImg([data_update.image]);
       setClear([data_update.image]);
     }
   }, [data_update]);
@@ -66,10 +65,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     onCancel();
   };
 
-  const DataJSON = {
+  let DataJSON = {
     name,
     id_parent: String(id_product),
-    image: image[0],
   };
 
   const updateKategori = () => {
@@ -83,8 +81,12 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     });
   };
 
+  if (image.length) {
+    DataJSON['image'] = image[0];
+  }
+
   return (
-    <Modal visible={visible} title="Update Kategori" closable={false} footer={null}>
+    <Modal visible={visible} title="Update Sub Kategori" closable={false} footer={null}>
       {status_update !== 200 || error_update ? <PageError /> : null}
       {loading_update ? (
         <PageLoading />

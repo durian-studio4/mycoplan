@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Card, Row, Input } from 'antd';
+import React, { useEffect } from 'react';
+import { Button, Card, Row } from 'antd';
 import { NavLink, useParams } from 'umi';
 import styles from './index.less';
 
 import TableComponent from './Table';
-import UpdateComponent from './Update';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreateForm';
@@ -19,19 +18,25 @@ const MerchantProdukComponent: React.FC<Props> = () => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchList(`${REACT_APP_ENV}/admin/merchants/${id}`);
+      fetchList(`${REACT_APP_ENV}/admin/products/?merchant=${id}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
 
-  // const consoleLog = () => console.log('inactive');
+  const consoleLog = () => console.log('success');
 
-  // const deactiveProduk = (id: string) => {
-  //   const formData = new FormData();
-  //   formData.append('status', 'inactive');
-  //   postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
-  // };
+  const deactiveProduk = (id: string) => {
+    const formData = new FormData();
+    formData.append('status', 'inactive');
+    postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
+  };
+
+  const activeProduk = (id: string) => {
+    const formData = new FormData();
+    formData.append('status', 'active');
+    postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
+  };
 
   // const updateProduk = ({ formData, clear }: any) => {
   //   postCreate(`${REACT_APP_ENV}/admin/merchants/${id_update}?_method=put`, formData, clear);
@@ -48,15 +53,15 @@ const MerchantProdukComponent: React.FC<Props> = () => {
         <Row justify="space-between">
           <p className={styles.title}>Daftar Produk {data_list.name}</p>
           <div className={styles.row_box}>
-            <Input
+            {/* <Input
               className={styles.input_search}
               id="name"
               type="text"
               placeholder="Cari Produk"
-              // onChange={onChangeState}
-              // value={name}
-              // onKeyDown={handleKey}
-            />
+              onChange={onChangeState}
+              value={name}
+              onKeyDown={handleKey}
+            /> */}
             <NavLink to="/merchant/produk/add">
               <Button className={styles.button_search} type="primary">
                 + Tambah Produk
@@ -69,7 +74,8 @@ const MerchantProdukComponent: React.FC<Props> = () => {
           loading={Boolean(loading_list)}
           status={Number(status_list)}
           error={error_list}
-          // onDeactive={deactiveProduk}
+          onDeactive={deactiveProduk}
+          onActive={activeProduk}
           onDelete={deleteProduk}
         />
       </Card>

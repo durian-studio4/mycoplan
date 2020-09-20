@@ -27,6 +27,7 @@ const TableComponent: React.FC<Props> = ({
 
   for (let key in data) {
     data_array.push({
+      no: Number(key) + 1,
       id: data[key].id,
       name: data[key].name,
       image: data[key].image,
@@ -38,15 +39,19 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'No.',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         align: 'center',
         title: 'Gambar',
         width: 200,
         render: (props) => (
-          <img alt={`gambar_kategori-${props.id}`} width="50%" height="5%" src={props.image} />
+          <img
+            alt={`gambar_kategori-${props.id}`}
+            style={{ width: '100%', height: '50%' }}
+            src={props.image}
+          />
         ),
         key: 'gambar',
       },

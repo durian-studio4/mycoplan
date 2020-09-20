@@ -18,7 +18,7 @@ interface Props {
   visible: boolean;
   id: string;
   onCancel: () => void;
-  onUpdate: ({ json }: any) => void;
+  onUpdate: ({ formData, clear }: any) => void;
   onLoadButton: boolean;
 }
 
@@ -64,7 +64,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
       });
       setStart(start);
       setEnd(end);
-      setFileImg([image]);
       setClear([image]);
     }
   }, [data_update]);
@@ -79,11 +78,8 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     if (!description) {
       return setDisabled(true);
     }
-    if (!file_img.length) {
-      return setDisabled(true);
-    }
     return setDisabled(false);
-  }, [terms_conditions, file_img, title, description]);
+  }, [terms_conditions, title, description]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -119,7 +115,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     onCancel();
   };
 
-  const DataJSON = {
+  let DataJSON = {
     id_voucher: String(id_voucher),
     title,
     description,
@@ -127,17 +123,26 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     start,
     end,
     owner: 'global',
-    image: file_img[0],
     banner_type: String(banner_type),
     status: 'active',
   };
 
   const updatePromo = () => {
+    const formData = new FormData();
+
+    for (let [key, value] of Object.entries(DataJSON)) {
+      formData.append(key, value);
+    }
+
     onUpdate({
-      json: DataJSON,
+      formData,
+      clear: onClearState,
     });
-    onClearState();
   };
+
+  if (file_img.length) {
+    DataJSON['image'] = file_img[0];
+  }
 
   return (
     <Modal visible={visible} title="Update Banner" closable={false} footer={null}>
