@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Row, Input } from 'antd';
+import { Card } from 'antd';
 import styles from './index.less';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
 import UpdateComponent from './Update';
-
-import SelectKategori from '@/components/Select/SelectKategori';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreateForm';
@@ -72,20 +70,6 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
       <AddComponent onCreate={createKategori} onLoadButton={Boolean(loading_update)} />
       <Card>
         <p className={styles.title}>Sub Kategori</p>
-        <Row style={{ marginBottom: '1em' }}>
-          <div className={styles.box3} style={{ margin: '5px' }}>
-            <SelectKategori />
-          </div>
-          <Input
-            className={styles.input_search}
-            id="name"
-            type="text"
-            placeholder="Cari Sub Kategori"
-            // onChange={onChangeState}
-            // value={name}
-            // onKeyDown={handleKey}
-          />
-        </Row>
         <TableComponent
           data={data_kategori}
           loading={Boolean(loading_kategori)}

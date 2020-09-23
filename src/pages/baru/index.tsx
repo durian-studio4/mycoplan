@@ -1,11 +1,8 @@
 import React from 'react';
 import { Button, Card, Row, Input } from 'antd';
-import TableComponent from './Table';
 import styles from './index.less';
 
 interface Props {}
-
-const { TextArea } = Input;
 
 const ProfileComponent: React.FC<Props> = () => {
   return (
@@ -18,7 +15,7 @@ const ProfileComponent: React.FC<Props> = () => {
             Edit Link
           </Button>
         </Row>
-        <TextArea className={styles.area} />
+        <Input />
         {/* <TableComponent /> */}
       </Card>
     </div>

@@ -1,11 +1,23 @@
-import React, { useMemo, useCallback, useRef, useState } from 'react';
+import React, { useMemo, useCallback, useRef, useState, useEffect } from 'react';
 import { Table, Row, Button } from 'antd';
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
+import { format } from 'date-fns';
 import styles from './index.less';
 
-interface Props {}
+import PageError from '@/components/PageError';
+
+interface Props {
+  data: any;
+  loading: boolean;
+  status: number;
+  error: any;
+  visibleUpdate: (id: string) => void;
+  onDelete: (id: string) => void;
+  onActive: (id: string) => void;
+  onDeactive: (id: string) => void;
+}
 
 const RNDContext = createDndContext(HTML5Backend);
 
@@ -46,28 +58,18 @@ const DragableBodyRow = ({ index, moveRow, className, style, ...restProps }: any
   );
 };
 
-const initialData = [
-  {
-    no: '1',
-    judul: 'Judul Banner',
-    description: 'Deskripsi',
-    syarat: 'none',
-    promo: 'none',
-    tipe_banner: 'Gambar Saja',
-  },
-  {
-    no: '2',
-    judul: 'Judul Banner',
-    description: 'Deskripsi',
-    syarat: 'none',
-    promo: 'none',
-    tipe_banner: 'Gambar & Detail',
-  },
-];
-
-const TableComponent: React.FC<Props> = () => {
+const TableComponent: React.FC<Props> = ({
+  data,
+  loading,
+  status,
+  error,
+  visibleUpdate,
+  onActive,
+  onDelete,
+  onDeactive,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
-  const [data, setData] = useState(initialData);
+  const [data_banner, setData] = useState([]);
   const manager = useRef(RNDContext);
 
   const components = {
@@ -76,11 +78,33 @@ const TableComponent: React.FC<Props> = () => {
     },
   };
 
+  useEffect(() => {
+    let data_array = [];
+    if (data) {
+      for (let key in data) {
+        data_array.push({
+          no: Number(key) + 1,
+          id: data[key].id,
+          name: data[key].name,
+          title: data[key].title,
+          description: data[key].description,
+          start: data[key].start,
+          end: data[key].end,
+          terms_conditions: data[key].terms_conditions,
+          image: data[key].image,
+          promo: data[key].voucher.code,
+          status: data[key].status,
+        });
+      }
+      setData([...data_array]);
+    }
+  }, [data]);
+
   const moveRow = useCallback(
     (dragIndex, hoverIndex) => {
-      const dragRow = data[dragIndex];
+      const dragRow = data_banner[dragIndex];
       setData(
-        update(data, {
+        update(data_banner, {
           $splice: [
             [dragIndex, 1],
             [hoverIndex, 0, dragRow],
@@ -88,7 +112,7 @@ const TableComponent: React.FC<Props> = () => {
         }),
       );
     },
-    [data],
+    [data_banner],
   );
 
   const columns = useMemo(
@@ -102,14 +126,21 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Gambar',
-        dataIndex: 'gambar',
-        key: 'gambar',
+        width: 200,
+        render: (props) => (
+          <img
+            alt={`gambar_banner-${props.id}`}
+            style={{ width: '100%', height: '50%' }}
+            src={props.image}
+          />
+        ),
+        key: 'image',
       },
       {
         align: 'center',
         title: 'Judul Banner Merchant',
-        dataIndex: 'judul',
-        key: 'judul',
+        dataIndex: 'title',
+        key: 'title',
       },
       {
         align: 'left',
@@ -120,16 +151,20 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Waktu Mulai',
+        dataIndex: 'start',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
       {
         align: 'center',
         title: 'Waktu Akhir',
+        dataIndex: 'end',
+        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
       {
         align: 'center',
         title: 'Syarat & Ketentuan',
-        dataIndex: 'syarat',
-        key: 'syarat',
+        dataIndex: 'terms_conditions',
+        key: 'terms_conditions',
       },
       {
         align: 'center',
@@ -137,48 +172,54 @@ const TableComponent: React.FC<Props> = () => {
         dataIndex: 'promo',
         key: 'promo',
       },
-      {
-        align: 'center',
-        title: 'Tipe Banner',
-        key: 'banner',
-        dataIndex: 'tipe_banner',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Tipe Banner',
+      //   key: 'banner',
+      //   dataIndex: 'tipe_banner',
+      // },
       {
         align: 'center',
         title: 'Status',
+        dataIndex: 'status',
         key: 'status',
-        render: ({ id }: any) => (id === 1 ? <p>Active</p> : <p>Non-Active</p>),
       },
       {
         align: 'center',
         title: 'Action',
         render: (props: any) => (
-          // <Dropdown overlay={menu} trigger={['click']}>
-          //   <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-          //     <MenuOutlined />
-          //   </a>
-          // </Dropdown>
           <Row justify="center">
             <Button
               className={styles.button_edit}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              onClick={() => visibleUpdate(props.id)}
               type="primary"
             >
               Edit
             </Button>
+            {props.status === 'active' ? (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onDeactive(props.id)}
+                type="primary"
+              >
+                Deactivate
+              </Button>
+            ) : (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onActive(props.id)}
+                type="primary"
+              >
+                Activate
+              </Button>
+            )}
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
-              type="primary"
-            >
-              Deactivate
-            </Button>
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              // onClick={() => remove(props.id)}
+              onClick={() => onDelete(props.id)}
               type="primary"
               danger
             >
@@ -192,15 +233,16 @@ const TableComponent: React.FC<Props> = () => {
     [],
   );
 
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
+  if (error || status !== 200) {
+    return <PageError />;
+  }
 
   return (
     <DndProvider manager={manager.current.dragDropManager}>
       <Table
         columns={columns}
-        dataSource={data}
+        loading={loading}
+        dataSource={data_banner}
         components={components}
         onRow={(record, index) => ({
           index,

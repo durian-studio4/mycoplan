@@ -1,84 +1,65 @@
-import React, { useMemo } from 'react';
-import { Table, Row, Button, Dropdown, Menu, Radio } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import React, { useState, useEffect, useRef } from 'react';
 
-interface Props {}
+let autoComplete;
 
-const menu = (
-  <Menu>
-    <Menu.Item key="0">Edit</Menu.Item>
-    <Menu.Item key="1">Delete</Menu.Item>
-  </Menu>
-);
+const loadScript = (url: string, callback: any) => {
+  let script = document.createElement('script');
+  script.type = 'text/javascript';
 
-const TableComponent: React.FC<Props> = () => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  if (script.readyState) {
+    script.onreadystatechange = function () {
+      if (script.readyState === 'loaded' || script.readyState === 'complete') {
+        script.onreadystatechange = null;
+        callback();
+      }
+    };
+  } else {
+    script.onload = () => callback();
+  }
 
-  const columns = useMemo(
-    () => [
-      {
-        align: 'center',
-        title: 'Nama',
-        dataIndex: 'nama',
-        key: 'nama',
-      },
-      {
-        align: 'left',
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-      },
-      {
-        align: 'center',
-        title: 'Peran',
-        dataIndex: 'peran',
-        key: 'peran',
-      },
-      {
-        align: 'center',
-        title: 'Tanggal Dimasukkan',
-        dataIndex: 'tanggal',
-        key: 'tanggal',
-      },
-      // {
-      //   align: 'center',
-      //   title: 'Status',
-      //   key: 'status',
-      //   render: ({ id }: any) => {
-      //     {
-      //       if (id === 1) {
-      //         <Radio>Active</Radio>;
-      //       }
-      //       if (id === 2) {
-      //         <Radio>Running</Radio>;
-      //       }
-      //       if (id === 3) {
-      //         <Radio>Banned</Radio>;
-      //       }
-      //     }
-      //   },
-      // },
-      {
-        align: 'center',
-        title: 'Action',
-        render: (props: any) => (
-          <Dropdown overlay={menu} trigger={['click']}>
-            <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-              <MenuOutlined />
-            </a>
-          </Dropdown>
-        ),
-      },
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
-  // if (error) {
-  //   return <PageError status={status} />;
-  // }
-
-  return <Table columns={columns} />;
+  script.src = url;
+  document.getElementsByTagName('head')[0].appendChild(script);
 };
 
-export default TableComponent;
+function handleScriptLoad(updateQuery: any, autoCompleteRef: any) {
+  autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {
+    types: ['(cities)'],
+    componentRestrictions: { country: 'us' },
+  });
+  autoComplete.setFields(['address_components', 'formatted_address']);
+  autoComplete.addListener('place_changed', () => handlePlaceSelect(updateQuery));
+}
+
+async function handlePlaceSelect(updateQuery: any) {
+  const addressObject = autoComplete.getPlace();
+  const query = addressObject.formatted_address;
+  updateQuery(query);
+  console.log(addressObject);
+}
+
+const SearchLocationInput: React.FC = () => {
+  const [query, setQuery] = useState('');
+  const autoCompleteRef = useRef(null);
+
+  console.log(query, 'query');
+
+  useEffect(() => {
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_ENV_GMAPS}&libraries=places`,
+      () => handleScriptLoad(setQuery, autoCompleteRef),
+    );
+  }, []);
+
+  return (
+    <div className="search-location-input">
+      <input
+        ref={autoCompleteRef}
+        onChange={(event) => setQuery(event.target.value)}
+        placeholder="Enter a City"
+        value={query}
+      />
+    </div>
+  );
+};
+
+export default SearchLocationInput;

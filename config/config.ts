@@ -73,12 +73,12 @@ export default defineConfig({
           component: '../layouts/BasicLayout',
           Routes: ['src/pages/Authorized'],
           routes: [
-            // {
-            //   name: 'Baru',
-            //   icon: 'smile',
-            //   path: '/baru',
-            //   component: './baru',
-            // },
+            {
+              name: 'Baru',
+              icon: 'smile',
+              path: '/baru',
+              component: './baru',
+            },
             {
               name: 'Dashboard',
               icon: 'home',
@@ -111,8 +111,7 @@ export default defineConfig({
                   icon: 'picture',
                   path: '/merchant/banner',
                   component: './merchant/Banner',
-                  authority: ['merchant'],
-                  // authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   name: 'Produk',

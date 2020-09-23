@@ -79,15 +79,6 @@ const ManagementBannerComponent: React.FC<Props> = () => {
         <Row justify="space-between">
           <p className={styles.title}>Daftar Banner</p>
           <div className={styles.row_box}>
-            <Input
-              className={styles.input_search}
-              id="name"
-              type="text"
-              placeholder="Cari Banner"
-              // onChange={onChangeState}
-              // value={name}
-              // onKeyDown={handleKey}
-            />
             <Button className={styles.button_search} onClick={handleVisible} type="primary">
               + Tambah Banner
             </Button>

@@ -3,6 +3,7 @@ import { Table, Row, Button } from 'antd';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 interface Props {
   data: any;
@@ -21,7 +22,7 @@ const TableComponent: React.FC<Props> = ({
   visibleUpdate,
   onDelete,
 }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
 
   let data_array = [];
 
@@ -41,6 +42,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
@@ -59,6 +61,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'Sub Kategori Produk',
         dataIndex: 'name',
         key: 'name',
+        ...getColumnSearchProps('name'),
       },
       {
         align: 'center',
