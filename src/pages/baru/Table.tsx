@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Input } from 'antd';
 
 let autoComplete;
 
@@ -52,7 +53,7 @@ const SearchLocationInput: React.FC = () => {
 
   return (
     <div className="search-location-input">
-      <input
+      <Input
         ref={autoCompleteRef}
         onChange={(event) => setQuery(event.target.value)}
         placeholder="Enter a City"
