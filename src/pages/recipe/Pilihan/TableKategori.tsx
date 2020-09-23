@@ -42,7 +42,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
         render: (props) => (
           <img
             alt={`gambar_kategori-${props.id}`}
-            style={{ width: '100%', height: '50%' }}
+            style={{ width: '100%', height: '100%' }}
             src={props.image}
           />
         ),

@@ -71,7 +71,7 @@ const TableComponent: React.FC<Props> = ({
               // key={id}
               alt={`recipe-images-${id}`}
               src={images[0].url}
-              style={{ width: '100%', height: '50%', margin: '5px' }}
+              style={{ width: '100%', height: '100%', margin: '5px' }}
             />
           );
         },
