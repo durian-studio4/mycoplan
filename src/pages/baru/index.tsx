@@ -17,13 +17,12 @@ const ProfileComponent: React.FC<Props> = () => {
     console.log(address, 'address');
     geocodeByAddress(address)
       .then((results: any) => {
-        getLatLng(results[0]);
+        console.log(results, 'result');
+        return getLatLng(results[0]);
       })
       .then((latLng: any) => console.log('Success', latLng))
       .catch((error: any) => console.error('Error', error));
   };
-
-  console.log(value, 'value');
 
   return (
     <PlacesAutocomplete value={value} onChange={handleChange} onSelect={handleSelect}>
