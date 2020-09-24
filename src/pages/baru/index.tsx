@@ -36,7 +36,7 @@ const ProfileComponent: React.FC<Props> = () => {
     <PlacesAutocomplete value={value} onChange={handleChange} onSelect={handleSelect}>
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div>
-          <input
+          <Input
             {...getInputProps({
               placeholder: 'Search Places ...',
               className: 'location-search-input',
