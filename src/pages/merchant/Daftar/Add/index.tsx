@@ -229,7 +229,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     name,
     email,
     password,
-    confirm_password,
+    password_confirmation: confirm_password,
     description,
     address,
     latitude: currentPosition.lat,
