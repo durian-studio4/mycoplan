@@ -1,5 +1,6 @@
 import React, { useMemo, Fragment } from 'react';
 import { Table, Row, Button } from 'antd';
+import { NavLink } from 'umi';
 import { format } from 'date-fns';
 import styles from './index.less';
 
@@ -66,14 +67,17 @@ const TableComponent: React.FC<Props> = ({
         title: 'Gambar',
         width: 200,
         render: ({ images, id }: any) => {
-          return (
-            <img
-              // key={id}
-              alt={`recipe-images-${id}`}
-              src={images[0].url}
-              style={{ width: '100%', height: '100%', margin: '5px' }}
-            />
-          );
+          if (images[0]) {
+            return (
+              <img
+                // key={id}
+                alt={`recipe-images-${id}`}
+                src={images[0].url}
+                style={{ width: '100%', height: '200px', margin: '5px' }}
+              />
+            );
+          }
+          return null;
         },
         key: 'images',
       },
@@ -141,6 +145,14 @@ const TableComponent: React.FC<Props> = ({
         width: 200,
         render: (props: any) => (
           <Row justify="center">
+            <Button className={styles.button_edit} type="primary">
+              <NavLink
+                to={`/recipe/masakan/edit/${props.id}`}
+                // onClick={() => visibleUpdate(props.id)}
+              >
+                Edit
+              </NavLink>
+            </Button>
             {props.status === 'active' ? (
               <Button
                 className={styles.button_action}

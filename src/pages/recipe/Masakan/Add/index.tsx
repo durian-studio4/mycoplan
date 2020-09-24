@@ -37,7 +37,7 @@ const AddComponent: React.FC<Props> = () => {
   const [supermarket, setSupermarket] = useState([
     {
       id_merchant: '',
-      produk: [
+      products: [
         {
           id_product: '',
           qty: '',
@@ -124,7 +124,7 @@ const AddComponent: React.FC<Props> = () => {
       ...state,
       {
         id_merchant: '',
-        produk: [
+        products: [
           {
             id_product: '',
             qty: '',
@@ -136,7 +136,7 @@ const AddComponent: React.FC<Props> = () => {
 
   const onAddProduct = (e: any, i: number) => {
     const state = [...supermarket];
-    state[i].produk.push({
+    state[i].products.push({
       id_product: '',
       qty: '',
     });
@@ -151,7 +151,7 @@ const AddComponent: React.FC<Props> = () => {
 
   const onRemoveProduct = (e: any, i: number, indexProduk: number) => {
     const state = [...supermarket];
-    state[i].produk.splice(indexProduk, 1);
+    state[i].products.splice(indexProduk, 1);
     setSupermarket(state);
   };
 
@@ -163,14 +163,14 @@ const AddComponent: React.FC<Props> = () => {
 
   const onChangeProduct = (value: any, option: any, i: number, indexProduct: number) => {
     const state = [...supermarket];
-    state[i].produk[indexProduct].id_product = option.id;
+    state[i].products[indexProduct].id_product = option.id;
     setSupermarket(state);
   };
 
   const onChangeJumlah = (e: any, i: number, indexProduct: number) => {
     const { value } = e.target;
     const state = [...supermarket];
-    state[i].produk[indexProduct].qty = value;
+    state[i].products[indexProduct].qty = value;
     setSupermarket(state);
   };
 
@@ -381,7 +381,7 @@ const AddComponent: React.FC<Props> = () => {
             </Button>
           </div>
         </Row>
-        {supermarket.map(({ produk }, i) => (
+        {supermarket.map(({ products }, i) => (
           <Fragment key={i}>
             <Row style={{ marginTop: '1em' }}>
               <div className={styles.box1}>
@@ -402,7 +402,7 @@ const AddComponent: React.FC<Props> = () => {
               </div>
             </Row>
             <Row>
-              {produk.map((data, indexProduk) => (
+              {products.map((data, indexProduk) => (
                 <Fragment key={indexProduk}>
                   <div className={styles.box4}>
                     <Row style={{ marginTop: '1em' }}>

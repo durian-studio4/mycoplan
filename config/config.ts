@@ -192,6 +192,12 @@ export default defineConfig({
                   component: './recipe/Masakan/Add',
                 },
                 {
+                  hideInMenu: true,
+                  path: '/recipe/masakan/edit/:id',
+                  component: './recipe/Masakan/Update',
+                  authority: ['admin', 'master', 'merchant'],
+                },
+                {
                   name: 'Kategori Resep',
                   icon: 'tag',
                   path: '/recipe/kategori',

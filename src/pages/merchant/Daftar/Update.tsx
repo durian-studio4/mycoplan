@@ -68,8 +68,6 @@ const UpdateComponent: React.FC<Props> = ({
     fetchMerchant,
   ] = useFetch();
 
-  console.log(data_merchant, 'data');
-
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(onSuccess);
   }, []);

@@ -38,7 +38,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     const data_img = data_update.image;
     if (data_update) {
       setName(data_name);
-      setFileImg([data_img]);
       setClear([data_img]);
     }
   }, [data_update]);

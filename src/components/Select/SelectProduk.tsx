@@ -17,7 +17,7 @@ const SelectProduk: React.FC<Props> = ({ initial, disabled, handleChange }) => {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       fetching();
-    }, 0);
+    }, 100);
     return () => clearTimeout(timeOut);
   }, []);
 
