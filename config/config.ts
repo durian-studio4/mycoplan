@@ -73,12 +73,12 @@ export default defineConfig({
           component: '../layouts/BasicLayout',
           Routes: ['src/pages/Authorized'],
           routes: [
-            {
-              name: 'Baru',
-              icon: 'smile',
-              path: '/baru',
-              component: './baru',
-            },
+            // {
+            //   name: 'Baru',
+            //   icon: 'smile',
+            //   path: '/baru',
+            //   component: './baru',
+            // },
             {
               name: 'Dashboard',
               icon: 'home',
