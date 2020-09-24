@@ -6,23 +6,32 @@ import styles from './index.less';
 
 interface Props {}
 
+const initialLatLng = {
+  lat: '',
+  lng: '',
+};
+
 const ProfileComponent: React.FC<Props> = () => {
   const [value, setValue] = useState('');
+
+  const [latLng, setLatLng] = useState(initialLatLng);
+  const [address, setAddress] = useState('');
 
   const handleChange = (address: any) => {
     setValue(address);
   };
 
   const handleSelect = (address: any) => {
-    console.log(address, 'address');
     geocodeByAddress(address)
       .then((results: any) => {
-        console.log(results, 'result');
+        setAddress(results[0].formatted_address);
         return getLatLng(results[0]);
       })
-      .then((latLng: any) => console.log('Success', latLng))
+      .then((latLng: any) => setLatLng(latLng))
       .catch((error: any) => console.error('Error', error));
   };
+
+  console.log(address, latLng);
 
   return (
     <PlacesAutocomplete value={value} onChange={handleChange} onSelect={handleSelect}>
