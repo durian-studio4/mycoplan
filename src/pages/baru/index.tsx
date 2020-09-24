@@ -64,6 +64,7 @@ const ProfileComponent: React.FC<Props> = () => {
   }, []);
 
   const onSuccess = (position: any) => {
+    console.log(position, 'position');
     const currentPosition = {
       lat: position.coords.latitude,
       lng: position.coords.longitude,
@@ -72,10 +73,12 @@ const ProfileComponent: React.FC<Props> = () => {
   };
 
   const onSelect = (item: any) => {
+    console.log(item, 'item');
     setSelected(item);
   };
 
   const onMarkerDragEnd = (e: any) => {
+    console.log(e, 'marker');
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
     setCurrentPosition({ lat, lng });
