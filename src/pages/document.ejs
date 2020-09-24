@@ -24,4 +24,15 @@
     <noscript>Out-of-the-box mid-stage front/design solution!</noscript>
     <div id="root"></div>
   </body>
+  <script>
+    window.myCallbackFunc = function () {
+      window.initOne && window.initOne();
+      window.initTwo && window.initTwo();
+    };
+  </script>
+  <script
+    async
+    defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqgK13bJ-62XoposscuhcQfaFOlx1Tt5I&libraries=places&callback=myCallbackFunc"
+  ></script>
 </html>
