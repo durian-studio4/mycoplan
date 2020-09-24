@@ -1,10 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import styles from './index.less';
+import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 
 interface Props {}
+
+const locations = [
+  {
+    name: 'Location 1',
+    location: {
+      lat: 41.3954,
+      lng: 2.162,
+    },
+  },
+  {
+    name: 'Location 2',
+    location: {
+      lat: 41.3917,
+      lng: 2.1649,
+    },
+  },
+  {
+    name: 'Location 3',
+    location: {
+      lat: 41.3773,
+      lng: 2.1585,
+    },
+  },
+  {
+    name: 'Location 4',
+    location: {
+      lat: 41.3797,
+      lng: 2.1682,
+    },
+  },
+  {
+    name: 'Location 5',
+    location: {
+      lat: 41.4055,
+      lng: 2.1915,
+    },
+  },
+];
+
+const mapStyles = {
+  height: '50vh',
+  width: '100%',
+};
 
 const initialLatLng = {
   lat: '',
@@ -14,7 +56,30 @@ const initialLatLng = {
 const ProfileComponent: React.FC<Props> = () => {
   const [value, setValue] = useState('');
 
-  const [latLng, setLatLng] = useState(initialLatLng);
+  const [selected, setSelected] = useState({});
+  const [currentPosition, setCurrentPosition] = useState(initialLatLng);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(onSuccess);
+  }, []);
+
+  const onSuccess = (position: any) => {
+    const currentPosition = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+    };
+    setCurrentPosition(currentPosition);
+  };
+
+  const onSelect = (item: any) => {
+    setSelected(item);
+  };
+
+  const onMarkerDragEnd = (e: any) => {
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+    setCurrentPosition({ lat, lng });
+  };
 
   const handleChange = (address: any) => {
     setValue(address);
@@ -26,45 +91,72 @@ const ProfileComponent: React.FC<Props> = () => {
         setValue(results[0].formatted_address);
         return getLatLng(results[0]);
       })
-      .then((latLng: any) => setLatLng(latLng))
+      .then((latLng: any) => setCurrentPosition(latLng))
       .catch((error: any) => console.error('Error', error));
   };
 
-  console.log(value, latLng);
+  console.log(value, currentPosition, selected);
 
   return (
-    <PlacesAutocomplete value={value} onChange={handleChange} onSelect={handleSelect}>
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div>
-          <Input
-            {...getInputProps({
-              placeholder: 'Search Places ...',
-              className: 'location-search-input',
-            })}
-          />
-          <div className="autocomplete-dropdown-container">
-            {loading && <div>Loading...</div>}
-            {suggestions.map((suggestion) => {
-              const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-              // inline style for demonstration purpose
-              const style = suggestion.active
-                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                : { backgroundColor: '#ffffff', cursor: 'pointer' };
-              return (
-                <div
-                  {...getSuggestionItemProps(suggestion, {
-                    className,
-                    style,
-                  })}
-                >
-                  <span>{suggestion.description}</span>
-                </div>
-              );
-            })}
+    <Fragment>
+      <PlacesAutocomplete value={value} onChange={handleChange} onSelect={handleSelect}>
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <div>
+            <Input
+              {...getInputProps({
+                placeholder: 'Search Places ...',
+                className: 'location-search-input',
+              })}
+            />
+            <div className="autocomplete-dropdown-container">
+              {loading && <div>Loading...</div>}
+              {suggestions.map((suggestion) => {
+                const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                // inline style for demonstration purpose
+                const style = suggestion.active
+                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                return (
+                  <div
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })}
+                  >
+                    <span>{suggestion.description}</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
-    </PlacesAutocomplete>
+        )}
+      </PlacesAutocomplete>
+      <LoadScript googleMapsApiKey={REACT_APP_ENV_GMAPS}>
+        <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={currentPosition}>
+          {locations.map((item) => {
+            return (
+              <Marker key={item.name} position={item.location} onClick={() => onSelect(item)} />
+            );
+          })}
+          {currentPosition.lat ? (
+            <Marker
+              position={currentPosition}
+              onDragEnd={(e) => onMarkerDragEnd(e)}
+              draggable={true}
+            />
+          ) : null}
+          {selected.location && (
+            <InfoWindow
+              position={selected.location}
+              // clickable={true}
+              onCloseClick={() => setSelected({})}
+            >
+              <p>{selected.name}</p>
+            </InfoWindow>
+          )}
+        </GoogleMap>
+      </LoadScript>
+    </Fragment>
   );
 };
 
