@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 
 interface Props {}
 
@@ -102,7 +102,12 @@ const ProfileComponent: React.FC<Props> = () => {
 
   return (
     <Fragment>
-      <PlacesAutocomplete value={value} onChange={handleChange} onSelect={handleSelect}>
+      <PlacesAutocomplete
+        value={value}
+        onChange={handleChange}
+        onSelect={handleSelect}
+        shouldFetchSuggestions={value.length > 3}
+      >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
             <Input
@@ -148,7 +153,7 @@ const ProfileComponent: React.FC<Props> = () => {
         {selected.location && (
           <InfoWindow
             position={selected.location}
-            // clickable={true}
+            clickable={true}
             onCloseClick={() => setSelected({})}
           >
             <p>{selected.name}</p>
