@@ -15,7 +15,6 @@ const ProfileComponent: React.FC<Props> = () => {
   const [value, setValue] = useState('');
 
   const [latLng, setLatLng] = useState(initialLatLng);
-  const [address, setAddress] = useState('');
 
   const handleChange = (address: any) => {
     setValue(address);
@@ -24,14 +23,14 @@ const ProfileComponent: React.FC<Props> = () => {
   const handleSelect = (address: any) => {
     geocodeByAddress(address)
       .then((results: any) => {
-        setAddress(results[0].formatted_address);
+        setValue(results[0].formatted_address);
         return getLatLng(results[0]);
       })
       .then((latLng: any) => setLatLng(latLng))
       .catch((error: any) => console.error('Error', error));
   };
 
-  console.log(address, latLng);
+  console.log(value, latLng);
 
   return (
     <PlacesAutocomplete value={value} onChange={handleChange} onSelect={handleSelect}>
