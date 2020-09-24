@@ -131,31 +131,27 @@ const ProfileComponent: React.FC<Props> = () => {
           </div>
         )}
       </PlacesAutocomplete>
-      <LoadScript googleMapsApiKey={REACT_APP_ENV_GMAPS}>
-        <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={currentPosition}>
-          {locations.map((item) => {
-            return (
-              <Marker key={item.name} position={item.location} onClick={() => onSelect(item)} />
-            );
-          })}
-          {currentPosition.lat ? (
-            <Marker
-              position={currentPosition}
-              onDragEnd={(e) => onMarkerDragEnd(e)}
-              draggable={true}
-            />
-          ) : null}
-          {selected.location && (
-            <InfoWindow
-              position={selected.location}
-              // clickable={true}
-              onCloseClick={() => setSelected({})}
-            >
-              <p>{selected.name}</p>
-            </InfoWindow>
-          )}
-        </GoogleMap>
-      </LoadScript>
+      <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={currentPosition}>
+        {locations.map((item) => {
+          return <Marker key={item.name} position={item.location} onClick={() => onSelect(item)} />;
+        })}
+        {currentPosition.lat ? (
+          <Marker
+            position={currentPosition}
+            onDragEnd={(e) => onMarkerDragEnd(e)}
+            draggable={true}
+          />
+        ) : null}
+        {selected.location && (
+          <InfoWindow
+            position={selected.location}
+            // clickable={true}
+            onCloseClick={() => setSelected({})}
+          >
+            <p>{selected.name}</p>
+          </InfoWindow>
+        )}
+      </GoogleMap>
     </Fragment>
   );
 };
