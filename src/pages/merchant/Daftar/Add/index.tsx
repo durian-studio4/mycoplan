@@ -85,15 +85,17 @@ const initialState = {
   name: '',
   email: '',
   password: '',
+  push_notif_key: '',
   confirm_password: '',
   description: '',
 };
 
 const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButton }) => {
   const [schedule, setSchedule] = useState(initialSchedule);
-  const [{ name, email, password, confirm_password, description }, setState] = useState(
-    initialState,
-  );
+  const [
+    { name, email, password, push_notif_key, confirm_password, description },
+    setState,
+  ] = useState(initialState);
   const [isDisabled, setDisabled] = useState(false);
 
   const [logo, setLogo] = useState([]);
@@ -236,6 +238,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     longitude: currentPosition.lng,
     schedule: JSON.stringify(data_schedule),
     logo: logo[0],
+    push_notif_key,
     status: 'active',
   };
 
@@ -368,6 +371,20 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
               id="confirm_password"
               placeholder=""
               value={confirm_password}
+              onChange={onChangeState}
+            />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="push_notif_key">
+              Notif Key
+            </label>
+            <Input
+              type="text"
+              id="push_notif_key"
+              placeholder=""
+              value={push_notif_key}
               onChange={onChangeState}
             />
           </div>
