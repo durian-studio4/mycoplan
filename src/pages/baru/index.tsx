@@ -14,9 +14,9 @@ const ProfileComponent: React.FC<Props> = () => {
   };
 
   const handleSelect = (address: any) => {
+    console.log(address, 'address');
     geocodeByAddress(address)
       .then((results: any) => {
-        console.log(results, 'result');
         getLatLng(results[0]);
       })
       .then((latLng: any) => console.log('Success', latLng))
