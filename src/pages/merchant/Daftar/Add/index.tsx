@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Checkbox, Row, Input, Button, TimePicker, Modal, Upload } from 'antd';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 
@@ -7,6 +8,7 @@ import MapsComponent from './Maps';
 
 interface Props {
   visible: boolean;
+  onLoadButton: boolean;
   onCreate: ({ formData, clear }: any) => void;
   onCancel: () => void;
 }
@@ -74,20 +76,107 @@ const initialSchedule = [
   },
 ];
 
+const initialLatLng = {
+  lat: '',
+  lng: '',
+};
+
 const initialState = {
   name: '',
   email: '',
   password: '',
+  confirm_password: '',
   description: '',
-  address: '',
 };
 
-const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel }) => {
+const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButton }) => {
   const [schedule, setSchedule] = useState(initialSchedule);
-  const [{ name, email, password, description, address }, setState] = useState(initialState);
+  const [{ name, email, password, confirm_password, description }, setState] = useState(
+    initialState,
+  );
   const [isDisabled, setDisabled] = useState(false);
 
   const [logo, setLogo] = useState([]);
+
+  const [address, setAddress] = useState('');
+
+  const [selected, setSelected] = useState({});
+  const [currentPosition, setCurrentPosition] = useState(initialLatLng);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(onSuccess);
+  }, []);
+
+  useEffect(() => {
+    if (!name) {
+      return setDisabled(true);
+    }
+    if (!email) {
+      return setDisabled(true);
+    }
+    if (!description) {
+      return setDisabled(true);
+    }
+    if (!address) {
+      return setDisabled(true);
+    }
+    if (!currentPosition.lat) {
+      return setDisabled(true);
+    }
+    if (!currentPosition.lng) {
+      return setDisabled(true);
+    }
+    if (!logo.length) {
+      return setDisabled(true);
+    }
+    if (!password) {
+      return setDisabled(true);
+    }
+    if (!confirm_password) {
+      return setDisabled(true);
+    }
+    if (password !== confirm_password) {
+      return setDisabled(true);
+    }
+    return setDisabled(false);
+  }, [name, email, password, confirm_password, logo, description, address, currentPosition]);
+
+  const onSuccess = (position: any) => {
+    console.log(position, 'position');
+    const currentPosition = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+    };
+    setCurrentPosition(currentPosition);
+  };
+
+  const onSelect = (item: any) => {
+    console.log(item, 'item');
+    setSelected(item);
+  };
+
+  const onClearSelect = () => setSelected({});
+
+  const onMarkerDragEnd = (e: any) => {
+    console.log(e, 'marker');
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+    setCurrentPosition({ lat, lng });
+  };
+
+  const onChangeAddress = (address: any) => {
+    setAddress(address);
+  };
+
+  const onSelectAddress = (address: any) => {
+    geocodeByAddress(address)
+      .then((results: any) => {
+        setAddress(results[0].formatted_address);
+        return getLatLng(results[0]);
+      })
+      .then((latLng: any) => setCurrentPosition(latLng))
+      .catch((error: any) => console.error('Error', error));
+  };
 
   const onChangeTime = (time: any, timeString: any, i: number) => {
     const state = [...schedule];
@@ -140,8 +229,11 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel }) => {
     name,
     email,
     password,
+    confirm_password,
     description,
     address,
+    latitude: currentPosition.lat,
+    longitude: currentPosition.lng,
     schedule: JSON.stringify(data_schedule),
     logo: logo[0],
     status: 'active',
@@ -197,28 +289,16 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel }) => {
             </div>
           </div>
         </div>
-        <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="max_diskon">
-              Pin Alamat
-            </label>
-            <MapsComponent />
-          </div>
-        </div>
-        <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="address">
-              Alamat Merchant
-            </label>
-            <TextArea
-              className={styles.area}
-              id="address"
-              placeholder="Masukkan Keterangan..."
-              value={address}
-              onChange={onChangeState}
-            />
-          </div>
-        </div>
+        <MapsComponent
+          address={address}
+          selected={selected}
+          currentPosition={currentPosition}
+          onSelect={onSelect}
+          onClearSelect={onClearSelect}
+          onMarkerDragEnd={onMarkerDragEnd}
+          onHandleChange={onChangeAddress}
+          onHandleSelect={onSelectAddress}
+        />
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="description">
@@ -278,12 +358,26 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel }) => {
             />
           </div>
         </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="confirm_password">
+              Konfirmasi Kata Sandi
+            </label>
+            <Input
+              type="password"
+              id="confirm_password"
+              placeholder=""
+              value={confirm_password}
+              onChange={onChangeState}
+            />
+          </div>
+        </div>
       </div>
       <Row justify="end">
         {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}
         <Button
           className={styles.button}
-          // disabled={onLoadButton}
+          disabled={onLoadButton}
           onClick={onClearState}
           type="primary"
           danger
@@ -293,7 +387,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel }) => {
         <Button
           className={styles.button}
           onClick={createMerchant}
-          // disabled={isDisabled || onLoadButton}
+          disabled={isDisabled || onLoadButton}
           type="primary"
         >
           Simpan

@@ -51,7 +51,7 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
   };
 
   const createMerchant = ({ formData, clear }: Merchant) => {
-    postCreate(`${REACT_APP_ENV}/admin/merchants/`, formData, clear);
+    postCreate(`${REACT_APP_ENV}/register/merchant`, formData, clear);
   };
 
   const consoleLog = () => console.log('success');
@@ -83,15 +83,6 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
         <Row justify="space-between">
           <p className={styles.title}>Daftar Merchant</p>
           <div className={styles.row_box}>
-            {/* <Input
-              className={styles.input_search}
-              id="name"
-              type="text"
-              placeholder="Cari Merchant"
-              onChange={onChangeState}
-              value={name}
-              onKeyDown={handleKey}
-            /> */}
             <Button className={styles.button_search} onClick={handleVisible} type="primary">
               + Tambah Merchant
             </Button>
@@ -107,7 +98,14 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
           onActive={activeMerchant}
           onDelete={deleteMerchant}
         />
-        {visible ? <AddComponent visible={visible} onCancel={handleVisible} /> : null}
+        {visible ? (
+          <AddComponent
+            visible={visible}
+            onCreate={createMerchant}
+            onCancel={handleVisible}
+            onLoadButton={Boolean(loading_update)}
+          />
+        ) : null}
       </Card>
     </div>
   );

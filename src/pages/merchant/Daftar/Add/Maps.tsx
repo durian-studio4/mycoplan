@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import React, { Fragment } from 'react';
+import { Input } from 'antd';
+import PlacesAutocomplete from 'react-places-autocomplete';
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+import styles from '../index.less';
 
-const mapStyles = {
-  height: '50vh',
-  width: '100%',
-};
+interface Props {
+  selected: any;
+  address: any;
+  currentPosition: any;
+  onSelect: (item: any) => void;
+  onHandleChange: (address: any) => void;
+  onHandleSelect: (address: any) => void;
+  onClearSelect: () => void;
+  onMarkerDragEnd: (e: google.maps.MouseEvent) => void;
+}
 
 const locations = [
   {
@@ -44,56 +53,98 @@ const locations = [
   },
 ];
 
-const MapContainer: React.FC = () => {
-  const [selected, setSelected] = useState({});
-  const [currentPosition, setCurrentPosition] = useState({});
+const mapStyles = {
+  height: '50vh',
+  width: '100%',
+};
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(onSuccess);
-  }, []);
-
-  const onSuccess = (position: any) => {
-    const currentPosition = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude,
-    };
-    setCurrentPosition(currentPosition);
-  };
-
-  const onSelect = (item: any) => {
-    setSelected(item);
-  };
-
-  const onMarkerDragEnd = (e: any) => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    setCurrentPosition({ lat, lng });
-  };
-
+const MapComponent: React.FC<Props> = ({
+  address,
+  selected,
+  currentPosition,
+  onSelect,
+  onClearSelect,
+  onMarkerDragEnd,
+  onHandleChange,
+  onHandleSelect,
+}) => {
   return (
-    <LoadScript googleMapsApiKey={REACT_APP_ENV_GMAPS}>
-      <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={currentPosition}>
-        {locations.map((item) => {
-          return <Marker key={item.name} position={item.location} onClick={() => onSelect(item)} />;
-        })}
-        {currentPosition.lat ? (
-          <Marker
-            position={currentPosition}
-            onDragEnd={(e) => onMarkerDragEnd(e)}
-            draggable={true}
-          />
-        ) : null}
-        {selected.location && (
-          <InfoWindow
-            position={selected.location}
-            // clickable={true}
-            onCloseClick={() => setSelected({})}
+    <Fragment>
+      <div className={styles.box10}>
+        <div className={styles.group}>
+          <label className={styles.label} htmlFor="pin">
+            Pin Alamat
+          </label>
+          <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={currentPosition}>
+            {locations.map((item) => {
+              return (
+                <Marker key={item.name} position={item.location} onClick={() => onSelect(item)} />
+              );
+            })}
+            {currentPosition.lat ? (
+              <Marker
+                position={currentPosition}
+                onDragEnd={(e) => onMarkerDragEnd(e)}
+                draggable={true}
+              />
+            ) : null}
+            {selected.location && (
+              <InfoWindow position={selected.location} onCloseClick={onClearSelect}>
+                <p>{selected.name}</p>
+              </InfoWindow>
+            )}
+          </GoogleMap>
+        </div>
+      </div>
+      <div className={styles.box10}>
+        <div className={styles.group}>
+          <label className={styles.label} htmlFor="alamat">
+            Alamat Merchant
+          </label>
+          <PlacesAutocomplete
+            value={address}
+            onChange={onHandleChange}
+            onSelect={onHandleSelect}
+            shouldFetchSuggestions={address.length > 3}
           >
-            <p>{selected.name}</p>
-          </InfoWindow>
-        )}
-      </GoogleMap>
-    </LoadScript>
+            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+              <div>
+                <Input
+                  id="alamat"
+                  {...getInputProps({
+                    placeholder: 'Cari alamat ...',
+                    className: 'location-search-input',
+                  })}
+                />
+                <div className="autocomplete-dropdown-container">
+                  {loading && <div>Loading...</div>}
+                  {suggestions.map((suggestion) => {
+                    const className = suggestion.active
+                      ? 'suggestion-item--active'
+                      : 'suggestion-item';
+                    // inline style for demonstration purpose
+                    const style = suggestion.active
+                      ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                      : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                    return (
+                      <div
+                        {...getSuggestionItemProps(suggestion, {
+                          className,
+                          style,
+                        })}
+                      >
+                        <span>{suggestion.description}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </PlacesAutocomplete>
+        </div>
+      </div>
+    </Fragment>
   );
 };
-export default MapContainer;
+
+export default MapComponent;

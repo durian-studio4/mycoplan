@@ -98,8 +98,6 @@ const ProfileComponent: React.FC<Props> = () => {
       .catch((error: any) => console.error('Error', error));
   };
 
-  console.log(value, currentPosition, selected);
-
   return (
     <Fragment>
       <PlacesAutocomplete
@@ -151,11 +149,7 @@ const ProfileComponent: React.FC<Props> = () => {
           />
         ) : null}
         {selected.location && (
-          <InfoWindow
-            position={selected.location}
-            clickable={true}
-            onCloseClick={() => setSelected({})}
-          >
+          <InfoWindow position={selected.location} onCloseClick={() => setSelected({})}>
             <p>{selected.name}</p>
           </InfoWindow>
         )}

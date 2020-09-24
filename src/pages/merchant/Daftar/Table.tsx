@@ -63,7 +63,7 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Gambar',
-        width: 200,
+        width: 250,
         render: (props) => (
           <img
             alt={`gambar_merchant-${props.id}`}
