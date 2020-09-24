@@ -4,6 +4,7 @@ import styles from './index.less';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
+import UpdateComponent from './Update';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreateForm';
@@ -68,9 +69,9 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
     postCreate(`${REACT_APP_ENV}/admin/merchants/${id}?_method=put`, formData, consoleLog);
   };
 
-  // const updateMerchant = ({ formData, clear }: any) => {
-  //   postCreate(`${REACT_APP_ENV}/admin/merchants//${id_update}?_method=put`, formData, clear);
-  // };
+  const updateMerchant = ({ formData, clear }: any) => {
+    postCreate(`${REACT_APP_ENV}/admin/merchants/${id_update}?_method=put`, formData, clear);
+  };
 
   const deleteMerchant = (id: string) => {
     postDelete(`${REACT_APP_ENV}/admin/merchants/${id}`);
@@ -104,6 +105,15 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
             onCreate={createMerchant}
             onCancel={handleVisible}
             onLoadButton={Boolean(loading_update)}
+          />
+        ) : null}
+        {visible_update ? (
+          <UpdateComponent
+            visible={visible_update}
+            id_update={id_update}
+            onCreate={updateMerchant}
+            onLoadButton={Boolean(loading_update)}
+            onCancel={handleVisibleUpdateCancel}
           />
         ) : null}
       </Card>

@@ -145,7 +145,11 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
           {Boolean(clear.length) ? (
             <div className={styles.box10}>
               <div className={styles.group}>
-                <img alt="category-image" src={data_update.image} width="100%" height="50%" />
+                <img
+                  alt="category-image"
+                  src={data_update.image}
+                  style={{ width: '100%', height: '200px' }}
+                />
               </div>
             </div>
           ) : null}
