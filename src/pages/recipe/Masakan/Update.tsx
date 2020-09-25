@@ -487,7 +487,7 @@ const UpdateComponent: React.FC<Props> = () => {
                 <div className={styles.box10} key={i}>
                   <div className={styles.group}>
                     <Row>
-                      <img alt="recipe-image" src={data.url} width="90%" height="300px" />
+                      <img alt="recipe-image" src={data.url} width="auto" height="auto" />
                       <Button
                         className={styles.button}
                         type="primary"

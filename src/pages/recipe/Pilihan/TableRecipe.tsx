@@ -49,7 +49,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
           <img
             alt={`gambar_kategori-${props.id}`}
             width="100%"
-            height="50%"
+            height="auto"
             src={props.images[0].url}
           />
         ),
