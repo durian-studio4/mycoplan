@@ -64,6 +64,7 @@ function App() {
     } catch (error) {
       console.log(error, 'error');
       console.log(error.response, 'error');
+      console.log(error.message, 'message');
       setLoading(false);
     }
   };

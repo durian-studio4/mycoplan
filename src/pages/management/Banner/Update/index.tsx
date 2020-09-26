@@ -168,6 +168,17 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
+              <label className={styles.label} htmlFor="tipe">
+                Tipe Banner
+              </label>
+              <SelectBannerTipe
+                initial={data_update.banner_type === 'gambar' ? 'Gambar Saja' : 'Gambar & Detail'}
+                handleChange={onChangeBannerType}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
               <label className={styles.label} htmlFor="gambar">
                 Gambar
               </label>
@@ -271,17 +282,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 address={`${REACT_APP_ENV}/admin/vouchers`}
                 initial={data_update.voucher && data_update.voucher.name}
                 handleChange={onChangeVoucher}
-              />
-            </div>
-          </div>
-          <div className={styles.box10}>
-            <div className={styles.group}>
-              <label className={styles.label} htmlFor="tipe">
-                Tipe Banner
-              </label>
-              <SelectBannerTipe
-                initial={data_update.banner_type === 'gambar' ? 'Gambar Saja' : 'Gambar & Detail'}
-                handleChange={onChangeBannerType}
               />
             </div>
           </div>

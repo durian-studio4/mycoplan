@@ -64,9 +64,6 @@ const AddComponent: React.FC<Props> = () => {
     if (!author) {
       return setDisabled(true);
     }
-    if (!video) {
-      return setDisabled(true);
-    }
     if (!production_time) {
       return setDisabled(true);
     }
@@ -97,7 +94,6 @@ const AddComponent: React.FC<Props> = () => {
     author,
     categories,
     supermarket,
-    video,
     production_time,
     portion_min,
     portion_max,
@@ -278,7 +274,7 @@ const AddComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="video">
-                Link Youtube
+                Link Youtube (Optional)
               </label>
               <Input type="text" id="video" placeholder="" value={video} onChange={onChangeState} />
             </div>

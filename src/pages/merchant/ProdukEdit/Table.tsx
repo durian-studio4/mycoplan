@@ -37,6 +37,8 @@ const TableComponent: React.FC<Props> = ({
       sku: data[key].sku,
       quantity: data[key].quantity,
       price: data[key].price,
+      discount: data[key].discount,
+      images: data[key].images,
       status: data[key].status,
     });
   }
@@ -56,6 +58,25 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'id',
         key: 'id',
         ...getColumnSearchProps('id'),
+      },
+      {
+        align: 'center',
+        title: 'Gambar',
+        width: 200,
+        render: ({ images, id }: any) => {
+          if (images[0]) {
+            return (
+              <img
+                // key={id}
+                alt={`recipe-images-${id}`}
+                src={images[0].url}
+                style={{ width: '100%', height: 'auto', margin: '5px' }}
+              />
+            );
+          }
+          return null;
+        },
+        key: 'images',
       },
       {
         align: 'center',
@@ -91,6 +112,14 @@ const TableComponent: React.FC<Props> = ({
         render: (props) => <p>{Number(props).toLocaleString()}</p>,
         key: 'price',
         ...getColumnSearchProps('price'),
+      },
+      {
+        align: 'center',
+        title: 'Discount (Rp.)',
+        dataIndex: 'discount',
+        render: (props) => <p>{Number(props).toLocaleString()}</p>,
+        key: 'discount',
+        ...getColumnSearchProps('discount'),
       },
       // {
       //   align: 'center',
@@ -176,7 +205,7 @@ const TableComponent: React.FC<Props> = ({
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data_array} loading={loading} />;
+  return <Table columns={columns} dataSource={data_array} loading={loading} scroll={{ x: 1300 }} />;
 };
 
 export default TableComponent;

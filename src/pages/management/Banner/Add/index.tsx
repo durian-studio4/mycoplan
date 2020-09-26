@@ -134,6 +134,14 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
         </div>
         <div className={styles.box10}>
           <div className={styles.group}>
+            <label className={styles.label} htmlFor="tipe">
+              Tipe Banner
+            </label>
+            <SelectBannerTipe initial="Gambar Saja" handleChange={onChangeBannerType} />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
             <label className={styles.label} htmlFor="gambar">
               Gambar
             </label>
@@ -214,14 +222,6 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
               Kode Promo
             </label>
             <SelectAll address={`${REACT_APP_ENV}/admin/vouchers`} handleChange={onChangeVoucher} />
-          </div>
-        </div>
-        <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="tipe">
-              Tipe Banner
-            </label>
-            <SelectBannerTipe initial="Gambar Saja" handleChange={onChangeBannerType} />
           </div>
         </div>
       </div>

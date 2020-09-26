@@ -32,9 +32,7 @@ const initialLatLng = {
 const initialState = {
   name: '',
   email: '',
-  password: '',
   push_notif_key: '',
-  confirm_password: '',
   description: '',
 };
 
@@ -46,10 +44,7 @@ const UpdateComponent: React.FC<Props> = ({
   onLoadButton,
 }) => {
   const [schedule, setSchedule] = useState([]);
-  const [
-    { name, email, password, push_notif_key, confirm_password, description },
-    setState,
-  ] = useState(initialState);
+  const [{ name, email, push_notif_key, description }, setState] = useState(initialState);
   const [isDisabled, setDisabled] = useState(false);
 
   const [logo, setLogo] = useState([]);
@@ -95,7 +90,7 @@ const UpdateComponent: React.FC<Props> = ({
           logo,
         } = data_merchant;
         const merchant = JSON.parse(schedule);
-        setState({ name, email, push_notif_key, description, password: '', confirm_password: '' });
+        setState({ name, email, push_notif_key, description });
         setSchedule(merchant);
         setCurrentPosition({
           lat: latitude,
@@ -130,17 +125,8 @@ const UpdateComponent: React.FC<Props> = ({
     if (!logo.length) {
       return setDisabled(true);
     }
-    if (!password) {
-      return setDisabled(true);
-    }
-    if (!confirm_password) {
-      return setDisabled(true);
-    }
-    if (password !== confirm_password) {
-      return setDisabled(true);
-    }
     return setDisabled(false);
-  }, [name, email, password, confirm_password, logo, description, address, currentPosition]);
+  }, [name, email, logo, description, address, currentPosition]);
 
   const onSuccess = (position: any) => {
     console.log(position, 'position');
@@ -231,8 +217,6 @@ const UpdateComponent: React.FC<Props> = ({
   const DataJSON = {
     name,
     email,
-    password,
-    password_confirmation: confirm_password,
     description,
     address,
     latitude: currentPosition.lat,
@@ -260,7 +244,7 @@ const UpdateComponent: React.FC<Props> = ({
   }
 
   return (
-    <Modal visible={visible} title="Tambah Merchant" width={800} closable={false} footer={null}>
+    <Modal visible={visible} title="Update Merchant" width={800} closable={false} footer={null}>
       {status_merchant !== 200 || error_merchant ? <PageError /> : null}
       {loading_merchant ? (
         <PageLoading />
@@ -391,34 +375,6 @@ const UpdateComponent: React.FC<Props> = ({
                 id="email"
                 placeholder=""
                 value={email}
-                onChange={onChangeState}
-              />
-            </div>
-          </div>
-          <div className={styles.box10}>
-            <div className={styles.group}>
-              <label className={styles.label} htmlFor="password">
-                Kata Sandi
-              </label>
-              <Input
-                type="password"
-                id="password"
-                placeholder=""
-                value={password}
-                onChange={onChangeState}
-              />
-            </div>
-          </div>
-          <div className={styles.box10}>
-            <div className={styles.group}>
-              <label className={styles.label} htmlFor="confirm_password">
-                Konfirmasi Kata Sandi
-              </label>
-              <Input
-                type="password"
-                id="confirm_password"
-                placeholder=""
-                value={confirm_password}
                 onChange={onChangeState}
               />
             </div>

@@ -40,7 +40,7 @@ const TableComponent: React.FC<Props> = ({
       end: data[key].end,
       terms_conditions: data[key].terms_conditions,
       image: data[key].image,
-      promo: data[key].voucher.code,
+      promo: data[key].voucher ? data[key].voucher.code : '',
       status: data[key].status,
     });
   }
