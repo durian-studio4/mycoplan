@@ -50,7 +50,7 @@ const UpdateComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const [supermarket, setSupermarket] = useState(initialSupermarket);
+  const [supermarket, setSupermarket] = useState([initialSupermarket]);
 
   const [image, setFileImg] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -96,17 +96,15 @@ const UpdateComponent: React.FC<Props> = () => {
         supermarkets &&
           supermarkets.map((data: any) =>
             setSupermarket((state) => [
-              state,
-              ...[
-                {
-                  id_merchant: data.merchant.id,
-                  products: data.products.map((item: any) => ({
-                    id_product: item.id,
-                    // nama_product: item.name,
-                    qty: item.quantity,
-                  })),
-                },
-              ],
+              ...state,
+              {
+                id_merchant: data.merchant.id,
+                products: data.products.map((item: any) => ({
+                  id_product: item.id,
+                  // nama_product: item.name,
+                  qty: item.quantity,
+                })),
+              },
             ]),
           );
         setState({
@@ -506,7 +504,7 @@ const UpdateComponent: React.FC<Props> = () => {
             </div>
           </Row>
           {supermarket.length
-            ? supermarket.map((data: any, i: number) => (
+            ? supermarket.map(({ products }: any, i: number) => (
                 <Fragment key={i}>
                   <Row style={{ marginTop: '1em' }}>
                     <div className={styles.box1}>
@@ -527,72 +525,74 @@ const UpdateComponent: React.FC<Props> = () => {
                     </div>
                   </Row>
                   <Row>
-                    {data.products.map((data: any, indexProduk: number) => (
-                      <Fragment key={indexProduk}>
-                        <div className={styles.box4}>
-                          <Row style={{ marginTop: '1em' }}>
-                            <Fragment>
-                              <div className={styles.box4} style={{ marginTop: '10px' }}>
-                                <label htmlFor="produk">Produk {indexProduk + 1}</label>
-                              </div>
-                              <div className={styles.box4} style={{ marginTop: '10px' }}>
-                                <SelectProduk
-                                  // initial={data && data.nama_product}
-                                  handleChange={(v: any, o: any) =>
-                                    onChangeProduct(v, o, i, indexProduk)
-                                  }
-                                />
-                              </div>
-                            </Fragment>
-                          </Row>
-                        </div>
-                        <div className={styles.box4}>
-                          <Row style={{ marginTop: '1em' }}>
-                            <Fragment>
-                              <div
-                                className={styles.box4}
-                                style={{ textAlign: 'center', marginTop: '10px' }}
-                              >
-                                <label htmlFor="produk">Jumlah</label>
-                              </div>
-                              <div className={styles.box4} style={{ marginTop: '10px' }}>
-                                <Input
-                                  id="produk"
-                                  value={data.qty}
-                                  onChange={(e) => onChangeJumlah(e, i, indexProduk)}
-                                />
-                              </div>
-                            </Fragment>
-                          </Row>
-                        </div>
-                        <div className={styles.box2}>
-                          <Row style={{ marginTop: '1em' }}>
-                            <div
-                              className={styles.box10}
-                              key={indexProduk}
-                              style={{ marginTop: '10px' }}
-                            >
-                              <Button
-                                className={styles.button_delete}
-                                onClick={(e) => onRemoveProduct(e, i, indexProduk)}
-                                disabled={Boolean(!indexProduk)}
-                                type="primary"
-                                danger
-                              >
-                                <DeleteOutlined />
-                              </Button>
-                              <Button
-                                className={styles.button_add}
-                                onClick={(e) => onAddProduct(e, i)}
-                                type="primary"
-                              >
-                                <PlusOutlined />
-                              </Button>
+                    {products
+                      ? products.map((data: any, indexProduk: number) => (
+                          <Fragment key={indexProduk}>
+                            <div className={styles.box4}>
+                              <Row style={{ marginTop: '1em' }}>
+                                <Fragment>
+                                  <div className={styles.box4} style={{ marginTop: '10px' }}>
+                                    <label htmlFor="produk">Produk {indexProduk + 1}</label>
+                                  </div>
+                                  <div className={styles.box4} style={{ marginTop: '10px' }}>
+                                    <SelectProduk
+                                      // initial={data && data.nama_product}
+                                      handleChange={(v: any, o: any) =>
+                                        onChangeProduct(v, o, i, indexProduk)
+                                      }
+                                    />
+                                  </div>
+                                </Fragment>
+                              </Row>
                             </div>
-                          </Row>
-                        </div>
-                      </Fragment>
-                    ))}
+                            <div className={styles.box4}>
+                              <Row style={{ marginTop: '1em' }}>
+                                <Fragment>
+                                  <div
+                                    className={styles.box4}
+                                    style={{ textAlign: 'center', marginTop: '10px' }}
+                                  >
+                                    <label htmlFor="produk">Jumlah</label>
+                                  </div>
+                                  <div className={styles.box4} style={{ marginTop: '10px' }}>
+                                    <Input
+                                      id="produk"
+                                      value={data.qty || ''}
+                                      onChange={(e) => onChangeJumlah(e, i, indexProduk)}
+                                    />
+                                  </div>
+                                </Fragment>
+                              </Row>
+                            </div>
+                            <div className={styles.box2}>
+                              <Row style={{ marginTop: '1em' }}>
+                                <div
+                                  className={styles.box10}
+                                  key={indexProduk}
+                                  style={{ marginTop: '10px' }}
+                                >
+                                  <Button
+                                    className={styles.button_delete}
+                                    onClick={(e) => onRemoveProduct(e, i, indexProduk)}
+                                    disabled={Boolean(!indexProduk)}
+                                    type="primary"
+                                    danger
+                                  >
+                                    <DeleteOutlined />
+                                  </Button>
+                                  <Button
+                                    className={styles.button_add}
+                                    onClick={(e) => onAddProduct(e, i)}
+                                    type="primary"
+                                  >
+                                    <PlusOutlined />
+                                  </Button>
+                                </div>
+                              </Row>
+                            </div>
+                          </Fragment>
+                        ))
+                      : null}
                   </Row>
                 </Fragment>
               ))

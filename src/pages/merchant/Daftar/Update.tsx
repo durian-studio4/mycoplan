@@ -122,11 +122,8 @@ const UpdateComponent: React.FC<Props> = ({
     if (!currentPosition.lng) {
       return setDisabled(true);
     }
-    if (!logo.length) {
-      return setDisabled(true);
-    }
     return setDisabled(false);
-  }, [name, email, logo, description, address, currentPosition]);
+  }, [name, email, description, address, currentPosition]);
 
   const onSuccess = (position: any) => {
     console.log(position, 'position');
@@ -222,7 +219,6 @@ const UpdateComponent: React.FC<Props> = ({
     latitude: currentPosition.lat,
     longitude: currentPosition.lng,
     schedule: JSON.stringify(data_schedule),
-    logo: logo[0],
     push_notif_key,
     status: 'active',
   };
@@ -305,7 +301,7 @@ const UpdateComponent: React.FC<Props> = ({
                 <img
                   alt="logo-image"
                   src={data_merchant.logo}
-                  style={{ width: '100%', height: '200px' }}
+                  style={{ width: '100%', height: 'auto' }}
                 />
               </div>
             </div>
