@@ -18,6 +18,16 @@ import useSelect from '@/hooks/useSelect';
 
 interface Props {}
 
+interface Supermarket {
+  id_merchant: string;
+  products: [
+    {
+      id_product: string;
+      qty: string;
+    },
+  ];
+}
+
 const initialState = {
   name: '',
   author: '',
@@ -34,17 +44,7 @@ const AddComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const [supermarket, setSupermarket] = useState([
-    {
-      id_merchant: '',
-      products: [
-        {
-          id_product: '',
-          qty: '',
-        },
-      ],
-    },
-  ]);
+  const [supermarket, setSupermarket] = useState<Supermarket[]>([]);
 
   const [image, setFileImg] = useState([]);
   const [categories, setCategories] = useState([]);

@@ -22,6 +22,18 @@ import PageLoading from '@/components/PageLoading';
 
 interface Props {}
 
+interface Supermarket {
+  id_merchant: string;
+  name_merchant: string;
+  products: [
+    {
+      id_product: string;
+      nama_product: string;
+      qty: string;
+    },
+  ];
+}
+
 const initialState = {
   name: '',
   author: '',
@@ -29,18 +41,6 @@ const initialState = {
   production_time: '',
   portion_min: '',
   portion_max: '',
-};
-
-const initialSupermarket = {
-  id_merchant: '',
-  name_merchant: '',
-  products: [
-    {
-      id_product: '',
-      nama_product: '',
-      qty: '',
-    },
-  ],
 };
 
 const UpdateComponent: React.FC<Props> = () => {
@@ -51,7 +51,7 @@ const UpdateComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const [supermarket, setSupermarket] = useState([initialSupermarket]);
+  const [supermarket, setSupermarket] = useState<Supermarket[]>([]);
 
   const [image, setFileImg] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -79,51 +79,48 @@ const UpdateComponent: React.FC<Props> = () => {
   }, [id]);
 
   useEffect(() => {
-    const timeOut = setTimeout(() => {
-      if (data_list) {
-        const {
-          name,
-          author,
-          video,
-          production_time,
-          portion_max,
-          portion_min,
-          ingredients,
-          steps,
-          recipe_categories,
-          supermarkets,
-          images,
-        } = data_list;
-        supermarkets &&
-          supermarkets.map((data: any) =>
-            setSupermarket((state) => [
-              ...state,
-              {
-                id_merchant: data.merchant.id,
-                name_merchant: data.merchant.name,
-                products: data.products.map((item: any) => ({
-                  id_product: item.id,
-                  nama_product: item.name,
-                  qty: item.quantity,
-                })),
-              },
-            ]),
-          );
-        setState({
-          name,
-          author,
-          video,
-          production_time,
-          portion_max,
-          portion_min,
-        });
-        setClear(images);
-        setSteps(steps);
-        setIngredients(ingredients);
-        setCategories(recipe_categories);
-      }
-    }, 0);
-    return () => clearTimeout(timeOut);
+    if (data_list) {
+      const {
+        name,
+        author,
+        video,
+        production_time,
+        portion_max,
+        portion_min,
+        ingredients,
+        steps,
+        recipe_categories,
+        supermarkets,
+        images,
+      } = data_list;
+      supermarkets &&
+        supermarkets.map((data: any) =>
+          setSupermarket((state) => [
+            ...state,
+            {
+              id_merchant: data.merchant.id,
+              name_merchant: data.merchant.name,
+              products: data.products.map((item: any) => ({
+                id_product: item.id,
+                nama_product: item.name,
+                qty: item.quantity,
+              })),
+            },
+          ]),
+        );
+      setState({
+        name,
+        author,
+        video,
+        production_time,
+        portion_max,
+        portion_min,
+      });
+      setClear(images);
+      setSteps(steps);
+      setIngredients(ingredients);
+      setCategories(recipe_categories);
+    }
   }, [data_list]);
 
   useEffect(() => {
@@ -505,7 +502,7 @@ const UpdateComponent: React.FC<Props> = () => {
               </Button>
             </div>
           </Row>
-          {supermarket.length
+          {supermarket
             ? supermarket.map(({ name_merchant, products }: any, i: number) => (
                 <Fragment key={i}>
                   <Row style={{ marginTop: '1em' }}>
