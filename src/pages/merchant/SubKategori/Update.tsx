@@ -96,7 +96,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
             <div className={styles.group}>
               <SelectKategori
                 handleChange={onChangeProduct}
-                // initial={data_update.merchant && data_update.merchant.name}
+                initial={data_update.parent && data_update.parent.name}
               />
             </div>
           </div>
@@ -138,7 +138,11 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
           {Boolean(clear.length) ? (
             <div className={styles.box10}>
               <div className={styles.group}>
-                <img alt="category-image" src={data_update.image} width="100%" height="50%" />
+                <img
+                  alt="category-image"
+                  src={data_update.image}
+                  style={{ width: '100%', height: '50%' }}
+                />
               </div>
             </div>
           ) : null}

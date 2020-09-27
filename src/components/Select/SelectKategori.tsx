@@ -17,7 +17,7 @@ const SelectKategoriComponent: React.FC<Props> = ({ initial, disabled, handleCha
   useEffect(() => {
     const timeOut = setTimeout(() => {
       fetching();
-    }, 0);
+    }, 100);
     return () => clearTimeout(timeOut);
   }, []);
 

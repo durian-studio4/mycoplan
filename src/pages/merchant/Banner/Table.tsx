@@ -130,7 +130,7 @@ const TableComponent: React.FC<Props> = ({
         render: (props) => (
           <img
             alt={`gambar_banner-${props.id}`}
-            style={{ width: 'auto', height: '200px' }}
+            style={{ width: 'auto', height: '200px', objectFit: 'contain' }}
             src={props.image}
           />
         ),

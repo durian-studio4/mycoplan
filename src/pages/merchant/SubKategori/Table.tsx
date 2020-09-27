@@ -51,7 +51,7 @@ const TableComponent: React.FC<Props> = ({
         render: (props: any) => (
           <img
             alt={`gambar_subkategori-${props.id}`}
-            style={{ width: '50%', height: 'auto' }}
+            style={{ width: '50%', height: 'auto', objectFit: 'contain' }}
             src={props.image}
           />
         ),

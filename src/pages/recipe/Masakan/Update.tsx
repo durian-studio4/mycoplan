@@ -33,10 +33,11 @@ const initialState = {
 
 const initialSupermarket = {
   id_merchant: '',
+  name_merchant: '',
   products: [
     {
       id_product: '',
-      // nama_product: '',
+      nama_product: '',
       qty: '',
     },
   ],
@@ -99,9 +100,10 @@ const UpdateComponent: React.FC<Props> = () => {
               ...state,
               {
                 id_merchant: data.merchant.id,
+                name_merchant: data.merchant.name,
                 products: data.products.map((item: any) => ({
                   id_product: item.id,
-                  // nama_product: item.name,
+                  nama_product: item.name,
                   qty: item.quantity,
                 })),
               },
@@ -131,9 +133,6 @@ const UpdateComponent: React.FC<Props> = () => {
     if (!author) {
       return setDisabled(true);
     }
-    if (!video) {
-      return setDisabled(true);
-    }
     if (!production_time) {
       return setDisabled(true);
     }
@@ -158,7 +157,6 @@ const UpdateComponent: React.FC<Props> = () => {
     author,
     categories,
     supermarket,
-    video,
     production_time,
     portion_min,
     portion_max,
@@ -184,10 +182,11 @@ const UpdateComponent: React.FC<Props> = () => {
       ...state,
       {
         id_merchant: '',
+        name_merchant: '',
         products: [
           {
             id_product: '',
-            // nama_product: '',
+            nama_product: '',
             qty: '',
           },
         ],
@@ -199,7 +198,7 @@ const UpdateComponent: React.FC<Props> = () => {
     const state = [...supermarket];
     state[i].products.push({
       id_product: '',
-      // nama_product: '',
+      nama_product: '',
       qty: '',
     });
     setSupermarket(state);
@@ -220,13 +219,14 @@ const UpdateComponent: React.FC<Props> = () => {
   const onChangeName = (value: any, option: any, i: number) => {
     const state = [...supermarket];
     state[i].id_merchant = option.id;
+    state[i].name_merchant = option.value;
     setSupermarket(state);
   };
 
   const onChangeProduct = (value: any, option: any, i: number, indexProduct: number) => {
     const state = [...supermarket];
     state[i].products[indexProduct].id_product = option.id;
-    // state[i].products[indexProduct].nama_product = option.value;
+    state[i].products[indexProduct].nama_product = option.value;
     setSupermarket(state);
   };
 
@@ -265,20 +265,6 @@ const UpdateComponent: React.FC<Props> = () => {
     id_recipe_categories.push(categories[key].id);
   }
 
-  // let data_supermarket = [];
-
-  // for (let key in supermarket) {
-  //   data_supermarket.push({
-  //     id_merchant: supermarket[key].id_merchant,
-  //     products: [
-  //       {
-  //         id_product: supermarket[key].id_product,
-  //         qty: supermarket[key].qty,
-  //       },
-  //     ],
-  //   });
-  // }
-
   const DataJSON = {
     name,
     author,
@@ -288,7 +274,6 @@ const UpdateComponent: React.FC<Props> = () => {
     portion_min,
     ingredients,
     steps,
-    supermarkets: JSON.stringify(supermarket),
     difficulty: String(difficulty),
     id_recipe_type: String(id_recipe_type),
     id_recipe_categories: JSON.stringify(id_recipe_categories),
@@ -297,10 +282,23 @@ const UpdateComponent: React.FC<Props> = () => {
 
   const updateResep = () => {
     const formData = new FormData();
+    let data_supermarket = [];
 
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
+
+    for (let key in supermarket) {
+      data_supermarket.push({
+        id_merchant: supermarket[key].id_merchant,
+        products: supermarket[key].products.map((item: any) => ({
+          id_product: item.id_product,
+          qty: item.qty,
+        })),
+      });
+    }
+
+    formData.append('supermarkets', JSON.stringify(data_supermarket));
 
     if (image.length) {
       for (let key in image) {
@@ -508,14 +506,17 @@ const UpdateComponent: React.FC<Props> = () => {
             </div>
           </Row>
           {supermarket.length
-            ? supermarket.map(({ products }: any, i: number) => (
+            ? supermarket.map(({ name_merchant, products }: any, i: number) => (
                 <Fragment key={i}>
                   <Row style={{ marginTop: '1em' }}>
                     <div className={styles.box1}>
                       <label htmlFor="supermarket">Supermarket {i + 1}</label>
                     </div>
                     <div className={styles.box4}>
-                      <SelectMerchant handleChange={(v: any, o: any) => onChangeName(v, o, i)} />
+                      <SelectMerchant
+                        initial={name_merchant}
+                        handleChange={(v: any, o: any) => onChangeName(v, o, i)}
+                      />
                     </div>
                     <div className={styles.box1}>
                       <Button
@@ -540,7 +541,7 @@ const UpdateComponent: React.FC<Props> = () => {
                                   </div>
                                   <div className={styles.box4} style={{ marginTop: '10px' }}>
                                     <SelectProduk
-                                      // initial={data && data.nama_product}
+                                      initial={data && data.nama_product}
                                       handleChange={(v: any, o: any) =>
                                         onChangeProduct(v, o, i, indexProduk)
                                       }

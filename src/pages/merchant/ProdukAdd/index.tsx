@@ -61,9 +61,6 @@ const ProdukAddComponent: React.FC<Props> = () => {
     if (!description) {
       return setDisabled(true);
     }
-    if (!information) {
-      return setDisabled(true);
-    }
     if (!images.length) {
       return setDisabled(true);
     }
@@ -77,18 +74,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [
-    name,
-    sku,
-    quantity,
-    price,
-    description,
-    information,
-    images,
-    subcategories,
-    categories,
-    id_unit,
-  ]);
+  }, [name, sku, quantity, price, description, images, subcategories, categories, id_unit]);
 
   const handleVisible = () => setVisible(!visible);
 
@@ -135,14 +121,14 @@ const ProdukAddComponent: React.FC<Props> = () => {
     sku,
     quantity,
     price,
-    discount,
+    discount: !discount ? 0 : discount,
     id_merchant: id,
     id_unit: Number(id_unit),
     id_product_category: Number(categories),
     id_product_subcategory: Number(subcategories),
     other_packaging: JSON.stringify(data_packaging),
     description,
-    information,
+    information: !information ? '' : information,
     status: 'active',
   };
 
@@ -257,7 +243,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="informasi">
-              Informasi Lain
+              Informasi Lain (Optional)
             </label>
             <ReactQuill theme="snow" value={information} onChange={setInformation} />
           </div>

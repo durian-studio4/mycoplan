@@ -17,7 +17,7 @@ const SelectUnitComponent: React.FC<Props> = ({ handleChange, initial, disabled 
   useEffect(() => {
     const timeOut = setTimeout(() => {
       fetching();
-    }, 0);
+    }, 100);
     return () => clearTimeout(timeOut);
   }, []);
 

@@ -209,8 +209,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                         <img
                           alt="category-image"
                           src={data_update.image}
-                          width="100%"
-                          height="50%"
+                          style={{ width: '100%', height: '50%' }}
                         />
                       </div>
                     </div>

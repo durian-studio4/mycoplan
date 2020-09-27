@@ -126,7 +126,11 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
           {Boolean(clear.length) ? (
             <div className={styles.box10}>
               <div className={styles.group}>
-                <img alt="category-image" src={data_update.image} width="100%" height="50%" />
+                <img
+                  alt="category-image"
+                  src={data_update.image}
+                  style={{ width: '100%', height: '50%' }}
+                />
               </div>
             </div>
           ) : null}
@@ -146,7 +150,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
         <Button
           className={styles.button}
           onClick={updateKategori}
-          disabled={!name || !image.length || onLoadButton}
+          disabled={!name || onLoadButton}
           type="primary"
         >
           Simpan

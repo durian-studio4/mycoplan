@@ -115,17 +115,17 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     if (!description) {
       return setDisabled(true);
     }
-    if (!information) {
+    if (!categories) {
       return setDisabled(true);
     }
-    if (!categories) {
+    if (!subcategories) {
       return setDisabled(true);
     }
     if (!id_unit) {
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [name, sku, quantity, price, description, information, categories, id_unit]);
+  }, [name, sku, quantity, price, description, subcategories, categories, id_unit]);
 
   const handleVisible = () => setVisible(!visible);
 
@@ -193,12 +193,13 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     sku,
     quantity,
     price,
-    discount,
+    discount: !discount ? String(0) : discount,
     id_unit: String(id_unit),
     id_product_category: String(categories),
     id_product_subcategory: String(subcategories),
+    other_packaging: JSON.stringify(data_packaging),
     description,
-    information,
+    information: !information ? '' : information,
     status: 'active',
   };
 
@@ -213,10 +214,6 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
       for (let key in images) {
         formData.append('images[]', images[key]);
       }
-    }
-
-    if (data_packaging.length) {
-      formData.append('other_packaging', JSON.stringify(data_packaging));
     }
 
     if (deleteImages.length) {
@@ -331,7 +328,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="informasi">
-                Informasi Lain
+                Informasi Lain (Optional)
               </label>
               <ReactQuill theme="snow" value={information || ''} onChange={setInformation} />
             </div>
@@ -339,7 +336,10 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label}>Kategori</label>
-              <SelectKategori handleChange={onChangeCategories} />
+              <SelectKategori
+                handleChange={onChangeCategories}
+                initial={data_list.product_category && data_list.product_category.name}
+              />
             </div>
           </div>
           <div className={styles.box10}>
@@ -348,6 +348,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
               {categories ? (
                 <SelectSubKategori
                   id={String(categories)}
+                  initial={data_list.product_subcategory && data_list.product_subcategory.name}
                   handleChange={onChangeSubCategories}
                   onReset={onClearSubCategories}
                 />
