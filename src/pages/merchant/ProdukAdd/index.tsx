@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Input, Button, Row, Upload, Tag } from 'antd';
-import { history } from 'umi';
+import { history, useParams } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
 import styles from './index.less';
@@ -8,8 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 
 import SelectUnit from '@/components/Select/SelectUnit';
 import SelectKategori from '@/components/Select/SelectKategori';
-import SelectMerchant from '@/components/Select/SelectMerchant';
-// import SelectSubKategori from '@/components/Select/SelectSubKategori';
+import SelectSubKategori from '@/components/Select/SelectSubKategori';
 
 import useSelect from '@/hooks/useSelect';
 import useCreate from '@/hooks/useCreateForm';
@@ -23,10 +22,12 @@ const initialState = {
   sku: '',
   quantity: '',
   price: '',
-  discount: '',
+  discount: '0',
 };
 
 const ProdukAddComponent: React.FC<Props> = () => {
+  const { id, code } = useParams();
+
   const [{ name, sku, quantity, price, discount }, setState] = useState(initialState);
   const [images, setFileImg] = useState([]);
   const [other_packaging, setOtherPackaging] = useState([]);
@@ -39,7 +40,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
   const [disabled, setDisabled] = useState(false);
 
   const [categories, onChangeCategories, onClearCategories] = useSelect('');
-  const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect('');
+  const [subcategories, onChangeSubCategories, onClearSubCategories] = useSelect('');
   const [id_unit, onChangeUnit, onClearUnit] = useSelect('');
 
   const [loading_update, status_update, postCreate] = useCreate();
@@ -69,7 +70,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
     if (!categories) {
       return setDisabled(true);
     }
-    if (!id_merchant) {
+    if (!subcategories) {
       return setDisabled(true);
     }
     if (!id_unit) {
@@ -84,8 +85,8 @@ const ProdukAddComponent: React.FC<Props> = () => {
     description,
     information,
     images,
+    subcategories,
     categories,
-    id_merchant,
     id_unit,
   ]);
 
@@ -112,11 +113,11 @@ const ProdukAddComponent: React.FC<Props> = () => {
     setFileImg([]);
     setDescription('');
     setInformation('');
-    onClearMerchant();
     onClearCategories();
+    onClearSubCategories();
     onClearUnit();
     // onClearSubCategories();
-    history.push('/merchant/produk');
+    history.push(`/merchant/produk/${id}/${code}`);
   };
 
   let data_packaging = [];
@@ -135,9 +136,10 @@ const ProdukAddComponent: React.FC<Props> = () => {
     quantity,
     price,
     discount,
-    id_merchant: String(id_merchant),
-    id_unit: String(id_unit),
-    id_product_category: String(categories),
+    id_merchant: id,
+    id_unit: Number(id_unit),
+    id_product_category: Number(categories),
+    id_product_subcategory: Number(subcategories),
     other_packaging: JSON.stringify(data_packaging),
     description,
     information,
@@ -161,14 +163,6 @@ const ProdukAddComponent: React.FC<Props> = () => {
     <div>
       <p className={styles.title}>Tambah Produk</p>
       <Card>
-        <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="name">
-              Nama Merchant
-            </label>
-            <SelectMerchant handleChange={onChangeMerchant} />
-          </div>
-        </div>
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="name">
@@ -202,7 +196,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="discount">
-              Harga Diskon (Optional)
+              Harga Diskon (Opsional)
             </label>
             <Input
               addonBefore="Rp."
@@ -274,12 +268,18 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <SelectKategori handleChange={onChangeCategories} />
           </div>
         </div>
-        {/* <div className={styles.box10}>
+        <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label}>Sub Kategori</label>
-            <SelectSubKategori handleChange={onChangeSubCategories} />
+            {categories ? (
+              <SelectSubKategori
+                id={String(categories)}
+                handleChange={onChangeSubCategories}
+                onReset={onClearSubCategories}
+              />
+            ) : null}
           </div>
-        </div> */}
+        </div>
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="gambar">
@@ -305,14 +305,16 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="">
               Kemasan Lain (Opsional)
             </label>
-            <div className={styles.group}>
-              {other_packaging.map((data) => (
-                <Tag>{data.name}</Tag>
-              ))}
-              <Tag onClick={handleVisible}>
-                <PlusOutlined /> New Tag
-              </Tag>
-            </div>
+            {categories && subcategories ? (
+              <div className={styles.group}>
+                {other_packaging.map((data, i) => (
+                  <Tag key={i}>{data.name}</Tag>
+                ))}
+                <Tag onClick={handleVisible}>
+                  <PlusOutlined /> New Tag
+                </Tag>
+              </div>
+            ) : null}
           </div>
         </div>
 
@@ -326,7 +328,14 @@ const ProdukAddComponent: React.FC<Props> = () => {
         </Button>
       </Card>
       {visible ? (
-        <KemasanComponent visible={visible} onSet={setOtherPackaging} onCancel={handleVisible} />
+        <KemasanComponent
+          visible={visible}
+          id_merchant={id}
+          category={String(categories)}
+          subcategory={String(subcategories)}
+          onSet={setOtherPackaging}
+          onCancel={handleVisible}
+        />
       ) : null}
     </div>
   );

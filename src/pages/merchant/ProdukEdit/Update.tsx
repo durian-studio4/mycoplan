@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Input, Button, Row, Upload, Tag } from 'antd';
 import { history, useParams } from 'umi';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
 import styles from './index.less';
 import 'react-quill/dist/quill.snow.css';
 
 import SelectUnit from '@/components/Select/SelectUnit';
 import SelectKategori from '@/components/Select/SelectKategori';
-import SelectMerchant from '@/components/Select/SelectMerchant';
-// import SelectSubKategori from '@/components/Select/SelectSubKategori';
+import SelectSubKategori from '@/components/Select/SelectSubKategori';
 
 import useSelect from '@/hooks/useSelect';
 import useCreate from '@/hooks/useCreateForm';
@@ -37,6 +36,9 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
   const [images, setFileImg] = useState([]);
   const [other_packaging, setOtherPackaging] = useState([]);
 
+  const [deleteImages, setDeleteImages] = useState([]);
+  const [clear, setClear] = useState([]);
+
   const [visible, setVisible] = useState(false);
 
   const [description, setDescription] = useState('');
@@ -50,7 +52,9 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
   const [categories, onChangeCategories, onClearCategories] = useSelect(
     data_list.id_product_category,
   );
-  const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect(data_list.id_merchant);
+  const [subcategories, onChangeSubCategories, onClearSubCategories] = useSelect(
+    data_list.id_product_subcategory,
+  );
   const [id_unit, onChangeUnit, onClearUnit] = useSelect(data_list.id_unit);
 
   useEffect(() => {
@@ -71,6 +75,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           price,
           discount,
           other_packaging,
+          images,
           information,
           description,
         } = data_list;
@@ -84,8 +89,9 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
         setInformation(information);
         setDescription(description);
         setOtherPackaging(other_packaging);
+        setClear(images);
       }
-    }, 100);
+    }, 0);
     return () => clearTimeout(timeOut);
   }, [data_list]);
 
@@ -108,31 +114,14 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     if (!information) {
       return setDisabled(true);
     }
-    if (!images.length) {
-      return setDisabled(true);
-    }
     if (!categories) {
-      return setDisabled(true);
-    }
-    if (!id_merchant) {
       return setDisabled(true);
     }
     if (!id_unit) {
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [
-    name,
-    sku,
-    quantity,
-    price,
-    description,
-    information,
-    images,
-    categories,
-    id_merchant,
-    id_unit,
-  ]);
+  }, [name, sku, quantity, price, description, information, categories, id_unit]);
 
   const handleVisible = () => setVisible(!visible);
 
@@ -152,19 +141,25 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     setFileImg(list);
   };
 
+  const onClearImage = (id: string) => {
+    let list = clear.filter((data: any) => data.id !== id);
+    setDeleteImages((state) => [...state, id]);
+    setClear(list);
+  };
+
   const onClearState = () => {
     setState({ ...initialState });
     setFileImg([]);
     setDescription('');
     setInformation('');
-    onClearMerchant();
     onClearCategories();
+    onClearSubCategories();
     onClearUnit();
     // onClearSubCategories();
-    history.push('/merchant/produk');
+    history.push(`/merchant/produk`);
   };
 
-  let data_packaging = [];
+  let data_packaging: any = [];
 
   for (let key in other_packaging) {
     // data_packaging.push({
@@ -195,10 +190,9 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     quantity,
     price,
     discount,
-    id_merchant: String(id_merchant),
     id_unit: String(id_unit),
     id_product_category: String(categories),
-    other_packaging: JSON.stringify(data_packaging),
+    id_product_subcategory: String(subcategories),
     description,
     information,
     status: 'active',
@@ -211,8 +205,20 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
       formData.append(key, value);
     }
 
-    for (let key in images) {
-      formData.append('images[]', images[key]);
+    if (images.length) {
+      for (let key in images) {
+        formData.append('images[]', images[key]);
+      }
+    }
+
+    if (data_packaging.length) {
+      formData.append('other_packaging', JSON.stringify(data_packaging));
+    }
+
+    if (deleteImages.length) {
+      for (let key in deleteImages) {
+        formData.append('delete_image_ids[]', deleteImages[key]);
+      }
     }
 
     postCreate(`${REACT_APP_ENV}/admin/products/${id}?_method=put`, formData, onClearState);
@@ -226,17 +232,6 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
         <PageLoading />
       ) : (
         <Card>
-          <div className={styles.box10}>
-            <div className={styles.group}>
-              <label className={styles.label} htmlFor="name">
-                Nama Merchant
-              </label>
-              <SelectMerchant
-                handleChange={onChangeMerchant}
-                initial={data_list.merchant && data_list.merchant.name}
-              />
-            </div>
-          </div>
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="name">
@@ -270,7 +265,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="discount">
-                Harga Diskon (Optional)
+                Harga Diskon (Opsional)
               </label>
               <Input
                 addonBefore="Rp."
@@ -340,18 +335,21 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label}>Kategori</label>
-              <SelectKategori
-                handleChange={onChangeCategories}
-                initial={data_list.product_category && data_list.product_category.name}
-              />
+              <SelectKategori handleChange={onChangeCategories} />
             </div>
           </div>
-          {/* <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label}>Sub Kategori</label>
-            <SelectSubKategori handleChange={onChangeSubCategories} />
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label}>Sub Kategori</label>
+              {categories ? (
+                <SelectSubKategori
+                  id={String(categories)}
+                  handleChange={onChangeSubCategories}
+                  onReset={onClearSubCategories}
+                />
+              ) : null}
+            </div>
           </div>
-        </div> */}
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="gambar">
@@ -372,17 +370,41 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
               </div>
             </div>
           </div>
+          {clear &&
+            clear.map((data: any, i: number) => (
+              <div className={styles.box10} key={i}>
+                <div className={styles.group}>
+                  <Row>
+                    <img
+                      alt="produk-image"
+                      src={data.url}
+                      style={{ width: '50%', height: '50%' }}
+                    />
+                    <Button
+                      className={styles.button}
+                      type="primary"
+                      onClick={() => onClearImage(data.id)}
+                    >
+                      <MinusOutlined />
+                    </Button>
+                  </Row>
+                </div>
+              </div>
+            ))}
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="">
                 Kemasan Lain (Opsional)
               </label>
-              <div className={styles.group}>
-                {other_packaging && other_packaging.map((data) => <Tag>{data.name}</Tag>)}
-                <Tag onClick={handleVisible}>
-                  <PlusOutlined /> New Tag
-                </Tag>
-              </div>
+              {categories && subcategories ? (
+                <div className={styles.group}>
+                  {other_packaging &&
+                    other_packaging.map((data, i) => <Tag key={i}>{data.name}</Tag>)}
+                  <Tag onClick={handleVisible}>
+                    <PlusOutlined /> New Tag
+                  </Tag>
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -397,7 +419,14 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
         </Card>
       )}
       {visible ? (
-        <KemasanComponent visible={visible} onSet={setOtherPackaging} onCancel={handleVisible} />
+        <KemasanComponent
+          visible={visible}
+          onSet={setOtherPackaging}
+          onCancel={handleVisible}
+          id_merchant={id}
+          category={String(categories)}
+          subcategory={String(subcategories)}
+        />
       ) : null}
     </div>
   );

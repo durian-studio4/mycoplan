@@ -7,7 +7,7 @@ import AddComponent from './Add';
 import UpdateComponent from './Update';
 
 import useFetch from '@/hooks/useFetch';
-import useCreate from '@/hooks/useCreateForm';
+import useCreate from '@/hooks/useProdukRequest';
 
 export interface Kategori {
   formData: any;

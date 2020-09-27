@@ -4,7 +4,7 @@ import { message } from 'antd';
 
 message.config({
   top: 100,
-  duration: 3,
+  duration: 5,
   maxCount: 1,
 });
 
@@ -29,7 +29,7 @@ function App() {
       message.success('success');
       return result;
     } catch (error) {
-      message.error(error.response.data.message);
+      console.log(error.response);
       setLoading(false);
     }
   };
@@ -42,7 +42,7 @@ function App() {
         baseURL: url,
         data,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
         withCredentials: true,
       });
@@ -71,10 +71,7 @@ function App() {
       message.success('deleted');
       return result;
     } catch (error) {
-      console.log(error, 'error');
-      console.log(error.response, 'error');
-      console.log(error.message, 'message');
-      message.error(error.response.data.message);
+      message.error('Produk Kategori tidak dapat dihapus');
       setLoading(false);
     }
   };

@@ -21,6 +21,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
     data_array.push({
       no: Number(key) + 1,
       id: data[key].id,
+      code: data[key].code,
       name: data[key].name,
       // quantity: data[key].quantity,
       // id_merchant: data[key].id_merchant,
@@ -46,25 +47,32 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
       },
       {
         align: 'center',
+        title: 'Code Merchant',
+        dataIndex: 'code',
+        key: 'code',
+        ...getColumnSearchProps('code'),
+      },
+      {
+        align: 'center',
         title: 'Nama Merchant',
         dataIndex: 'name',
         key: 'name',
         ...getColumnSearchProps('name'),
       },
-      {
-        align: 'center',
-        title: 'Jumlah Produk',
-        dataIndex: 'quantity',
-        key: 'quantity',
-        ...getColumnSearchProps('quantity'),
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Jumlah Produk',
+      //   dataIndex: 'quantity',
+      //   key: 'quantity',
+      //   ...getColumnSearchProps('quantity'),
+      // },
       {
         align: 'center',
         title: 'Action',
         render: (props: any) => (
           <Row justify="space-around">
             <NavLink
-              to={`/merchant/produk/${props.id}`}
+              to={`/merchant/produk/${props.id}/${props.code}`}
               // onClick={() => visibleUpdate(props.id)}
             >
               <Button className={styles.button} type="primary">

@@ -8,33 +8,46 @@ import styles from './index.less';
 interface Props {
   visible: boolean;
   onCancel: () => void;
+  category: string;
+  subcategory: string;
+  id_merchant: string;
   onSet: Dispatch<SetStateAction<never[]>>;
 }
 
-const KemasanComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
+const KemasanComponent: React.FC<Props> = ({
+  visible,
+  id_merchant,
+  category,
+  subcategory,
+  onCancel,
+  onSet,
+}) => {
   const [data, setData] = useState([]);
+  const [filter, setFilter] = useState({});
   const [loading, setLoading] = useState(false);
   const [kemasan, setKemasan] = useState([]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetching();
+      fetching(id_merchant, category, subcategory);
     }, 0);
     return () => clearTimeout(timeOut);
-  }, []);
+  }, [id_merchant, category, subcategory]);
 
-  const fetching = async (param: string) => {
+  const fetching = async (id_merchant: string, category: string, subcategory: string) => {
     setLoading(true);
     try {
       const wait = await axios({
         method: 'get',
-        baseURL: `${REACT_APP_ENV}/admin/product/categories?category=1`,
+        baseURL: `${REACT_APP_ENV}/admin/products/?merchant=${id_merchant}&category=${category}&subcategory=${subcategory}`,
         withCredentials: true,
       });
       const json = await wait.data;
-      const result = await json.data;
+      const result = await json;
       setLoading(false);
-      setData(result);
+      setData(result.data);
+      setFilter(result.filters);
+      return result;
     } catch (err) {
       console.log(err, 'error');
       setLoading(false);
@@ -79,29 +92,35 @@ const KemasanComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
   return (
     <Modal visible={visible} title="Pilih Kemasan Lain" closable={false} footer={null}>
       <div className={styles.modal_body}>
-        {/* <Row>
+        <Row>
           <div className={styles.box10}>
             <table style={{ textAlign: 'center', width: '100%' }}>
               <tbody>
                 <tr>
                   <td align="left">Supermarket</td>
                   <td align="center">:</td>
-                  <td align="right">{data && data.tanggal}</td>
+                  <td align="left" style={{ textAlign: 'center' }}>
+                    {filter && filter.merchant}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left">Kategori</td>
                   <td align="center">:</td>
-                  <td align="right">{data && data.nama_sales}</td>
+                  <td align="left" style={{ textAlign: 'center' }}>
+                    {filter && filter.category}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left">Sub Kategori</td>
                   <td align="center">:</td>
-                  <td align="left">PT. Alternate Farma</td>
+                  <td align="left" style={{ textAlign: 'center' }}>
+                    {filter && filter.subcategory}
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </Row> */}
+        </Row>
         <Table
           style={{ marginTop: '1em' }}
           rowSelection={{

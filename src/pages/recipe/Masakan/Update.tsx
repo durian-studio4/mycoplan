@@ -295,7 +295,7 @@ const UpdateComponent: React.FC<Props> = () => {
     status: 'active',
   };
 
-  const createResep = () => {
+  const updateResep = () => {
     const formData = new FormData();
 
     for (let [key, value] of Object.entries(DataJSON)) {
@@ -485,7 +485,11 @@ const UpdateComponent: React.FC<Props> = () => {
                 <div className={styles.box10} key={i}>
                   <div className={styles.group}>
                     <Row>
-                      <img alt="recipe-image" src={data.url} width="auto" height="auto" />
+                      <img
+                        alt="recipe-image"
+                        src={data.url}
+                        style={{ width: '50%', height: '50%' }}
+                      />
                       <Button
                         className={styles.button}
                         type="primary"
@@ -600,7 +604,7 @@ const UpdateComponent: React.FC<Props> = () => {
           <Button
             className={styles.button}
             disabled={disabled || Boolean(loading_update)}
-            onClick={createResep}
+            onClick={updateResep}
             type="primary"
           >
             Simpan

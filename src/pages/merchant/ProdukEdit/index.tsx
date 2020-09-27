@@ -11,7 +11,7 @@ import useCreate from '@/hooks/useCreateForm';
 interface Props {}
 
 const MerchantProdukComponent: React.FC<Props> = () => {
-  const { id } = useParams();
+  const { id, code } = useParams();
 
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
@@ -43,7 +43,7 @@ const MerchantProdukComponent: React.FC<Props> = () => {
   // };
 
   const deleteProduk = (id: string) => {
-    postDelete(`${REACT_APP_ENV}/admin/merchants/${id}`);
+    postDelete(`${REACT_APP_ENV}/admin/products/${id}`);
   };
 
   return (
@@ -62,7 +62,7 @@ const MerchantProdukComponent: React.FC<Props> = () => {
               value={name}
               onKeyDown={handleKey}
             /> */}
-            <NavLink to="/merchant/produk/add">
+            <NavLink to={`/merchant/produk/add/${id}/${code}`}>
               <Button className={styles.button_search} type="primary">
                 + Tambah Produk
               </Button>

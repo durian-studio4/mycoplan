@@ -122,20 +122,20 @@ export default defineConfig({
                 },
                 {
                   hideInMenu: true,
-                  path: '/merchant/produk/add',
-                  component: './merchant/ProdukAdd',
+                  path: '/merchant/produk/edit/:id',
+                  component: './merchant/ProdukEdit/Update',
                   authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   hideInMenu: true,
-                  path: '/merchant/produk/:id',
+                  path: '/merchant/produk/:id/:code',
                   component: './merchant/ProdukEdit',
                   authority: ['admin', 'master', 'merchant'],
                 },
                 {
                   hideInMenu: true,
-                  path: '/merchant/produk/edit/:id',
-                  component: './merchant/ProdukEdit/Update',
+                  path: '/merchant/produk/add/:id/:code',
+                  component: './merchant/ProdukAdd',
                   authority: ['admin', 'master', 'merchant'],
                 },
                 {

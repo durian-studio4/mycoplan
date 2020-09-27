@@ -16,8 +16,10 @@ const MerchantUnitProdukAddComponent: React.FC<Props> = ({ onCreate, onLoadButto
   const onClearState = () => setName('');
 
   const createUnit = () => {
+    const formData = new FormData();
+    formData.append('name', name);
     onCreate({
-      json: { name },
+      json: formData,
       clear: onClearState,
     });
   };
