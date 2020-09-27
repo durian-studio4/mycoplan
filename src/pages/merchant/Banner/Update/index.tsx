@@ -163,7 +163,10 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               <label className={styles.label} htmlFor="name">
                 Nama Merchant
               </label>
-              <SelectMerchant handleChange={onChangeMerchant} />
+              <SelectMerchant
+                handleChange={onChangeMerchant}
+                initial={data_update.merchant && data_update.merchant.name}
+              />
             </div>
           </div>
           <div className={styles.box10}>
