@@ -1,5 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { message } from 'antd';
+
+message.config({
+  top: 100,
+  duration: 5,
+  maxCount: 1,
+});
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -40,6 +47,7 @@ function App() {
       const result = await posting.data;
       setLoading(false);
       setRerender(Date.now());
+      message.success('updated');
       return result;
     } catch (error) {
       console.log(error, 'error');

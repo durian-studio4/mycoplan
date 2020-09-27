@@ -13,11 +13,14 @@ interface Props {}
 const initialState = {
   name: '',
   email: '',
-  password: '',
+  new_password: '',
+  confirm_password: '',
 };
 
 const SettingsProfileComponent: React.FC<Props> = () => {
-  const [{ name, email, password }, setState] = useState(initialState);
+  const [{ name, email, confirm_password, new_password }, setState] = useState(initialState);
+
+  const [isDisabled, setDisabled] = useState(false);
 
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate] = useCreate();
@@ -29,6 +32,25 @@ const SettingsProfileComponent: React.FC<Props> = () => {
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
+
+  useEffect(() => {
+    if (!name) {
+      return setDisabled(true);
+    }
+    if (!email) {
+      return setDisabled(true);
+    }
+    if (!new_password) {
+      return setDisabled(true);
+    }
+    if (!confirm_password) {
+      return setDisabled(true);
+    }
+    if (new_password !== confirm_password) {
+      return setDisabled(true);
+    }
+    return setDisabled(false);
+  }, [name, email, new_password, confirm_password]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -46,7 +68,7 @@ const SettingsProfileComponent: React.FC<Props> = () => {
   const DataJSON = {
     name,
     email,
-    password,
+    password: new_password,
   };
 
   const updateSettings = () => {
@@ -96,21 +118,6 @@ const SettingsProfileComponent: React.FC<Props> = () => {
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label} htmlFor="password">
-                Kata Sandi
-              </label>
-              <Input
-                className={styles.input}
-                type="password"
-                id="password"
-                placeholder="Kata Sandi"
-                value={password}
-                onChange={handleChangeState}
-              />
-            </div>
-          </div>
-          {/* <div className={styles.box10}>
-            <div className={styles.group}>
               <label className={styles.label} htmlFor="new_password">
                 Kata Sandi Baru
               </label>
@@ -123,8 +130,8 @@ const SettingsProfileComponent: React.FC<Props> = () => {
                 onChange={handleChangeState}
               />
             </div>
-          </div> */}
-          {/* <div className={styles.box10}>
+          </div>
+          <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="confirm_password">
                 Konfirmasi Kata Sandi Baru
@@ -138,12 +145,12 @@ const SettingsProfileComponent: React.FC<Props> = () => {
                 onChange={handleChangeState}
               />
             </div>
-          </div> */}
+          </div>
           <Button
             className={styles.button}
             onClick={updateSettings}
             type="primary"
-            disabled={Boolean(loading_update) || !password}
+            disabled={Boolean(loading_update) || isDisabled}
           >
             Simpan
           </Button>
