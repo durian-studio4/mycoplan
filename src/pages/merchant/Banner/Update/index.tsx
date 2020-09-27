@@ -77,14 +77,14 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     if (!title) {
       return setDisabled(true);
     }
-    if (!description) {
-      return setDisabled(true);
-    }
     if (!id_merchant) {
       return setDisabled(true);
     }
+    if (!id_voucher) {
+      return setDisabled(true);
+    }
     return setDisabled(false);
-  }, [terms_conditions, id_merchant, title, description]);
+  }, [terms_conditions, id_merchant, id_voucher, title]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);

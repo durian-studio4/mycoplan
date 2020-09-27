@@ -46,17 +46,17 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     if (!title) {
       return setDisabled(true);
     }
-    if (!description) {
-      return setDisabled(true);
-    }
     if (!file_img.length) {
       return setDisabled(true);
     }
     if (!id_merchant) {
       return setDisabled(true);
     }
+    if (!id_voucher) {
+      return setDisabled(true);
+    }
     return setDisabled(false);
-  }, [file_img, terms_conditions, id_merchant, title, description]);
+  }, [file_img, terms_conditions, id_merchant, id_voucher, title]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
