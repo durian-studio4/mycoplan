@@ -164,7 +164,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             </div>
           </div>
         </div>
-        {banner_type === 'gambar' ? (
+        {banner_type !== 'gambar' ? (
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="description">
@@ -200,7 +200,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             </Row>
           </div>
         </div>
-        {banner_type === 'gambar' ? (
+        {banner_type !== 'gambar' ? (
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="terms_conditions">
