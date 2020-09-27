@@ -44,6 +44,8 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
   const [description, setDescription] = useState('');
   const [information, setInformation] = useState('');
 
+  const [id_merchant, setIdMerchant] = useState('');
+
   const [disabled, setDisabled] = useState(false);
 
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
@@ -78,6 +80,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           images,
           information,
           description,
+          id_merchant,
         } = data_list;
         setState({
           name,
@@ -86,6 +89,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           price,
           discount,
         });
+        setIdMerchant(id_merchant);
         setInformation(information);
         setDescription(description);
         setOtherPackaging(other_packaging);
@@ -423,7 +427,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           visible={visible}
           onSet={setOtherPackaging}
           onCancel={handleVisible}
-          id_merchant={id}
+          id_merchant={id_merchant}
           category={String(categories)}
           subcategory={String(subcategories)}
         />
