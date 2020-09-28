@@ -66,7 +66,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
 
   const DataJSON = {
     name,
-    image: image[0],
   };
 
   const updateKategori = () => {
@@ -78,8 +77,11 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
       formData: formData,
       clear: onClearState,
     });
-    onClearState();
   };
+
+  if (image.length) {
+    DataJSON['image'] = image[0];
+  }
 
   return (
     <Modal visible={visible} title="Update Kategori" closable={false} footer={null}>
@@ -129,7 +131,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 <img
                   alt="category-image"
                   src={data_update.image}
-                  style={{ width: '100%', height: '50%' }}
+                  style={{ width: '100%', height: '200px', objectFit: 'contain' }}
                 />
               </div>
             </div>
