@@ -24,6 +24,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
       no: Number(key) + 1,
       id: data[key].id,
       name: data[key].name,
+      email: data[key].email,
       role: data[key].role,
       created_at: data[key].created_at,
     });

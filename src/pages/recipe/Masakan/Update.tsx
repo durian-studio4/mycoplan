@@ -230,6 +230,7 @@ const UpdateComponent: React.FC<Props> = () => {
   const onChangeJumlah = (e: any, i: number, indexProduct: number) => {
     const { value } = e.target;
     const state = [...supermarket];
+    console.log(state, 'state');
     state[i].products[indexProduct].qty = value;
     setSupermarket(state);
   };

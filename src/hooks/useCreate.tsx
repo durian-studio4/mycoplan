@@ -4,7 +4,7 @@ import { message } from 'antd';
 
 message.config({
   top: 100,
-  duration: 5,
+  duration: 2,
   maxCount: 1,
 });
 
