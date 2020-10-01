@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
@@ -13,6 +15,8 @@ interface Props {}
 const { TextArea } = Input;
 
 const ManagementWhatsappComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [text, setText] = useState('');
 
   const [data_kontent, status_kontent, loading_kontent, error_kontent, fetchKontent] = useFetch();
@@ -54,6 +58,8 @@ const ManagementWhatsappComponent: React.FC<Props> = () => {
     );
   };
 
+  const management_access = context && context[7];
+
   return (
     <div>
       <p className={styles.title}>WhatsApp Chat</p>
@@ -64,16 +70,23 @@ const ManagementWhatsappComponent: React.FC<Props> = () => {
         <Card>
           <Row justify="space-between">
             <p className={styles.title}>Link Whatsapp Chat</p>
-            <Button
-              className={styles.button}
-              disabled={!text || Boolean(loading_update)}
-              onClick={updateSetting}
-              type="primary"
-            >
-              Edit Link
-            </Button>
+            {management_access && management_access.update ? (
+              <Button
+                className={styles.button}
+                disabled={!text || Boolean(loading_update)}
+                onClick={updateSetting}
+                type="primary"
+              >
+                Edit Link
+              </Button>
+            ) : null}
           </Row>
-          <TextArea className={styles.area} value={text} onChange={onChangeState} />
+          <TextArea
+            className={styles.area}
+            value={text}
+            onChange={onChangeState}
+            style={{ display: management_access && management_access.read ? 'block' : 'none' }}
+          />
         </Card>
       )}
     </div>

@@ -1,13 +1,18 @@
-import React, { useMemo, Fragment } from 'react';
+import React, { useMemo, useContext, Fragment } from 'react';
 import { Table, Row, Button, Card } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { NavLink } from 'umi';
 import styles from './index.less';
 
+import { PermissionContext } from '@/layouts/context';
+
 interface Props {}
 
 const TableComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
   // const [getColumnSearchProps] = useFilterColumn();
+
+  const penjualan_access = context && context[6];
 
   const data = [
     {
@@ -78,7 +83,7 @@ const TableComponent: React.FC<Props> = () => {
   // }
 
   return (
-    <Card>
+    <Card style={{ display: penjualan_access && penjualan_access.read ? 'block' : 'none' }}>
       <Row justify="space-between">
         <p className={styles.title}>Penjualan Per Merchant</p>
         <div className={styles.row_box}>

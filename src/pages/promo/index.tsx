@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
@@ -17,6 +19,8 @@ export interface Promo {
 interface Props {}
 
 const PromoComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [visible, setVisible] = useState(false);
   const [visible_update, setVisibleUpdate] = useState(false);
   const [id_update, setIdUpdate] = useState('');
@@ -70,28 +74,24 @@ const PromoComponent: React.FC<Props> = () => {
     postDelete(`${REACT_APP_ENV}/admin/vouchers/${id}`);
   };
 
+  const promo_access = context && context[5];
+
   return (
     <div>
       <p className={styles.title}>Promo</p>
       <Card>
         <Row justify="space-between">
-          <p className={styles.title}>Daftar Promo</p>
-          <div className={styles.row_box}>
-            <Input
-              className={styles.input_search}
-              id="name"
-              type="text"
-              placeholder="Cari Promo"
-              // onChange={onChangeState}
-              // value={name}
-              // onKeyDown={handleKey}
-            />
-            <Button className={styles.button} type="primary" onClick={handleVisible}>
-              Buat Promo
-            </Button>
-          </div>
+          {promo_access && promo_access.read ? <p className={styles.title}>Daftar Promo</p> : null}
+          {promo_access && promo_access.create ? (
+            <div className={styles.row_box}>
+              <Button className={styles.button} type="primary" onClick={handleVisible}>
+                Buat Promo
+              </Button>
+            </div>
+          ) : null}
         </Row>
         <TableComponent
+          promo_access={promo_access}
           data={data_list}
           loading={Boolean(loading_list)}
           status={Number(status_list)}

@@ -6,6 +6,7 @@ import styles from './index.less';
 import PageError from '@/components/PageError';
 
 interface Props {
+  recipe_access: any;
   data: any;
   loading: boolean;
   status: number;
@@ -13,7 +14,14 @@ interface Props {
   onDelete: (id: string) => void;
 }
 
-const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelete }) => {
+const TableComponent: React.FC<Props> = ({
+  recipe_access,
+  data,
+  loading,
+  status,
+  error,
+  onDelete,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
   let data_array = [];
@@ -60,15 +68,17 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
         width: 200,
         render: (props: any) => (
           <Row justify="space-around">
-            <Button
-              className={styles.button}
-              id={props.id}
-              onClick={() => onDelete(props.id)}
-              type="primary"
-              danger
-            >
-              Delete
-            </Button>
+            {recipe_access && recipe_access.delete ? (
+              <Button
+                className={styles.button}
+                id={props.id}
+                onClick={() => onDelete(props.id)}
+                type="primary"
+                danger
+              >
+                Delete
+              </Button>
+            ) : null}
           </Row>
         ),
       },
@@ -84,11 +94,18 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
   return (
     <Card>
       <p className={styles.title}>Kategori Resep Pilihan</p>
-      <Table columns={columns} dataSource={data_array} loading={loading} />
+      <Table
+        columns={columns}
+        dataSource={data_array}
+        loading={loading}
+        style={{ display: recipe_access && recipe_access.read ? 'block' : 'none' }}
+      />
 
-      <Button className={styles.button_add}>
-        <NavLink to="/recipe/kategori">+ Tambah Kategori Pilihan</NavLink>
-      </Button>
+      {recipe_access && recipe_access.create ? (
+        <Button className={styles.button_add}>
+          <NavLink to="/recipe/kategori">+ Tambah Kategori Pilihan</NavLink>
+        </Button>
+      ) : null}
     </Card>
   );
 };

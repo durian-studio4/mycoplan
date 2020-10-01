@@ -7,6 +7,7 @@ import useFilterColumn from '@/hooks/useFilterColumn';
 import PageError from '@/components/PageError';
 
 interface Props {
+  merchant_access: any;
   data: any;
   loading: boolean;
   status: number;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const TableComponent: React.FC<Props> = ({
+  merchant_access,
   data,
   loading,
   status,
@@ -116,42 +118,48 @@ const TableComponent: React.FC<Props> = ({
         width: 150,
         render: (props: any) => (
           <Row justify="center">
-            <Button
-              className={styles.button_edit}
-              id={props.id}
-              onClick={() => visibleUpdate(props.id)}
-              type="primary"
-            >
-              Edit
-            </Button>
-            {props.status === 'active' ? (
+            {merchant_access && merchant_access.update ? (
+              <>
+                <Button
+                  className={styles.button_edit}
+                  id={props.id}
+                  onClick={() => visibleUpdate(props.id)}
+                  type="primary"
+                >
+                  Edit
+                </Button>
+                {props.status === 'active' ? (
+                  <Button
+                    className={styles.button_action}
+                    id={props.id}
+                    onClick={() => onDeactive(props.id)}
+                    type="primary"
+                  >
+                    Deactivate
+                  </Button>
+                ) : (
+                  <Button
+                    className={styles.button_action}
+                    id={props.id}
+                    onClick={() => onActive(props.id)}
+                    type="primary"
+                  >
+                    Activate
+                  </Button>
+                )}
+              </>
+            ) : null}
+            {merchant_access && merchant_access.delete ? (
               <Button
                 className={styles.button_action}
                 id={props.id}
-                onClick={() => onDeactive(props.id)}
+                onClick={() => onDelete(props.id)}
                 type="primary"
+                danger
               >
-                Deactivate
+                Delete
               </Button>
-            ) : (
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                onClick={() => onActive(props.id)}
-                type="primary"
-              >
-                Activate
-              </Button>
-            )}
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDelete(props.id)}
-              type="primary"
-              danger
-            >
-              Delete
-            </Button>
+            ) : null}
           </Row>
         ),
       },
@@ -164,7 +172,15 @@ const TableComponent: React.FC<Props> = ({
     return <PageError />;
   }
 
-  return <Table columns={columns} loading={loading} dataSource={data_array} scroll={{ x: 1300 }} />;
+  return (
+    <Table
+      columns={columns}
+      loading={loading}
+      dataSource={data_array}
+      scroll={{ x: 1300 }}
+      style={{ display: merchant_access && merchant_access.read ? 'block' : 'none' }}
+    />
+  );
 };
 
 export default TableComponent;

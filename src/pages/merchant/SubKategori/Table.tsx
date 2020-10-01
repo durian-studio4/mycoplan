@@ -6,6 +6,7 @@ import PageError from '@/components/PageError';
 import useFilterColumn from '@/hooks/useFilterColumn';
 
 interface Props {
+  merchant_access: any;
   data: any;
   loading: boolean;
   status: number;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const TableComponent: React.FC<Props> = ({
+  merchant_access,
   data,
   loading,
   status,
@@ -69,23 +71,27 @@ const TableComponent: React.FC<Props> = ({
         width: 200,
         render: (props: any) => (
           <Row justify="space-around">
-            <Button
-              className={styles.button_edit}
-              id={props.id}
-              onClick={() => visibleUpdate(props.id)}
-              type="primary"
-            >
-              Edit
-            </Button>
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDelete(props.id)}
-              type="primary"
-              danger
-            >
-              Delete
-            </Button>
+            {merchant_access && merchant_access.update ? (
+              <Button
+                className={styles.button_edit}
+                id={props.id}
+                onClick={() => visibleUpdate(props.id)}
+                type="primary"
+              >
+                Edit
+              </Button>
+            ) : null}
+            {merchant_access && merchant_access.delete ? (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onDelete(props.id)}
+                type="primary"
+                danger
+              >
+                Delete
+              </Button>
+            ) : null}
           </Row>
         ),
       },
@@ -98,6 +104,11 @@ const TableComponent: React.FC<Props> = ({
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data_array} loading={loading} />;
+  return (
+    <>
+      <p className={styles.title}>Sub Kategori</p>
+      <Table columns={columns} dataSource={data_array} loading={loading} />;
+    </>
+  );
 };
 export default TableComponent;

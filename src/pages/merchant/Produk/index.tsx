@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
   // Button,
   Card,
@@ -8,6 +8,8 @@ import {
 // import { NavLink } from 'umi';
 import styles from './index.less';
 
+import { PermissionContext } from '@/layouts/context';
+
 import TableComponent from './Table';
 
 import useFetch from '@/hooks/useFetch';
@@ -15,6 +17,8 @@ import useFetch from '@/hooks/useFetch';
 interface Props {}
 
 const MerchantTotalProdukComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
 
   useEffect(() => {
@@ -25,10 +29,12 @@ const MerchantTotalProdukComponent: React.FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const merchant_access = context && context[2];
+
   return (
     <div>
       <p className={styles.title}>Produk</p>
-      <Card>
+      <Card style={{ display: merchant_access && merchant_access.read ? 'block' : 'none' }}>
         <Row justify="space-between">
           <p className={styles.title}>Total Produk</p>
           {/* <div className={styles.row_box}>
@@ -49,6 +55,7 @@ const MerchantTotalProdukComponent: React.FC<Props> = () => {
           </div> */}
         </Row>
         <TableComponent
+          merchant_access={merchant_access}
           data={data_list}
           loading={Boolean(loading_list)}
           status={Number(status_list)}

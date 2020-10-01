@@ -5,6 +5,7 @@ import styles from './index.less';
 import PageError from '@/components/PageError';
 
 interface Props {
+  recipe_access: any;
   data: any;
   loading: boolean;
   status: number;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const TableComponent: React.FC<Props> = ({
+  recipe_access,
   data,
   loading,
   status,
@@ -67,23 +69,27 @@ const TableComponent: React.FC<Props> = ({
         width: 200,
         render: (props: any) => (
           <Row justify="space-around">
-            <Button
-              className={styles.button_edit}
-              id={props.id}
-              onClick={() => visibleUpdate(props.id)}
-              type="primary"
-            >
-              Edit
-            </Button>
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDelete(props.id)}
-              type="primary"
-              danger
-            >
-              Delete
-            </Button>
+            {recipe_access && recipe_access.update ? (
+              <Button
+                className={styles.button_edit}
+                id={props.id}
+                onClick={() => visibleUpdate(props.id)}
+                type="primary"
+              >
+                Edit
+              </Button>
+            ) : null}
+            {recipe_access && recipe_access.delete ? (
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                onClick={() => onDelete(props.id)}
+                type="primary"
+                danger
+              >
+                Delete
+              </Button>
+            ) : null}
           </Row>
         ),
       },

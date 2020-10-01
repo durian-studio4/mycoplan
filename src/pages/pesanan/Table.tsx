@@ -3,9 +3,11 @@ import { Table, Row, Button } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
 
-interface Props {}
+interface Props {
+  pesanan_access: any;
+}
 
-const TableComponent: React.FC<Props> = () => {
+const TableComponent: React.FC<Props> = ({ pesanan_access }) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
   const data = [
@@ -135,7 +137,14 @@ const TableComponent: React.FC<Props> = () => {
   //   return <PageError status={status} />;
   // }
 
-  return <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      scroll={{ x: 1300 }}
+      style={{ display: pesanan_access && pesanan_access.read ? 'block' : 'none' }}
+    />
+  );
 };
 
 export default TableComponent;

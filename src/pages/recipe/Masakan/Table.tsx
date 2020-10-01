@@ -7,6 +7,7 @@ import styles from './index.less';
 import PageError from '@/components/PageError';
 
 interface Props {
+  recipe_access: any;
   data: any;
   loading: boolean;
   status: number;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const TableComponent: React.FC<Props> = ({
+  recipe_access,
   data,
   loading,
   status,
@@ -145,44 +147,50 @@ const TableComponent: React.FC<Props> = ({
         width: 200,
         render: (props: any) => (
           <Row justify="center">
-            <Button className={styles.button_edit} type="primary">
-              <NavLink
-                to={`/recipe/masakan/edit/${props.id}`}
-                // onClick={() => visibleUpdate(props.id)}
-              >
-                Edit
-              </NavLink>
-            </Button>
-            {props.status === 'active' ? (
+            {recipe_access && recipe_access.update ? (
+              <>
+                <Button className={styles.button_edit} type="primary">
+                  <NavLink
+                    to={`/recipe/masakan/edit/${props.id}`}
+                    // onClick={() => visibleUpdate(props.id)}
+                  >
+                    Edit
+                  </NavLink>
+                </Button>
+                {props.status === 'active' ? (
+                  <Button
+                    className={styles.button_action}
+                    id={props.id}
+                    onClick={() => onDeactive(props.id)}
+                    type="primary"
+                    disabled={onLoadButton}
+                  >
+                    Deactivate
+                  </Button>
+                ) : (
+                  <Button
+                    className={styles.button_action}
+                    id={props.id}
+                    onClick={() => onActive(props.id)}
+                    type="primary"
+                    disabled={onLoadButton}
+                  >
+                    Activate
+                  </Button>
+                )}
+              </>
+            ) : null}
+            {recipe_access && recipe_access.delete ? (
               <Button
                 className={styles.button_action}
                 id={props.id}
-                onClick={() => onDeactive(props.id)}
+                onClick={() => onDelete(props.id)}
                 type="primary"
-                disabled={onLoadButton}
+                danger
               >
-                Deactivate
+                Delete
               </Button>
-            ) : (
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                onClick={() => onActive(props.id)}
-                type="primary"
-                disabled={onLoadButton}
-              >
-                Activate
-              </Button>
-            )}
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDelete(props.id)}
-              type="primary"
-              danger
-            >
-              Delete
-            </Button>
+            ) : null}
           </Row>
         ),
       },
@@ -200,6 +208,7 @@ const TableComponent: React.FC<Props> = ({
       dataSource={data_array}
       loading={loading || onLoadButton}
       scroll={{ x: 1300 }}
+      style={{ display: recipe_access && recipe_access.read ? 'block' : 'none' }}
     />
   );
 };

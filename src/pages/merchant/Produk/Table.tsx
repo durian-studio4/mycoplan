@@ -6,13 +6,14 @@ import styles from './index.less';
 import useFilterColumn from '@/hooks/useFilterColumn';
 import PageError from '@/components/PageError';
 interface Props {
+  merchant_access: any;
   data: any;
   loading: boolean;
   status: number;
   error: any;
 }
 
-const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
+const TableComponent: React.FC<Props> = ({ merchant_access, data, loading, status, error }) => {
   const [getColumnSearchProps] = useFilterColumn();
 
   let data_array = [];
@@ -71,14 +72,16 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error }) => {
         title: 'Action',
         render: (props: any) => (
           <Row justify="space-around">
-            <NavLink
-              to={`/merchant/produk/${props.id}/${props.code}`}
-              // onClick={() => visibleUpdate(props.id)}
-            >
-              <Button className={styles.button} type="primary">
-                Edit
-              </Button>
-            </NavLink>
+            {merchant_access && merchant_access.update ? (
+              <NavLink
+                to={`/merchant/produk/${props.id}/${props.code}`}
+                // onClick={() => visibleUpdate(props.id)}
+              >
+                <Button className={styles.button} type="primary">
+                  Edit
+                </Button>
+              </NavLink>
+            ) : null}
           </Row>
         ),
       },

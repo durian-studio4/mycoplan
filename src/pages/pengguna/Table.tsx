@@ -7,6 +7,7 @@ import useFilterColumn from '@/hooks/useFilterColumn';
 import PageError from '@/components/PageError';
 
 interface Props {
+  pengguna_access: any;
   data: any;
   loading: boolean;
   status: number;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const TableComponent: React.FC<Props> = ({
+  pengguna_access,
   data,
   loading,
   status,
@@ -138,45 +140,51 @@ const TableComponent: React.FC<Props> = ({
         width: 150,
         render: (props: any) => (
           <Row justify="center">
-            <Button
-              className={styles.button_edit}
-              id={props.id}
-              onClick={() => visibleUpdate(props.id)}
-              type="primary"
-            >
-              Edit
-            </Button>
-            {props.status === 'active' ? (
+            {pengguna_access && pengguna_access.update ? (
+              <>
+                <Button
+                  className={styles.button_edit}
+                  id={props.id}
+                  onClick={() => visibleUpdate(props.id)}
+                  type="primary"
+                >
+                  Edit
+                </Button>
+                {props.status === 'active' ? (
+                  <Button
+                    className={styles.button_action}
+                    id={props.id}
+                    onClick={() => onDeactive(props.id)}
+                    type="primary"
+                    disabled={onLoadButton}
+                  >
+                    Deactivate
+                  </Button>
+                ) : (
+                  <Button
+                    className={styles.button_action}
+                    id={props.id}
+                    onClick={() => onActive(props.id)}
+                    type="primary"
+                    disabled={onLoadButton}
+                  >
+                    Activate
+                  </Button>
+                )}
+              </>
+            ) : null}
+            {pengguna_access && pengguna_access.delete ? (
               <Button
                 className={styles.button_action}
                 id={props.id}
-                onClick={() => onDeactive(props.id)}
+                onClick={() => onDelete(props.id)}
                 type="primary"
                 disabled={onLoadButton}
+                danger
               >
-                Deactivate
+                Delete
               </Button>
-            ) : (
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                onClick={() => onActive(props.id)}
-                type="primary"
-                disabled={onLoadButton}
-              >
-                Activate
-              </Button>
-            )}
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDelete(props.id)}
-              type="primary"
-              disabled={onLoadButton}
-              danger
-            >
-              Delete
-            </Button>
+            ) : null}
           </Row>
         ),
       },
@@ -189,7 +197,15 @@ const TableComponent: React.FC<Props> = ({
     return <PageError />;
   }
 
-  return <Table columns={columns} dataSource={data_array} loading={loading} scroll={{ x: 1300 }} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data_array}
+      loading={loading}
+      scroll={{ x: 1300 }}
+      style={{ display: pengguna_access && pengguna_access.read ? 'block' : 'none' }}
+    />
+  );
 };
 
 export default TableComponent;

@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableKategori from './TableKategori';
 import TableRecipe from './TableRecipe';
@@ -10,6 +12,8 @@ import useCreate from '@/hooks/useCreate';
 interface Props {}
 
 const RecipePilihanComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [
     data_kategori,
     status_kategori,
@@ -46,10 +50,13 @@ const RecipePilihanComponent: React.FC<Props> = () => {
     postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
   };
 
+  const recipe_access = context && context[4];
+
   return (
     <div>
       <p className={styles.title}>Resep & Kategori Pilihan</p>
       <TableRecipe
+        recipe_access={recipe_access}
         data={data_recipe}
         loading={Boolean(loading_recipe)}
         status={Number(status_recipe)}
@@ -57,6 +64,7 @@ const RecipePilihanComponent: React.FC<Props> = () => {
         onDelete={deleteRecipe}
       />
       <TableKategori
+        recipe_access={recipe_access}
         data={data_kategori}
         loading={Boolean(loading_kategori)}
         status={Number(status_kategori)}

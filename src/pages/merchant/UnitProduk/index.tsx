@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Card, Row, Input } from 'antd';
+import React, { useState, useEffect, useContext } from 'react';
+import { Card } from 'antd';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
@@ -17,6 +19,8 @@ export interface Unit {
 interface Props {}
 
 const MerchantUnitProdukComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [visible_update, setVisibleUpdate] = useState(false);
   const [id_update, setIdUpdate] = useState('');
 
@@ -53,26 +57,17 @@ const MerchantUnitProdukComponent: React.FC<Props> = () => {
     postDelete(`${REACT_APP_ENV}/admin/units/${id}`);
   };
 
+  const merchant_access = context && context[2];
+
   return (
     <div>
       <p className={styles.title}>Unit Produk</p>
-      <AddComponent onCreate={createUnit} onLoadButton={Boolean(loading_update)} />
-      <Card>
-        <Row justify="space-between">
-          <p className={styles.title}>Daftar Unit Produk</p>
-          <div className={styles.row_box}>
-            <Input
-              className={styles.input_search}
-              id="name"
-              type="text"
-              placeholder="Cari Unit Produk"
-              // onChange={onChangeState}
-              // value={name}
-              // onKeyDown={handleKey}
-            />
-          </div>
-        </Row>
+      {merchant_access && merchant_access.create ? (
+        <AddComponent onCreate={createUnit} onLoadButton={Boolean(loading_update)} />
+      ) : null}
+      <Card style={{ display: merchant_access && merchant_access.read ? 'block' : 'none' }}>
         <TableComponent
+          merchant_access={merchant_access}
           data={data_unit}
           loading={Boolean(loading_unit)}
           status={Number(status_unit)}

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
@@ -17,6 +19,8 @@ export interface Merchant {
 interface Props {}
 
 const MerchantDaftarComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [visible, setVisible] = useState(false);
   const [visible_update, setVisibleUpdate] = useState(false);
   const [id_update, setIdUpdate] = useState('');
@@ -77,19 +81,23 @@ const MerchantDaftarComponent: React.FC<Props> = () => {
     postDelete(`${REACT_APP_ENV}/admin/merchants/${id}`);
   };
 
+  const merchant_access = context && context[2];
+
   return (
     <div>
       <p className={styles.title}>Daftar Merchant</p>
       <Card>
-        <Row justify="space-between">
-          <p className={styles.title}>Daftar Merchant</p>
-          <div className={styles.row_box}>
-            <Button className={styles.button_search} onClick={handleVisible} type="primary">
-              + Tambah Merchant
-            </Button>
-          </div>
-        </Row>
+        {merchant_access && merchant_access.create ? (
+          <Row justify="space-between">
+            <div className={styles.row_box}>
+              <Button className={styles.button_search} onClick={handleVisible} type="primary">
+                + Tambah Merchant
+              </Button>
+            </div>
+          </Row>
+        ) : null}
         <TableComponent
+          merchant_access={merchant_access}
           data={data_merchant}
           loading={Boolean(loading_merchant)}
           status={Number(status_merchant)}

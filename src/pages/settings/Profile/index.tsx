@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Card, Input, Button } from 'antd';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
@@ -18,6 +20,8 @@ const initialState = {
 };
 
 const SettingsProfileComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [{ name, email, confirm_password, new_password }, setState] = useState(initialState);
 
   const [isDisabled, setDisabled] = useState(false);
@@ -75,6 +79,8 @@ const SettingsProfileComponent: React.FC<Props> = () => {
     postUpdate(`${REACT_APP_ENV}/admin/details`, JSON.stringify(DataJSON));
   };
 
+  const profile_access = context && context[9];
+
   if (error_list || status_list !== 200) {
     return <PageError />;
   }
@@ -85,7 +91,7 @@ const SettingsProfileComponent: React.FC<Props> = () => {
       {loading_list ? (
         <PageLoading />
       ) : (
-        <Card>
+        <Card style={{ display: profile_access && profile_access.read ? 'block' : 'none' }}>
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="name">
@@ -146,14 +152,16 @@ const SettingsProfileComponent: React.FC<Props> = () => {
               />
             </div>
           </div>
-          <Button
-            className={styles.button}
-            onClick={updateSettings}
-            type="primary"
-            disabled={Boolean(loading_update) || isDisabled}
-          >
-            Simpan
-          </Button>
+          {profile_access && profile_access.update ? (
+            <Button
+              className={styles.button}
+              onClick={updateSettings}
+              type="primary"
+              disabled={Boolean(loading_update) || isDisabled}
+            >
+              Simpan
+            </Button>
+          ) : null}
         </Card>
       )}
     </div>

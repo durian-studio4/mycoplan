@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Card } from 'antd';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
@@ -17,6 +19,8 @@ export interface Kategori {
 interface Props {}
 
 const MerchantSubKategoriComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [visible_update, setVisibleUpdate] = useState(false);
   const [id_update, setIdUpdate] = useState('');
 
@@ -64,13 +68,17 @@ const MerchantSubKategoriComponent: React.FC<Props> = () => {
     postDelete(`${REACT_APP_ENV}/admin/product/categories/${id}`);
   };
 
+  const merchant_access = context && context[2];
+
   return (
     <div>
       <p className={styles.title}>Sub Kategori Produk</p>
-      <AddComponent onCreate={createKategori} onLoadButton={Boolean(loading_update)} />
-      <Card>
-        <p className={styles.title}>Sub Kategori</p>
+      {merchant_access && merchant_access.create ? (
+        <AddComponent onCreate={createKategori} onLoadButton={Boolean(loading_update)} />
+      ) : null}
+      <Card style={{ display: merchant_access && merchant_access.read ? 'block' : 'none' }}>
         <TableComponent
+          merchant_access={merchant_access}
           data={data_kategori}
           loading={Boolean(loading_kategori)}
           status={Number(status_kategori)}

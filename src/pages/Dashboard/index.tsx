@@ -1,6 +1,6 @@
+import React, { useState, Suspense } from 'react';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Col, Dropdown, Menu, Row } from 'antd';
-import React, { Component, Suspense } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 import { RadioChangeEvent } from 'antd/es/radio';
 import { RangePickerProps } from 'antd/es/date-picker/generatePicker';
@@ -17,47 +17,49 @@ const ProportionSales = React.lazy(() => import('./components/ProportionSales'))
 
 type RangePickerValue = RangePickerProps<moment.Moment>['value'];
 
-interface DashboardState {
-  salesType: 'all' | 'online' | 'stores';
-  rangePickerValue: RangePickerValue;
-}
+// interface DashboardState {
+//   salesType: 'all' | 'online' | 'stores';
+//   rangePickerValue: RangePickerValue;
+// }
 
-class Dashboard extends Component<DashboardState> {
-  state: DashboardState = {
-    salesType: 'all',
-    rangePickerValue: getTimeDistance('year'),
+const menu = (
+  <Menu>
+    <Menu.Item>操作一</Menu.Item>
+    <Menu.Item>操作二</Menu.Item>
+  </Menu>
+);
+
+const dropdownGroup = (
+  <span className={styles.iconGroup}>
+    <Dropdown overlay={menu} placement="bottomRight">
+      <EllipsisOutlined />
+    </Dropdown>
+  </span>
+);
+
+const DashboardComponent: React.FC = () => {
+  const [salesType, setSalesType] = useState('all');
+  const [rangePickerValue, setRangePickerValue] = useState(getTimeDistance('year'));
+
+  const handleChangeSalesType = (e: RadioChangeEvent) => {
+    setSalesType(e.target.value);
   };
 
-  reqRef: number = 0;
+  // const handleTabChange = (key: string) => {
+  //   this.setState({
+  //     currentTabKey: key,
+  //   });
+  // };
 
-  timeoutId: number = 0;
-
-  handleChangeSalesType = (e: RadioChangeEvent) => {
-    this.setState({
-      salesType: e.target.value,
-    });
+  const handleRangePickerChange = (rangePickerValue: RangePickerValue) => {
+    setRangePickerValue(rangePickerValue);
   };
 
-  handleTabChange = (key: string) => {
-    this.setState({
-      currentTabKey: key,
-    });
+  const selectDate = (type: 'today' | 'week' | 'month' | 'year') => {
+    setRangePickerValue(getTimeDistance(type));
   };
 
-  handleRangePickerChange = (rangePickerValue: RangePickerValue) => {
-    this.setState({
-      rangePickerValue,
-    });
-  };
-
-  selectDate = (type: 'today' | 'week' | 'month' | 'year') => {
-    this.setState({
-      rangePickerValue: getTimeDistance(type),
-    });
-  };
-
-  isActive = (type: 'today' | 'week' | 'month' | 'year') => {
-    const { rangePickerValue } = this.state;
+  const isActive = (type: 'today' | 'week' | 'month' | 'year') => {
     if (!rangePickerValue) {
       return '';
     }
@@ -77,68 +79,49 @@ class Dashboard extends Component<DashboardState> {
     return '';
   };
 
-  render() {
-    const { rangePickerValue, salesType } = this.state;
+  return (
+    <GridContent>
+      <React.Fragment>
+        <Suspense fallback={<PageLoading />}>
+          <IntroduceRow />
+        </Suspense>
+        <Suspense fallback={null}>
+          <SalesCard
+            rangePickerValue={rangePickerValue}
+            isActive={isActive}
+            handleRangePickerChange={handleRangePickerChange}
+            selectDate={selectDate}
+          />
+        </Suspense>
+        <Row
+          gutter={24}
+          style={{
+            marginTop: 24,
+            marginBottom: 24,
+          }}
+        >
+          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+            <Suspense fallback={null}>
+              <TopSearch />
+            </Suspense>
+          </Col>
+          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+            <Suspense fallback={null}>
+              <ProportionSales />
+            </Suspense>
+          </Col>
+        </Row>
+        <Suspense fallback={null}>
+          <SalesCard
+            rangePickerValue={rangePickerValue}
+            isActive={isActive}
+            handleRangePickerChange={handleRangePickerChange}
+            selectDate={selectDate}
+          />
+        </Suspense>
+      </React.Fragment>
+    </GridContent>
+  );
+};
 
-    const menu = (
-      <Menu>
-        <Menu.Item>操作一</Menu.Item>
-        <Menu.Item>操作二</Menu.Item>
-      </Menu>
-    );
-
-    const dropdownGroup = (
-      <span className={styles.iconGroup}>
-        <Dropdown overlay={menu} placement="bottomRight">
-          <EllipsisOutlined />
-        </Dropdown>
-      </span>
-    );
-
-    return (
-      <GridContent>
-        <React.Fragment>
-          <Suspense fallback={<PageLoading />}>
-            <IntroduceRow />
-          </Suspense>
-          <Suspense fallback={null}>
-            <SalesCard
-              rangePickerValue={rangePickerValue}
-              isActive={this.isActive}
-              handleRangePickerChange={this.handleRangePickerChange}
-              selectDate={this.selectDate}
-            />
-          </Suspense>
-          <Row
-            gutter={24}
-            style={{
-              marginTop: 24,
-              marginBottom: 24,
-            }}
-          >
-            <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-              <Suspense fallback={null}>
-                <TopSearch />
-              </Suspense>
-            </Col>
-            <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-              <Suspense fallback={null}>
-                <ProportionSales />
-              </Suspense>
-            </Col>
-          </Row>
-          <Suspense fallback={null}>
-            <SalesCard
-              rangePickerValue={rangePickerValue}
-              isActive={this.isActive}
-              handleRangePickerChange={this.handleRangePickerChange}
-              selectDate={this.selectDate}
-            />
-          </Suspense>
-        </React.Fragment>
-      </GridContent>
-    );
-  }
-}
-
-export default Dashboard;
+export default DashboardComponent;

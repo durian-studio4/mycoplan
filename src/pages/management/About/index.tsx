@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Card, Row } from 'antd';
 import ReactQuill from 'react-quill';
 import styles from './index.less';
 import 'react-quill/dist/quill.snow.css';
+
+import { PermissionContext } from '@/layouts/context';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
@@ -13,6 +15,7 @@ import PageLoading from '@/components/PageLoading';
 interface Props {}
 
 const ManagementAboutComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
   const [value, setValue] = useState('');
 
   const [data_kontent, status_kontent, loading_kontent, error_kontent, fetchKontent] = useFetch();
@@ -49,6 +52,8 @@ const ManagementAboutComponent: React.FC<Props> = () => {
     );
   };
 
+  const management_access = context && context[7];
+
   return (
     <div>
       <p className={styles.title}>Tentang mycoplan</p>
@@ -59,16 +64,23 @@ const ManagementAboutComponent: React.FC<Props> = () => {
         <Card>
           <Row justify="space-between">
             <p className={styles.title}>Konten tentang mycoplan</p>
-            <Button
-              className={styles.button}
-              disabled={!value || Boolean(loading_update)}
-              onClick={updateSetting}
-              type="primary"
-            >
-              Edit Konten
-            </Button>
+            {management_access && management_access.update ? (
+              <Button
+                className={styles.button}
+                disabled={!value || Boolean(loading_update)}
+                onClick={updateSetting}
+                type="primary"
+              >
+                Edit Konten
+              </Button>
+            ) : null}
           </Row>
-          <ReactQuill theme="snow" value={value} onChange={setValue} />
+          <ReactQuill
+            theme="snow"
+            value={value}
+            onChange={setValue}
+            style={{ display: management_access && management_access.read ? 'block' : 'none' }}
+          />
         </Card>
       )}
     </div>

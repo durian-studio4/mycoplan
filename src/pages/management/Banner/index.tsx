@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
@@ -17,6 +19,8 @@ export interface Banner {
 interface Props {}
 
 const ManagementBannerComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [visible, setVisible] = useState(false);
   const [visible_update, setVisibleUpdate] = useState(false);
   const [id_update, setIdUpdate] = useState('');
@@ -72,19 +76,26 @@ const ManagementBannerComponent: React.FC<Props> = () => {
     postDelete(`${REACT_APP_ENV}/admin/banners/${id}`);
   };
 
+  const management_access = context && context[7];
+
   return (
     <div>
       <p className={styles.title}>Banner Beranda</p>
       <Card>
         <Row justify="space-between">
-          <p className={styles.title}>Daftar Banner</p>
-          <div className={styles.row_box}>
-            <Button className={styles.button_search} onClick={handleVisible} type="primary">
-              + Tambah Banner
-            </Button>
-          </div>
+          {management_access && management_access.read ? (
+            <p className={styles.title}>Daftar Banner</p>
+          ) : null}
+          {management_access && management_access.create ? (
+            <div className={styles.row_box}>
+              <Button className={styles.button_search} onClick={handleVisible} type="primary">
+                + Tambah Banner
+              </Button>
+            </div>
+          ) : null}
         </Row>
         <TableComponent
+          management_access={management_access}
           data={data_banner}
           loading={Boolean(loading_banner)}
           status={Number(status_banner)}

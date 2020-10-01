@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 import AddComponent from './Add';
@@ -17,6 +19,8 @@ export interface Kategori {
 interface Props {}
 
 const MerchantKategoriComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [visible_update, setVisibleUpdate] = useState(false);
   const [id_update, setIdUpdate] = useState('');
 
@@ -57,26 +61,20 @@ const MerchantKategoriComponent: React.FC<Props> = () => {
     postDelete(`${REACT_APP_ENV}/admin/product/categories/${id}`);
   };
 
+  const merchant_access = context && context[2];
+
   return (
     <div>
       <p className={styles.title}>Kategori Produk</p>
-      <AddComponent onCreate={createKategori} onLoadButton={Boolean(loading_update)} />
-      <Card>
+      {merchant_access && merchant_access.create ? (
+        <AddComponent onCreate={createKategori} onLoadButton={Boolean(loading_update)} />
+      ) : null}
+      <Card style={{ display: merchant_access && merchant_access.read ? 'block' : 'none' }}>
         <Row justify="space-between">
           <p className={styles.title}>Daftar Kategori Produk</p>
-          <div className={styles.row_box}>
-            <Input
-              className={styles.input_search}
-              id="name"
-              type="text"
-              placeholder="Cari Kategori"
-              // onChange={onChangeState}
-              // value={name}
-              // onKeyDown={handleKey}
-            />
-          </div>
         </Row>
         <TableComponent
+          merchant_access={merchant_access}
           data={data_resep}
           loading={Boolean(loading_resep)}
           status={Number(status_resep)}

@@ -8,7 +8,7 @@ import ProLayout, {
   BasicLayoutProps as ProLayoutProps,
   Settings,
 } from '@ant-design/pro-layout';
-import React, { useEffect } from 'react';
+import React, { useEffect, createContext } from 'react';
 import { Link, useIntl, connect, Dispatch } from 'umi';
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
@@ -16,6 +16,19 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { getAuthorityFromRouter } from '@/utils/utils';
 import logo from '../assets/logo.svg';
+// import {
+//   DashboardOutlined,
+//   UserOutlined,
+//   ShopOutlined,
+//   PictureOutlined,
+//   ProfileOutlined,
+//   TagOutlined,
+//   TagsOutlined,
+//   ScheduleOutlined,
+// } from '@ant-design/icons';
+
+import useFetch from '@/hooks/useFetch';
+import { PermissionContext } from './context';
 
 const noMatch = (
   <Result
@@ -63,20 +76,26 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       pathname: '/',
     },
   } = props;
-  /**
-   * constructor
-   */
 
-  // useEffect(() => {
-  //   if (dispatch) {
-  //     dispatch({
-  //       type: 'user/fetchCurrent',
-  //     });
-  //   }
-  // }, []);
-  /**
-   * init variables
-   */
+  const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
+
+  useEffect(() => {
+    fetchList(`${REACT_APP_ENV}/admin/menu-auths`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  let data_array = [];
+
+  for (let key in data_list) {
+    data_array.push({
+      id: data_list[key].admin_menu.id,
+      name: data_list[key].admin_menu.name,
+      create: data_list[key].create,
+      read: data_list[key].read,
+      update: data_list[key].update,
+      delete: data_list[key].delete,
+    });
+  }
 
   const handleMenuCollapse = (payload: boolean): void => {
     if (dispatch) {
@@ -91,6 +110,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     authority: undefined,
   };
   const { formatMessage } = useIntl();
+
   return (
     <>
       <ProLayout
@@ -102,6 +122,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             {titleDom}
           </Link>
         )}
+        menuDataRender={menuDataRender}
         onCollapse={handleMenuCollapse}
         menuItemRender={(menuItemProps, defaultDom) => {
           if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
@@ -127,13 +148,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             <span>{route.breadcrumbName}</span>
           );
         }}
-        menuDataRender={menuDataRender}
         rightContentRender={() => <RightContent />}
         {...props}
         {...settings}
       >
         <Authorized authority={authorized!.authority} noMatch={noMatch}>
-          {children}
+          <PermissionContext.Provider value={data_array}>{children}</PermissionContext.Provider>
         </Authorized>
       </ProLayout>
     </>

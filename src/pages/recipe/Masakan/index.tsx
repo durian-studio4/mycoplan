@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 
@@ -11,6 +13,8 @@ import useCreate from '@/hooks/useCreate';
 interface Props {}
 
 const RecipeMasakanComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [data_resep, status_resep, loading_resep, error_resep, fetchResep] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
@@ -34,30 +38,28 @@ const RecipeMasakanComponent: React.FC<Props> = () => {
     postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
   };
 
+  const recipe_access = context && context[4];
+
   return (
     <div>
       <p className={styles.title}>Resep Masakan</p>
       <Card>
         <Row justify="space-between">
-          <p className={styles.title}>Daftar Resep</p>
-          <div className={styles.row_box}>
-            <Input
-              className={styles.input_search}
-              id="name"
-              type="text"
-              placeholder="Cari Resep"
-              // onChange={onChangeState}
-              // value={name}
-              // onKeyDown={handleKey}
-            />
-            <NavLink to="/recipe/masakan/add">
-              <Button className={styles.button_search} type="primary">
-                + Tambah Resep
-              </Button>
-            </NavLink>
-          </div>
+          {recipe_access && recipe_access.read ? (
+            <p className={styles.title}>Daftar Resep</p>
+          ) : null}
+          {recipe_access && recipe_access.create ? (
+            <div className={styles.row_box}>
+              <NavLink to="/recipe/masakan/add">
+                <Button className={styles.button_search} type="primary">
+                  + Tambah Resep
+                </Button>
+              </NavLink>
+            </div>
+          ) : null}
         </Row>
         <TableComponent
+          recipe_access={recipe_access}
           data={data_resep}
           loading={Boolean(loading_resep)}
           status={Number(status_resep)}

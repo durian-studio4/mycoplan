@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button, Card, Row, Input } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 import UpdateComponent from './Update';
@@ -12,6 +14,8 @@ import useCreate from '@/hooks/useCreate';
 interface Props {}
 
 const PenggunaComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
   const [visible_update, setVisibleUpdate] = useState(false);
   const [id_update, setIdUpdate] = useState('');
 
@@ -60,19 +64,26 @@ const PenggunaComponent: React.FC<Props> = () => {
     postDelete(`${REACT_APP_ENV}/admin/users/${id}`);
   };
 
+  const pengguna_access = context && context[1];
+
   return (
     <div>
       <p className={styles.title}>Pengguna</p>
       <Card>
         <Row justify="space-between">
-          <p className={styles.title}>Daftar Pengguna</p>
-          <div className={styles.row_box}>
-            <Button className={styles.button} type="primary">
-              <DownloadOutlined /> Download CSV
-            </Button>
-          </div>
+          {pengguna_access && pengguna_access.read ? (
+            <p className={styles.title}>Daftar Pengguna</p>
+          ) : null}
+          {pengguna_access && pengguna_access.create ? (
+            <div className={styles.row_box}>
+              <Button className={styles.button} type="primary">
+                <DownloadOutlined /> Download CSV
+              </Button>
+            </div>
+          ) : null}
         </Row>
         <TableComponent
+          pengguna_access={pengguna_access}
           data={data_list}
           loading={Boolean(loading_list)}
           status={Number(status_list)}

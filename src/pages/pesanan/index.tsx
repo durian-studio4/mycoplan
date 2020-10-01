@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Card, Row, Input, Tabs } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.less';
+
+import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 
@@ -10,21 +12,16 @@ interface Props {}
 const { TabPane } = Tabs;
 
 const PesananComponent: React.FC<Props> = () => {
+  const context = useContext(PermissionContext);
+
+  const pesanan_access = context && context[3];
+
   return (
     <div>
       <p className={styles.title}>Pesanan</p>
       <Card>
         <Row justify="space-between">
           <div className={styles.row_box}>
-            <Input
-              className={styles.input_search}
-              id="name"
-              type="text"
-              placeholder="Cari Pesanan"
-              // onChange={onChangeState}
-              // value={name}
-              // onKeyDown={handleKey}
-            />
             <Button className={styles.button} type="primary">
               <DownloadOutlined /> Download CSV
             </Button>
@@ -32,10 +29,10 @@ const PesananComponent: React.FC<Props> = () => {
         </Row>
         <Tabs>
           <TabPane tab="Delivery" key="1">
-            <TableComponent />
+            <TableComponent pesanan_access={pesanan_access} />
           </TabPane>
           <TabPane tab="Store Pick Up" key="2">
-            <TableComponent />
+            <TableComponent pesanan_access={pesanan_access} />
           </TabPane>
         </Tabs>
       </Card>
