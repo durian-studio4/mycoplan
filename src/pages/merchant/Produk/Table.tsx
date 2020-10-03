@@ -87,7 +87,7 @@ const TableComponent: React.FC<Props> = ({ merchant_access, data, loading, statu
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [merchant_access],
   );
 
   if (error || status !== 200) {

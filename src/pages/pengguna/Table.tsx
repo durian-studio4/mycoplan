@@ -190,7 +190,7 @@ const TableComponent: React.FC<Props> = ({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [pengguna_access],
   );
 
   if (error || status !== 200) {
