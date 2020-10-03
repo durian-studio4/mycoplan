@@ -105,9 +105,9 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   const [selected, setSelected] = useState({});
   const [currentPosition, setCurrentPosition] = useState(initialLatLng);
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(onSuccess);
-  }, []);
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition(onSuccess);
+  // }, []);
 
   useEffect(() => {
     if (!name) {

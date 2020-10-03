@@ -76,11 +76,11 @@ const MapComponent: React.FC<Props> = ({
             Pin Alamat
           </label>
           <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={currentPosition}>
-            {locations.map((item) => {
+            {/* {locations.map((item) => {
               return (
                 <Marker key={item.name} position={item.location} onClick={() => onSelect(item)} />
               );
-            })}
+            })} */}
             {currentPosition.lat ? (
               <Marker
                 position={currentPosition}

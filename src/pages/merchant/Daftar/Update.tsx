@@ -301,7 +301,7 @@ const UpdateComponent: React.FC<Props> = ({
                 <img
                   alt="logo-image"
                   src={data_merchant.logo}
-                  style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
+                  style={{ width: '100%', height: '200px', objectFit: 'contain' }}
                 />
               </div>
             </div>
