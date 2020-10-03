@@ -80,7 +80,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
 
   useEffect(() => {
-    fetchList(`${REACT_APP_ENV}/admin/menu-auths`);
+    const timeOut = setTimeout(() => {
+      fetchList(`${REACT_APP_ENV}/admin/menu-auths`);
+    }, 0);
+    return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

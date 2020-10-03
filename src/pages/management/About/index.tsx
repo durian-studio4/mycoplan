@@ -11,6 +11,7 @@ import useCreate from '@/hooks/useCreate';
 
 import PageError from '@/components/PageError';
 import PageLoading from '@/components/PageLoading';
+import PageUnauthorized from '@/components/PageUnauthorized';
 
 interface Props {}
 
@@ -53,6 +54,16 @@ const ManagementAboutComponent: React.FC<Props> = () => {
   };
 
   const management_access = context && context[7];
+
+  if (
+    management_access &&
+    !management_access.read &&
+    !management_access.delete &&
+    !management_access.update &&
+    !management_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   return (
     <div>

@@ -484,7 +484,7 @@ const UpdateComponent: React.FC<Props> = () => {
                       <img
                         alt="recipe-image"
                         src={data.url}
-                        style={{ width: '50%', height: '50%' }}
+                        style={{ width: '50%', height: '200px', objectFit: 'contain' }}
                       />
                       <Button
                         className={styles.button}

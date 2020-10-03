@@ -11,6 +11,7 @@ import UpdateComponent from './Update';
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useProdukRequest';
 
+import PageUnauthorized from '@/components/PageUnauthorized';
 export interface Unit {
   json: {};
   clear: () => void;
@@ -58,6 +59,16 @@ const MerchantUnitProdukComponent: React.FC<Props> = () => {
   };
 
   const merchant_access = context && context[2];
+
+  if (
+    merchant_access &&
+    !merchant_access.read &&
+    !merchant_access.delete &&
+    !merchant_access.update &&
+    !merchant_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   return (
     <div>

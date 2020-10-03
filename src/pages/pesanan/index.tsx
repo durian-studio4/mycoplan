@@ -7,6 +7,8 @@ import { PermissionContext } from '@/layouts/context';
 
 import TableComponent from './Table';
 
+import PageUnauthorized from '@/components/PageUnauthorized';
+
 interface Props {}
 
 const { TabPane } = Tabs;
@@ -15,6 +17,16 @@ const PesananComponent: React.FC<Props> = () => {
   const context = useContext(PermissionContext);
 
   const pesanan_access = context && context[3];
+
+  if (
+    pesanan_access &&
+    !pesanan_access.read &&
+    !pesanan_access.delete &&
+    !pesanan_access.update &&
+    !pesanan_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   return (
     <div>

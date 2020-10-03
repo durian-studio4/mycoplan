@@ -383,7 +383,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
                     <img
                       alt="produk-image"
                       src={data.url}
-                      style={{ width: '50%', height: '50%' }}
+                      style={{ width: '50%', height: '200px', objectFit: 'contain' }}
                     />
                     <Button
                       className={styles.button}

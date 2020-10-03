@@ -132,7 +132,7 @@ const TableComponent: React.FC<Props> = ({
         render: (props) => (
           <img
             alt={`gambar_banner-${props.id}`}
-            style={{ width: 'auto', height: '200px', objectFit: 'contain' }}
+            style={{ width: '100%', height: '200px', objectFit: 'contain' }}
             src={props.image}
           />
         ),
@@ -189,6 +189,8 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Action',
+        fixed: 'right',
+        width: 150,
         render: (props: any) => (
           <Row justify="center">
             {merchant_access && merchant_access.update ? (

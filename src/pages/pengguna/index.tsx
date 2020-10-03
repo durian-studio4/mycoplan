@@ -11,6 +11,8 @@ import UpdateComponent from './Update';
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
 
+import PageUnauthorized from '@/components/PageUnauthorized';
+
 interface Props {}
 
 const PenggunaComponent: React.FC<Props> = () => {
@@ -65,6 +67,16 @@ const PenggunaComponent: React.FC<Props> = () => {
   };
 
   const pengguna_access = context && context[1];
+
+  if (
+    pengguna_access &&
+    !pengguna_access.read &&
+    !pengguna_access.delete &&
+    !pengguna_access.update &&
+    !pengguna_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   return (
     <div>

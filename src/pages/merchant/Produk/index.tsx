@@ -14,6 +14,8 @@ import TableComponent from './Table';
 
 import useFetch from '@/hooks/useFetch';
 
+import PageUnauthorized from '@/components/PageUnauthorized';
+
 interface Props {}
 
 const MerchantTotalProdukComponent: React.FC<Props> = () => {
@@ -30,6 +32,16 @@ const MerchantTotalProdukComponent: React.FC<Props> = () => {
   }, []);
 
   const merchant_access = context && context[2];
+
+  if (
+    merchant_access &&
+    !merchant_access.read &&
+    !merchant_access.delete &&
+    !merchant_access.update &&
+    !merchant_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   return (
     <div>

@@ -11,6 +11,8 @@ import UpdateComponent from './Update';
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreateForm';
 
+import PageUnauthorized from '@/components/PageUnauthorized';
+
 export interface Kategori {
   formData: any;
   clear: () => void;
@@ -62,6 +64,16 @@ const RecipeKategoriComponent: React.FC<Props> = () => {
   };
 
   const recipe_access = context && context[4];
+
+  if (
+    recipe_access &&
+    !recipe_access.read &&
+    !recipe_access.delete &&
+    !recipe_access.update &&
+    !recipe_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   return (
     <div>

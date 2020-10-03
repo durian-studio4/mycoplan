@@ -10,6 +10,8 @@ import useCreate from '@/hooks/useCreate';
 import PageLoading from '@/components/PageLoading';
 import PageError from '@/components/PageError';
 
+import PageUnauthorized from '@/components/PageUnauthorized';
+
 interface Props {}
 
 const initialState = {
@@ -80,6 +82,16 @@ const SettingsProfileComponent: React.FC<Props> = () => {
   };
 
   const profile_access = context && context[9];
+
+  if (
+    profile_access &&
+    !profile_access.read &&
+    !profile_access.delete &&
+    !profile_access.update &&
+    !profile_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   if (error_list || status_list !== 200) {
     return <PageError />;

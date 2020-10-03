@@ -227,7 +227,12 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                         <img
                           alt="category-image"
                           src={data_update.image}
-                          style={{ width: '100%', height: '200px', overflow: 'auto' }}
+                          style={{
+                            width: '100%',
+                            height: '200px',
+                            overflow: 'auto',
+                            objectFit: 'contain',
+                          }}
                         />
                       </div>
                     </div>

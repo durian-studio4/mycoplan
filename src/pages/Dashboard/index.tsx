@@ -1,14 +1,17 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, useContext, Suspense } from 'react';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Col, Dropdown, Menu, Row } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 import { RadioChangeEvent } from 'antd/es/radio';
 import { RangePickerProps } from 'antd/es/date-picker/generatePicker';
 import moment from 'moment';
-
-import PageLoading from './components/PageLoading';
 import { getTimeDistance } from './utils/utils';
 import styles from './style.less';
+
+import { PermissionContext } from '@/layouts/context';
+
+import PageLoading from './components/PageLoading';
+import PageUnauthorized from '@/components/PageUnauthorized';
 
 const IntroduceRow = React.lazy(() => import('./components/IntroduceRow'));
 const SalesCard = React.lazy(() => import('./components/SalesCard'));
@@ -38,6 +41,8 @@ const dropdownGroup = (
 );
 
 const DashboardComponent: React.FC = () => {
+  const context = useContext(PermissionContext);
+
   const [salesType, setSalesType] = useState('all');
   const [rangePickerValue, setRangePickerValue] = useState(getTimeDistance('year'));
 
@@ -78,6 +83,18 @@ const DashboardComponent: React.FC = () => {
     }
     return '';
   };
+
+  const dashboard_access = context && context[0];
+
+  if (
+    dashboard_access &&
+    !dashboard_access.read &&
+    !dashboard_access.delete &&
+    !dashboard_access.update &&
+    !dashboard_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   return (
     <GridContent>

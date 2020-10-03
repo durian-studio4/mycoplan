@@ -11,6 +11,8 @@ import UpdateComponent from './Update';
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreateForm';
 
+import PageUnauthorized from '@/components/PageUnauthorized';
+
 export interface Promo {
   formData: any;
   clear: () => void;
@@ -75,6 +77,16 @@ const PromoComponent: React.FC<Props> = () => {
   };
 
   const promo_access = context && context[5];
+
+  if (
+    promo_access &&
+    !promo_access.read &&
+    !promo_access.delete &&
+    !promo_access.update &&
+    !promo_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   return (
     <div>

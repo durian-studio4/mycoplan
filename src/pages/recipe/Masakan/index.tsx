@@ -10,6 +10,8 @@ import TableComponent from './Table';
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
 
+import PageUnauthorized from '@/components/PageUnauthorized';
+
 interface Props {}
 
 const RecipeMasakanComponent: React.FC<Props> = () => {
@@ -39,6 +41,16 @@ const RecipeMasakanComponent: React.FC<Props> = () => {
   };
 
   const recipe_access = context && context[4];
+
+  if (
+    recipe_access &&
+    !recipe_access.read &&
+    !recipe_access.delete &&
+    !recipe_access.update &&
+    !recipe_access.create
+  ) {
+    return <PageUnauthorized />;
+  }
 
   return (
     <div>
