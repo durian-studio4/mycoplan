@@ -63,9 +63,9 @@ const UpdateComponent: React.FC<Props> = ({
     fetchMerchant,
   ] = useFetch();
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(onSuccess);
-  }, []);
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition(onSuccess);
+  // }, []);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
