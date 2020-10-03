@@ -23,9 +23,9 @@ function App() {
     } catch (err) {
       setIsError(true);
       setLoading(false);
-      if (err.response && err.response.data && err.response.data.message === 'Unauthenticated.') {
-        history.push('/user/login');
-      }
+      // if (err.response && err.response.data && err.response.data.message === 'Unauthenticated.') {
+      //   history.push('/user/login');
+      // }
     }
   };
 
