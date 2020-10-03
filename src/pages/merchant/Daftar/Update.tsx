@@ -25,8 +25,8 @@ const { RangePicker } = TimePicker;
 const format = 'HH:mm';
 
 const initialLatLng = {
-  lat: '',
-  lng: '',
+  lat: 0,
+  lng: 0,
 };
 
 const initialState = {
@@ -93,8 +93,8 @@ const UpdateComponent: React.FC<Props> = ({
         setState({ name, email, push_notif_key, description });
         setSchedule(merchant);
         setCurrentPosition({
-          lat: latitude,
-          lng: longitude,
+          lat: Number(latitude),
+          lng: Number(longitude),
         });
         setAddress(address);
         setClear([logo]);
