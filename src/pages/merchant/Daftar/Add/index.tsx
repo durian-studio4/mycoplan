@@ -77,8 +77,8 @@ const initialSchedule = [
 ];
 
 const initialLatLng = {
-  lat: '',
-  lng: '',
+  lat: 0,
+  lng: 0,
 };
 
 const initialState = {
