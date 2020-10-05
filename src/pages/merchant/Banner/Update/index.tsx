@@ -71,9 +71,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   }, [data_update]);
 
   useEffect(() => {
-    if (!terms_conditions) {
-      return setDisabled(true);
-    }
     if (!title) {
       return setDisabled(true);
     }
@@ -84,7 +81,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [terms_conditions, id_merchant, id_voucher, title]);
+  }, [id_merchant, id_voucher, title]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
