@@ -42,13 +42,6 @@ const TableComponent: React.FC<Props> = ({ merchant_access, data, loading, statu
       {
         align: 'center',
         title: 'ID Merchant',
-        dataIndex: 'id',
-        key: 'id',
-        ...getColumnSearchProps('id'),
-      },
-      {
-        align: 'center',
-        title: 'Code Merchant',
         dataIndex: 'code',
         key: 'code',
         ...getColumnSearchProps('code'),
