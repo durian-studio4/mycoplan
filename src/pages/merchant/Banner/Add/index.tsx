@@ -48,11 +48,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     if (!id_merchant) {
       return setDisabled(true);
     }
-    if (!id_voucher) {
-      return setDisabled(true);
-    }
     return setDisabled(false);
-  }, [file_img, id_merchant, id_voucher, title]);
+  }, [file_img, id_merchant, title]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -225,6 +222,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             </div>
           </div>
         ) : null}
+        {
+          banner_type !== 'gambar' ? 
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="kode">
@@ -233,6 +232,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             <SelectAll address={`${REACT_APP_ENV}/admin/vouchers`} handleChange={onChangeVoucher} />
           </div>
         </div>
+          : null
+        }
       </div>
       <Row justify="end">
         {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}

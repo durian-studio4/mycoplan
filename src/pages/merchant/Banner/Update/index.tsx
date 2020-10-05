@@ -77,11 +77,8 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     if (!id_merchant) {
       return setDisabled(true);
     }
-    if (!id_voucher) {
-      return setDisabled(true);
-    }
     return setDisabled(false);
-  }, [id_merchant, id_voucher, title]);
+  }, [id_merchant,  title]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
@@ -296,6 +293,8 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               </div>
             </div>
           ) : null}
+          {
+            banner_type !== 'gambar' ? 
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="kode">
@@ -305,9 +304,12 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 address={`${REACT_APP_ENV}/admin/vouchers`}
                 initial={data_update.voucher && data_update.voucher.name}
                 handleChange={onChangeVoucher}
-              />
+                />
             </div>
           </div>
+                : null
+              }
+
         </div>
       )}
       <Row justify="end">
