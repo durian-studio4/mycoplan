@@ -39,9 +39,6 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   const [id_merchant, onChangeMerchant, onClearMerchant] = useSelect('');
 
   useEffect(() => {
-    if (!terms_conditions) {
-      return setDisabled(true);
-    }
     if (!title) {
       return setDisabled(true);
     }
@@ -55,7 +52,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [file_img, terms_conditions, id_merchant, id_voucher, title]);
+  }, [file_img, id_merchant, id_voucher, title]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
