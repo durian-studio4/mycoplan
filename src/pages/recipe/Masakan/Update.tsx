@@ -103,7 +103,7 @@ const UpdateComponent: React.FC<Props> = () => {
               products: data.products.map((item: any) => ({
                 id_product: item.id,
                 nama_product: item.name,
-                qty: item.quantity,
+                qty: item.qty,
               })),
             },
           ]),
