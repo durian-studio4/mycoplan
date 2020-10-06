@@ -24,9 +24,11 @@ const initialState = {
   phone: '',
 };
 
+const initialDate = '1990-01-01';
+
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
   const [{ name, phone }, setState] = useState(initialState);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(initialDate);
 
   const [data, status, loading, error, fetchUpdate] = useFetch();
 
@@ -46,7 +48,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
         name: data.name,
         phone: data.phone,
       });
-      setDate(data.dob);
+      setDate(data.dob || initialDate);
     }
   }, [data]);
 
@@ -119,10 +121,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label}>Gender</label>
-              <SelectGender
-                handleChange={onChangeGender}
-                initial={data.gender === 'L' ? 'Laki-laki' : 'Perempuan'}
-              />
+              <SelectGender handleChange={onChangeGender} initial={data.gender} />
             </div>
           </div>
           {date ? (

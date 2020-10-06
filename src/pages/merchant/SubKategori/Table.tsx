@@ -34,6 +34,7 @@ const TableComponent: React.FC<Props> = ({
       id: data[key].id,
       name: data[key].name,
       image: data[key].image,
+      kategori: data[key].parent.name,
     });
   }
 
@@ -57,6 +58,13 @@ const TableComponent: React.FC<Props> = ({
             src={props.image}
           />
         ),
+      },
+      {
+        align: 'center',
+        title: 'Kategori Produk',
+        dataIndex: 'kategori',
+        key: 'kategori',
+        ...getColumnSearchProps('kategori'),
       },
       {
         align: 'center',

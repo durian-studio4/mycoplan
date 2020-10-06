@@ -26,6 +26,7 @@ function App() {
       setLoading(false);
       setRerender(Date.now());
       clearState();
+      message.success('success');
       return result;
     } catch (error) {
       console.log(error, 'error');
@@ -67,10 +68,12 @@ function App() {
       const result = await posting.data;
       setLoading(false);
       setRerender(Date.now());
+      message.success('deleted');
       return result;
     } catch (error) {
       console.log(error, 'error');
       console.log(error.response, 'error');
+      message.error(error.response.data.message);
       setLoading(false);
     }
   };

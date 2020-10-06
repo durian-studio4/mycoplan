@@ -13,11 +13,11 @@ const SelectGenderComponent: React.FC<Props> = ({ initial, disabled, handleChang
   const data = [
     {
       id: 'L',
-      value: 'Laki-laki',
+      value: 'L',
     },
     {
       id: 'P',
-      value: 'Perempuan',
+      value: 'P',
     },
   ];
 

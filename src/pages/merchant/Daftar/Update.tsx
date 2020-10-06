@@ -32,7 +32,9 @@ const initialLatLng = {
 const initialState = {
   name: '',
   email: '',
+  password: '',
   push_notif_key: '',
+  confirm_password: '',
   description: '',
 };
 
@@ -44,7 +46,10 @@ const UpdateComponent: React.FC<Props> = ({
   onLoadButton,
 }) => {
   const [schedule, setSchedule] = useState([]);
-  const [{ name, email, push_notif_key, description }, setState] = useState(initialState);
+  const [
+    { name, email, password, push_notif_key, confirm_password, description },
+    setState,
+  ] = useState(initialState);
   const [isDisabled, setDisabled] = useState(false);
 
   const [logo, setLogo] = useState([]);
@@ -122,8 +127,11 @@ const UpdateComponent: React.FC<Props> = ({
     if (!currentPosition.lng) {
       return setDisabled(true);
     }
+    if (password !== confirm_password) {
+      return setDisabled(true);
+    }
     return setDisabled(false);
-  }, [name, email, description, address, currentPosition]);
+  }, [name, email, password, confirm_password, description, address, currentPosition]);
 
   const onSuccess = (position: any) => {
     console.log(position, 'position');
@@ -371,6 +379,36 @@ const UpdateComponent: React.FC<Props> = ({
                 id="email"
                 placeholder=""
                 value={email}
+                onChange={onChangeState}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="password">
+                Kata Sandi
+              </label>
+              <Input
+                type="password"
+                id="password"
+                placeholder=""
+                defaultValue="test"
+                // value={password}
+                onChange={onChangeState}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="confirm_password">
+                Konfirmasi Kata Sandi
+              </label>
+              <Input
+                type="password"
+                id="confirm_password"
+                placeholder=""
+                defaultValue="test"
+                // value={confirm_password}
                 onChange={onChangeState}
               />
             </div>

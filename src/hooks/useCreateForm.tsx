@@ -49,6 +49,7 @@ function App() {
       const result = await posting.data;
       setLoading(false);
       setRerender(Date.now());
+      message.success('updated');
       return result;
     } catch (error) {
       console.log(error, 'error');

@@ -21,18 +21,57 @@ import KemasanComponent from '../ProdukAdd/Kemasan';
 
 interface Props {}
 
+const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+  ['blockquote', 'code-block'],
+
+  [{ header: 1 }, { header: 2 }], // custom button values
+  [{ list: 'ordered' }, { list: 'bullet' }],
+  [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+  [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+  [{ direction: 'rtl' }], // text direction
+
+  [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+  [{ font: [] }],
+  [{ align: [] }],
+
+  ['clean'], // remove formatting button
+];
+
+const modules = {
+  toolbar: toolbarOptions,
+};
+
+const formats = [
+  'header',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'image',
+];
+
 const initialState = {
   name: '',
   sku: '',
   quantity: '',
   price: '',
   discount: '',
+  weight: '',
 };
 
 const ProdukUpdateComponent: React.FC<Props> = () => {
   const { id } = useParams();
 
-  const [{ name, sku, quantity, price, discount }, setState] = useState(initialState);
+  const [{ name, sku, quantity, price, weight, discount }, setState] = useState(initialState);
   const [images, setFileImg] = useState([]);
   const [other_packaging, setOtherPackaging] = useState([]);
 
@@ -81,6 +120,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           information,
           description,
           id_merchant,
+          weight,
         } = data_list;
         setState({
           name,
@@ -88,6 +128,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           quantity,
           price,
           discount,
+          weight,
         });
         setIdMerchant(id_merchant);
         setInformation(information);
@@ -104,6 +145,9 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
       return setDisabled(true);
     }
     if (!sku) {
+      return setDisabled(true);
+    }
+    if (!weight) {
       return setDisabled(true);
     }
     if (!quantity) {
@@ -125,7 +169,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
       return setDisabled(true);
     }
     return setDisabled(false);
-  }, [name, sku, quantity, price, description, subcategories, categories, id_unit]);
+  }, [name, sku, weight, quantity, price, description, subcategories, categories, id_unit]);
 
   const handleVisible = () => setVisible(!visible);
 
@@ -193,6 +237,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     sku,
     quantity,
     price,
+    weight,
     discount: !discount ? String(0) : discount,
     id_unit: String(id_unit),
     id_product_category: String(categories),
@@ -289,6 +334,21 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
+              <label className={styles.label} htmlFor="weight">
+                Berat Unit
+              </label>
+              <Input
+                className={styles.input}
+                type="text"
+                id="weight"
+                placeholder=""
+                value={weight}
+                onChange={onChangeState}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
               <label className={styles.label} htmlFor="sku">
                 SKU
               </label>
@@ -322,7 +382,13 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="deskripsi">
                 Deskripsi Produk
               </label>
-              <ReactQuill theme="snow" value={description || ''} onChange={setDescription} />
+              <ReactQuill
+                theme="snow"
+                modules={modules}
+                formats={formats}
+                value={description || ''}
+                onChange={setDescription}
+              />
             </div>
           </div>
           <div className={styles.box10}>
@@ -330,7 +396,13 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="informasi">
                 Informasi Lain (Optional)
               </label>
-              <ReactQuill theme="snow" value={information || ''} onChange={setInformation} />
+              <ReactQuill
+                theme="snow"
+                modules={modules}
+                formats={formats}
+                value={information || ''}
+                onChange={setInformation}
+              />
             </div>
           </div>
           <div className={styles.box10}>

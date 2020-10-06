@@ -39,6 +39,7 @@ const TableComponent: React.FC<Props> = ({
     data_array.push({
       no: Number(key) + 1,
       id: data[key].id,
+      code: data[key].code,
       name: data[key].name,
       email: data[key].email,
       login_method: data[key].login_method,
@@ -62,9 +63,9 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'ID Pengguna',
-        dataIndex: 'id',
-        key: 'id',
-        ...getColumnSearchProps('id'),
+        dataIndex: 'code',
+        key: 'code',
+        ...getColumnSearchProps('code'),
       },
       {
         align: 'center',

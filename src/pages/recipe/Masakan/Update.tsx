@@ -34,6 +34,44 @@ interface Supermarket {
   ];
 }
 
+const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+  ['blockquote', 'code-block'],
+
+  [{ header: 1 }, { header: 2 }], // custom button values
+  [{ list: 'ordered' }, { list: 'bullet' }],
+  [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+  [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+  [{ direction: 'rtl' }], // text direction
+
+  [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+  [{ font: [] }],
+  [{ align: [] }],
+
+  ['clean'], // remove formatting button
+];
+
+const modules = {
+  toolbar: toolbarOptions,
+};
+
+const formats = [
+  'header',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'image',
+];
+
 const initialState = {
   name: '',
   author: '',
@@ -358,6 +396,8 @@ const UpdateComponent: React.FC<Props> = () => {
                 </label>
                 <ReactQuill
                   theme="snow"
+                  modules={modules}
+                  formats={formats}
                   id="bahan"
                   value={ingredients || ''}
                   onChange={setIngredients}
@@ -369,7 +409,14 @@ const UpdateComponent: React.FC<Props> = () => {
                 <label className={styles.label} htmlFor="step">
                   Cara Masak
                 </label>
-                <ReactQuill theme="snow" id="step" value={steps || ''} onChange={setSteps} />
+                <ReactQuill
+                  theme="snow"
+                  modules={modules}
+                  formats={formats}
+                  id="step"
+                  value={steps || ''}
+                  onChange={setSteps}
+                />
               </div>
             </div>
             <div className={styles.box10}>

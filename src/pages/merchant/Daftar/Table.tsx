@@ -37,6 +37,7 @@ const TableComponent: React.FC<Props> = ({
     data_array.push({
       no: Number(key) + 1,
       id: data[key].id,
+      code: data[key].code,
       name: data[key].name,
       logo: data[key].logo,
       description: data[key].description,
@@ -58,9 +59,9 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'ID Merchant',
-        dataIndex: 'id',
-        key: 'id',
-        ...getColumnSearchProps('id'),
+        dataIndex: 'code',
+        key: 'code',
+        ...getColumnSearchProps('code'),
       },
       {
         align: 'center',

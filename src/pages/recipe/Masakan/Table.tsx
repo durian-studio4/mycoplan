@@ -37,6 +37,7 @@ const TableComponent: React.FC<Props> = ({
     data_array.push({
       no: Number(key) + 1,
       id: data[key].id,
+      code: data[key].code,
       name: data[key].name,
       author: data[key].author,
       video: data[key].video,
@@ -61,8 +62,8 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'ID Resep',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'code',
+        key: 'code',
       },
       {
         align: 'center',
