@@ -24,7 +24,7 @@ const TableComponent: React.FC<Props> = ({ merchant_access, data, loading, statu
       id: data[key].id,
       code: data[key].code,
       name: data[key].name,
-      // quantity: data[key].quantity,
+      quantity: data[key].qty_product,
       // id_merchant: data[key].id_merchant,
       // nama_merchant: data[key].merchant.name,
     });
@@ -53,13 +53,13 @@ const TableComponent: React.FC<Props> = ({ merchant_access, data, loading, statu
         key: 'name',
         ...getColumnSearchProps('name'),
       },
-      // {
-      //   align: 'center',
-      //   title: 'Jumlah Produk',
-      //   dataIndex: 'quantity',
-      //   key: 'quantity',
-      //   ...getColumnSearchProps('quantity'),
-      // },
+      {
+        align: 'center',
+        title: 'Jumlah Produk',
+        dataIndex: 'quantity',
+        key: 'quantity',
+        ...getColumnSearchProps('quantity'),
+      },
       {
         align: 'center',
         title: 'Action',

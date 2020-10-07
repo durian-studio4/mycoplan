@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Input, Button, Row, Upload, Tag } from 'antd';
+import { Card, Input, InputNumber, Button, Row, Upload, Tag } from 'antd';
 import { useHistory, useParams } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
@@ -59,18 +59,19 @@ const initialState = {
   name: '',
   sku: '',
   quantity: '',
-  price: '',
   weight: '',
-  discount: '0',
 };
 
 const ProdukAddComponent: React.FC<Props> = () => {
   const { id, code } = useParams();
   const history = useHistory();
 
-  const [{ name, sku, quantity, price, weight, discount }, setState] = useState(initialState);
+  const [{ name, sku, quantity, weight }, setState] = useState(initialState);
   const [images, setFileImg] = useState([]);
   const [other_packaging, setOtherPackaging] = useState([]);
+
+  const [price, setPrice] = useState(0);
+  const [discount, setDiscount] = useState(0);
 
   const [visible, setVisible] = useState(false);
 
@@ -127,6 +128,14 @@ const ProdukAddComponent: React.FC<Props> = () => {
     setState((state) => ({ ...state, [id]: value }));
   };
 
+  const onChangePrice = (value: any) => {
+    setPrice(value);
+  };
+
+  const onChangeDiscount = (value: any) => {
+    setDiscount(value);
+  };
+
   const onChangeImage = (file: any) => {
     setFileImg((state) => [...state, file]);
     return false;
@@ -165,7 +174,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
     quantity,
     price,
     weight,
-    discount: !discount ? 0 : discount,
+    discount,
     id_merchant: id,
     id_unit: Number(id_unit),
     id_product_category: Number(categories),
@@ -213,13 +222,14 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="price">
               Harga
             </label>
-            <Input
-              addonBefore="Rp."
-              type="text"
+            <InputNumber
+              style={{ width: '100%' }}
+              // className={styles.input}
               id="price"
               placeholder=""
+              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               value={price}
-              onChange={onChangeState}
+              onChange={onChangePrice}
             />
           </div>
         </div>
@@ -228,13 +238,14 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="discount">
               Harga Diskon (Opsional)
             </label>
-            <Input
-              addonBefore="Rp."
-              type="text"
+            <InputNumber
+              style={{ width: '100%' }}
+              // className={styles.input}
               id="discount"
               placeholder=""
+              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               value={discount}
-              onChange={onChangeState}
+              onChange={onChangeDiscount}
             />
           </div>
         </div>

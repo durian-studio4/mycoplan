@@ -551,7 +551,7 @@ const UpdateComponent: React.FC<Props> = () => {
             </div>
           </Row>
           {supermarket
-            ? supermarket.map(({ name_merchant, products }: any, i: number) => (
+            ? supermarket.map(({ id_merchant, name_merchant, products }: any, i: number) => (
                 <Fragment key={i}>
                   <Row style={{ marginTop: '1em' }}>
                     <div className={styles.box1}>
@@ -578,14 +578,15 @@ const UpdateComponent: React.FC<Props> = () => {
                     {products
                       ? products.map((data: any, indexProduk: number) => (
                           <Fragment key={indexProduk}>
-                            <div className={styles.box4}>
+                            <div className={styles.box5}>
                               <Row style={{ marginTop: '1em' }}>
                                 <Fragment>
                                   <div className={styles.box4} style={{ marginTop: '10px' }}>
                                     <label htmlFor="produk">Produk {indexProduk + 1}</label>
                                   </div>
-                                  <div className={styles.box4} style={{ marginTop: '10px' }}>
+                                  <div className={styles.box5} style={{ marginTop: '10px' }}>
                                     <SelectProduk
+                                      id_merchant={id_merchant}
                                       initial={data && data.nama_product}
                                       handleChange={(v: any, o: any) =>
                                         onChangeProduct(v, o, i, indexProduk)
@@ -595,18 +596,17 @@ const UpdateComponent: React.FC<Props> = () => {
                                 </Fragment>
                               </Row>
                             </div>
-                            <div className={styles.box4}>
+                            <div className={styles.box3}>
                               <Row style={{ marginTop: '1em' }}>
                                 <Fragment>
                                   <div
-                                    className={styles.box4}
+                                    className={styles.box3}
                                     style={{ textAlign: 'center', marginTop: '10px' }}
                                   >
-                                    <label htmlFor="produk">Jumlah</label>
+                                    <label>Jumlah</label>
                                   </div>
-                                  <div className={styles.box4} style={{ marginTop: '10px' }}>
+                                  <div className={styles.box3} style={{ marginTop: '10px' }}>
                                     <Input
-                                      id="produk"
                                       value={data.qty || ''}
                                       onChange={(e) => onChangeJumlah(e, i, indexProduk)}
                                     />

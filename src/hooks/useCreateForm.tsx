@@ -29,7 +29,9 @@ function App() {
       message.success('success');
       return result;
     } catch (error) {
-      message.error(error.response.data.message);
+      if (error.response) {
+        message.error(error.response.data.message);
+      }
       setLoading(false);
     }
   };
@@ -75,7 +77,7 @@ function App() {
       console.log(error, 'error');
       console.log(error.response, 'error');
       console.log(error.message, 'message');
-      message.error(error.response.data.message);
+      message.error(error.response.data && error.response.data.message);
       setLoading(false);
     }
   };

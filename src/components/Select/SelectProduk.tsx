@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
 
 const Option = Select.Option;
 
@@ -8,25 +8,26 @@ interface Props {
   handleChange: (value: any, option: any) => void;
   initial?: string;
   disabled?: boolean;
+  id_merchant: string;
 }
 
-const SelectProduk: React.FC<Props> = ({ initial, disabled, handleChange }) => {
+const SelectProduk: React.FC<Props> = ({ initial, id_merchant, disabled, handleChange }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetching();
-    }, 100);
+      fetching(id_merchant);
+    }, 0);
     return () => clearTimeout(timeOut);
-  }, []);
+  }, [id_merchant]);
 
-  const fetching = async (param: string) => {
+  const fetching = async (id: string) => {
     setLoading(true);
     try {
       const wait = await axios({
         method: 'get',
-        baseURL: `${REACT_APP_ENV}/admin/products`,
+        baseURL: `${REACT_APP_ENV}/admin/products?merchant=${id}`,
         withCredentials: true,
       });
       const json = await wait.data;
@@ -39,6 +40,10 @@ const SelectProduk: React.FC<Props> = ({ initial, disabled, handleChange }) => {
     }
   };
 
+  if (loading) {
+    return <Spin />;
+  }
+
   return (
     <Select
       labelInValue
@@ -48,7 +53,6 @@ const SelectProduk: React.FC<Props> = ({ initial, disabled, handleChange }) => {
         minHeight: '2em',
       }}
       onChange={handleChange}
-      loading={loading}
       disabled={disabled}
     >
       {data &&

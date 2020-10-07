@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Row, Input, Button, Upload, DatePicker } from 'antd';
+import { Modal, Row, Input, Button, InputNumber, Upload, DatePicker } from 'antd';
 import { format } from 'date-fns';
 import moment from 'moment';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
@@ -26,9 +26,6 @@ interface Props {
 const initialState = {
   name: '',
   code: '',
-  discount: '',
-  max_discount: '',
-  min_purchase: '',
   quantity: '',
   user_limit: '',
   description: '',
@@ -38,26 +35,19 @@ const initialState = {
 const initialDate = format(new Date(), 'yyyy-MM-dd');
 
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
-  const [
-    {
-      name,
-      code,
-      discount,
-      max_discount,
-      min_purchase,
-      quantity,
-      user_limit,
-      description,
-      terms_conditions,
-    },
-    setState,
-  ] = useState(initialState);
+  const [{ name, code, quantity, user_limit, description, terms_conditions }, setState] = useState(
+    initialState,
+  );
   const [isDisabled, setDisabled] = useState(false);
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
 
   const [image, setFileImg] = useState([]);
   const [clear, setClear] = useState([]);
+
+  const [max_discount, setMaxDiscount] = useState(0);
+  const [min_purchase, setMinPurchase] = useState(0);
+  const [discount, setDiscount] = useState(0);
 
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
@@ -76,6 +66,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
       setState(data_update);
       setStart(data_update.start);
       setEnd(data_update.end);
+      setDiscount(data_update.discount);
+      setMaxDiscount(data_update.max_discount);
+      setMinPurchase(data_update.min_purchase);
       setClear([data_update.image]);
     }, 100);
     return () => clearTimeout(timeOut);
@@ -130,6 +123,18 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     setEnd(dateString);
   };
 
+  const onChangeDiscount = (value: any) => {
+    setDiscount(value);
+  };
+
+  const onChangeMaxDiscount = (value: any) => {
+    setMaxDiscount(value);
+  };
+
+  const onChangeMinPurchase = (value: any) => {
+    setMinPurchase(value);
+  };
+
   const onChangeImage = (file: any) => {
     setFileImg((state) => [...state, file]);
     return false;
@@ -158,9 +163,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   let DataJSON = {
     name,
     code,
-    discount,
-    max_discount,
-    min_purchase,
+    discount: String(discount),
+    max_discount: String(max_discount),
+    min_purchase: String(min_purchase),
     quantity,
     user_limit,
     start,
@@ -239,13 +244,14 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               <label className={styles.label} htmlFor="discount">
                 Diskon
               </label>
-              <Input
-                addonAfter="%"
-                type="text"
+              <InputNumber
+                style={{ width: '100%' }}
+                // className={styles.input}
                 id="discount"
                 placeholder=""
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 value={discount}
-                onChange={onChangeState}
+                onChange={onChangeDiscount}
               />
             </div>
           </div>
@@ -254,13 +260,14 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               <label className={styles.label} htmlFor="max_discount">
                 Maks. Diskon
               </label>
-              <Input
-                addonBefore="Rp."
-                type="text"
+              <InputNumber
+                style={{ width: '100%' }}
+                // className={styles.input}
                 id="max_discount"
                 placeholder=""
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 value={max_discount}
-                onChange={onChangeState}
+                onChange={onChangeMaxDiscount}
               />
             </div>
           </div>
@@ -269,13 +276,14 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               <label className={styles.label} htmlFor="min_purchase">
                 Min. Belanja
               </label>
-              <Input
-                addonBefore="Rp."
-                type="text"
+              <InputNumber
+                style={{ width: '100%' }}
+                // className={styles.input}
                 id="min_purchase"
                 placeholder=""
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 value={min_purchase}
-                onChange={onChangeState}
+                onChange={onChangeMinPurchase}
               />
             </div>
           </div>

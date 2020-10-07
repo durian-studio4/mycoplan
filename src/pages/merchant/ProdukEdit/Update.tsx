@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Input, Button, Row, Upload, Tag } from 'antd';
+import { Card, Input, Button, Row, Upload, InputNumber, Tag } from 'antd';
 import { history, useParams } from 'umi';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
@@ -63,15 +63,13 @@ const initialState = {
   name: '',
   sku: '',
   quantity: '',
-  price: '',
-  discount: '',
   weight: '',
 };
 
 const ProdukUpdateComponent: React.FC<Props> = () => {
   const { id } = useParams();
 
-  const [{ name, sku, quantity, price, weight, discount }, setState] = useState(initialState);
+  const [{ name, sku, quantity, weight }, setState] = useState(initialState);
   const [images, setFileImg] = useState([]);
   const [other_packaging, setOtherPackaging] = useState([]);
 
@@ -79,6 +77,9 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
   const [clear, setClear] = useState([]);
 
   const [visible, setVisible] = useState(false);
+
+  const [price, setPrice] = useState(0);
+  const [discount, setDiscount] = useState(0);
 
   const [description, setDescription] = useState('');
   const [information, setInformation] = useState('');
@@ -126,10 +127,10 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           name,
           sku,
           quantity,
-          price,
-          discount,
           weight,
         });
+        setPrice(price);
+        setDiscount(discount);
         setIdMerchant(id_merchant);
         setInformation(information);
         setDescription(description);
@@ -177,6 +178,14 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     const { id, value } = e.target;
 
     setState((state) => ({ ...state, [id]: value }));
+  };
+
+  const onChangePrice = (value: any) => {
+    setPrice(value);
+  };
+
+  const onChangeDiscount = (value: any) => {
+    setDiscount(value);
   };
 
   const onChangeImage = (file: any) => {
@@ -238,7 +247,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     quantity,
     price,
     weight,
-    discount: !discount ? String(0) : discount,
+    discount,
     id_unit: String(id_unit),
     id_product_category: String(categories),
     id_product_subcategory: String(subcategories),
@@ -298,13 +307,14 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="price">
                 Harga
               </label>
-              <Input
-                addonBefore="Rp."
-                type="text"
+              <InputNumber
+                style={{ width: '100%' }}
+                // className={styles.input}
                 id="price"
                 placeholder=""
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 value={price}
-                onChange={onChangeState}
+                onChange={onChangePrice}
               />
             </div>
           </div>
@@ -313,13 +323,14 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="discount">
                 Harga Diskon (Opsional)
               </label>
-              <Input
-                addonBefore="Rp."
-                type="text"
+              <InputNumber
+                style={{ width: '100%' }}
+                // className={styles.input}
                 id="discount"
                 placeholder=""
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 value={discount}
-                onChange={onChangeState}
+                onChange={onChangeDiscount}
               />
             </div>
           </div>
