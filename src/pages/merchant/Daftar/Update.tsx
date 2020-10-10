@@ -247,6 +247,11 @@ const UpdateComponent: React.FC<Props> = ({
     DataJSON['logo'] = logo[0];
   }
 
+  if(password.length){
+    DataJSON['password'] = password
+    DataJSON['password_confirmation'] = confirm_password
+  }
+
   return (
     <Modal visible={visible} title="Update Merchant" width={800} closable={false} footer={null}>
       {status_merchant !== 200 || error_merchant ? <PageError /> : null}
@@ -392,8 +397,7 @@ const UpdateComponent: React.FC<Props> = ({
                 type="password"
                 id="password"
                 placeholder=""
-                defaultValue="test"
-                // value={password}
+                value={password}
                 onChange={onChangeState}
               />
             </div>
@@ -406,9 +410,8 @@ const UpdateComponent: React.FC<Props> = ({
               <Input
                 type="password"
                 id="confirm_password"
-                placeholder=""
-                defaultValue="test"
-                // value={confirm_password}
+                placeholder="password"
+                value={confirm_password}
                 onChange={onChangeState}
               />
             </div>

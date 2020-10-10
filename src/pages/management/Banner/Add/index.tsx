@@ -40,20 +40,14 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   const [id_voucher, onChangeVoucher, onClearVoucher] = useSelect('');
 
   useEffect(() => {
-    if (!terms_conditions) {
-      return setDisabled(true);
-    }
     if (!title) {
       return setDisabled(true);
     }
     if (!file_img.length) {
       return setDisabled(true);
     }
-    if (!id_voucher) {
-      return setDisabled(true);
-    }
     return setDisabled(false);
-  }, [file_img, terms_conditions, id_voucher, title]);
+  }, [file_img, title]);
 
   const onChangeStart = (date: any, dateString: any) => {
     setStart(dateString);
