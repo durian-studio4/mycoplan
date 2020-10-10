@@ -30,7 +30,7 @@ const RecipePilihanComponent: React.FC<Props> = () => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchKategori(`${REACT_APP_ENV}/admin/recipe/categories`);
+      fetchKategori(`${REACT_APP_ENV}/admin/selected/recipe-categories`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,18 +38,26 @@ const RecipePilihanComponent: React.FC<Props> = () => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchRecipe(`${REACT_APP_ENV}/admin/recipes`);
+      fetchRecipe(`${REACT_APP_ENV}/admin/selected/recipes`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
 
+  const createRecipe = ({json, clear}: any) => {
+    postCreate(`${REACT_APP_ENV}/admin/selected/recipes`, json, clear)
+  }
+
+  const createKategori = ({json, clear}: any) => {
+    postCreate(`${REACT_APP_ENV}/admin/selected/recipe-categories`, json, clear)
+  }
+
   const deleteKategori = (id: string) => {
-    postDelete(`${REACT_APP_ENV}/admin/recipe/categories/${id}`);
+    postDelete(`${REACT_APP_ENV}/admin/selected/recipe-categories/${id}`);
   };
 
   const deleteRecipe = (id: string) => {
-    postDelete(`${REACT_APP_ENV}/admin/recipes/${id}`);
+    postDelete(`${REACT_APP_ENV}/admin/selected/recipes/${id}`);
   };
 
   const recipe_access = context && context[4];
@@ -73,6 +81,8 @@ const RecipePilihanComponent: React.FC<Props> = () => {
         loading={Boolean(loading_recipe)}
         status={Number(status_recipe)}
         error={error_recipe}
+        onLoadButton={Boolean(loading_update)}
+        onCreate={createRecipe}
         onDelete={deleteRecipe}
       />
       <TableKategori
@@ -81,6 +91,8 @@ const RecipePilihanComponent: React.FC<Props> = () => {
         loading={Boolean(loading_kategori)}
         status={Number(status_kategori)}
         error={error_kategori}
+        onLoadButton={Boolean(loading_update)}
+        onCreate={createKategori}
         onDelete={deleteKategori}
       />
     </div>

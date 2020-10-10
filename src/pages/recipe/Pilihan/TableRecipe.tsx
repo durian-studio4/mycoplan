@@ -1,9 +1,10 @@
-import React, { useMemo, Fragment } from 'react';
-import { NavLink } from 'umi';
+import React, { useMemo, useState, Fragment } from 'react';
 import { Table, Row, Button, Card } from 'antd';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+
+import AddComponent from './AddRecipe'
 
 interface Props {
   recipe_access: any;
@@ -11,6 +12,8 @@ interface Props {
   loading: boolean;
   status: number;
   error: any;
+  onLoadButton: boolean
+  onCreate: ({json, clear}: any) => void
   onDelete: (id: string) => void;
 }
 
@@ -20,18 +23,25 @@ const TableComponent: React.FC<Props> = ({
   loading,
   status,
   error,
+  onLoadButton,
+  onCreate,
   onDelete,
 }) => {
   // const [getColumnSearchProps] = useFilterColumn();
+  const [visible, setVisible] = useState(false);
+
+  const handleVisible = () => setVisible(!visible)
+
   let data_array = [];
 
   for (let key in data) {
     data_array.push({
       no: Number(key) + 1,
       id: data[key].id,
-      name: data[key].name,
-      author: data[key].author,
-      images: data[key].images,
+      id_recipe: data[key].recipe.id,
+      name: data[key].recipe.name,
+      author: data[key].recipe.author,
+      images: data[key].recipe.images,
     });
   }
 
@@ -46,8 +56,8 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'ID Resep',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'id_recipe',
+        key: 'id_recipe',
       },
       {
         align: 'center',
@@ -102,6 +112,7 @@ const TableComponent: React.FC<Props> = ({
   }
 
   return (
+    <>
     <Card
       style={{
         marginBottom: '1em',
@@ -115,11 +126,15 @@ const TableComponent: React.FC<Props> = ({
         style={{ display: recipe_access && recipe_access.read ? 'block' : 'none' }}
       />
       {recipe_access && recipe_access.create ? (
-        <Button className={styles.button_add}>
-          <NavLink to="/recipe/masakan/add">+ Tambah Resep Pilihan</NavLink>
+        <Button className={styles.button_add} onClick={handleVisible} >
+          + Tambah Resep Pilihan
         </Button>
       ) : null}
     </Card>
+    {
+      visible ? <AddComponent visible={visible} onCreate={onCreate} onCancel={handleVisible} onLoadButton={onLoadButton} /> : null
+    }
+    </>
   );
 };
 

@@ -234,6 +234,15 @@ const UpdateComponent: React.FC<Props> = ({
   const createMerchant = () => {
     const formData = new FormData();
 
+    if (logo.length) {
+      formData.append('logo', logo[0])
+    }
+
+    if(password.length){
+      formData.append('password', password)
+      formData.append('password_confirmation', confirm_password)
+    }
+
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
@@ -243,14 +252,6 @@ const UpdateComponent: React.FC<Props> = ({
     });
   };
 
-  if (logo.length) {
-    DataJSON['logo'] = logo[0];
-  }
-
-  if(password.length){
-    DataJSON['password'] = password
-    DataJSON['password_confirmation'] = confirm_password
-  }
 
   return (
     <Modal visible={visible} title="Update Merchant" width={800} closable={false} footer={null}>
@@ -396,7 +397,7 @@ const UpdateComponent: React.FC<Props> = ({
               <Input
                 type="password"
                 id="password"
-                placeholder=""
+                placeholder="********"
                 value={password}
                 onChange={onChangeState}
               />
@@ -410,7 +411,7 @@ const UpdateComponent: React.FC<Props> = ({
               <Input
                 type="password"
                 id="confirm_password"
-                placeholder="password"
+                placeholder="********"
                 value={confirm_password}
                 onChange={onChangeState}
               />

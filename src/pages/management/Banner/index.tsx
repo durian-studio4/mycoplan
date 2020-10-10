@@ -32,7 +32,7 @@ const ManagementBannerComponent: React.FC<Props> = () => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchBanner(`${REACT_APP_ENV}/admin/banners`);
+      fetchBanner(`${REACT_APP_ENV}/admin/banners?owner=global`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
