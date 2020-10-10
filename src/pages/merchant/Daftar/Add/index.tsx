@@ -20,56 +20,49 @@ const format = 'HH:mm';
 const initialSchedule = [
   {
     id: 0,
-    name: 'Senin',
-    day: 'mon',
+    day: 'Senin',
     open_time: '07:00',
     close_time: '18:00',
     is_close: false,
   },
   {
     id: 1,
-    name: 'Selasa',
-    day: 'tue',
+    day: 'Selasa',
     open_time: '07:00',
     close_time: '18:00',
     is_close: false,
   },
   {
     id: 2,
-    name: 'Rabu',
-    day: 'wed',
+    day: 'Rabu',
     open_time: '07:00',
     close_time: '18:00',
     is_close: false,
   },
   {
     id: 3,
-    name: 'Kamis',
-    day: 'thu',
+    day: 'Kamis',
     open_time: '07:00',
     close_time: '18:00',
     is_close: false,
   },
   {
     id: 4,
-    name: 'Jumat',
-    day: 'fri',
+    day: 'Jumat',
     open_time: '07:00',
     close_time: '18:00',
     is_close: false,
   },
   {
     id: 5,
-    name: 'Sabtu',
-    day: 'sat',
+    day: 'Sabtu',
     open_time: '07:00',
     close_time: '18:00',
     is_close: false,
   },
   {
     id: 6,
-    name: 'Minggu',
-    day: 'sun',
+    day: 'Minggu',
     open_time: '07:00',
     close_time: '18:00',
     is_close: false,
@@ -319,7 +312,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
         {initialSchedule.map((data: any, i: number) => (
           <div className={styles.box10} key={i}>
             <div className={styles.group}>
-              <label className={styles.label}>{data.name}</label>
+              <label className={styles.label}>{data.day}</label>
               <Row>
                 <RangePicker
                   className={styles.picker}

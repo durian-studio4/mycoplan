@@ -343,7 +343,7 @@ const UpdateComponent: React.FC<Props> = ({
               schedule.map((data: any, i: number) => (
                 <div className={styles.box10} key={i}>
                   <div className={styles.group}>
-                    <label className={styles.label}>{data.name}</label>
+                    <label className={styles.label}>{data.day}</label>
                     <Row>
                       <RangePicker
                         className={styles.picker}
