@@ -67,7 +67,7 @@ const initialState = {
 };
 
 const ProdukUpdateComponent: React.FC<Props> = () => {
-  const { id } = useParams();
+  const { id, code, id_produk } = useParams();
 
   const [{ name, sku, quantity, weight }, setState] = useState(initialState);
   const [images, setFileImg] = useState([]);
@@ -101,11 +101,11 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchList(`${REACT_APP_ENV}/admin/products/${id}`);
+      fetchList(`${REACT_APP_ENV}/admin/products/${id_produk}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id_produk]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -213,7 +213,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     onClearSubCategories();
     onClearUnit();
     // onClearSubCategories();
-    history.push(`/merchant/produk`);
+    history.push(`/merchant/produk/${id}/${code}`);
   };
 
   let data_packaging: any = [];
@@ -276,7 +276,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
       }
     }
 
-    postCreate(`${REACT_APP_ENV}/admin/products/${id}?_method=put`, formData, onClearState);
+    postCreate(`${REACT_APP_ENV}/admin/products/${id_produk}?_method=put`, formData, onClearState);
   };
 
   return (

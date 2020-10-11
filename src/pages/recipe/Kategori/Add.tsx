@@ -3,6 +3,8 @@ import { Card, Row, Upload, Input, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
+import PageLoading from '@/components/PageLoading'
+
 import { Kategori } from './index';
 interface Props {
   onCreate: ({ formData, clear }: Kategori) => void;
@@ -65,6 +67,9 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
 
   return (
     <div style={{ margin: '1em 0px' }}>
+      {
+        onLoadButton ? <PageLoading /> :
+
       <Card>
         <p className={styles.title}>Kategori Resep Baru</p>
         <Row style={{ marginBottom: '1em' }} align="middle">
@@ -96,11 +101,12 @@ const MerchantKategoriAddComponent: React.FC<Props> = ({ onCreate, onLoadButton 
           className={styles.button}
           type="primary"
           onClick={createKategori}
-          disabled={onLoadButton || isDisabled}
+          disabled={isDisabled}
         >
           Simpan
         </Button>
       </Card>
+}
     </div>
   );
 };

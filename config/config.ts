@@ -122,12 +122,6 @@ export default defineConfig({
                 },
                 {
                   hideInMenu: true,
-                  path: '/merchant/produk/edit/:id',
-                  component: './merchant/ProdukEdit/Update',
-                  authority: ['admin', 'master', 'merchant'],
-                },
-                {
-                  hideInMenu: true,
                   path: '/merchant/produk/:id/:code',
                   component: './merchant/ProdukEdit',
                   authority: ['admin', 'master', 'merchant'],
@@ -136,6 +130,12 @@ export default defineConfig({
                   hideInMenu: true,
                   path: '/merchant/produk/add/:id/:code',
                   component: './merchant/ProdukAdd',
+                  authority: ['admin', 'master', 'merchant'],
+                },
+                {
+                  hideInMenu: true,
+                  path: '/merchant/produk/edit/:id/:code/:id_produk',
+                  component: './merchant/ProdukEdit/Update',
                   authority: ['admin', 'master', 'merchant'],
                 },
                 {

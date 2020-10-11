@@ -70,6 +70,8 @@ const MerchantProdukComponent: React.FC<Props> = () => {
           </div>
         </Row>
         <TableComponent
+        id={id}
+        code={code}
           data={data_list}
           loading={Boolean(loading_list)}
           status={Number(status_list)}
