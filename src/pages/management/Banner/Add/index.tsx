@@ -83,7 +83,6 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   };
 
   const DataJSON = {
-    id_voucher: String(id_voucher),
     title,
     description,
     terms_conditions,
@@ -98,9 +97,14 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   const createBanner = () => {
     const formData = new FormData();
 
+    if(id_voucher){
+      formData.append('id_voucher', String(id_voucher))
+    }
+
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
+
 
     onCreate({
       formData,
@@ -210,6 +214,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             </div>
           </div>
         ) : null}
+                  {
+            banner_type !== 'gambar' ?
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="kode">
@@ -217,7 +223,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             </label>
             <SelectAll address={`${REACT_APP_ENV}/admin/vouchers`} handleChange={onChangeVoucher} />
           </div>
-        </div>
+        </div> : null }
       </div>
       <Row justify="end">
         {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}

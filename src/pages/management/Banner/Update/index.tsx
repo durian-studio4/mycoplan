@@ -110,7 +110,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   };
 
   let DataJSON = {
-    id_voucher: String(id_voucher),
     title,
     description,
     terms_conditions,
@@ -123,6 +122,10 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
 
   const updatePromo = () => {
     const formData = new FormData();
+
+    if(id_voucher){
+      formData.append('id_voucher', String(id_voucher))
+    }
 
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
@@ -270,6 +273,8 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               </div>
             </div>
           ) : null}
+            {
+            banner_type !== 'gambar' ?
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="kode">
@@ -281,7 +286,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 handleChange={onChangeVoucher}
               />
             </div>
-          </div>
+          </div> : null }
         </div>
       )}
       <Row justify="end">
