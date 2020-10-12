@@ -4,6 +4,7 @@ import { Modal, Row, Input, Button, Table } from 'antd';
 import styles from './index.less';
 
 // import SelectPeran from '@/components/Select/SelectPeran';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 interface Props {
   visible: boolean;
@@ -22,6 +23,8 @@ const KemasanComponent: React.FC<Props> = ({
   onCancel,
   onSet,
 }) => {
+  const [getColumnSearchProps] = useFilterColumn();
+
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
   const [loading, setLoading] = useState(false);
@@ -74,6 +77,7 @@ const KemasanComponent: React.FC<Props> = ({
         align: 'center',
         title: 'Name',
         dataIndex: 'name',
+        ...getColumnSearchProps('name'),
       },
     ],
     [],

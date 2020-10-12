@@ -100,6 +100,7 @@ const TableComponent: React.FC<Props> = ({
         align: 'center',
         title: 'Link Youtube',
         dataIndex: 'video',
+        render: (props: any) => (props === null ? '' : <p>{props}</p>),
         key: 'video',
       },
       {

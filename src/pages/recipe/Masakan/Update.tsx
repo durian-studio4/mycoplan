@@ -8,9 +8,9 @@ import SelectKesulitan from '@/components/Select/SelectKesulitan';
 import SelectJenisMakanan from '@/components/Select/SelectJenisMakanan';
 
 import KategoriComponent from './Add/Kategori';
-import SupermarketComponent from './Add/Supermarket'
+import SupermarketComponent from './Add/Supermarket';
 
-import QuillComponent from '@/components/Quill'
+import QuillComponent from '@/components/Quill';
 
 import useCreate from '@/hooks/useCreateForm';
 import useFetch from '@/hooks/useFetch';
@@ -19,7 +19,7 @@ import useSelect from '@/hooks/useSelect';
 import PageError from '@/components/PageError';
 import PageLoading from '@/components/PageLoading';
 
-import {Supermarket} from './Add/index'
+import { Supermarket } from './Add/index';
 interface Props {}
 
 const initialState = {
@@ -99,7 +99,7 @@ const UpdateComponent: React.FC<Props> = () => {
       setState({
         name,
         author,
-        video,
+        video: video === null ? '' : video,
         production_time,
         portion_max,
         portion_min,
@@ -216,9 +216,9 @@ const UpdateComponent: React.FC<Props> = () => {
 
   const onChangeProduct = (value: string, i: number, indexProduct: number) => {
     const state = [...supermarket];
-    state[i].products[indexProduct].nama_product = value
-    setSupermarket(state)
-  }
+    state[i].products[indexProduct].nama_product = value;
+    setSupermarket(state);
+  };
 
   const onChangeJumlah = (e: any, i: number, indexProduct: number) => {
     const { value } = e.target;
@@ -233,12 +233,12 @@ const UpdateComponent: React.FC<Props> = () => {
     setFileImg(list);
   };
 
-  const onClearProduct = (i:number,indexProduct:number) => {
-    const state = [...supermarket]
-    state[i].products[indexProduct].id_product = ''
-    state[i].products[indexProduct].nama_product = ''
-    setSupermarket(state)
-  }
+  const onClearProduct = (i: number, indexProduct: number) => {
+    const state = [...supermarket];
+    state[i].products[indexProduct].id_product = '';
+    state[i].products[indexProduct].nama_product = '';
+    setSupermarket(state);
+  };
 
   const onClearImage = (id: string) => {
     let list = clear.filter((data: any) => data.id !== id);
@@ -498,10 +498,19 @@ const UpdateComponent: React.FC<Props> = () => {
               </Button>
             </div>
           </Row>
-          {supermarket
-            ?
-        <SupermarketComponent supermarket={supermarket} onAddProduct={onAddProduct} onChangeProduct={onChangeProduct} onSelectProduct={onSelectProduct} onClearProduct={onClearProduct} onChangeJumlah={onChangeJumlah} onChangeName={onChangeName} onRemoveProduct={onRemoveProduct} onRemoveSupermarket={onRemoveSupermarket} />
-            : null}
+          {supermarket ? (
+            <SupermarketComponent
+              supermarket={supermarket}
+              onAddProduct={onAddProduct}
+              onChangeProduct={onChangeProduct}
+              onSelectProduct={onSelectProduct}
+              onClearProduct={onClearProduct}
+              onChangeJumlah={onChangeJumlah}
+              onChangeName={onChangeName}
+              onRemoveProduct={onRemoveProduct}
+              onRemoveSupermarket={onRemoveSupermarket}
+            />
+          ) : null}
           <Button
             className={styles.button}
             disabled={disabled || Boolean(loading_update)}

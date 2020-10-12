@@ -129,7 +129,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               <div className={styles.group}>
                 <label className={styles.label}>Tanggal Lahir</label>
                 <div className={styles.box10}>
-                  <DatePicker defaultValue={moment(date)} onChange={onChangeDate} />
+                  <DatePicker value={moment(date)} onChange={onChangeDate} />
                 </div>
               </div>
             </div>
