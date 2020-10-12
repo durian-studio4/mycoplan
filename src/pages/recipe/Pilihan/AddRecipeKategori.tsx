@@ -41,7 +41,7 @@ const AddRecipeKategoriComponent: React.FC<Props> = ({ visible, onLoadButton, on
   };
 
   return (
-    <Modal visible={visible} title="Create Kategori Recipe Pilihan" closable={false} footer={null}>
+    <Modal visible={visible} title="Tambah Kategori Resep Pilihan" closable={false} footer={null}>
       <Fragment>
 
         <div className={styles.modal_body}>

@@ -2,16 +2,15 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Card, Input, Button, Row, Upload, Tag } from 'antd';
 import { history, useParams } from 'umi';
 import { PlusOutlined, MinusOutlined, DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import ReactQuill from 'react-quill';
 import styles from './index.less';
-import 'react-quill/dist/quill.snow.css';
 
 import SelectKesulitan from '@/components/Select/SelectKesulitan';
 import SelectJenisMakanan from '@/components/Select/SelectJenisMakanan';
-import SelectMerchant from '@/components/Select/SelectMerchant';
-import SelectProduk from '@/components/Select/SelectProduk';
 
 import KategoriComponent from './Add/Kategori';
+import SupermarketComponent from './Add/Supermarket'
+
+import QuillComponent from '@/components/Quill'
 
 import useCreate from '@/hooks/useCreateForm';
 import useFetch from '@/hooks/useFetch';
@@ -20,57 +19,8 @@ import useSelect from '@/hooks/useSelect';
 import PageError from '@/components/PageError';
 import PageLoading from '@/components/PageLoading';
 
+import {Supermarket} from './Add/index'
 interface Props {}
-
-interface Supermarket {
-  id_merchant: string;
-  name_merchant: string;
-  products: [
-    {
-      id_product: string;
-      nama_product: string;
-      qty: string;
-    },
-  ];
-}
-
-const toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-  ['blockquote', 'code-block'],
-
-  [{ header: 1 }, { header: 2 }], // custom button values
-  [{ list: 'ordered' }, { list: 'bullet' }],
-  [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-  [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-  [{ direction: 'rtl' }], // text direction
-
-  [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-  [{ font: [] }],
-  [{ align: [] }],
-
-  ['clean'], // remove formatting button
-];
-
-const modules = {
-  toolbar: toolbarOptions,
-};
-
-const formats = [
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
-];
 
 const initialState = {
   name: '',
@@ -258,12 +208,17 @@ const UpdateComponent: React.FC<Props> = () => {
     setSupermarket(state);
   };
 
-  const onChangeProduct = (value: any, option: any, i: number, indexProduct: number) => {
+  const onSelectProduct = (value: any, e: any, i: number, indexProduct: number) => {
     const state = [...supermarket];
-    state[i].products[indexProduct].id_product = option.id;
-    state[i].products[indexProduct].nama_product = option.value;
+    state[i].products[indexProduct].id_product = e.id;
     setSupermarket(state);
   };
+
+  const onChangeProduct = (value: string, i: number, indexProduct: number) => {
+    const state = [...supermarket];
+    state[i].products[indexProduct].nama_product = value
+    setSupermarket(state)
+  }
 
   const onChangeJumlah = (e: any, i: number, indexProduct: number) => {
     const { value } = e.target;
@@ -277,6 +232,13 @@ const UpdateComponent: React.FC<Props> = () => {
     let list = image.filter((data) => data.uid !== e.uid);
     setFileImg(list);
   };
+
+  const onClearProduct = (i:number,indexProduct:number) => {
+    const state = [...supermarket]
+    state[i].products[indexProduct].id_product = ''
+    state[i].products[indexProduct].nama_product = ''
+    setSupermarket(state)
+  }
 
   const onClearImage = (id: string) => {
     let list = clear.filter((data: any) => data.id !== id);
@@ -394,14 +356,7 @@ const UpdateComponent: React.FC<Props> = () => {
                 <label className={styles.label} htmlFor="bahan">
                   Bahan
                 </label>
-                <ReactQuill
-                  theme="snow"
-                  modules={modules}
-                  formats={formats}
-                  id="bahan"
-                  value={ingredients || ''}
-                  onChange={setIngredients}
-                />
+                <QuillComponent value={ingredients || ''} id="bahan" onChange={setIngredients} />
               </div>
             </div>
             <div className={styles.box10}>
@@ -409,14 +364,7 @@ const UpdateComponent: React.FC<Props> = () => {
                 <label className={styles.label} htmlFor="step">
                   Cara Masak
                 </label>
-                <ReactQuill
-                  theme="snow"
-                  modules={modules}
-                  formats={formats}
-                  id="step"
-                  value={steps || ''}
-                  onChange={setSteps}
-                />
+                <QuillComponent value={steps || ''} id="step" onChange={setSteps} />
               </div>
             </div>
             <div className={styles.box10}>
@@ -551,101 +499,8 @@ const UpdateComponent: React.FC<Props> = () => {
             </div>
           </Row>
           {supermarket
-            ? supermarket.map(({ id_merchant, name_merchant, products }: any, i: number) => (
-                <Fragment key={i}>
-                  <Row style={{ marginTop: '1em' }}>
-                    <div className={styles.box1}>
-                      <label htmlFor="supermarket">Supermarket {i + 1}</label>
-                    </div>
-                    <div className={styles.box4}>
-                      <SelectMerchant
-                        initial={name_merchant}
-                        handleChange={(v: any, o: any) => onChangeName(v, o, i)}
-                      />
-                    </div>
-                    <div className={styles.box1}>
-                      <Button
-                        className={styles.button_delete}
-                        type="primary"
-                        danger
-                        onClick={(e) => onRemoveSupermarket(e, i)}
-                      >
-                        <DeleteOutlined />
-                      </Button>
-                    </div>
-                  </Row>
-                  <Row>
-                    {products
-                      ? products.map((data: any, indexProduk: number) => (
-                          <Fragment key={indexProduk}>
-                            <div className={styles.box5}>
-                              <Row style={{ marginTop: '1em' }}>
-                                <Fragment>
-                                  <div className={styles.box4} style={{ marginTop: '10px' }}>
-                                    <label htmlFor="produk">Produk {indexProduk + 1}</label>
-                                  </div>
-                                  <div className={styles.box5} style={{ marginTop: '10px' }}>
-                                    <SelectProduk
-                                      id_merchant={id_merchant}
-                                      initial={data && data.nama_product}
-                                      handleChange={(v: any, o: any) =>
-                                        onChangeProduct(v, o, i, indexProduk)
-                                      }
-                                    />
-                                  </div>
-                                </Fragment>
-                              </Row>
-                            </div>
-                            <div className={styles.box3}>
-                              <Row style={{ marginTop: '1em' }}>
-                                <Fragment>
-                                  <div
-                                    className={styles.box3}
-                                    style={{ textAlign: 'center', marginTop: '10px' }}
-                                  >
-                                    <label>Jumlah</label>
-                                  </div>
-                                  <div className={styles.box3} style={{ marginTop: '10px' }}>
-                                    <Input
-                                      value={data.qty || ''}
-                                      onChange={(e) => onChangeJumlah(e, i, indexProduk)}
-                                    />
-                                  </div>
-                                </Fragment>
-                              </Row>
-                            </div>
-                            <div className={styles.box2}>
-                              <Row style={{ marginTop: '1em' }}>
-                                <div
-                                  className={styles.box10}
-                                  key={indexProduk}
-                                  style={{ marginTop: '10px' }}
-                                >
-                                  <Button
-                                    className={styles.button_delete}
-                                    onClick={(e) => onRemoveProduct(e, i, indexProduk)}
-                                    disabled={Boolean(!indexProduk)}
-                                    type="primary"
-                                    danger
-                                  >
-                                    <DeleteOutlined />
-                                  </Button>
-                                  <Button
-                                    className={styles.button_add}
-                                    onClick={(e) => onAddProduct(e, i)}
-                                    type="primary"
-                                  >
-                                    <PlusOutlined />
-                                  </Button>
-                                </div>
-                              </Row>
-                            </div>
-                          </Fragment>
-                        ))
-                      : null}
-                  </Row>
-                </Fragment>
-              ))
+            ?
+        <SupermarketComponent supermarket={supermarket} onAddProduct={onAddProduct} onChangeProduct={onChangeProduct} onSelectProduct={onSelectProduct} onClearProduct={onClearProduct} onChangeJumlah={onChangeJumlah} onChangeName={onChangeName} onRemoveProduct={onRemoveProduct} onRemoveSupermarket={onRemoveSupermarket} />
             : null}
           <Button
             className={styles.button}

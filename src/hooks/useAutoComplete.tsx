@@ -1,11 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function App() {
+interface Props {
+  idSelect: number;
+  textSelect: string;
+}
+
+function App({ idSelect, textSelect }: Props) {
   const [text, setText] = useState('');
   const [values, setValues] = useState('');
   const [id, setId] = useState(0);
 
-  const changeText = (value: any) => {
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setText(textSelect);
+      setId(idSelect);
+    }, 0);
+    return () => clearTimeout(timeOut);
+  }, [idSelect, textSelect]);
+
+  const changeText = (value: string) => {
     setText(value);
   };
 
