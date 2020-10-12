@@ -44,7 +44,7 @@ const GrafikPenjualanComponent = () => {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       fetchChart(
-        `${REACT_APP_ENV}/admin/dashboard/users/chart?category=${category}&start_date=${rangePickerValue[0]}&end_date=${rangePickerValue[1]}`,
+        `${REACT_APP_ENV}/admin/dashboard/transactions/chart?category=${category}&start_date=${rangePickerValue[0]}&end_date=${rangePickerValue[1]}`,
       );
     }, 0);
     return () => clearTimeout(timeOut);

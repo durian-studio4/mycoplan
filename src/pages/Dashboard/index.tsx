@@ -12,6 +12,8 @@ const GrafikPengguna = React.lazy(() => import('./components/PenggunaGrafik'));
 const UsiaPengguna = React.lazy(() => import('./components/PeggunaUsia'));
 const GenderPengguna = React.lazy(() => import('./components/PenggunaGender'));
 
+const Penjualan = React.lazy(() => import('./components/PenjualanGrafik'));
+
 const DashboardComponent: React.FC = () => {
   const context = useContext(PermissionContext);
 
@@ -54,14 +56,9 @@ const DashboardComponent: React.FC = () => {
             </Suspense>
           </Col>
         </Row>
-        {/* <Suspense fallback={null}>
-          <SalesCard
-            rangePickerValue={rangePickerValue}
-            isActive={isActive}
-            handleRangePickerChange={handleRangePickerChange}
-            selectDate={selectDate}
-          />
-        </Suspense> */}
+        <Suspense fallback={null}>
+          <Penjualan />
+        </Suspense>
       </React.Fragment>
     </GridContent>
   );
