@@ -70,6 +70,7 @@ const TableComponent: React.FC<Props> = ({ id_merchant }) => {
   for (let key in data_list) {
     data_array.push({
       no: Number(key) + 1,
+      id: data_list[key].id_merchant,
       id_merchant: data_list[key].merchant_code,
       name_merchant: data_list[key].merchant_name,
       unit: data_list[key].unit,
