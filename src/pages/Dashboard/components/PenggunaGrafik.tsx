@@ -17,14 +17,6 @@ import useFetch from '@/hooks/useFetch';
 const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
 
-const rankingListData: { title: string; total: number }[] = [];
-for (let i = 0; i < 7; i += 1) {
-  rankingListData.push({
-    title: formatMessage({ id: 'dashboard.analysis.test' }, { no: i }),
-    total: 323234,
-  });
-}
-
 let initialDate = new Date();
 let y = initialDate.getFullYear();
 let m = initialDate.getMonth();
@@ -144,6 +136,14 @@ const GrafikPenggunaComponent = () => {
 };
 
 export default GrafikPenggunaComponent;
+
+// const rankingListData: { title: string; total: number }[] = [];
+// for (let i = 0; i < 7; i += 1) {
+//   rankingListData.push({
+//     title: formatMessage({ id: 'dashboard.analysis.test' }, { no: i }),
+//     total: 323234,
+//   });
+// }
 
 {
   /* <Col xl={8} lg={12} md={12} sm={24} xs={24}>
