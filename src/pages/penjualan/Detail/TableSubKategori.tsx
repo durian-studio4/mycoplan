@@ -161,7 +161,7 @@ const TableSubKategoriComponent: React.FC<Props> = () => {
         size="large"
         tabBarStyle={{ marginBottom: 24 }}
       >
-        <div>
+        <div style={{ width: '100%' }}>
           <Table columns={columns} loading={Boolean(loading_list)} dataSource={data_array} />
         </div>
       </Tabs>

@@ -178,9 +178,9 @@ const TableTotalComponent: React.FC<Props> = () => {
             tab={<FormattedMessage id="grafik-penjualan" defaultMessage="Grafik Penjualan" />}
             key="penjualan"
           > */}
-        <Row>
+        <div style={{ width: '100%' }}>
           <Table columns={columns} loading={Boolean(loading_list)} dataSource={data_array} />
-        </Row>
+        </div>
         {/* </TabPane> */}
       </Tabs>
       {/* </div> */}

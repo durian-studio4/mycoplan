@@ -126,39 +126,39 @@ const TableKategoriComponent: React.FC<Props> = () => {
         </Button>
       </Row>
       {status_list !== 200 || error_list ? <PageError /> : null}
-      {/* <div className={styles.salesCard}> */}
-      <Tabs
-        tabBarExtraContent={
-          <div className={styles.salesExtraWrap}>
-            <div className={styles.salesExtra}>
-              <a className={isActive('day')} onClick={() => selectDate('day')}>
-                <FormattedMessage id="harian" defaultMessage="Harian" />
-              </a>
-              <a className={isActive('week')} onClick={() => selectDate('week')}>
-                <FormattedMessage id="mingguan" defaultMessage="Mingguan" />
-              </a>
-              <a className={isActive('month')} onClick={() => selectDate('month')}>
-                <FormattedMessage id="bulanan" defaultMessage="Bulanan" />
-              </a>
-              <a className={isActive('year')} onClick={() => selectDate('year')}>
-                <FormattedMessage id="tahunan" defaultMessage="Tahunan" />
-              </a>
+      <div className={styles.salesCard}>
+        <Tabs
+          tabBarExtraContent={
+            <div className={styles.salesExtraWrap}>
+              <div className={styles.salesExtra}>
+                <a className={isActive('day')} onClick={() => selectDate('day')}>
+                  <FormattedMessage id="harian" defaultMessage="Harian" />
+                </a>
+                <a className={isActive('week')} onClick={() => selectDate('week')}>
+                  <FormattedMessage id="mingguan" defaultMessage="Mingguan" />
+                </a>
+                <a className={isActive('month')} onClick={() => selectDate('month')}>
+                  <FormattedMessage id="bulanan" defaultMessage="Bulanan" />
+                </a>
+                <a className={isActive('year')} onClick={() => selectDate('year')}>
+                  <FormattedMessage id="tahunan" defaultMessage="Tahunan" />
+                </a>
+              </div>
+              <RangePicker
+                onChange={handleRangePickerChange}
+                defaultValue={[moment(rangePickerValue[0]), moment(rangePickerValue[1])]}
+                style={{ width: 256 }}
+              />
             </div>
-            <RangePicker
-              onChange={handleRangePickerChange}
-              defaultValue={[moment(rangePickerValue[0]), moment(rangePickerValue[1])]}
-              style={{ width: 256 }}
-            />
+          }
+          size="large"
+          tabBarStyle={{ marginBottom: 24 }}
+        >
+          <div style={{ width: '100%' }}>
+            <Table columns={columns} loading={Boolean(loading_list)} dataSource={data_array} />
           </div>
-        }
-        size="large"
-        tabBarStyle={{ marginBottom: 24 }}
-      >
-        <div>
-          <Table columns={columns} loading={Boolean(loading_list)} dataSource={data_array} />
-        </div>
-      </Tabs>
-      {/* </div> */}
+        </Tabs>
+      </div>
     </Card>
   );
 };
