@@ -1,11 +1,12 @@
 import React, { useMemo, useEffect } from 'react';
-import { Table, Row, Button } from 'antd';
+import { Table, Row, Button, Popconfirm } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
 
 import useFetch from '@/hooks/useFetch';
+import useCreate from '@/hooks/useCreate';
 
 interface Props {
   pesanan_access: any;
@@ -14,6 +15,7 @@ interface Props {
 const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
   // const [getColumnSearchProps] = useFilterColumn();
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
+  const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -21,7 +23,11 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [status_update]);
+
+  const updateDelivery = (id: string, id_status: string) => {
+    postUpdate(`${REACT_APP_ENV}/admin/orders/${id}`, JSON.stringify({ id_status }));
+  };
 
   let data_array = [];
 
@@ -29,6 +35,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
     data_array.push({
       no: Number(key) + 1,
       id: data_list[key].id,
+      id_status: data_list[key].id_status,
       nama: data_list[key].nama,
       pesanan: data_list[key].no_transaksi,
       merchant: data_list[key].merchant_name,
@@ -103,7 +110,11 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
         width: 150,
         render: (props: any) => (
           <NavLink to={`/pesanan/detail/${props.id}`}>
-            <Button className={styles.button_action} type="primary">
+            <Button
+              className={styles.button_action}
+              disabled={Boolean(loading_update) || props.id_status === 8 || props.id_status === 7}
+              type="primary"
+            >
               Lihat Detail
             </Button>
             ,
@@ -120,23 +131,37 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              disabled={
+                Boolean(loading_update) ||
+                props.id_status === 8 ||
+                props.id_status === 7 ||
+                props.id_status === 3
+              }
+              onClick={() => updateDelivery(props.id, '3')}
               type="primary"
             >
               Terima
             </Button>
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
-              type="primary"
+            <Popconfirm
+              title="Apakah Anda Ingin Batalkan?"
+              onConfirm={() => updateDelivery(props.id, '8')}
+              okText="Yes"
+              cancelText="No"
+              disabled={Boolean(loading_update) || props.id_status === 8 || props.id_status === 7}
             >
-              Batalkan
-            </Button>
+              <Button
+                className={styles.button_action}
+                disabled={Boolean(loading_update) || props.id_status === 8 || props.id_status === 7}
+                id={props.id}
+                type="primary"
+              >
+                Batalkan
+              </Button>
+            </Popconfirm>
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              disabled={Boolean(loading_update) || props.id_status === 8 || props.id_status === 7}
               type="primary"
             >
               Request
@@ -144,19 +169,38 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              // onClick={() => visibleUpdate(props.id)}
+              disabled={Boolean(loading_update) || props.id_status === 8 || props.id_status === 7}
+              onClick={() => updateDelivery(props.id, '6')}
               type="primary"
             >
               Penyesuaian
             </Button>
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              // onClick={() => remove(props.id)}
-              type="primary"
+            <Popconfirm
+              title="Apakah Anda Ingin Selesai?"
+              onConfirm={() => updateDelivery(props.id, '7')}
+              okText="Yes"
+              cancelText="No"
+              disabled={
+                Boolean(loading_update) ||
+                props.id_status === 8 ||
+                props.id_status === 7 ||
+                props.id_status === 3
+              }
             >
-              Pesanan Selesai
-            </Button>
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                disabled={
+                  Boolean(loading_update) ||
+                  props.id_status === 8 ||
+                  props.id_status === 7 ||
+                  props.id_status === 3
+                }
+                type="primary"
+              >
+                Pesanan Selesai
+              </Button>
+            </Popconfirm>
           </Row>
         ),
       },
