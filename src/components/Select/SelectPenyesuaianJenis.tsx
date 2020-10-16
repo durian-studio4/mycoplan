@@ -3,16 +3,19 @@ import { Select } from 'antd';
 
 const Option = Select.Option;
 
-interface Props {}
+interface Props {
+  initial?: string;
+  handleChange: (value: any, option: any) => void;
+}
 
-const SelectPenyesuaianJenisComponent: React.FC<Props> = () => {
+const SelectPenyesuaianJenisComponent: React.FC<Props> = ({ initial, handleChange }) => {
   const data = [
     {
-      id: 0,
+      id: 'price',
       value: 'Harga',
     },
     {
-      id: 1,
+      id: 'stock',
       value: 'Stok',
     },
   ];
@@ -20,12 +23,12 @@ const SelectPenyesuaianJenisComponent: React.FC<Props> = () => {
   return (
     <Select
       labelInValue
-      // defaultValue={{ key: initial || 'Mohon Pilih' }}
+      defaultValue={{ key: initial || 'Mohon Pilih' }}
       style={{
         width: '100%',
         minHeight: '2em',
       }}
-      // onChange={handleChange}
+      onChange={handleChange}
     >
       {data &&
         data.map((data) => {

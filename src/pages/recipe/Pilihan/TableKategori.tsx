@@ -1,10 +1,10 @@
 import React, { useMemo, useState, Fragment } from 'react';
-import { Table, Row, Button, Card } from 'antd';
+import { Table, Row, Button, Card, Popconfirm } from 'antd';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
 
-import AddComponent from './AddRecipeKategori'
+import AddComponent from './AddRecipeKategori';
 interface Props {
   recipe_access: any;
   data: any;
@@ -12,7 +12,7 @@ interface Props {
   status: number;
   error: any;
   onLoadButton: boolean;
-  onCreate: ({json, clear}: any) => void
+  onCreate: ({ json, clear }: any) => void;
   onDelete: (id: string) => void;
 }
 
@@ -29,7 +29,7 @@ const TableComponent: React.FC<Props> = ({
   // const [getColumnSearchProps] = useFilterColumn();
   const [visible, setVisible] = useState(false);
 
-  const handleVisible = () => setVisible(!visible)
+  const handleVisible = () => setVisible(!visible);
 
   let data_array = [];
 
@@ -77,15 +77,16 @@ const TableComponent: React.FC<Props> = ({
         render: (props: any) => (
           <Row justify="space-around">
             {recipe_access && recipe_access.delete ? (
-              <Button
-                className={styles.button}
-                id={props.id}
-                onClick={() => onDelete(props.id)}
-                type="primary"
-                danger
+              <Popconfirm
+                title="Apakah Anda Ingin Delete?"
+                onConfirm={() => onDelete(props.id)}
+                okText="Yes"
+                cancelText="No"
               >
-                Delete
-              </Button>
+                <Button className={styles.button} id={props.id} type="primary" danger>
+                  Delete
+                </Button>
+              </Popconfirm>
             ) : null}
           </Row>
         ),
@@ -101,24 +102,29 @@ const TableComponent: React.FC<Props> = ({
 
   return (
     <>
-    <Card>
-      <p className={styles.title}>Kategori Resep Pilihan</p>
-      <Table
-        columns={columns}
-        dataSource={data_array}
-        loading={loading}
-        style={{ display: recipe_access && recipe_access.read ? 'block' : 'none' }}
-      />
+      <Card>
+        <p className={styles.title}>Kategori Resep Pilihan</p>
+        <Table
+          columns={columns}
+          dataSource={data_array}
+          loading={loading}
+          style={{ display: recipe_access && recipe_access.read ? 'block' : 'none' }}
+        />
 
-      {recipe_access && recipe_access.create ? (
-        <Button className={styles.button_add} onClick={handleVisible}>
-          + Tambah Kategori Pilihan
-        </Button>
+        {recipe_access && recipe_access.create ? (
+          <Button className={styles.button_add} onClick={handleVisible}>
+            + Tambah Kategori Pilihan
+          </Button>
+        ) : null}
+      </Card>
+      {visible ? (
+        <AddComponent
+          visible={visible}
+          onCreate={onCreate}
+          onCancel={handleVisible}
+          onLoadButton={onLoadButton}
+        />
       ) : null}
-    </Card>
-    {
-      visible ? <AddComponent visible={visible} onCreate={onCreate} onCancel={handleVisible} onLoadButton={onLoadButton} /> : null
-    }
     </>
   );
 };

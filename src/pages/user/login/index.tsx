@@ -31,6 +31,8 @@ const Login: React.FC = (props) => {
   const [loading, setLoading] = useState(false);
   const [isLogin, setLogin] = useState(false);
 
+  const [role, setRole] = useState('');
+
   const handleChangeState = (e: any) => {
     const { id, value } = e.target;
     setState((state) => ({ ...state, [id]: value }));
@@ -48,6 +50,7 @@ const Login: React.FC = (props) => {
       const result = await postRequest.data;
       setLoading(false);
       setAuthority(result.data.role);
+      setRole(result.data.role);
       localStorage.setItem('name', result.data.name);
       setLogin(true);
       return result;
@@ -58,7 +61,11 @@ const Login: React.FC = (props) => {
   };
 
   if (isLogin) {
-    return <Redirect to="/" />;
+    if (role === 'admin' || role === 'master') {
+      return <Redirect to="/" />;
+    } else {
+      return <Redirect to="/penjualan/merchant" />;
+    }
   }
 
   return (

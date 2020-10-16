@@ -7,6 +7,25 @@ const { winPath } = utils; // preview.pro.ant.design only do not use in your pro
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV, GA_KEY } = process.env;
+
+// const role = localStorage.getItem('role')
+
+// const getDefaultRoutes = () => {
+//   if(JSON.parse(role)[0] === 'merchant'){
+//     return {
+//       path: '/',
+//       redirect: '/penjualan',
+//       authority: ['merchant'],
+//     }
+//   }else{
+//     return {
+//     path: '/',
+//     redirect: '/dashboard',
+//     authority: ['admin',  'master'],
+//   }
+// }
+// }
+
 export default defineConfig({
   hash: true,
   antd: {},
@@ -80,6 +99,16 @@ export default defineConfig({
             //   component: './baru',
             // },
             {
+              path: '/',
+              redirect: '/dashboard',
+              authority: ['admin', 'master'],
+            },
+            // {
+            //   path: '/',
+            //   redirect: '/penjualan',
+            //   authority: ['merchant'],
+            // },
+            {
               name: 'Dashboard',
               icon: 'home',
               path: '/dashboard',
@@ -111,7 +140,7 @@ export default defineConfig({
                   icon: 'picture',
                   path: '/merchant/banner',
                   component: './merchant/Banner',
-                  authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master'],
                 },
                 {
                   name: 'Produk',
@@ -143,14 +172,14 @@ export default defineConfig({
                   icon: 'tag',
                   path: '/merchant/kategori',
                   component: './merchant/Kategori',
-                  authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master'],
                 },
                 {
                   name: 'Sub Kategori Produk',
                   icon: 'tags',
                   path: '/merchant/subkategori',
                   component: './merchant/SubKategori',
-                  authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master'],
                 },
                 {
                   name: 'Unit Produk',
@@ -195,7 +224,7 @@ export default defineConfig({
                   hideInMenu: true,
                   path: '/recipe/masakan/edit/:id',
                   component: './recipe/Masakan/Update',
-                  authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master'],
                 },
                 {
                   name: 'Kategori Resep',
@@ -216,7 +245,7 @@ export default defineConfig({
               icon: 'fileText',
               path: '/promo',
               component: './promo',
-              authority: ['admin', 'master', 'merchant'],
+              authority: ['admin', 'master'],
             },
             {
               name: 'Penjualan',
@@ -224,6 +253,13 @@ export default defineConfig({
               path: '/penjualan',
               component: './penjualan',
               authority: ['admin', 'master'],
+            },
+            {
+              name: 'Penjualan',
+              icon: 'stock',
+              path: '/penjualan/merchant',
+              component: './penjualan/DetailMerchant',
+              authority: ['merchant'],
             },
             {
               name: 'Penjualan Detail',
@@ -279,11 +315,6 @@ export default defineConfig({
               path: '/settings/profile',
               component: './settings/Profile',
               authority: ['admin', 'master'],
-            },
-            {
-              path: '/',
-              redirect: '/dashboard',
-              // authority: ['admin', 'user'],
             },
             {
               component: '404',

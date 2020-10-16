@@ -1,25 +1,35 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Table, Row, Button } from 'antd';
 import styles from './index.less';
 
-import EditComponent from './Edit';
+interface Props {
+  data: any;
+  loading: boolean;
+  handleAdd: (id: string, name: string) => void;
+  handleEdit: (id: string, name: string) => void;
+}
 
-interface Props {}
-
-const TableComponent: React.FC<Props> = () => {
-  const [visible, setVisible] = useState(false);
-
-  const handleVisible = () => setVisible(!visible);
+const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit }) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
-  const data = [
-    {
-      no: 1,
-      id: 123,
-      sku: 'test',
-      nama_produk: 'panadol',
-    },
-  ];
+  let data_array = [];
+
+  for (let key in data) {
+    data_array.push({
+      no: Number(key) + 1,
+      id: data[key].id,
+      id_adjustment: data[key].adjustment_id,
+      sku: data[key].sku,
+      image: data[key].image,
+      nama_produk: data[key].name,
+      kategori: data[key].category,
+      sub_kategori: data[key].subcategory,
+      quantity: data[key].quantity,
+      unit: data[key].unit,
+      unit_price: data[key].unit_price,
+      total_price: data[key].total_price,
+    });
+  }
 
   const columns = useMemo(
     () => [
@@ -44,12 +54,14 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Gambar',
-      },
-      {
-        align: 'center',
-        title: 'Gambar',
-        dataIndex: 'gambar',
-        key: 'gambar',
+        width: 200,
+        render: (props) => (
+          <img
+            alt={`gambar_detail-${props.id}`}
+            style={{ width: '100%', height: '30%', objectFit: 'contain' }}
+            src={props.image}
+          />
+        ),
       },
       {
         align: 'center',
@@ -78,16 +90,22 @@ const TableComponent: React.FC<Props> = () => {
       {
         align: 'center',
         title: 'Harga/Unit (Rp.)',
-        dataIndex: 'harga',
-        key: 'harga',
+        dataIndex: 'unit_price',
+        render: (props) => <p>{Number(props).toLocaleString()}</p>,
+        key: 'unit_price',
       },
       {
         align: 'center',
         title: 'Jumlah',
+        dataIndex: 'quantity',
+        key: 'quantity',
       },
       {
         align: 'center',
         title: 'Total Harga (Rp.)',
+        dataIndex: 'total_price',
+        render: (props) => <p>{Number(props).toLocaleString()}</p>,
+        key: 'total_price',
       },
       {
         align: 'center',
@@ -101,12 +119,28 @@ const TableComponent: React.FC<Props> = () => {
         align: 'center',
         title: 'Action',
         fixed: 'right',
-        width: 150,
+        width: 180,
         render: (props: any) => (
           <Row justify="space-around">
-            <Button className={styles.button} id={props.id} onClick={handleVisible} type="primary">
-              Edit Harga
-            </Button>
+            {!props.id_adjustment ? (
+              <Button
+                className={styles.button_action}
+                id={props.id_adjustment}
+                onClick={() => handleAdd(props.id, props.nama_produk)}
+                type="primary"
+              >
+                Tambah Harga
+              </Button>
+            ) : (
+              <Button
+                className={styles.button_action}
+                id={props.id_adjustment}
+                onClick={() => handleEdit(props.id_adjustment, props.nama_produk)}
+                type="primary"
+              >
+                Edit Harga
+              </Button>
+            )}
           </Row>
         ),
       },
@@ -122,8 +156,7 @@ const TableComponent: React.FC<Props> = () => {
   return (
     <>
       <p className={styles.title}>Detail Pemesanan</p>
-      <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} />
-      {visible ? <EditComponent visible={visible} onCancel={handleVisible} /> : null}
+      <Table columns={columns} dataSource={data_array} loading={loading} scroll={{ x: 1300 }} />
     </>
   );
 };

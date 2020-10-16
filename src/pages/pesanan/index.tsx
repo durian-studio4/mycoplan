@@ -5,7 +5,8 @@ import styles from './index.less';
 
 import { PermissionContext } from '@/layouts/context';
 
-import TableComponent from './Table';
+import TableDelivery from './TableDelivery';
+import TablePickUp from './TablePickUp';
 
 import PageUnauthorized from '@/components/PageUnauthorized';
 
@@ -41,10 +42,10 @@ const PesananComponent: React.FC<Props> = () => {
         </Row>
         <Tabs>
           <TabPane tab="Delivery" key="1">
-            <TableComponent pesanan_access={pesanan_access} />
+            <TableDelivery pesanan_access={pesanan_access} />
           </TabPane>
           <TabPane tab="Store Pick Up" key="2">
-            <TableComponent pesanan_access={pesanan_access} />
+            <TablePickUp pesanan_access={pesanan_access} />
           </TabPane>
         </Tabs>
       </Card>

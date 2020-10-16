@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback, useRef, useState, useEffect } from 'react';
-import { Table, Row, Button } from 'antd';
+import { Table, Row, Button, Popconfirm } from 'antd';
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
@@ -225,15 +225,16 @@ const TableComponent: React.FC<Props> = ({
               </>
             ) : null}
             {merchant_access && merchant_access.delete ? (
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                onClick={() => onDelete(props.id)}
-                type="primary"
-                danger
+              <Popconfirm
+                title="Apakah Anda Ingin Delete?"
+                onConfirm={() => onDelete(props.id)}
+                okText="Yes"
+                cancelText="No"
               >
-                Delete
-              </Button>
+                <Button className={styles.button_action} id={props.id} type="primary" danger>
+                  Delete
+                </Button>
+              </Popconfirm>
             ) : null}
           </Row>
         ),

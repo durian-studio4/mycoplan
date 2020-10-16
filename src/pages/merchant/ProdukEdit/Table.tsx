@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Table, Row, Button } from 'antd';
+import { Table, Row, Button, Popconfirm } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
 
@@ -8,7 +8,7 @@ import PageError from '@/components/PageError';
 
 interface Props {
   id: string;
-  code: string
+  code: string;
   data: any;
   loading: boolean;
   status: number;
@@ -188,15 +188,16 @@ const TableComponent: React.FC<Props> = ({
                 Activate
               </Button>
             )}
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => onDelete(props.id)}
-              type="primary"
-              danger
+            <Popconfirm
+              title="Apakah Anda Ingin Delete?"
+              onConfirm={() => onDelete(props.id)}
+              okText="Yes"
+              cancelText="No"
             >
-              Delete
-            </Button>
+              <Button className={styles.button_action} id={props.id} type="primary" danger>
+                Delete
+              </Button>
+            </Popconfirm>
           </Row>
         ),
       },

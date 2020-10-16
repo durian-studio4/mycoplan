@@ -79,9 +79,16 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
 
+  const role = window.localStorage.getItem('role');
+
+  // console.log(JSON.parse(role)[0], 'role');
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchList(`${REACT_APP_ENV}/admin/menu-auths`);
+      if (JSON.parse(role)[0] === 'merchant') {
+        return false;
+      }
+      return fetchList(`${REACT_APP_ENV}/admin/menu-auths`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps

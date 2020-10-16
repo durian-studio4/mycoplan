@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Table, Row, Button } from 'antd';
+import { Table, Row, Button, Popconfirm } from 'antd';
 import { format } from 'date-fns';
 import styles from './index.less';
 
@@ -175,16 +175,22 @@ const TableComponent: React.FC<Props> = ({
               </>
             ) : null}
             {pengguna_access && pengguna_access.delete ? (
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                onClick={() => onDelete(props.id)}
-                type="primary"
-                disabled={onLoadButton}
-                danger
+              <Popconfirm
+                title="Apakah Anda Ingin Delete?"
+                onConfirm={() => onDelete(props.id)}
+                okText="Yes"
+                cancelText="No"
               >
-                Delete
-              </Button>
+                <Button
+                  className={styles.button_action}
+                  id={props.id}
+                  type="primary"
+                  disabled={onLoadButton}
+                  danger
+                >
+                  Delete
+                </Button>
+              </Popconfirm>
             ) : null}
           </Row>
         ),

@@ -1,23 +1,44 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { Table, Row, Button } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
+
+import PageError from '@/components/PageError';
+
+import useFetch from '@/hooks/useFetch';
 
 interface Props {
   pesanan_access: any;
 }
 
-const TableComponent: React.FC<Props> = ({ pesanan_access }) => {
+const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
   // const [getColumnSearchProps] = useFilterColumn();
+  const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
 
-  const data = [
-    {
-      no: 1,
-      id: 415,
-      pesanan: 123,
-      merchant: 'imam',
-    },
-  ];
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      fetchList(`${REACT_APP_ENV}/admin/orders/?method=pickup`);
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  let data_array = [];
+
+  for (let key in data_list) {
+    data_array.push({
+      no: Number(key) + 1,
+      id: data_list[key].id,
+      nama: data_list[key].nama,
+      pesanan: data_list[key].no_transaksi,
+      merchant: data_list[key].merchant_name,
+      total: data_list[key].total_price,
+      status: data_list[key].transaction_status,
+      tanggal: data_list[key].transaction_date,
+      jadwal: data_list[key].jadwal,
+      telepon: data_list[key].no_telp,
+    });
+  }
 
   const columns = useMemo(
     () => [
@@ -42,10 +63,15 @@ const TableComponent: React.FC<Props> = ({ pesanan_access }) => {
       {
         align: 'center',
         title: 'Total Pembayaran (Rp.)',
+        dataIndex: 'total',
+        render: (props) => <p>{Number(props).toLocaleString()}</p>,
+        key: 'total',
       },
       {
         align: 'center',
-        title: 'Status Pembayaran',
+        title: 'Status Transaksi',
+        dataIndex: 'status',
+        key: 'status',
       },
       {
         align: 'center',
@@ -56,27 +82,33 @@ const TableComponent: React.FC<Props> = ({ pesanan_access }) => {
       {
         align: 'center',
         title: 'Jadwal Delivery',
+        dataIndex: 'jadwal',
+        key: 'jadwal',
       },
       {
         align: 'center',
         title: 'Nama Penerima',
+        dataIndex: 'nama',
+        key: 'nama',
       },
       {
         align: 'center',
         title: 'Nomor Telepon',
+        dataIndex: 'telepon',
+        key: 'telepon',
       },
       {
         align: 'center',
         title: 'Detail Pesanan',
+        width: 150,
         render: (props: any) => (
           <NavLink to={`/pesanan/detail/${props.id}`}>
-            <Button type="primary">Lihat Detail</Button>,
+            <Button className={styles.button_action} type="primary">
+              Lihat Detail
+            </Button>
+            ,
           </NavLink>
         ),
-      },
-      {
-        align: 'center',
-        title: 'Status Pesanan',
       },
       {
         align: 'center',
@@ -138,13 +170,17 @@ const TableComponent: React.FC<Props> = ({ pesanan_access }) => {
   // }
 
   return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      scroll={{ x: 1300 }}
-      style={{ display: pesanan_access && pesanan_access.read ? 'block' : 'none' }}
-    />
+    <>
+      {error_list || status_list !== 200 ? <PageError /> : null}
+      <Table
+        columns={columns}
+        dataSource={data_array}
+        loading={Boolean(loading_list)}
+        scroll={{ x: 1300 }}
+        style={{ display: pesanan_access && pesanan_access.read ? 'block' : 'none' }}
+      />
+    </>
   );
 };
 
-export default TableComponent;
+export default TablePickUpComponent;
