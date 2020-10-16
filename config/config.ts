@@ -116,6 +116,13 @@ export default defineConfig({
               authority: ['admin', 'master'],
             },
             {
+              name: 'Dashboard',
+              icon: 'home',
+              path: '/dashboard/merchant',
+              component: './DashboardMerchant',
+              authority: ['merchant'],
+            },
+            {
               name: 'Pengguna',
               icon: 'user',
               path: '/pengguna',
@@ -126,14 +133,14 @@ export default defineConfig({
               name: 'Merchant',
               icon: 'shop',
               path: '/merchant',
-              authority: ['admin', 'master', 'merchant'],
+              authority: ['admin', 'master'],
               routes: [
                 {
                   name: 'Daftar Merchant',
                   icon: 'shop',
                   path: '/merchant/daftar',
                   component: './merchant/Daftar',
-                  authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master'],
                 },
                 {
                   name: 'Banner Merchant',
@@ -147,25 +154,25 @@ export default defineConfig({
                   icon: 'profile',
                   path: '/merchant/produk',
                   component: './merchant/Produk',
-                  authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master'],
                 },
                 {
                   hideInMenu: true,
                   path: '/merchant/produk/:id/:code',
                   component: './merchant/ProdukEdit',
-                  authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master'],
                 },
                 {
                   hideInMenu: true,
                   path: '/merchant/produk/add/:id/:code',
                   component: './merchant/ProdukAdd',
-                  authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master'],
                 },
                 {
                   hideInMenu: true,
                   path: '/merchant/produk/edit/:id/:code/:id_produk',
                   component: './merchant/ProdukEdit/Update',
-                  authority: ['admin', 'master', 'merchant'],
+                  authority: ['admin', 'master'],
                 },
                 {
                   name: 'Kategori Produk',
@@ -193,9 +200,16 @@ export default defineConfig({
             {
               name: 'Pesanan',
               icon: 'shoppingCart',
+              path: '/pesanan/merchant',
+              component: './pesanan/PesananMerchant',
+              authority: ['merchant'],
+            },
+            {
+              name: 'Pesanan',
+              icon: 'shoppingCart',
               path: '/pesanan',
               component: './pesanan',
-              authority: ['admin', 'master', 'merchant'],
+              authority: ['admin', 'master'],
             },
             {
               hideInMenu: true,
@@ -308,6 +322,13 @@ export default defineConfig({
               path: '/admin/edit/:id',
               component: './admin/Edit',
               authority: ['master'],
+            },
+            {
+              name: 'Pengaturan',
+              icon: 'setting',
+              path: '/settings/profile/merchant',
+              component: './settings/Merchant',
+              authority: ['merchant'],
             },
             {
               name: 'Pengaturan',
