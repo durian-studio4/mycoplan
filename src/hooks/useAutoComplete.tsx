@@ -23,8 +23,9 @@ function App({ idSelect, textSelect }: Props) {
   };
 
   const selectText = (value: any, e: any) => {
+    console.log(e);
     setText(e.children);
-    setId(value);
+    setId(e.id);
     setValues(e.children);
   };
 

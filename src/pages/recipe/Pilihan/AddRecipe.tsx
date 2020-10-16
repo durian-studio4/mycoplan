@@ -1,10 +1,10 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Modal, Row, Input, Upload, Button } from 'antd';
+import React, { Fragment } from 'react';
+import { Modal, Row, Button } from 'antd';
 import styles from './index.less';
 
-import SelectRecipe from '@/components/Select/SelectRecipe';
+import AutoCompleteRecipe from '@/components/Autocomplete/Resep';
 
-import useSelect from '@/hooks/useSelect';
+import useAutoComplete from '@/hooks/useAutoComplete';
 
 interface Props {
   visible: boolean;
@@ -14,24 +14,19 @@ interface Props {
 }
 
 const AddRecipeComponent: React.FC<Props> = ({ visible, onLoadButton, onCancel, onCreate }) => {
-  const [name, setName] = useState('');
-  const [id_recipe, onChangeRecipe, onClearRecipe] = useSelect('');
-
-  const onChangeState = (e: any) => {
-    const { value } = e.target;
-
-    setName(value);
-  };
+  const recipe = useAutoComplete({
+    idSelect: 0,
+    textSelect: '',
+  });
 
   const onClearState = () => {
-    setName('');
-    onClearRecipe();
+    recipe.clearText();
     onCancel();
   };
 
   let DataJSON = JSON.stringify({
-     id_recipe
-  })
+    id_recipe: recipe.id,
+  });
 
   const createRecipe = () => {
     onCreate({
@@ -43,13 +38,15 @@ const AddRecipeComponent: React.FC<Props> = ({ visible, onLoadButton, onCancel, 
   return (
     <Modal visible={visible} title="Tambah Resep Pilihan" closable={false} footer={null}>
       <Fragment>
-
         <div className={styles.modal_body}>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <SelectRecipe handleChange={onChangeRecipe}
+              <AutoCompleteRecipe
+                value={recipe.text}
+                onChange={recipe.changeText}
+                onSelect={recipe.selectText}
               />
-          </div>
+            </div>
           </div>
           {/* <div className={styles.box10}>
             <div className={styles.group}>
@@ -62,28 +59,27 @@ const AddRecipeComponent: React.FC<Props> = ({ visible, onLoadButton, onCancel, 
             </div>
           </div> */}
         </div>
-      <Row justify="end">
-        {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}
-        <Button
-          className={styles.button}
-          onClick={onClearState}
-          disabled={onLoadButton}
-          type="primary"
-          danger
-        >
-          Batal
-        </Button>
-        <Button
-          className={styles.button}
-          onClick={createRecipe}
-          disabled={!id_recipe || onLoadButton}
-          type="primary"
-        >
-          Simpan
-        </Button>
-      </Row>
+        <Row justify="end">
+          {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}
+          <Button
+            className={styles.button}
+            onClick={onClearState}
+            disabled={onLoadButton}
+            type="primary"
+            danger
+          >
+            Batal
+          </Button>
+          <Button
+            className={styles.button}
+            onClick={createRecipe}
+            disabled={!recipe.id || onLoadButton}
+            type="primary"
+          >
+            Simpan
+          </Button>
+        </Row>
       </Fragment>
-
     </Modal>
   );
 };

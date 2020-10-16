@@ -1,10 +1,10 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Modal, Row, Input, Upload, Button } from 'antd';
+import React, { Fragment } from 'react';
+import { Modal, Row, Button } from 'antd';
 import styles from './index.less';
 
-import SelectRecipeKategori from '@/components/Select/SelectRecipeKategori';
+import AutoCompleteKategori from '@/components/Autocomplete/ResepKategori';
 
-import useSelect from '@/hooks/useSelect';
+import useAutoComplete from '@/hooks/useAutoComplete';
 
 interface Props {
   visible: boolean;
@@ -13,25 +13,25 @@ interface Props {
   onCreate: ({ json, clear }: any) => void;
 }
 
-const AddRecipeKategoriComponent: React.FC<Props> = ({ visible, onLoadButton, onCancel, onCreate }) => {
-  const [name, setName] = useState('');
-  const [id_recipe_category, onChangeRecipe, onClearRecipe] = useSelect('');
-
-  const onChangeState = (e: any) => {
-    const { value } = e.target;
-
-    setName(value);
-  };
+const AddRecipeKategoriComponent: React.FC<Props> = ({
+  visible,
+  onLoadButton,
+  onCancel,
+  onCreate,
+}) => {
+  const kategori = useAutoComplete({
+    idSelect: 0,
+    textSelect: '',
+  });
 
   const onClearState = () => {
-    setName('');
-    onClearRecipe();
+    kategori.clearText();
     onCancel();
   };
 
   let DataJSON = JSON.stringify({
-     id_recipe_category
-  })
+    id_recipe_category: kategori.id,
+  });
 
   const createRecipe = () => {
     onCreate({
@@ -43,13 +43,15 @@ const AddRecipeKategoriComponent: React.FC<Props> = ({ visible, onLoadButton, on
   return (
     <Modal visible={visible} title="Tambah Kategori Resep Pilihan" closable={false} footer={null}>
       <Fragment>
-
         <div className={styles.modal_body}>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <SelectRecipeKategori handleChange={onChangeRecipe}
+              <AutoCompleteKategori
+                value={kategori.text}
+                onChange={kategori.changeText}
+                onSelect={kategori.selectText}
               />
-          </div>
+            </div>
           </div>
           {/* <div className={styles.box10}>
             <div className={styles.group}>
@@ -62,28 +64,27 @@ const AddRecipeKategoriComponent: React.FC<Props> = ({ visible, onLoadButton, on
             </div>
           </div> */}
         </div>
-      <Row justify="end">
-        {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}
-        <Button
-          className={styles.button}
-          onClick={onClearState}
-          disabled={onLoadButton}
-          type="primary"
-          danger
-        >
-          Batal
-        </Button>
-        <Button
-          className={styles.button}
-          onClick={createRecipe}
-          disabled={!id_recipe_category || onLoadButton}
-          type="primary"
-        >
-          Simpan
-        </Button>
-      </Row>
+        <Row justify="end">
+          {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}
+          <Button
+            className={styles.button}
+            onClick={onClearState}
+            disabled={onLoadButton}
+            type="primary"
+            danger
+          >
+            Batal
+          </Button>
+          <Button
+            className={styles.button}
+            onClick={createRecipe}
+            disabled={!kategori.id || onLoadButton}
+            type="primary"
+          >
+            Simpan
+          </Button>
+        </Row>
       </Fragment>
-
     </Modal>
   );
 };

@@ -68,7 +68,7 @@ const TableProdukComponent: React.FC<Props> = () => {
     data_array.push({
       no: Number(key) + 1,
       id_product: data_list[key].id_product,
-      name_product: data_list[key].name_product,
+      name_product: data_list[key].product_name,
       tanggal: data_list[key].date,
       unit: data_list[key].unit,
       total: data_list[key].total_sales,

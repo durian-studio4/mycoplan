@@ -120,7 +120,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
           </div>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label}>Gender</label>
+              <label className={styles.label}>Jenis Kelamin</label>
               <SelectGender handleChange={onChangeGender} initial={data.gender} />
             </div>
           </div>
