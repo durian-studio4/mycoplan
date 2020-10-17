@@ -170,7 +170,7 @@ const AddComponent: React.FC<Props> = ({
           onClick={createTransaction}
           type="primary"
         >
-          Simpan
+          OK
         </Button>
       </Row>
     </Modal>

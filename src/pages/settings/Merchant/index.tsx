@@ -146,7 +146,7 @@ const SettingsProfileComponent: React.FC<Props> = () => {
             type="primary"
             disabled={Boolean(loading_update) || isDisabled}
           >
-            Simpan
+            OK
           </Button>
         </Card>
       )}

@@ -67,10 +67,10 @@ const TableComponent: React.FC<Props> = ({
             ) : null}
             {merchant_access && merchant_access.delete ? (
               <Popconfirm
-                title="Apakah Anda Ingin Delete?"
+                title="Apakah Anda Ingin Delete Unit Produk Ini?"
                 onConfirm={() => onDelete(props.id)}
-                okText="Yes"
-                cancelText="No"
+                okText="Delete"
+                cancelText="Batal"
               >
                 <Button className={styles.button_action} id={props.id} type="primary" danger>
                   Delete

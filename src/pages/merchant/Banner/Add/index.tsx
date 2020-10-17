@@ -101,8 +101,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   const createBanner = () => {
     const formData = new FormData();
 
-    if(id_voucher){
-      formData.append('id_voucher', String(id_voucher))
+    if (id_voucher) {
+      formData.append('id_voucher', String(id_voucher));
     }
 
     for (let [key, value] of Object.entries(DataJSON)) {
@@ -225,18 +225,19 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             </div>
           </div>
         ) : null}
-        {
-          banner_type !== 'gambar' ?
-        <div className={styles.box10}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="kode">
-              Kode Promo
-            </label>
-            <SelectAll address={`${REACT_APP_ENV}/admin/vouchers`} handleChange={onChangeVoucher} />
+        {banner_type !== 'gambar' ? (
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="kode">
+                Kode Promo
+              </label>
+              <SelectAll
+                address={`${REACT_APP_ENV}/admin/vouchers`}
+                handleChange={onChangeVoucher}
+              />
+            </div>
           </div>
-        </div>
-          : null
-        }
+        ) : null}
       </div>
       <Row justify="end">
         {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}
@@ -255,7 +256,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
           disabled={isDisabled || onLoadButton}
           type="primary"
         >
-          Simpan
+          OK
         </Button>
       </Row>
     </Modal>

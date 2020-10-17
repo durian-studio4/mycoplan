@@ -8,9 +8,9 @@ import SelectKesulitan from '@/components/Select/SelectKesulitan';
 import SelectJenisMakanan from '@/components/Select/SelectJenisMakanan';
 
 import KategoriComponent from './Kategori';
-import SupermarketComponent from './Supermarket'
+import SupermarketComponent from './Supermarket';
 
-import QuillComponent from '@/components/Quill'
+import QuillComponent from '@/components/Quill';
 
 import useCreate from '@/hooks/useCreateForm';
 import useSelect from '@/hooks/useSelect';
@@ -170,9 +170,9 @@ const AddComponent: React.FC<Props> = () => {
 
   const onChangeProduct = (value: string, i: number, indexProduct: number) => {
     const state = [...supermarket];
-    state[i].products[indexProduct].nama_product = value
-    setSupermarket(state)
-  }
+    state[i].products[indexProduct].nama_product = value;
+    setSupermarket(state);
+  };
 
   const onChangeJumlah = (e: any, i: number, indexProduct: number) => {
     const { value } = e.target;
@@ -186,12 +186,12 @@ const AddComponent: React.FC<Props> = () => {
     setFileImg(list);
   };
 
-  const onClearProduct = (i:number,indexProduct:number) => {
-    const state = [...supermarket]
-    state[i].products[indexProduct].id_product = ''
-    state[i].products[indexProduct].nama_product = ''
-    setSupermarket(state)
-  }
+  const onClearProduct = (i: number, indexProduct: number) => {
+    const state = [...supermarket];
+    state[i].products[indexProduct].id_product = '';
+    state[i].products[indexProduct].nama_product = '';
+    setSupermarket(state);
+  };
 
   const onClearState = () => {
     setState({ ...initialState });
@@ -395,14 +395,24 @@ const AddComponent: React.FC<Props> = () => {
             </Button>
           </div>
         </Row>
-        <SupermarketComponent supermarket={supermarket} onAddProduct={onAddProduct} onChangeProduct={onChangeProduct} onSelectProduct={onSelectProduct} onClearProduct={onClearProduct} onChangeJumlah={onChangeJumlah} onChangeName={onChangeName} onRemoveProduct={onRemoveProduct} onRemoveSupermarket={onRemoveSupermarket} />
+        <SupermarketComponent
+          supermarket={supermarket}
+          onAddProduct={onAddProduct}
+          onChangeProduct={onChangeProduct}
+          onSelectProduct={onSelectProduct}
+          onClearProduct={onClearProduct}
+          onChangeJumlah={onChangeJumlah}
+          onChangeName={onChangeName}
+          onRemoveProduct={onRemoveProduct}
+          onRemoveSupermarket={onRemoveSupermarket}
+        />
         <Button
           className={styles.button}
           disabled={disabled || Boolean(loading_update)}
           onClick={createResep}
           type="primary"
         >
-          Simpan
+          OK
         </Button>
       </Card>
       {/* <KemasanComponent /> */}

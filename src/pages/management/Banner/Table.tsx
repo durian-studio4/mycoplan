@@ -74,12 +74,12 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'title',
         key: 'title',
       },
-      {
-        align: 'left',
-        title: 'Deskripsi Banner',
-        dataIndex: 'description',
-        key: 'description',
-      },
+      // {
+      //   align: 'left',
+      //   title: 'Deskripsi Banner',
+      //   dataIndex: 'description',
+      //   key: 'description',
+      // },
       {
         align: 'center',
         title: 'Waktu Mulai',
@@ -92,12 +92,12 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'end',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
-      {
-        align: 'center',
-        title: 'Syarat & Ketentuan',
-        dataIndex: 'terms_conditions',
-        key: 'terms_conditions',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Syarat & Ketentuan',
+      //   dataIndex: 'terms_conditions',
+      //   key: 'terms_conditions',
+      // },
       {
         align: 'center',
         title: 'Kode Promo',
@@ -128,14 +128,16 @@ const TableComponent: React.FC<Props> = ({
                   Edit
                 </Button>
                 {props.status === 'active' ? (
-                  <Button
-                    className={styles.button_action}
-                    id={props.id}
-                    onClick={() => onDeactive(props.id)}
-                    type="primary"
+                  <Popconfirm
+                    title="Apakah Anda Ingin Deactivate Banner Ini?"
+                    onConfirm={() => onDeactive(props.id)}
+                    okText="Deactivate"
+                    cancelText="Batal"
                   >
-                    Deactivate
-                  </Button>
+                    <Button className={styles.button_action} id={props.id} type="primary">
+                      Deactivate
+                    </Button>
+                  </Popconfirm>
                 ) : (
                   <Button
                     className={styles.button_action}
@@ -150,10 +152,10 @@ const TableComponent: React.FC<Props> = ({
             ) : null}
             {management_access && management_access.delete ? (
               <Popconfirm
-                title="Apakah Anda Ingin Delete?"
+                title="Apakah Anda Ingin Delete Banner Ini?"
                 onConfirm={() => onDelete(props.id)}
-                okText="Yes"
-                cancelText="No"
+                okText="Delete"
+                cancelText="Batal"
               >
                 <Button className={styles.button_action} id={props.id} type="primary" danger>
                   Delete

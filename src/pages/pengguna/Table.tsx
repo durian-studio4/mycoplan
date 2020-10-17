@@ -81,33 +81,28 @@ const TableComponent: React.FC<Props> = ({
         key: 'email',
         ...getColumnSearchProps('email'),
       },
-      {
-        align: 'center',
-        title: 'No. Telepon',
-        dataIndex: 'phone',
-        key: 'phone',
-        ...getColumnSearchProps('phone'),
-      },
-      {
-        align: 'center',
-        title: 'Tanggal Lahir',
-        dataIndex: 'tanggal_lahir',
-        render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
-        key: 'tanggal_lahir',
-        ...getColumnSearchProps('tanggal_lahir'),
-      },
       // {
       //   align: 'center',
-      //   title: 'Usia',
+      //   title: 'No. Telepon',
+      //   dataIndex: 'phone',
+      //   key: 'phone',
+      //   ...getColumnSearchProps('phone'),
       // },
-      {
-        align: 'center',
-        title: 'Jenis Kelamin',
-        dataIndex: 'gender',
-        // render: (props) => <p>{props === 'L' ? 'Laki-Laki' : 'Perempuan'}</p>,
-        key: 'gender',
-        ...getColumnSearchProps('gender'),
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Tanggal Lahir',
+      //   dataIndex: 'tanggal_lahir',
+      //   render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+      //   key: 'tanggal_lahir',
+      //   ...getColumnSearchProps('tanggal_lahir'),
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Jenis Kelamin',
+      //   dataIndex: 'gender',
+      //   key: 'gender',
+      //   ...getColumnSearchProps('gender'),
+      // },
       // {
       //   align: 'center',
       //   title: 'Alamat Utama',
@@ -152,15 +147,21 @@ const TableComponent: React.FC<Props> = ({
                   Edit
                 </Button>
                 {props.status === 'active' ? (
-                  <Button
-                    className={styles.button_action}
-                    id={props.id}
-                    onClick={() => onDeactive(props.id)}
-                    type="primary"
-                    disabled={onLoadButton}
+                  <Popconfirm
+                    title="Apakah Anda Ingin Deactivate Pengguna Ini?"
+                    onConfirm={() => onDeactive(props.id)}
+                    okText="Deactivate"
+                    cancelText="Batal"
                   >
-                    Deactivate
-                  </Button>
+                    <Button
+                      className={styles.button_action}
+                      id={props.id}
+                      type="primary"
+                      disabled={onLoadButton}
+                    >
+                      Deactivate
+                    </Button>
+                  </Popconfirm>
                 ) : (
                   <Button
                     className={styles.button_action}
@@ -176,10 +177,10 @@ const TableComponent: React.FC<Props> = ({
             ) : null}
             {pengguna_access && pengguna_access.delete ? (
               <Popconfirm
-                title="Apakah Anda Ingin Delete?"
+                title="Apakah Anda Ingin Delete Pengguna Ini?"
                 onConfirm={() => onDelete(props.id)}
-                okText="Yes"
-                cancelText="No"
+                okText="Delete"
+                cancelText="Batal"
               >
                 <Button
                   className={styles.button_action}

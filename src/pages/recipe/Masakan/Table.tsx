@@ -96,32 +96,32 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'author',
         key: 'author',
       },
-      {
-        align: 'center',
-        title: 'Link Youtube',
-        dataIndex: 'video',
-        render: (props: any) => (props === null ? '' : <p>{props}</p>),
-        key: 'video',
-      },
-      {
-        align: 'center',
-        title: 'Durasi Masak',
-        dataIndex: 'production_time',
-        key: 'production_time',
-      },
-      {
-        align: 'center',
-        title: 'Porsi',
-        render: ({ portion_max, portion_min }: number) => (
-          <p>{`${portion_min} - ${portion_max}`}</p>
-        ),
-      },
-      {
-        align: 'center',
-        title: 'Kesulitan',
-        dataIndex: 'difficulty',
-        key: 'difficulty',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Link Youtube',
+      //   dataIndex: 'video',
+      //   render: (props: any) => (props === null ? '' : <p>{props}</p>),
+      //   key: 'video',
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Durasi Masak',
+      //   dataIndex: 'production_time',
+      //   key: 'production_time',
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Porsi',
+      //   render: ({ portion_max, portion_min }: number) => (
+      //     <p>{`${portion_min} - ${portion_max}`}</p>
+      //   ),
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Kesulitan',
+      //   dataIndex: 'difficulty',
+      //   key: 'difficulty',
+      // },
       // {
       //   align: 'center',
       //   title: 'Jenis Makanan',
@@ -160,15 +160,21 @@ const TableComponent: React.FC<Props> = ({
                   </NavLink>
                 </Button>
                 {props.status === 'active' ? (
-                  <Button
-                    className={styles.button_action}
-                    id={props.id}
-                    onClick={() => onDeactive(props.id)}
-                    type="primary"
-                    disabled={onLoadButton}
+                  <Popconfirm
+                    title="Apakah Anda Ingin Deactivate Resep Ini?"
+                    onConfirm={() => onDeactive(props.id)}
+                    okText="Deactivate"
+                    cancelText="Batal"
                   >
-                    Deactivate
-                  </Button>
+                    <Button
+                      className={styles.button_action}
+                      id={props.id}
+                      type="primary"
+                      disabled={onLoadButton}
+                    >
+                      Deactivate
+                    </Button>
+                  </Popconfirm>
                 ) : (
                   <Button
                     className={styles.button_action}
@@ -184,10 +190,10 @@ const TableComponent: React.FC<Props> = ({
             ) : null}
             {recipe_access && recipe_access.delete ? (
               <Popconfirm
-                title="Apakah Anda Ingin Delete?"
+                title="Apakah Anda Ingin Delete Resep Ini?"
                 onConfirm={() => onDelete(props.id)}
-                okText="Yes"
-                cancelText="No"
+                okText="Delete"
+                cancelText="Batal"
               >
                 <Button className={styles.button_action} id={props.id} type="primary" danger>
                   Delete

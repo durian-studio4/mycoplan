@@ -120,7 +120,7 @@ const ManagementAboutComponent: React.FC<Props> = () => {
                 onClick={updateSetting}
                 type="primary"
               >
-                Edit Konten
+                OK
               </Button>
             ) : null}
           </Row>

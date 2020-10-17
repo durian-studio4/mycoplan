@@ -390,7 +390,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
           disabled={Boolean(loading_update) || disabled}
           type="primary"
         >
-          Simpan
+          OK
         </Button>
       </Card>
       {visible ? (

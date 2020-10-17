@@ -400,7 +400,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
           disabled={isDisabled || onLoadButton}
           type="primary"
         >
-          Simpan
+          OK
         </Button>
       </Row>
     </Modal>

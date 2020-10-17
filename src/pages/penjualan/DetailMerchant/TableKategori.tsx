@@ -64,7 +64,7 @@ const TableKategoriComponent: React.FC<Props> = () => {
       tanggal: data_list[key].date,
       unit: data_list[key].unit,
       total: data_list[key].total_sales,
-      category: data_list[key].category_name,
+      category: data_list[key].product_category,
     });
   }
 

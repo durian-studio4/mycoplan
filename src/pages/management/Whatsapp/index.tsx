@@ -88,7 +88,7 @@ const ManagementWhatsappComponent: React.FC<Props> = () => {
                 onClick={updateSetting}
                 type="primary"
               >
-                Edit Link
+                OK
               </Button>
             ) : null}
           </Row>

@@ -90,10 +90,10 @@ const TableComponent: React.FC<Props> = ({
           <Row justify="space-around">
             {recipe_access && recipe_access.delete ? (
               <Popconfirm
-                title="Apakah Anda Ingin Delete?"
+                title="Apakah Anda Ingin Delete Resep Pilihan Ini?"
                 onConfirm={() => onDelete(props.id)}
-                okText="Yes"
-                cancelText="No"
+                okText="Delete"
+                cancelText="Batal"
               >
                 <Button className={styles.button} id={props.id} type="primary" danger>
                   Delete

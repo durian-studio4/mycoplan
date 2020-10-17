@@ -89,26 +89,26 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'code',
         key: 'code',
       },
-      {
-        align: 'center',
-        title: 'Diskon (%)',
-        dataIndex: 'discount',
-        key: 'discount',
-      },
-      {
-        align: 'center',
-        title: 'Maks. Diskon (Rp)',
-        dataIndex: 'max_discount',
-        render: (props) => <p>{Number(props).toLocaleString()}</p>,
-        key: 'max_discount',
-      },
-      {
-        align: 'center',
-        title: 'Min Belanja (Rp)',
-        dataIndex: 'min_purchase',
-        render: (props) => <p>{Number(props).toLocaleString()}</p>,
-        key: 'min_purchase',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Diskon (%)',
+      //   dataIndex: 'discount',
+      //   key: 'discount',
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Maks. Diskon (Rp)',
+      //   dataIndex: 'max_discount',
+      //   render: (props) => <p>{Number(props).toLocaleString()}</p>,
+      //   key: 'max_discount',
+      // },
+      // {
+      //   align: 'center',
+      //   title: 'Min Belanja (Rp)',
+      //   dataIndex: 'min_purchase',
+      //   render: (props) => <p>{Number(props).toLocaleString()}</p>,
+      //   key: 'min_purchase',
+      // },
       {
         align: 'center',
         title: 'Waktu Mulai',
@@ -121,12 +121,12 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'end',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
       },
-      {
-        align: 'center',
-        title: 'Limit Pengguna',
-        dataIndex: 'user_limit',
-        key: 'user_limit',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Limit Pengguna',
+      //   dataIndex: 'user_limit',
+      //   key: 'user_limit',
+      // },
       {
         align: 'center',
         title: 'Maks. Penukaran',
@@ -167,14 +167,16 @@ const TableComponent: React.FC<Props> = ({
                   Edit
                 </Button>
                 {props.status === 'active' ? (
-                  <Button
-                    className={styles.button_action}
-                    id={props.id}
-                    onClick={() => onDeactive(props.id)}
-                    type="primary"
+                  <Popconfirm
+                    title="Apakah Anda Ingin Deactivate Promo Ini?"
+                    onConfirm={() => onDeactive(props.id)}
+                    okText="Deactivate"
+                    cancelText="Batal"
                   >
-                    Deactivate
-                  </Button>
+                    <Button className={styles.button_action} id={props.id} type="primary">
+                      Deactivate
+                    </Button>
+                  </Popconfirm>
                 ) : (
                   <Button
                     className={styles.button_action}
@@ -189,10 +191,10 @@ const TableComponent: React.FC<Props> = ({
             ) : null}
             {promo_access && promo_access.delete ? (
               <Popconfirm
-                title="Apakah Anda Ingin Delete?"
+                title="Apakah Anda Ingin Delete Promo Ini?"
                 onConfirm={() => onDelete(props.id)}
-                okText="Yes"
-                cancelText="No"
+                okText="Delete"
+                cancelText="Batal"
               >
                 <Button className={styles.button_action} id={props.id} type="primary" danger>
                   Delete

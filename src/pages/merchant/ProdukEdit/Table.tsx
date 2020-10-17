@@ -170,14 +170,16 @@ const TableComponent: React.FC<Props> = ({
               </NavLink>
             </Button>
             {props.status === 'active' ? (
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                onClick={() => onDeactive(props.id)}
-                type="primary"
+              <Popconfirm
+                title="Apakah Anda Ingin Deactivate Produk Ini?"
+                onConfirm={() => onDeactive(props.id)}
+                okText="Deactivate"
+                cancelText="Batal"
               >
-                Deactivate
-              </Button>
+                <Button className={styles.button_action} id={props.id} type="primary">
+                  Deactivate
+                </Button>
+              </Popconfirm>
             ) : (
               <Button
                 className={styles.button_action}
@@ -189,10 +191,10 @@ const TableComponent: React.FC<Props> = ({
               </Button>
             )}
             <Popconfirm
-              title="Apakah Anda Ingin Delete?"
+              title="Apakah Anda Ingin Delete Produk Ini?"
               onConfirm={() => onDelete(props.id)}
-              okText="Yes"
-              cancelText="No"
+              okText="Delete"
+              cancelText="Batal"
             >
               <Button className={styles.button_action} id={props.id} type="primary" danger>
                 Delete

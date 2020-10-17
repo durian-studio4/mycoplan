@@ -161,7 +161,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
   };
 
   return (
-    <Modal visible={visible} title="Buat Promo" closable={false} footer={null}>
+    <Modal visible={visible} title="Buat Promo" width={600} closable={false} footer={null}>
       <div className={styles.modal_body}>
         <div className={styles.box10}>
           <div className={styles.group}>
@@ -370,7 +370,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
           disabled={isDisabled || onLoadButton}
           type="primary"
         >
-          Simpan
+          OK
         </Button>
       </Row>
     </Modal>
