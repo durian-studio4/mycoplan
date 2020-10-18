@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Alert } from 'antd';
 import { Redirect } from 'umi';
 import { setAuthority } from '@/utils/authority';
 import styles from './style.less';
@@ -8,18 +9,18 @@ import LoginFrom from './components/Login';
 
 const { UserName, Password, Submit } = LoginFrom;
 
-// const LoginMessage: React.FC<{
-//   content: string;
-// }> = ({ content }) => (
-//   <Alert
-//     style={{
-//       marginBottom: 24,
-//     }}
-//     message={content}
-//     type="error"
-//     showIcon
-//   />
-// );
+const LoginMessage: React.FC<{
+  content: string;
+}> = ({ content }) => (
+  <Alert
+    style={{
+      marginBottom: 24,
+    }}
+    message={content}
+    type="error"
+    showIcon
+  />
+);
 
 const initialState = {
   email: '',
@@ -30,6 +31,8 @@ const Login: React.FC = (props) => {
   const [{ email, password }, setState] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [isLogin, setLogin] = useState(false);
+
+  const [contentError, setContentError] = useState('');
 
   const [role, setRole] = useState('');
 
@@ -55,6 +58,7 @@ const Login: React.FC = (props) => {
       setLogin(true);
       return result;
     } catch (error) {
+      setContentError(error.response.data.message);
       setLogin(false);
       setLoading(false);
     }
@@ -64,7 +68,7 @@ const Login: React.FC = (props) => {
     if (role === 'admin' || role === 'master') {
       return <Redirect to="/" />;
     } else {
-      return <Redirect to="/penjualan/merchant" />;
+      return <Redirect to="/dashboard/merchant" />;
     }
   }
 
@@ -74,6 +78,7 @@ const Login: React.FC = (props) => {
         {/* {status === 'error' && loginType === 'account' && !submitting && (
           <LoginMessage content="账户或密码错误（admin/ant.design）" />
         )} */}
+        {Boolean(contentError) ? <LoginMessage content={contentError} /> : null}
 
         <UserName
           name="email"

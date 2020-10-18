@@ -7,8 +7,6 @@ import useFilterColumn from '@/hooks/useFilterColumn';
 import PageError from '@/components/PageError';
 
 interface Props {
-  id: string;
-  code: string;
   data: any;
   loading: boolean;
   status: number;
@@ -19,8 +17,6 @@ interface Props {
 }
 
 const TableComponent: React.FC<Props> = ({
-  id,
-  code,
   data,
   loading,
   status,
@@ -163,7 +159,7 @@ const TableComponent: React.FC<Props> = ({
           <Row justify="space-around">
             <Button className={styles.button_edit} type="primary">
               <NavLink
-                to={`/merchant/produk/edit/${id}/${code}/${props.id}`}
+                to={`/merchant/produk/select/edit/${props.id}`}
                 // onClick={() => visibleUpdate(props.id)}
               >
                 Edit

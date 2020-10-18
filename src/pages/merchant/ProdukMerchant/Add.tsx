@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Input, InputNumber, Button, Row, Upload, Tag } from 'antd';
-import { useHistory, useParams } from 'umi';
+import { useHistory } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import Quill from '@/components/Quill';
 import styles from './index.less';
 
-import SelectUnit from '@/components/Select/SelectUnit';
-import SelectKategori from '@/components/Select/SelectKategori';
-import SelectSubKategori from '@/components/Select/SelectSubKategori';
+import SelectUnit from './Select/SelectUnit';
+import SelectKategori from './Select/SelectKategori';
+import SelectSubKategori from './Select/SelectSubKategori';
 
 import useSelect from '@/hooks/useSelect';
 import useCreate from '@/hooks/useCreateForm';
@@ -24,7 +24,6 @@ const initialState = {
 };
 
 const ProdukAddComponent: React.FC<Props> = () => {
-  const { id, code } = useParams();
   const history = useHistory();
 
   const [{ name, sku, quantity, weight }, setState] = useState(initialState);
@@ -116,7 +115,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
     onClearSubCategories();
     onClearUnit();
     // onClearSubCategories();
-    history.push(`/merchant/produk/${id}/${code}`);
+    history.push(`/merchant/produk/select`);
   };
 
   let data_packaging = [];
@@ -136,7 +135,6 @@ const ProdukAddComponent: React.FC<Props> = () => {
     price,
     weight,
     discount,
-    id_merchant: id,
     id_unit: Number(id_unit),
     id_product_category: Number(categories),
     id_product_subcategory: Number(subcategories),
@@ -156,7 +154,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
       formData.append('images[]', images[key]);
     }
 
-    postCreate(`${REACT_APP_ENV}/admin/products`, formData, onClearState);
+    postCreate(`${REACT_APP_ENV}/merchant/products`, formData, onClearState);
   };
 
   return (
@@ -345,7 +343,6 @@ const ProdukAddComponent: React.FC<Props> = () => {
       {visible ? (
         <KemasanComponent
           visible={visible}
-          id_merchant={id}
           category={String(categories)}
           subcategory={String(subcategories)}
           onSet={setOtherPackaging}

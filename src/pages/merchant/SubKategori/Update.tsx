@@ -21,13 +21,13 @@ interface Props {
 
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
   const [name, setName] = useState('');
-  const [image, setFileImg] = useState([]);
+  // const [image, setFileImg] = useState([]);
 
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
   const [id_product, onChangeProduct, onClearProduct] = useSelect(data_update.id_parent);
 
-  const [clear, setClear] = useState([]);
+  // const [clear, setClear] = useState([]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -40,14 +40,14 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   useEffect(() => {
     if (data_update) {
       setName(data_update.name);
-      setClear([data_update.image]);
+      // setClear([data_update.image]);
     }
   }, [data_update]);
 
-  const onChangeImage = (file: any) => {
-    setFileImg((state) => [...state, file]);
-    return false;
-  };
+  // const onChangeImage = (file: any) => {
+  //   setFileImg((state) => [...state, file]);
+  //   return false;
+  // };
 
   const onChangeState = (e: any) => {
     const { value } = e.target;
@@ -55,13 +55,13 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     setName(value);
   };
 
-  const onRemoveImage = () => {
-    setFileImg([]);
-    setClear([]);
-  };
+  // const onRemoveImage = () => {
+  //   setFileImg([]);
+  //   setClear([]);
+  // };
   const onClearState = () => {
     setName('');
-    onClearProduct();
+    // onClearProduct();
     onCancel();
   };
 
@@ -81,9 +81,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     });
   };
 
-  if (image.length) {
-    DataJSON['image'] = image[0];
-  }
+  // if (image.length) {
+  //   DataJSON['image'] = image[0];
+  // }
 
   return (
     <Modal visible={visible} title="Update Sub Kategori" closable={false} footer={null}>
@@ -110,7 +110,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               />
             </div>
           </div>
-          <div className={styles.box5}>
+          {/* <div className={styles.box5}>
             <Row>
               <div className={styles.group}>
                 <Upload
@@ -134,8 +134,8 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 </div>
               ) : null}
             </Row>
-          </div>
-          {Boolean(clear.length) ? (
+          </div> */}
+          {/* {Boolean(clear.length) ? (
             <div className={styles.box10}>
               <div className={styles.group}>
                 <img
@@ -145,7 +145,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 />
               </div>
             </div>
-          ) : null}
+          ) : null} */}
         </div>
       )}
       <Row justify="end">

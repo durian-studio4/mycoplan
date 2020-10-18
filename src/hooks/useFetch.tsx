@@ -1,6 +1,13 @@
 import { useState } from 'react';
+import { message } from 'antd';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+
+message.config({
+  top: 100,
+  duration: 2,
+  maxCount: 1,
+});
 
 function App() {
   const [data, setData] = useState([]);
@@ -24,6 +31,7 @@ function App() {
       setIsError(true);
       setLoading(false);
       if (err.response && err.response.data && err.response.data.message === 'Unauthenticated.') {
+        message.warning('Sesi Telah Habis');
         history.push('/user/login');
       }
     }

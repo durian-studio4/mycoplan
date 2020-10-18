@@ -133,7 +133,7 @@ export default defineConfig({
               name: 'Merchant',
               icon: 'shop',
               path: '/merchant',
-              authority: ['admin', 'master'],
+              authority: ['admin', 'merchant', 'master'],
               routes: [
                 {
                   name: 'Daftar Merchant',
@@ -148,6 +148,25 @@ export default defineConfig({
                   path: '/merchant/banner',
                   component: './merchant/Banner',
                   authority: ['admin', 'master'],
+                },
+                {
+                  name: 'Produk',
+                  icon: 'profile',
+                  path: '/merchant/produk/select',
+                  component: './merchant/ProdukMerchant',
+                  authority: ['merchant'],
+                },
+                {
+                  hideInMenu: true,
+                  path: '/merchant/produk/select/add',
+                  component: './merchant/ProdukMerchant/Add',
+                  authority: ['merchant'],
+                },
+                {
+                  hideInMenu: true,
+                  path: '/merchant/produk/select/edit/:id',
+                  component: './merchant/ProdukMerchant/Update',
+                  authority: ['merchant'],
                 },
                 {
                   name: 'Produk',
