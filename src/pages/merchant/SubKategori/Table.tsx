@@ -47,18 +47,18 @@ const TableComponent: React.FC<Props> = ({
         key: 'no',
         ...getColumnSearchProps('no'),
       },
-      {
-        align: 'center',
-        title: 'Gambar',
-        width: 200,
-        render: (props: any) => (
-          <img
-            alt={`gambar_subkategori-${props.id}`}
-            style={{ width: '50%', height: 'auto', objectFit: 'contain' }}
-            src={props.image}
-          />
-        ),
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Gambar',
+      //   width: 200,
+      //   render: (props: any) => (
+      //     <img
+      //       alt={`gambar_subkategori-${props.id}`}
+      //       style={{ width: '50%', height: 'auto', objectFit: 'contain' }}
+      //       src={props.image}
+      //     />
+      //   ),
+      // },
       {
         align: 'center',
         title: 'Kategori Produk',
