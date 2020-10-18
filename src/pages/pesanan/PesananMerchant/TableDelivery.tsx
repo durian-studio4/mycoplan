@@ -216,7 +216,7 @@ const TableDeliveryComponent: React.FC<Props> = () => {
       {error_list || status_list !== 200 ? <PageError /> : null}
       <Table
         columns={columns}
-        dataSource={data_array}
+        dataSource={data_array.reverse()}
         loading={Boolean(loading_list)}
         scroll={{ x: 1300 }}
       />

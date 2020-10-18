@@ -218,7 +218,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
       {error_list || status_list !== 200 ? <PageError /> : null}
       <Table
         columns={columns}
-        dataSource={data_array}
+        dataSource={data_array.reverse()}
         loading={Boolean(loading_list)}
         scroll={{ x: 1300 }}
         style={{ display: pesanan_access && pesanan_access.read ? 'block' : 'none' }}

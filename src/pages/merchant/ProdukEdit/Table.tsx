@@ -111,7 +111,7 @@ const TableComponent: React.FC<Props> = ({
       // },
       {
         align: 'center',
-        title: 'Harga (Rp.)',
+        title: 'Harga Final (Rp.)',
         dataIndex: 'price',
         render: (props) => <p>{Number(props).toLocaleString()}</p>,
         key: 'price',
@@ -119,7 +119,7 @@ const TableComponent: React.FC<Props> = ({
       },
       {
         align: 'center',
-        title: 'Discount (Rp.)',
+        title: 'Harga Coret (Rp.)',
         dataIndex: 'discount',
         render: (props) => <p>{Number(props).toLocaleString()}</p>,
         key: 'discount',

@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Card, Input, Button, Row, Upload, InputNumber, Tag } from 'antd';
 import { history, useParams } from 'umi';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import ReactQuill from 'react-quill';
+import Quill from '@/components/Quill';
 import styles from './index.less';
-import 'react-quill/dist/quill.snow.css';
 
 import SelectUnit from '@/components/Select/SelectUnit';
 import SelectKategori from '@/components/Select/SelectKategori';
@@ -20,44 +19,6 @@ import PageLoading from '@/components/PageLoading';
 import KemasanComponent from '../ProdukAdd/Kemasan';
 
 interface Props {}
-
-const toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-  ['blockquote', 'code-block'],
-
-  [{ header: 1 }, { header: 2 }], // custom button values
-  [{ list: 'ordered' }, { list: 'bullet' }],
-  [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-  [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-  [{ direction: 'rtl' }], // text direction
-
-  [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-  [{ font: [] }],
-  [{ align: [] }],
-
-  ['clean'], // remove formatting button
-];
-
-const modules = {
-  toolbar: toolbarOptions,
-};
-
-const formats = [
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
-];
 
 const initialState = {
   name: '',
@@ -305,7 +266,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="price">
-                Harga
+                Harga Final
               </label>
               <InputNumber
                 style={{ width: '100%' }}
@@ -321,7 +282,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="discount">
-                Harga Diskon (Opsional)
+                Harga Coret (Optional)
               </label>
               <InputNumber
                 style={{ width: '100%' }}
@@ -393,13 +354,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="deskripsi">
                 Deskripsi Produk
               </label>
-              <ReactQuill
-                theme="snow"
-                modules={modules}
-                formats={formats}
-                value={description || ''}
-                onChange={setDescription}
-              />
+              <Quill id="deskripsi" value={description || ''} onChange={setDescription} />
             </div>
           </div>
           <div className={styles.box10}>
@@ -407,13 +362,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="informasi">
                 Informasi Lain (Optional)
               </label>
-              <ReactQuill
-                theme="snow"
-                modules={modules}
-                formats={formats}
-                value={information || ''}
-                onChange={setInformation}
-              />
+              <Quill id="informasi" value={information || ''} onChange={setInformation} />
             </div>
           </div>
           <div className={styles.box10}>

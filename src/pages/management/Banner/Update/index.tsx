@@ -52,7 +52,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (data_update) {
@@ -123,8 +123,8 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   const updatePromo = () => {
     const formData = new FormData();
 
-    if(id_voucher){
-      formData.append('id_voucher', String(id_voucher))
+    if (id_voucher) {
+      formData.append('id_voucher', String(id_voucher));
     }
 
     for (let [key, value] of Object.entries(DataJSON)) {
@@ -273,20 +273,20 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               </div>
             </div>
           ) : null}
-            {
-            banner_type !== 'gambar' ?
-          <div className={styles.box10}>
-            <div className={styles.group}>
-              <label className={styles.label} htmlFor="kode">
-                Kode Promo
-              </label>
-              <SelectAll
-                address={`${REACT_APP_ENV}/admin/vouchers`}
-                initial={data_update.voucher && data_update.voucher.name}
-                handleChange={onChangeVoucher}
-              />
+          {banner_type !== 'gambar' ? (
+            <div className={styles.box10}>
+              <div className={styles.group}>
+                <label className={styles.label} htmlFor="kode">
+                  Kode Promo
+                </label>
+                <SelectAll
+                  address={`${REACT_APP_ENV}/admin/vouchers`}
+                  initial={data_update.voucher && data_update.voucher.code}
+                  handleChange={onChangeVoucher}
+                />
+              </div>
             </div>
-          </div> : null }
+          ) : null}
         </div>
       )}
       <Row justify="end">

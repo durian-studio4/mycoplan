@@ -30,7 +30,7 @@ const EditComponent: React.FC<Props> = ({
 }) => {
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
-  const [note, setNote] = useState(0);
+  const [note, setNote] = useState('');
   const [value, setValue] = useState(0);
 
   const [isDisabled, setDisabled] = useState(false);
@@ -67,12 +67,12 @@ const EditComponent: React.FC<Props> = ({
     setValue(value);
   };
 
-  const onChangeNote = (value: any) => {
-    setNote(value);
+  const onChangeNote = (e: any) => {
+    setNote(e.target.value);
   };
 
   const onClearState = () => {
-    setNote(0);
+    setNote('');
     setValue(0);
     onClearType();
     onClearCondition();
@@ -140,12 +140,12 @@ const EditComponent: React.FC<Props> = ({
                   <label className={styles.label} htmlFor="keterangan">
                     Keterangan
                   </label>
-                  <InputNumber
-                    style={{ width: '100%' }}
-                    // className={styles.input}
+                  <Input
+                    // style={{ width: '100%' }}
+                    className={styles.input}
                     id="keterangan"
                     placeholder=""
-                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    // formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     value={note}
                     onChange={onChangeNote}
                   />
