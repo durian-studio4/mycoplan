@@ -304,7 +304,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 </label>
                 <SelectAll
                   address={`${REACT_APP_ENV}/admin/vouchers`}
-                  initial={data_update.voucher && data_update.voucher.code}
+                  initial={data_update.voucher && data_update.voucher.name}
                   handleChange={onChangeVoucher}
                 />
               </div>
