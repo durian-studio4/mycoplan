@@ -85,8 +85,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      if (JSON.parse(role)[0] === 'merchant') {
-        return false;
+      if (JSON.parse(String(role))) {
+        if (JSON.parse(String(role))[0] === 'merchant') {
+          return false;
+        }
       }
       return fetchList(`${REACT_APP_ENV}/admin/menu-auths`);
     }, 0);

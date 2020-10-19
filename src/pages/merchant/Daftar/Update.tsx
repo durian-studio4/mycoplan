@@ -235,23 +235,23 @@ const UpdateComponent: React.FC<Props> = ({
     const formData = new FormData();
 
     if (logo.length) {
-      formData.append('logo', logo[0])
+      formData.append('logo', logo[0]);
     }
 
-    if(password.length){
-      formData.append('password', password)
-      formData.append('password_confirmation', confirm_password)
+    if (password) {
+      formData.append('password', password);
+      formData.append('password_confirmation', confirm_password);
     }
 
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
+
     onCreate({
       formData,
       clear: onClearState,
     });
   };
-
 
   return (
     <Modal visible={visible} title="Update Merchant" width={800} closable={false} footer={null}>
