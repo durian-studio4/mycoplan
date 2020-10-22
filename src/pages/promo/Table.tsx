@@ -64,19 +64,19 @@ const TableComponent: React.FC<Props> = ({
         dataIndex: 'name',
         key: 'name',
       },
-      {
-        align: 'center',
-        title: 'Gambar',
-        width: 200,
-        render: (props) => (
-          <img
-            alt={`gambar_kategori-${props.id}`}
-            style={{ width: '100%', height: '30%', objectFit: 'contain' }}
-            src={props.image}
-          />
-        ),
-        key: 'gambar',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Gambar',
+      //   width: 200,
+      //   render: (props) => (
+      //     <img
+      //       alt={`gambar_kategori-${props.id}`}
+      //       style={{ width: '100%', height: '30%', objectFit: 'contain' }}
+      //       src={props.image}
+      //     />
+      //   ),
+      //   key: 'gambar',
+      // },
       {
         align: 'center',
         title: 'Kategori',

@@ -38,7 +38,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
 
-  const [file_img, setFileImg] = useState([]);
+  // const [file_img, setFileImg] = useState([]);
 
   const [max_discount, setMaxDiscount] = useState(0);
   const [min_purchase, setMinPurchase] = useState(0);
@@ -113,20 +113,20 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
     setState((state) => ({ ...state, [id]: value }));
   };
 
-  const onChangeImage = (file: any) => {
-    setFileImg((state) => [...state, file]);
-    return false;
-  };
+  // const onChangeImage = (file: any) => {
+  //   setFileImg((state) => [...state, file]);
+  //   return false;
+  // };
 
-  const onRemoveImage = (e: any) => {
-    setFileImg([]);
-  };
+  // const onRemoveImage = (e: any) => {
+  //   setFileImg([]);
+  // };
 
   const onClearState = () => {
     setState({ ...initialState });
     setStart(initialDate);
     setEnd(initialDate);
-    setFileImg([]);
+    // setFileImg([]);
     onClearCategory();
     onCancel();
   };
@@ -142,7 +142,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
     start,
     end,
     category: String(category),
-    image: file_img[0],
+    // image: file_img[0],
     description,
     terms_conditions,
     status: 'active',
@@ -328,7 +328,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
             />
           </div>
         </div>
-        <div className={styles.box10}>
+        {/* <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="gambar">
               Gambar
@@ -351,7 +351,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCancel, onCreate, onLoadButt
               </Upload>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <Row justify="end">
         {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}

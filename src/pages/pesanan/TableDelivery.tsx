@@ -1,8 +1,9 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Table, Row, Button, Popconfirm } from 'antd';
 import { NavLink } from 'umi';
 import styles from './index.less';
 
+import RequestComponent from './Request';
 import PageError from '@/components/PageError';
 
 import useFetch from '@/hooks/useFetch';
@@ -17,6 +18,9 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access }) => {
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
+  const [visible, setVisible] = useState(false);
+  const [id_transaction, setIdTransaction] = useState(0);
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       fetchList(`${REACT_APP_ENV}/admin/orders/?method=delivery`);
@@ -25,8 +29,22 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
 
+  const handleVisible = (id: string) => {
+    setIdTransaction(Number(id));
+    setVisible(!visible);
+  };
+
+  const handleVisibleClear = () => {
+    setIdTransaction(0);
+    setVisible(!visible);
+  };
+
   const updateDelivery = (id: string, id_status: string) => {
     postUpdate(`${REACT_APP_ENV}/admin/orders/${id}`, JSON.stringify({ id_status }));
+  };
+
+  const createRequest = ({ json, clear }: any) => {
+    postCreate(`${REACT_APP_ENV}/admin/gosend-booking`, json, clear);
   };
 
   let data_array = [];
@@ -135,7 +153,8 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access }) => {
                 Boolean(loading_update) ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
-                props.id_status === 3
+                props.id_status === 3 ||
+                props.id_status === 5
               }
               onClick={() => updateDelivery(props.id, '3')}
               type="primary"
@@ -161,7 +180,13 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              disabled={Boolean(loading_update) || props.id_status === 8 || props.id_status === 7}
+              onClick={() => handleVisible(props.id)}
+              disabled={
+                Boolean(loading_update) ||
+                props.id_status === 8 ||
+                props.id_status === 7 ||
+                props.id_status === 5
+              }
               type="primary"
             >
               Request
@@ -194,7 +219,8 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access }) => {
                   Boolean(loading_update) ||
                   props.id_status === 8 ||
                   props.id_status === 7 ||
-                  props.id_status === 3
+                  props.id_status === 3 ||
+                  props.id_status === 5
                 }
                 type="primary"
               >
@@ -223,6 +249,15 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access }) => {
         scroll={{ x: 1300 }}
         style={{ display: pesanan_access && pesanan_access.read ? 'block' : 'none' }}
       />
+      {visible ? (
+        <RequestComponent
+          visible={visible}
+          id_transaction={id_transaction}
+          onCreate={createRequest}
+          onCancel={handleVisibleClear}
+          onLoadButton={Boolean(loading_update)}
+        />
+      ) : null}
     </>
   );
 };

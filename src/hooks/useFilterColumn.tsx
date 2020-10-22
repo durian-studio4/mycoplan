@@ -22,7 +22,7 @@ const useFilterColumn = () => {
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
       <div style={{ padding: 8 }}>
         <Input
-          className={styles.input}
+          // className={styles.input}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0] || ''}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
@@ -34,9 +34,7 @@ const useFilterColumn = () => {
         <Button onClick={() => handleReset(clearFilters)}>Reset</Button>
       </div>
     ),
-    filterIcon: (filtered: any) => (
-      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-    ),
+    filterIcon: (filtered: any) => <SearchOutlined style={{ color: '#ff7834' }} />,
     onFilter: (value: any, record: any) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
   });

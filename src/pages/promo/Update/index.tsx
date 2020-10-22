@@ -42,8 +42,8 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
   const [start, setStart] = useState(initialDate);
   const [end, setEnd] = useState(initialDate);
 
-  const [image, setFileImg] = useState([]);
-  const [clear, setClear] = useState([]);
+  // const [image, setFileImg] = useState([]);
+  // const [clear, setClear] = useState([]);
 
   const [max_discount, setMaxDiscount] = useState(0);
   const [min_purchase, setMinPurchase] = useState(0);
@@ -69,7 +69,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
       setDiscount(data_update.discount);
       setMaxDiscount(data_update.max_discount);
       setMinPurchase(data_update.min_purchase);
-      setClear([data_update.image]);
+      // setClear([data_update.image]);
     }, 100);
     return () => clearTimeout(timeOut);
   }, [data_update]);
@@ -135,10 +135,10 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     setMinPurchase(value);
   };
 
-  const onChangeImage = (file: any) => {
-    setFileImg((state) => [...state, file]);
-    return false;
-  };
+  // const onChangeImage = (file: any) => {
+  //   setFileImg((state) => [...state, file]);
+  //   return false;
+  // };
 
   const onChangeState = (e: any) => {
     const { id, value } = e.target;
@@ -146,16 +146,16 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     setState((state) => ({ ...state, [id]: value }));
   };
 
-  const onRemoveImage = () => {
-    setFileImg([]);
-    setClear([]);
-  };
+  // const onRemoveImage = () => {
+  //   setFileImg([]);
+  //   setClear([]);
+  // };
 
   const onClearState = () => {
     setState({ ...initialState });
     setStart(initialDate);
     setEnd(initialDate);
-    onRemoveImage();
+    // onRemoveImage();
     onClearCategory();
     onCancel();
   };
@@ -187,9 +187,9 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
     });
   };
 
-  if (image.length) {
-    DataJSON['image'] = image[0];
-  }
+  // if (image.length) {
+  //   DataJSON['image'] = image[0];
+  // }
 
   return (
     <Modal visible={visible} title="Edit Promo" width={600} closable={false} footer={null}>
@@ -368,7 +368,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
               />
             </div>
           </div>
-          <div className={styles.box10}>
+          {/* <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="gambar">
                 Gambar
@@ -404,7 +404,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 ) : null}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
       <Row justify="end">

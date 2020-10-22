@@ -29,8 +29,9 @@ function App() {
       message.success('success');
       return result;
     } catch (error) {
-      console.log(error, 'error');
-      console.log(error.response, 'error');
+      if (error.response) {
+        message.error(error.response.data.message);
+      }
       setLoading(false);
     }
   };
@@ -51,8 +52,9 @@ function App() {
       message.success('updated');
       return result;
     } catch (error) {
-      console.log(error, 'error');
-      console.log(error.response, 'error');
+      if (error.response) {
+        message.error(error.response.data.message);
+      }
       setLoading(false);
     }
   };
@@ -73,7 +75,9 @@ function App() {
     } catch (error) {
       console.log(error, 'error');
       console.log(error.response, 'error');
-      message.error(error.response.data.message);
+      if (error.response) {
+        message.error(error.response.data.message);
+      }
       setLoading(false);
     }
   };
