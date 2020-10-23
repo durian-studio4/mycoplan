@@ -209,7 +209,8 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access }) => {
                 Boolean(loading_update) ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
-                props.id_status === 3
+                props.id_status === 3 ||
+                props.id_status === 5
               }
             >
               <Button

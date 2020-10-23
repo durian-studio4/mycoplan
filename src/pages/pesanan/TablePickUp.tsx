@@ -153,7 +153,8 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
                 Boolean(loading_update) ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
-                props.id_status === 3
+                props.id_status === 3 ||
+                props.id_status === 5
               }
               onClick={() => updateDelivery(props.id, '3')}
               type="primary"
@@ -180,7 +181,12 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
               className={styles.button_action}
               id={props.id}
               onClick={() => handleVisible(props.id)}
-              disabled={Boolean(loading_update) || props.id_status === 8 || props.id_status === 7}
+              disabled={
+                Boolean(loading_update) ||
+                props.id_status === 8 ||
+                props.id_status === 7 ||
+                props.id_status === 5
+              }
               type="primary"
             >
               Request
@@ -203,7 +209,8 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
                 Boolean(loading_update) ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
-                props.id_status === 3
+                props.id_status === 3 ||
+                props.id_status === 5
               }
             >
               <Button
@@ -213,7 +220,8 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
                   Boolean(loading_update) ||
                   props.id_status === 8 ||
                   props.id_status === 7 ||
-                  props.id_status === 3
+                  props.id_status === 3 ||
+                  props.id_status === 5
                 }
                 type="primary"
               >
