@@ -119,7 +119,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit 
         align: 'center',
         title: 'Action',
         fixed: 'right',
-        width: 180,
+        width: 200,
         render: (props: any) => (
           <Row justify="space-around">
             {!props.id_adjustment ? (
@@ -129,7 +129,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit 
                 onClick={() => handleAdd(props.id, props.nama_produk)}
                 type="primary"
               >
-                Tambah Harga
+                Penyesuaian Harga
               </Button>
             ) : (
               <Button
@@ -138,7 +138,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit 
                 onClick={() => handleEdit(props.id_adjustment, props.nama_produk)}
                 type="primary"
               >
-                Edit Harga
+                Penyesuaian Harga
               </Button>
             )}
           </Row>
