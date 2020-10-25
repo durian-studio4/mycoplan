@@ -51,7 +51,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
 
   for (let key in data_list) {
     data_array.push({
-      no: Number(key) + 1,
+      // no: Number(key) + 1,
       id: data_list[key].id,
       id_status: data_list[key].id_status,
       nama: data_list[key].nama,
@@ -69,9 +69,9 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
     () => [
       {
         align: 'center',
-        title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        title: 'No. Transaksi',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
@@ -130,12 +130,11 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access }) => {
           <NavLink to={`/pesanan/detail/${props.id}`}>
             <Button
               className={styles.button_action}
-              disabled={Boolean(loading_update) || props.id_status === 8 || props.id_status === 7}
+              disabled={Boolean(loading_update)}
               type="primary"
             >
               Lihat Detail
             </Button>
-            ,
           </NavLink>
         ),
       },

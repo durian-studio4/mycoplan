@@ -19,6 +19,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit 
       no: Number(key) + 1,
       id: data[key].id,
       id_adjustment: data[key].adjustment_id,
+      adjustment: data[key].adjustment_value,
       sku: data[key].sku,
       image: data[key].image,
       nama_produk: data[key].name,
@@ -107,13 +108,16 @@ const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit 
         render: (props) => <p>{Number(props).toLocaleString()}</p>,
         key: 'total_price',
       },
-      {
-        align: 'center',
-        title: 'Penyesuaian',
-      },
+      // {
+      //   align: 'center',
+      //   title: 'Penyesuaian',
+      // },
       {
         align: 'center',
         title: 'Perubahan Harga (Rp.)',
+        dataIndex: 'adjustment',
+        render: (props) => <p>{Number(props).toLocaleString()}</p>,
+        key: 'adjustment',
       },
       {
         align: 'center',

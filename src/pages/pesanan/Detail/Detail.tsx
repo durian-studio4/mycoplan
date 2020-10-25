@@ -93,13 +93,24 @@ const DetailComponent: React.FC<Props> = ({ data, loading }) => {
               <tbody>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
+                    Metode Pembayaran
+                  </td>
+                  <td align="center">:</td>
+                  {/* <td align="right">
+                    {detail_payment && detail_payment.total_order
+                      ? Number(detail_payment.total_order).toLocaleString()
+                      : '-'}
+                  </td> */}
+                </tr>
+                <tr>
+                  <td align="left" style={{ width: '30%' }}>
                     Total Pesanan
                   </td>
                   <td align="center">:</td>
                   <td align="right">
                     {detail_payment && detail_payment.total_order
                       ? Number(detail_payment.total_order).toLocaleString()
-                      : null}
+                      : '-'}
                   </td>
                 </tr>
                 <tr>
@@ -110,7 +121,7 @@ const DetailComponent: React.FC<Props> = ({ data, loading }) => {
                   <td align="right">
                     {detail_payment && detail_payment.delivery
                       ? Number(detail_payment.delivery).toLocaleString()
-                      : null}
+                      : '-'}
                   </td>
                 </tr>
                 <tr>
@@ -118,14 +129,18 @@ const DetailComponent: React.FC<Props> = ({ data, loading }) => {
                     Promo
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_payment && detail_payment.promo}</td>
+                  <td align="right">
+                    {detail_payment && detail_payment.promo ? detail_payment.promo : '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
                     Penyesuaian Harga
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_payment && detail_payment.adjustment}</td>
+                  <td align="right">
+                    {detail_payment && detail_payment.adjustment ? detail_payment.adjustment : '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
@@ -135,7 +150,7 @@ const DetailComponent: React.FC<Props> = ({ data, loading }) => {
                   <td align="right">
                     {detail_payment && detail_payment.total_payment
                       ? Number(detail_payment.total_payment).toLocaleString()
-                      : null}
+                      : '-'}
                   </td>
                 </tr>
               </tbody>

@@ -49,7 +49,7 @@ const TableDeliveryComponent: React.FC<Props> = () => {
 
   for (let key in data_list) {
     data_array.push({
-      no: Number(key) + 1,
+      // no: Number(key) + 1,
       id: data_list[key].id,
       id_status: data_list[key].id_status,
       nama: data_list[key].nama,
@@ -67,9 +67,9 @@ const TableDeliveryComponent: React.FC<Props> = () => {
     () => [
       {
         align: 'center',
-        title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
+        title: 'No. Transaksi',
+        dataIndex: 'id',
+        key: 'id',
       },
       {
         align: 'center',
@@ -133,7 +133,6 @@ const TableDeliveryComponent: React.FC<Props> = () => {
             >
               Lihat Detail
             </Button>
-            ,
           </NavLink>
         ),
       },
