@@ -77,6 +77,7 @@ const PesananDetailComponent: React.FC<Props> = () => {
         <DetailComponent data={data_list} loading={Boolean(loading_list)} />
         <TableComponent
           data={data_list.products}
+          status={data_list.detail_order}
           loading={Boolean(loading_list)}
           handleAdd={handleVisibleAdd}
           handleEdit={handleVisibleEdit}

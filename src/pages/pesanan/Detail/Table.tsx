@@ -5,11 +5,12 @@ import styles from './index.less';
 interface Props {
   data: any;
   loading: boolean;
+  status: any;
   handleAdd: (id: string, name: string) => void;
   handleEdit: (id: string, name: string) => void;
 }
 
-const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit }) => {
+const TableComponent: React.FC<Props> = ({ data, loading, status, handleAdd, handleEdit }) => {
   // const [getColumnSearchProps] = useFilterColumn();
 
   let data_array = [];
@@ -132,6 +133,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit 
                 id={props.id_adjustment}
                 onClick={() => handleAdd(props.id, props.nama_produk)}
                 type="primary"
+                disabled={status && (status.id_status === 7 || status.id_status === 8)}
               >
                 Penyesuaian Harga
               </Button>
@@ -141,6 +143,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit 
                 id={props.id_adjustment}
                 onClick={() => handleEdit(props.id_adjustment, props.nama_produk)}
                 type="primary"
+                disabled={status && (status.id_status === 7 || status.id_status === 8)}
               >
                 Penyesuaian Harga
               </Button>
@@ -150,7 +153,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, handleAdd, handleEdit 
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [status],
   );
 
   // if (error) {

@@ -43,7 +43,7 @@ const RequestComponent: React.FC<Props> = ({
   };
 
   return (
-    <Modal visible={visible} title="Request Pesanan" closable={false} footer={null}>
+    <Modal visible={visible} title="Request Delivery" closable={false} footer={null}>
       <div className={styles.modal_body}>
         <div className={styles.box10}>
           <div className={styles.group}>

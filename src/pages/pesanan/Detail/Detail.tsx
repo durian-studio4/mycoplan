@@ -27,56 +27,128 @@ const DetailComponent: React.FC<Props> = ({ data, loading }) => {
                     Metode
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_order && detail_order.method}</td>
+                  <td align="right">
+                    {detail_order && detail_order.method ? detail_order.method : '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
                     Super Market
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_order && detail_order.merchant_name}</td>
+                  <td align="right">
+                    {detail_order && detail_order.merchant_name ? detail_order.merchant_name : '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
                     No. Pesanan
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_order && detail_order.transaction_code}</td>
+                  <td align="right">
+                    {detail_order && detail_order.transaction_code
+                      ? detail_order.transaction_code
+                      : '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
                     Status Transaksi
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_order && detail_order.transaction_status}</td>
+                  <td align="right">
+                    {detail_order && detail_order.transaction_status
+                      ? detail_order.transaction_status
+                      : '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
                     Tanggal Transaksi
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_order && detail_order.transaction_date}</td>
+                  <td align="right">
+                    {detail_order && detail_order.transaction_date
+                      ? detail_order.transaction_date
+                      : '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
-                    Jadwal Delivery
+                    Tanggal Delivery
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_order && detail_order.delivery_schedule}</td>
+                  <td align="right">
+                    {detail_order && detail_order.delivery_schedule
+                      ? detail_order.delivery_schedule
+                      : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" style={{ width: '30%' }}>
+                    Waktu Delivery
+                  </td>
+                  <td align="center">:</td>
+                  <td align="right">
+                    {detail_order && detail_order.start_time && detail_order.end_time
+                      ? detail_order.start_time + ' - ' + detail_order.end_time
+                      : '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
                     Nama Penerima
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_order && detail_order.recipient_name}</td>
+                  <td align="right">
+                    {detail_order && detail_order.recipient_name
+                      ? detail_order.recipient_name
+                      : '-'}
+                  </td>
                 </tr>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
                     Nomor Telepon
                   </td>
                   <td align="center">:</td>
-                  <td align="right">{detail_order && detail_order.recipient_phone}</td>
+                  <td align="right">
+                    {detail_order && detail_order.recipient_phone
+                      ? detail_order.recipient_phone
+                      : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" style={{ width: '30%' }}>
+                    Alamat Kirim
+                  </td>
+                  <td align="center">:</td>
+                  <td align="right">
+                    {detail_order && detail_order.recipient_address
+                      ? detail_order.recipient_address
+                      : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" style={{ width: '30%' }}>
+                    Detail Alamat
+                  </td>
+                  <td align="center">:</td>
+                  <td align="right">
+                    {detail_order && detail_order.recipient_address_detail
+                      ? detail_order.recipient_address_detail
+                      : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" style={{ width: '30%' }}>
+                    Catatan Untuk Toko
+                  </td>
+                  <td align="center">:</td>
+                  <td align="right">
+                    {detail_order && detail_order.recipient_note
+                      ? detail_order.recipient_note
+                      : '-'}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -119,8 +191,8 @@ const DetailComponent: React.FC<Props> = ({ data, loading }) => {
                   </td>
                   <td align="center">:</td>
                   <td align="right">
-                    {detail_payment && detail_payment.delivery
-                      ? Number(detail_payment.delivery).toLocaleString()
+                    {detail_payment && detail_payment.total_delivery
+                      ? Number(detail_payment.total_delivery).toLocaleString()
                       : '-'}
                   </td>
                 </tr>
@@ -130,7 +202,9 @@ const DetailComponent: React.FC<Props> = ({ data, loading }) => {
                   </td>
                   <td align="center">:</td>
                   <td align="right">
-                    {detail_payment && detail_payment.promo ? detail_payment.promo : '-'}
+                    {detail_payment && detail_payment.promo
+                      ? Number(detail_payment.promo).toLocaleString()
+                      : '-'}
                   </td>
                 </tr>
                 <tr>
@@ -139,7 +213,9 @@ const DetailComponent: React.FC<Props> = ({ data, loading }) => {
                   </td>
                   <td align="center">:</td>
                   <td align="right">
-                    {detail_payment && detail_payment.adjustment ? detail_payment.adjustment : '-'}
+                    {detail_payment && detail_payment.adjustment
+                      ? Number(detail_payment.adjustment).toLocaleString()
+                      : '-'}
                   </td>
                 </tr>
                 <tr>
