@@ -180,20 +180,34 @@ const TableDeliveryComponent: React.FC<Props> = () => {
               Request Delivery
             </Button>
 
-            <Button
-              className={styles.button_action}
-              id={props.id}
+            <Popconfirm
+              title="Apakah Anda Ingin Penyesuaian?"
+              onConfirm={() => updateDelivery(props.id, '6')}
+              okText="Yes"
+              cancelText="No"
               disabled={
                 Boolean(loading_update) ||
                 props.id_status === 2 ||
+                props.id_status === 6 ||
                 props.id_status === 8 ||
                 props.id_status === 7
               }
-              onClick={() => updateDelivery(props.id, '6')}
-              type="primary"
             >
-              Penyesuaian
-            </Button>
+              <Button
+                className={styles.button_action}
+                id={props.id}
+                disabled={
+                  Boolean(loading_update) ||
+                  props.id_status === 2 ||
+                  props.id_status === 6 ||
+                  props.id_status === 8 ||
+                  props.id_status === 7
+                }
+                type="primary"
+              >
+                Penyesuaian
+              </Button>
+            </Popconfirm>
 
             <Popconfirm
               title="Apakah Anda Ingin Selesai?"
