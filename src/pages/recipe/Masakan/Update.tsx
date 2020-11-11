@@ -266,7 +266,7 @@ const UpdateComponent: React.FC<Props> = () => {
   const DataJSON = {
     name,
     author,
-    video,
+    video: !video ? '' : video,
     production_time,
     portion_max,
     portion_min,
