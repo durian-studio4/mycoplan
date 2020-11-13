@@ -159,19 +159,18 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access, status }) => {
             <Button
               className={styles.button_action}
               id={props.id}
-              onClick={() => updateDelivery(props.id, '5')}
+              onClick={() => updateDelivery(props.id, '4')}
               disabled={
                 Boolean(loading_update) ||
                 props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
-                props.id_status === 5 ||
                 props.id_status === 7
               }
               type="primary"
             >
-              Siap Untuk Pick Up
+              Pesanan Di Kirim
             </Button>
 
             <Popconfirm
