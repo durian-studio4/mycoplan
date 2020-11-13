@@ -1,6 +1,7 @@
 import React, { Fragment, useMemo, useState, useEffect } from 'react';
 import { Table, Row, Button, Popconfirm } from 'antd';
 import { NavLink } from 'umi';
+import { format } from 'date-fns';
 import styles from './index.less';
 
 import RequestComponent from './Request';
@@ -146,6 +147,7 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
               cancelText="No"
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
@@ -157,6 +159,7 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
                 id={props.id}
                 disabled={
                   Boolean(loading_update) ||
+                  props.id_status === 1 ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
                   props.id_status === 7 ||
@@ -174,6 +177,7 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
               onClick={() => handleVisible(props.id)}
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 3 ||
                 props.id_status === 6 ||
@@ -192,6 +196,7 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
               cancelText="No"
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
@@ -203,6 +208,7 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
                 id={props.id}
                 disabled={
                   Boolean(loading_update) ||
+                  props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
@@ -221,6 +227,7 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
               cancelText="No"
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 8 ||
                 props.id_status === 7
@@ -231,6 +238,7 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
                 id={props.id}
                 disabled={
                   Boolean(loading_update) ||
+                  props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 8 ||
                   props.id_status === 7

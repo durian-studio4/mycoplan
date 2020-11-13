@@ -142,6 +142,7 @@ const TableDeliveryComponent: React.FC<Props> = () => {
               cancelText="No"
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
@@ -153,6 +154,7 @@ const TableDeliveryComponent: React.FC<Props> = () => {
                 id={props.id}
                 disabled={
                   Boolean(loading_update) ||
+                  props.id_status === 1 ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
                   props.id_status === 7 ||
@@ -170,6 +172,7 @@ const TableDeliveryComponent: React.FC<Props> = () => {
               onClick={() => handleVisible(props.id)}
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
@@ -187,6 +190,7 @@ const TableDeliveryComponent: React.FC<Props> = () => {
               cancelText="No"
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
@@ -198,6 +202,7 @@ const TableDeliveryComponent: React.FC<Props> = () => {
                 id={props.id}
                 disabled={
                   Boolean(loading_update) ||
+                  props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
@@ -216,6 +221,7 @@ const TableDeliveryComponent: React.FC<Props> = () => {
               cancelText="No"
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 8 ||
                 props.id_status === 7
@@ -226,6 +232,7 @@ const TableDeliveryComponent: React.FC<Props> = () => {
                 id={props.id}
                 disabled={
                   Boolean(loading_update) ||
+                  props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 8 ||
                   props.id_status === 7

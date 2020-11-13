@@ -132,6 +132,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access, status }) => {
               cancelText="No"
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
@@ -143,6 +144,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access, status }) => {
                 id={props.id}
                 disabled={
                   Boolean(loading_update) ||
+                  props.id_status === 1 ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
                   props.id_status === 7 ||
@@ -160,6 +162,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access, status }) => {
               onClick={() => updateDelivery(props.id, '5')}
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
@@ -178,6 +181,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access, status }) => {
               cancelText="No"
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
@@ -189,6 +193,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access, status }) => {
                 id={props.id}
                 disabled={
                   Boolean(loading_update) ||
+                  props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
@@ -207,6 +212,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access, status }) => {
               cancelText="No"
               disabled={
                 Boolean(loading_update) ||
+                props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 8 ||
                 props.id_status === 7
@@ -217,6 +223,7 @@ const TablePickUpComponent: React.FC<Props> = ({ pesanan_access, status }) => {
                 id={props.id}
                 disabled={
                   Boolean(loading_update) ||
+                  props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 8 ||
                   props.id_status === 7

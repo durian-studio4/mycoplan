@@ -165,17 +165,6 @@ const DetailComponent: React.FC<Props> = ({ data, loading }) => {
               <tbody>
                 <tr>
                   <td align="left" style={{ width: '30%' }}>
-                    Metode Pembayaran
-                  </td>
-                  <td align="center">:</td>
-                  {/* <td align="right">
-                    {detail_payment && detail_payment.total_order
-                      ? Number(detail_payment.total_order).toLocaleString()
-                      : '-'}
-                  </td> */}
-                </tr>
-                <tr>
-                  <td align="left" style={{ width: '30%' }}>
                     Total Pesanan
                   </td>
                   <td align="center">:</td>
