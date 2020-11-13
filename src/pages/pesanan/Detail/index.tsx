@@ -16,7 +16,7 @@ import useCreate from '@/hooks/useCreate';
 interface Props {}
 
 const PesananDetailComponent: React.FC<Props> = () => {
-  const { id } = useParams();
+  const { role, id } = useParams();
 
   const [visible, setVisible] = useState(false);
   const [id_product, setIdProduct] = useState('');
@@ -30,11 +30,11 @@ const PesananDetailComponent: React.FC<Props> = () => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchList(`${REACT_APP_ENV}/admin/orders/${id}`);
+      fetchList(`${REACT_APP_ENV}/${role}/orders/${id}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, status_update]);
+  }, [id, role, status_update]);
 
   const handleVisibleAdd = (product_id: string, product_name: string) => {
     setVisible(!visible);

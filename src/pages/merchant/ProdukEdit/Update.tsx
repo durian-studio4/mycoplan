@@ -177,7 +177,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     history.push(`/merchant/produk/${id}/${code}`);
   };
 
-  let data_packaging: any = [];
+  let data_packaging = [];
 
   for (let key in other_packaging) {
     // data_packaging.push({
@@ -212,7 +212,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     id_unit: String(id_unit),
     id_product_category: String(categories),
     id_product_subcategory: String(subcategories),
-    other_packaging: JSON.stringify(data_packaging),
+    other_packaging: !data_packaging.length ? [] : JSON.stringify(data_packaging),
     description,
     information: !information ? '' : information,
     status: 'active',

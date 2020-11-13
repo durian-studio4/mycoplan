@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Card, Row, Input, Tabs } from 'antd';
+import { Button, Card, Row, Tabs } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.less';
 

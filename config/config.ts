@@ -8,24 +8,6 @@ const { winPath } = utils; // preview.pro.ant.design only do not use in your pro
 
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV, GA_KEY } = process.env;
 
-// const role = localStorage.getItem('role')
-
-// const getDefaultRoutes = () => {
-//   if(JSON.parse(role)[0] === 'merchant'){
-//     return {
-//       path: '/',
-//       redirect: '/penjualan',
-//       authority: ['merchant'],
-//     }
-//   }else{
-//     return {
-//     path: '/',
-//     redirect: '/dashboard',
-//     authority: ['admin',  'master'],
-//   }
-// }
-// }
-
 export default defineConfig({
   hash: true,
   antd: {},
@@ -232,7 +214,7 @@ export default defineConfig({
             },
             {
               hideInMenu: true,
-              path: '/pesanan/detail/:id',
+              path: '/pesanan/detail/:role/:id',
               component: './pesanan/Detail',
             },
             {

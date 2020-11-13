@@ -1,15 +1,14 @@
-import React, { Fragment, useMemo, useState, useEffect } from 'react';
-import { Table, Row, Button, Popconfirm } from 'antd';
-import { NavLink } from 'umi';
-import { format } from 'date-fns';
-import styles from './index.less';
+import React, { useState, useEffect } from 'react';
+import { Table } from 'antd';
 
 import RequestComponent from './Request';
+import LacakComponent from './Lacak';
 import PageError from '@/components/PageError';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
 
+import { useTableDelivery } from './utils/TableAdmin';
 interface Props {
   pesanan_access: any;
   status: number;
@@ -21,6 +20,7 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
   const [visible, setVisible] = useState(false);
+  const [visible_pesanan, setVisiblePesanan] = useState(false);
   const [id_transaction, setIdTransaction] = useState(0);
 
   useEffect(() => {
@@ -39,6 +39,16 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
   const handleVisibleClear = () => {
     setIdTransaction(0);
     setVisible(!visible);
+  };
+
+  const handleVisiblePesanan = (id: string) => {
+    setIdTransaction(Number(id));
+    setVisiblePesanan(!visible_pesanan);
+  };
+
+  const handleVisiblePesananClear = () => {
+    setIdTransaction(0);
+    setVisiblePesanan(false);
   };
 
   const updateDelivery = (id: string, id_status: string) => {
@@ -69,226 +79,12 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
     });
   }
 
-  const columns = useMemo(
-    () => [
-      {
-        align: 'center',
-        title: 'Status Transaksi',
-        dataIndex: 'status',
-        key: 'status',
-      },
-      {
-        align: 'center',
-        title: 'No. Transaksi',
-        dataIndex: 'id',
-        key: 'id',
-      },
-      {
-        align: 'center',
-        title: 'No. Pesanan',
-        dataIndex: 'pesanan',
-        key: 'pesanan',
-      },
-      {
-        align: 'center',
-        title: 'Merchant',
-        dataIndex: 'merchant',
-        key: 'merchant',
-      },
-      {
-        align: 'center',
-        title: 'Total Pembayaran (Rp.)',
-        dataIndex: 'total',
-        render: (props) => <p>{Number(props).toLocaleString()}</p>,
-        key: 'total',
-      },
-      {
-        align: 'center',
-        title: 'Tanggal Transaksi',
-        dataIndex: 'tanggal',
-        key: 'tanggal',
-      },
-      {
-        align: 'center',
-        title: 'Jadwal Delivery',
-        key: 'jadwal',
-        render: (props: any) => (
-          <Fragment>
-            <p>
-              {props.start} - {props.end}
-            </p>
-            <p>{props.jadwal}</p>
-          </Fragment>
-        ),
-      },
-      {
-        align: 'center',
-        title: 'Nama Penerima',
-        dataIndex: 'nama',
-        key: 'nama',
-      },
-      {
-        align: 'center',
-        title: 'Nomor Telepon',
-        dataIndex: 'telepon',
-        key: 'telepon',
-      },
-      {
-        align: 'center',
-        title: 'Action',
-        fixed: 'right',
-        width: 190,
-        render: (props: any) => (
-          <Row justify="center">
-            <Popconfirm
-              title="Apakah Anda Ingin Terima?"
-              onConfirm={() => updateDelivery(props.id, '3')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading_update) ||
-                props.id_status === 1 ||
-                props.id_status === 6 ||
-                props.id_status === 8 ||
-                props.id_status === 7 ||
-                props.id_status === 3
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading_update) ||
-                  props.id_status === 1 ||
-                  props.id_status === 6 ||
-                  props.id_status === 8 ||
-                  props.id_status === 7 ||
-                  props.id_status === 3
-                }
-                type="primary"
-              >
-                Terima
-              </Button>
-            </Popconfirm>
-
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => handleVisible(props.id)}
-              disabled={
-                Boolean(loading_update) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 6 ||
-                props.id_status === 8 ||
-                props.id_status === 7
-              }
-              type="primary"
-            >
-              Request Delivery
-            </Button>
-
-            <Popconfirm
-              title="Apakah Anda Ingin Penyesuaian?"
-              onConfirm={() => updateDelivery(props.id, '6')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading_update) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 6 ||
-                props.id_status === 8 ||
-                props.id_status === 7
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading_update) ||
-                  props.id_status === 1 ||
-                  props.id_status === 2 ||
-                  props.id_status === 6 ||
-                  props.id_status === 8 ||
-                  props.id_status === 7
-                }
-                type="primary"
-              >
-                Penyesuaian
-              </Button>
-            </Popconfirm>
-
-            <Popconfirm
-              title="Apakah Anda Ingin Selesai?"
-              onConfirm={() => updateDelivery(props.id, '7')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading_update) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 8 ||
-                props.id_status === 7
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading_update) ||
-                  props.id_status === 1 ||
-                  props.id_status === 2 ||
-                  props.id_status === 8 ||
-                  props.id_status === 7
-                }
-                type="primary"
-              >
-                Pesanan Selesai
-              </Button>
-            </Popconfirm>
-
-            <Popconfirm
-              title="Apakah Anda Ingin Batalkan?"
-              onConfirm={() => updateDelivery(props.id, '8')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading_update) ||
-                props.id_status === 6 ||
-                props.id_status === 8 ||
-                props.id_status === 7
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading_update) ||
-                  props.id_status === 6 ||
-                  props.id_status === 8 ||
-                  props.id_status === 7
-                }
-                type="primary"
-              >
-                Batalkan
-              </Button>
-            </Popconfirm>
-
-            <Button
-              className={styles.button_action}
-              disabled={Boolean(loading_update)}
-              type="primary"
-            >
-              <NavLink to={`/pesanan/detail/${props.id}`}>Lihat Detail</NavLink>
-            </Button>
-          </Row>
-        ),
-      },
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  const [columns] = useTableDelivery({
+    loading: Boolean(loading_update),
+    updateDelivery,
+    handleVisiblePesanan,
+    handleVisible,
+  });
 
   // if (error) {
   //   return <PageError status={status} />;
@@ -311,6 +107,14 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
           onCreate={createRequest}
           onCancel={handleVisibleClear}
           onLoadButton={Boolean(loading_update)}
+        />
+      ) : null}
+      {visible_pesanan ? (
+        <LacakComponent
+          role="admin"
+          visible={visible_pesanan}
+          id_transaction={id_transaction}
+          onCancel={handleVisiblePesananClear}
         />
       ) : null}
     </>
