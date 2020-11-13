@@ -195,7 +195,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="discount">
-              Harga Coret (Optional)
+              Harga Discount (Optional)
             </label>
             <InputNumber
               style={{ width: '100%' }}

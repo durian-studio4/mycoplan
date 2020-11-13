@@ -28,6 +28,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, handleAdd, han
       sub_kategori: data[key].subcategory,
       quantity: data[key].quantity,
       unit: data[key].unit,
+      weight: data[key].weight,
       unit_price: data[key].unit_price,
       total_price: data[key].total_price,
     });
@@ -82,6 +83,12 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, handleAdd, han
         title: 'Sub Kategori',
         dataIndex: 'sub_kategori',
         key: 'sub_kategori',
+      },
+      {
+        align: 'center',
+        title: 'Berat',
+        dataIndex: 'weight',
+        key: 'weight',
       },
       {
         align: 'center',
