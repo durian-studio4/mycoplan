@@ -52,8 +52,8 @@ const PesananComponent: React.FC<Props> = () => {
               <TabPane tab="Dalam Proses" key="3">
                 <TableDelivery pesanan_access={pesanan_access} status={3} />
               </TabPane>
-              <TabPane tab="Sedang Dikirim" key="5">
-                <TableDelivery pesanan_access={pesanan_access} status={5} />
+              <TabPane tab="Sedang Dikirim" key="4">
+                <TableDelivery pesanan_access={pesanan_access} status={4} />
               </TabPane>
               <TabPane tab="Penyesuaian" key="6">
                 <TableDelivery pesanan_access={pesanan_access} status={6} />
