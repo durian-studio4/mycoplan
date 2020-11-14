@@ -1,5 +1,6 @@
 import React, { useMemo, Fragment } from 'react';
 import { Row, Button, Popconfirm } from 'antd';
+import moment from 'moment';
 import { NavLink } from 'umi';
 import styles from '../index.less';
 
@@ -59,14 +60,17 @@ export const useTableDelivery = ({
         align: 'center',
         title: 'Jadwal Delivery',
         key: 'jadwal',
-        render: (props: any) => (
-          <Fragment>
-            <p>
-              {props.start} - {props.end}
-            </p>
-            <p>{props.jadwal}</p>
-          </Fragment>
-        ),
+        render: (props: any) => {
+          // console.log(moment(new Date(props.start).getHours(), 'hmm').format('HH:mm'));
+          return (
+            <Fragment>
+              <p>
+                {props.start} -{props.end}
+              </p>
+              <p>{props.jadwal}</p>
+            </Fragment>
+          );
+        },
       },
       {
         align: 'center',

@@ -30,9 +30,14 @@ function App() {
     } catch (err) {
       setIsError(true);
       setLoading(false);
+      console.log(err.response);
       if (err.response && err.response.data && err.response.data.message === 'Unauthenticated.') {
         message.warning('Sesi Telah Habis');
         history.push('/user/login');
+      }
+
+      if (err.response.data.message) {
+        message.warning(err.response.data.message);
       }
     }
   };

@@ -15,11 +15,11 @@ interface Props {
 }
 
 const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCancel }) => {
-  const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
+  const [data_list, status_list, loading_list, error_list, fetchData] = useFetch();
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchUpdate(`${REACT_APP_ENV}/${role}/gosend-booking/${id_transaction}`);
+      fetchData(`${REACT_APP_ENV}/${role}/gosend-booking/${id_transaction}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,8 +27,8 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCanc
 
   return (
     <Modal visible={visible} title="Lacak Pesanan" onCancel={onCancel} footer={null}>
-      {status_update !== 200 || error_update ? <PageError /> : null}
-      {loading_update ? (
+      {status_list !== 200 || error_list ? <PageError /> : null}
+      {Boolean(loading_list) ? (
         <PageLoading />
       ) : (
         <div className={styles.modal_body}>
@@ -38,10 +38,10 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCanc
                 style={{ verticalAlign: 'middle' }}
                 size="large"
                 gap={2}
-                src={data_update.driverPhoto}
+                src={data_list.driverPhoto}
               />
               <Row justify="space-between" style={{ width: '90%', marginTop: 10 }}>
-                <p>{data_update.driverName ? data_update.driverName : '-'}</p>
+                <p>{data_list.driverName ? data_list.driverName : '-'}</p>
                 {/*
                 <div>
                   5
@@ -54,8 +54,9 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCanc
           <div className={styles.box10}>
             <Row align="middle" style={{ margin: 10 }}>
               <Col>
+                <p>No Motor</p>
                 <p style={{ fontWeight: 'bold', fontSize: 16 }}>
-                  {data_update.vehicleNumber ? data_update.vehicleNumber : '-'}
+                  {data_list.vehicleNumber ? data_list.vehicleNumber : '-'}
                 </p>
                 {/* <p>Lark Alfen</p> */}
               </Col>
@@ -67,7 +68,7 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCanc
               <Col>
                 <p>No Resi</p>
                 <p style={{ fontWeight: 'bold', fontSize: 16 }}>
-                  {data_update.orderNo ? data_update.orderNo : '-'}
+                  {data_list.orderNo ? data_list.orderNo : '-'}
                 </p>
               </Col>
             </Row>
@@ -77,8 +78,8 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCanc
             <Row align="middle" style={{ margin: 10 }}>
               <Col>
                 <p style={{ fontWeight: 'bold', fontSize: 16 }}>Pembeli</p>
-                <p>{data_update.buyerAddressName ? data_update.buyerAddressName : '-'}</p>
-                <p>{data_update.buyerAddressDetail ? data_update.buyerAddressDetail : '-'}</p>
+                <p>{data_list.buyerAddressName ? data_list.buyerAddressName : '-'}</p>
+                <p>{data_list.buyerAddressDetail ? data_list.buyerAddressDetail : '-'}</p>
               </Col>
             </Row>
             <Divider />
@@ -87,8 +88,8 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCanc
             <Row align="middle" style={{ margin: 10 }}>
               <Col>
                 <p style={{ fontWeight: 'bold', fontSize: 16 }}>Penjual</p>
-                <p>{data_update.sellerAddressName ? data_update.sellerAddressName : '-'}</p>
-                <p>{data_update.sellerAddressDetail ? data_update.sellerAddressDetail : '-'}</p>
+                <p>{data_list.sellerAddressName ? data_list.sellerAddressName : '-'}</p>
+                <p>{data_list.sellerAddressDetail ? data_list.sellerAddressDetail : '-'}</p>
               </Col>
             </Row>
             <Divider />
@@ -96,7 +97,7 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCanc
 
           <Button
             className={styles.button}
-            onClick={() => window.open(data_update.liveTrackingUrl)}
+            onClick={() => window.open(data_list.liveTrackingUrl)}
             type="primary"
           >
             Lacak Driver
