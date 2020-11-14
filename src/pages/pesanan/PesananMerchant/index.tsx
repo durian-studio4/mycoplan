@@ -46,6 +46,9 @@ const PesananComponent: React.FC<Props> = () => {
               <TabPane tab="Batal" key="8">
                 <TableDelivery status={8} />
               </TabPane>
+              <TabPane tab="Expired" key="9">
+                <TableDelivery status={9} />
+              </TabPane>
             </Tabs>
           </TabPane>
           <TabPane tab="Store Pick Up" key="2">
@@ -70,6 +73,9 @@ const PesananComponent: React.FC<Props> = () => {
               </TabPane>
               <TabPane tab="Batal" key="8">
                 <TablePickUp status={8} />
+              </TabPane>
+              <TabPane tab="Expired" key="9">
+                <TablePickUp status={9} />
               </TabPane>
             </Tabs>
           </TabPane>

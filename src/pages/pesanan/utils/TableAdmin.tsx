@@ -102,7 +102,8 @@ export const useTableDelivery = ({
                 props.id_status === 6 ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
-                props.id_status === 3
+                props.id_status === 3 ||
+                props.id_status === 9
               }
             >
               <Button
@@ -114,7 +115,8 @@ export const useTableDelivery = ({
                   props.id_status === 6 ||
                   props.id_status === 8 ||
                   props.id_status === 7 ||
-                  props.id_status === 3
+                  props.id_status === 3 ||
+                  props.id_status === 9
                 }
                 type="primary"
               >
@@ -132,7 +134,8 @@ export const useTableDelivery = ({
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
-                props.id_status === 7
+                props.id_status === 7 ||
+                props.id_status === 9
               }
               type="primary"
             >
@@ -150,7 +153,8 @@ export const useTableDelivery = ({
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
-                props.id_status === 7
+                props.id_status === 7 ||
+                props.id_status === 9
               }
             >
               <Button
@@ -162,7 +166,8 @@ export const useTableDelivery = ({
                   props.id_status === 2 ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
-                  props.id_status === 7
+                  props.id_status === 7 ||
+                  props.id_status === 9
                 }
                 type="primary"
               >
@@ -181,7 +186,8 @@ export const useTableDelivery = ({
                 props.id_status === 3 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
-                props.id_status === 7
+                props.id_status === 7 ||
+                props.id_status === 9
               }
               type="primary"
             >
@@ -198,7 +204,8 @@ export const useTableDelivery = ({
                 props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 8 ||
-                props.id_status === 7
+                props.id_status === 7 ||
+                props.id_status === 9
               }
             >
               <Button
@@ -209,7 +216,8 @@ export const useTableDelivery = ({
                   props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 8 ||
-                  props.id_status === 7
+                  props.id_status === 7 ||
+                  props.id_status === 9
                 }
                 type="primary"
               >
@@ -229,7 +237,8 @@ export const useTableDelivery = ({
                 Boolean(loading) ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
-                props.id_status === 7
+                props.id_status === 7 ||
+                props.id_status === 9
               }
             >
               <Button
@@ -242,7 +251,8 @@ export const useTableDelivery = ({
                   Boolean(loading) ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
-                  props.id_status === 7
+                  props.id_status === 7 ||
+                  props.id_status === 9
                 }
                 type="primary"
               >
@@ -351,7 +361,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 props.id_status === 6 ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
-                props.id_status === 3
+                props.id_status === 3 ||
+                props.id_status === 9
               }
             >
               <Button
@@ -363,7 +374,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                   props.id_status === 6 ||
                   props.id_status === 8 ||
                   props.id_status === 7 ||
-                  props.id_status === 3
+                  props.id_status === 3 ||
+                  props.id_status === 9
                 }
                 type="primary"
               >
@@ -381,7 +393,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
-                props.id_status === 7
+                props.id_status === 7 ||
+                props.id_status === 9
               }
               type="primary"
             >
@@ -399,7 +412,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 props.id_status === 2 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
-                props.id_status === 7
+                props.id_status === 7 ||
+                props.id_status === 9
               }
             >
               <Button
@@ -411,7 +425,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                   props.id_status === 2 ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
-                  props.id_status === 7
+                  props.id_status === 7 ||
+                  props.id_status === 9
                 }
                 type="primary"
               >
@@ -429,7 +444,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 8 ||
-                props.id_status === 7
+                props.id_status === 7 ||
+                props.id_status === 9
               }
             >
               <Button
@@ -440,7 +456,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                   props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 8 ||
-                  props.id_status === 7
+                  props.id_status === 7 ||
+                  props.id_status === 9
                 }
                 type="primary"
               >
@@ -457,7 +474,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 Boolean(loading) ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
-                props.id_status === 7
+                props.id_status === 7 ||
+                props.id_status === 9
               }
             >
               <Button
@@ -467,7 +485,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                   Boolean(loading) ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
-                  props.id_status === 7
+                  props.id_status === 7 ||
+                  props.id_status === 9
                 }
                 type="primary"
               >
