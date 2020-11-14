@@ -95,10 +95,11 @@ export const useTableDelivery = ({
               disabled={
                 Boolean(loading) ||
                 props.id_status === 1 ||
-                props.id_status === 6 ||
-                props.id_status === 8 ||
-                props.id_status === 7 ||
                 props.id_status === 3 ||
+                props.id_status === 4 ||
+                props.id_status === 6 ||
+                props.id_status === 7 ||
+                props.id_status === 8 ||
                 props.id_status === 9
               }
             >
@@ -108,10 +109,11 @@ export const useTableDelivery = ({
                 disabled={
                   Boolean(loading) ||
                   props.id_status === 1 ||
-                  props.id_status === 6 ||
-                  props.id_status === 8 ||
-                  props.id_status === 7 ||
                   props.id_status === 3 ||
+                  props.id_status === 4 ||
+                  props.id_status === 6 ||
+                  props.id_status === 7 ||
+                  props.id_status === 8 ||
                   props.id_status === 9
                 }
                 type="primary"
@@ -128,6 +130,7 @@ export const useTableDelivery = ({
                 Boolean(loading) ||
                 props.id_status === 1 ||
                 props.id_status === 2 ||
+                props.id_status === 4 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
@@ -148,8 +151,8 @@ export const useTableDelivery = ({
                 props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 6 ||
-                props.id_status === 8 ||
                 props.id_status === 7 ||
+                props.id_status === 8 ||
                 props.id_status === 9
               }
             >
@@ -161,8 +164,8 @@ export const useTableDelivery = ({
                   props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 6 ||
-                  props.id_status === 8 ||
                   props.id_status === 7 ||
+                  props.id_status === 8 ||
                   props.id_status === 9
                 }
                 type="primary"
@@ -231,6 +234,7 @@ export const useTableDelivery = ({
               }}
               disabled={
                 Boolean(loading) ||
+                props.id_status === 4 ||
                 props.id_status === 6 ||
                 props.id_status === 8 ||
                 props.id_status === 7 ||
@@ -245,6 +249,7 @@ export const useTableDelivery = ({
                 id={props.id}
                 disabled={
                   Boolean(loading) ||
+                  props.id_status === 4 ||
                   props.id_status === 6 ||
                   props.id_status === 8 ||
                   props.id_status === 7 ||
