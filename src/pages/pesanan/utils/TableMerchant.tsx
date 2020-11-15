@@ -363,7 +363,6 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
               disabled={
                 Boolean(loading) ||
                 props.id_status === 1 ||
-                props.id_status === 3 ||
                 props.id_status === 5 ||
                 props.id_status === 6 ||
                 props.id_status === 7 ||
@@ -377,7 +376,6 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 disabled={
                   Boolean(loading) ||
                   props.id_status === 1 ||
-                  props.id_status === 3 ||
                   props.id_status === 5 ||
                   props.id_status === 6 ||
                   props.id_status === 7 ||
