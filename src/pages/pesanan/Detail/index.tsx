@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card } from 'antd';
-import { useParams } from 'umi';
+import { Card, Row, Button } from 'antd';
+import { useParams, useHistory } from 'umi';
 import styles from './index.less';
 
 import TableComponent from './Table';
@@ -17,6 +17,7 @@ interface Props {}
 
 const PesananDetailComponent: React.FC<Props> = () => {
   const { role, id } = useParams();
+  const history = useHistory();
 
   const [visible, setVisible] = useState(false);
   const [id_product, setIdProduct] = useState('');
@@ -61,17 +62,27 @@ const PesananDetailComponent: React.FC<Props> = () => {
   };
 
   const createTransaction = ({ json, clear }: any) => {
-    postCreate(`${REACT_APP_ENV}/admin/transaction-adjustments/`, json, clear);
+    postCreate(`${REACT_APP_ENV}/${role}/transaction-adjustments/`, json, clear);
   };
 
   const updateTransaction = ({ json, clear }: any) => {
-    postUpdate(`${REACT_APP_ENV}/admin/transaction-adjustments/${id_edit}`, json);
+    postUpdate(`${REACT_APP_ENV}/${role}/transaction-adjustments/${id_edit}`, json);
     clear();
+  };
+
+  const updateStatusDelivery = (id_status: string) => {
+    postUpdate(`${REACT_APP_ENV}/${role}/orders/${id}`, JSON.stringify({ id_status }));
+    history.goBack();
   };
 
   return (
     <div>
-      <p className={styles.title}>Detail Pesanan</p>
+      <Row justify="space-between">
+        <p className={styles.title}>Detail Pesanan</p>
+        <Button className={styles.button} type="primary" onClick={() => updateStatusDelivery('6')}>
+          Selesai
+        </Button>
+      </Row>
       {error_list || status_list !== 200 ? <PageError /> : null}
       <Card>
         <DetailComponent data={data_list} loading={Boolean(loading_list)} />

@@ -20,6 +20,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, handleAdd, han
       no: Number(key) + 1,
       id: data[key].id,
       id_adjustment: data[key].adjustment_id,
+      condition_adjustment: data[key].adjustment_condition,
       adjustment: data[key].adjustment_value,
       sku: data[key].sku,
       image: data[key].image,
@@ -123,9 +124,32 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, handleAdd, han
       {
         align: 'center',
         title: 'Perubahan Harga (Rp.)',
-        dataIndex: 'adjustment',
-        render: (props) => <p>{Number(props).toLocaleString()}</p>,
-        key: 'adjustment',
+        render: ({
+          adjustment,
+          condition_adjustment,
+        }: {
+          adjustment: string;
+          condition_adjustment: string | null;
+        }) => {
+          const condition = (): any => {
+            if (!condition_adjustment) {
+              return null;
+            }
+
+            if (condition_adjustment) {
+              if (condition_adjustment === 'add') {
+                return '+';
+              } else {
+                return '-';
+              }
+            }
+          };
+          return (
+            <p style={{ fontWeight: 'bold' }}>
+              {condition()} {Number(adjustment).toLocaleString()}
+            </p>
+          );
+        },
       },
       {
         align: 'center',
