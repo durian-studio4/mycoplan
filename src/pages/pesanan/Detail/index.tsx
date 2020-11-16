@@ -70,17 +70,12 @@ const PesananDetailComponent: React.FC<Props> = () => {
     clear();
   };
 
-  const updateStatusDelivery = (id_status: string) => {
-    postUpdate(`${REACT_APP_ENV}/${role}/orders/${id}`, JSON.stringify({ id_status }));
-    history.goBack();
-  };
-
   return (
     <div>
       <Row justify="space-between">
         <p className={styles.title}>Detail Pesanan</p>
-        <Button className={styles.button} type="primary" onClick={() => updateStatusDelivery('6')}>
-          Selesai
+        <Button className={styles.button} type="primary" onClick={() => history.goBack()}>
+          Kembali
         </Button>
       </Row>
       {error_list || status_list !== 200 ? <PageError /> : null}

@@ -8,7 +8,7 @@ import PageError from '@/components/PageError';
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
 
-import { useTableDelivery } from './utils/TableAdmin';
+import { useTableDelivery } from './utils/useTableAdmin';
 interface Props {
   pesanan_access: any;
   status: number;

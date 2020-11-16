@@ -8,7 +8,7 @@ import PageError from '@/components/PageError';
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
 
-import { useTableDelivery } from '../utils/TableMerchant';
+import { useTableDelivery } from '../utils/useTableMerchant';
 
 interface Props {
   status: number;

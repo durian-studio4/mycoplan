@@ -1,6 +1,5 @@
 import React, { useMemo, Fragment } from 'react';
 import { Row, Button, Popconfirm } from 'antd';
-// import moment from 'moment';
 import { NavLink } from 'umi';
 import styles from '../index.less';
 
@@ -60,17 +59,14 @@ export const useTableDelivery = ({
         align: 'center',
         title: 'Jadwal Delivery',
         key: 'jadwal',
-        render: (props: any) => {
-          // console.log(moment(new Date(props.start).getHours(), 'hmm').format('HH:mm'));
-          return (
-            <Fragment>
-              <p>
-                {props.start} -{props.end}
-              </p>
-              <p>{props.jadwal}</p>
-            </Fragment>
-          );
-        },
+        render: (props: any) => (
+          <Fragment>
+            <p>
+              {props.start} - {props.end}
+            </p>
+            <p>{props.jadwal}</p>
+          </Fragment>
+        ),
       },
       {
         align: 'center',
@@ -209,8 +205,8 @@ export const useTableDelivery = ({
                 props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 3 ||
-                props.id_status === 7 ||
                 props.id_status === 8 ||
+                props.id_status === 7 ||
                 props.id_status === 9
               }
             >
@@ -222,8 +218,8 @@ export const useTableDelivery = ({
                   props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 3 ||
-                  props.id_status === 7 ||
                   props.id_status === 8 ||
+                  props.id_status === 7 ||
                   props.id_status === 9
                 }
                 type="primary"
@@ -244,8 +240,8 @@ export const useTableDelivery = ({
                 Boolean(loading) ||
                 props.id_status === 4 ||
                 props.id_status === 6 ||
-                props.id_status === 7 ||
                 props.id_status === 8 ||
+                props.id_status === 7 ||
                 props.id_status === 9
               }
             >
@@ -259,8 +255,8 @@ export const useTableDelivery = ({
                   Boolean(loading) ||
                   props.id_status === 4 ||
                   props.id_status === 6 ||
-                  props.id_status === 7 ||
                   props.id_status === 8 ||
+                  props.id_status === 7 ||
                   props.id_status === 9
                 }
                 type="primary"
@@ -270,7 +266,7 @@ export const useTableDelivery = ({
             </Popconfirm>
 
             <Button className={styles.button_action} disabled={Boolean(loading)} type="primary">
-              <NavLink to={`/pesanan/detail/admin/${props.id}`}>Lihat Detail</NavLink>
+              <NavLink to={`/pesanan/detail/merchant/${props.id}`}>Lihat Detail</NavLink>
             </Button>
           </Row>
         ),
@@ -367,10 +363,11 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
               disabled={
                 Boolean(loading) ||
                 props.id_status === 1 ||
+                props.id_status === 3 ||
                 props.id_status === 5 ||
                 props.id_status === 6 ||
-                props.id_status === 8 ||
                 props.id_status === 7 ||
+                props.id_status === 8 ||
                 props.id_status === 9
               }
             >
@@ -380,10 +377,11 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 disabled={
                   Boolean(loading) ||
                   props.id_status === 1 ||
+                  props.id_status === 3 ||
                   props.id_status === 5 ||
                   props.id_status === 6 ||
-                  props.id_status === 8 ||
                   props.id_status === 7 ||
+                  props.id_status === 8 ||
                   props.id_status === 9
                 }
                 type="primary"
@@ -402,8 +400,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 props.id_status === 2 ||
                 props.id_status === 5 ||
                 props.id_status === 6 ||
-                props.id_status === 8 ||
                 props.id_status === 7 ||
+                props.id_status === 8 ||
                 props.id_status === 9
               }
               type="primary"
@@ -422,8 +420,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 props.id_status === 2 ||
                 props.id_status === 3 ||
                 props.id_status === 6 ||
-                props.id_status === 8 ||
                 props.id_status === 7 ||
+                props.id_status === 8 ||
                 props.id_status === 9
               }
             >
@@ -436,8 +434,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                   props.id_status === 2 ||
                   props.id_status === 3 ||
                   props.id_status === 6 ||
-                  props.id_status === 8 ||
                   props.id_status === 7 ||
+                  props.id_status === 8 ||
                   props.id_status === 9
                 }
                 type="primary"
@@ -456,8 +454,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 props.id_status === 1 ||
                 props.id_status === 2 ||
                 props.id_status === 3 ||
-                props.id_status === 8 ||
                 props.id_status === 7 ||
+                props.id_status === 8 ||
                 props.id_status === 9
               }
             >
@@ -469,8 +467,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                   props.id_status === 1 ||
                   props.id_status === 2 ||
                   props.id_status === 3 ||
-                  props.id_status === 8 ||
                   props.id_status === 7 ||
+                  props.id_status === 8 ||
                   props.id_status === 9
                 }
                 type="primary"
@@ -487,8 +485,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
               disabled={
                 Boolean(loading) ||
                 props.id_status === 6 ||
-                props.id_status === 8 ||
                 props.id_status === 7 ||
+                props.id_status === 8 ||
                 props.id_status === 9
               }
             >
@@ -498,8 +496,8 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
                 disabled={
                   Boolean(loading) ||
                   props.id_status === 6 ||
-                  props.id_status === 8 ||
                   props.id_status === 7 ||
+                  props.id_status === 8 ||
                   props.id_status === 9
                 }
                 type="primary"
@@ -509,7 +507,7 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
             </Popconfirm>
 
             <Button className={styles.button_action} disabled={Boolean(loading)} type="primary">
-              <NavLink to={`/pesanan/detail/admin/${props.id}`}>Lihat Detail</NavLink>
+              <NavLink to={`/pesanan/detail/merchant/${props.id}`}>Lihat Detail</NavLink>
             </Button>
           </Row>
         ),

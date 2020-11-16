@@ -112,7 +112,7 @@ const GrafikPenggunaComponent = () => {
               key="pengguna"
             >
               <Row>
-                <Col xl={16} lg={12} md={12} sm={24} xs={24}>
+                <div style={{ width: '100%' }}>
                   <div className={styles.salesBar}>
                     <Bar
                       height={295}
@@ -125,7 +125,7 @@ const GrafikPenggunaComponent = () => {
                       data={data_array}
                     />
                   </div>
-                </Col>
+                </div>
               </Row>
             </TabPane>
           </Tabs>
