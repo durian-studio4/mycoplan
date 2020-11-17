@@ -65,7 +65,8 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
       const { list, title, count, tabKey, showClear, showViewMore } = child.props;
       const len = list && list.length ? list.length : 0;
       const msgCount = count || count === 0 ? count : len;
-      const tabTitle: string = msgCount > 0 ? `${title} (${msgCount})` : title;
+
+      const tabTitle: string = msgCount.length > 0 ? `${title} (${msgCount.length})` : title;
       panes.push(
         <TabPane tab={tabTitle} key={tabKey}>
           <NoticeList
@@ -85,7 +86,7 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
     });
     return (
       <Spin spinning={loading} delay={300}>
-        <Tabs className={styles.tabs} onChange={onTabChange}>
+        <Tabs className={styles.tabs} title="Notifikasi" onChange={onTabChange}>
           {panes}
         </Tabs>
       </Spin>

@@ -1,4 +1,4 @@
-import { Avatar, List } from 'antd';
+import { notification, List } from 'antd';
 
 import React from 'react';
 import classNames from 'classnames';
@@ -22,6 +22,24 @@ export interface NoticeIconTabProps {
   list: NoticeIconData[];
   onViewMore?: (e: any) => void;
 }
+
+interface OpenNotification {
+  title: string;
+  status: string;
+}
+
+const openNotification = ({ title, status }: OpenNotification) => {
+  notification.open({
+    message: title,
+    description: status,
+    duration: 3,
+    placement: 'bottomLeft',
+    onClick: () => {
+      console.log('Notification Clicked!');
+    },
+  });
+};
+
 const NoticeList: React.SFC<NoticeIconTabProps> = ({
   data = [],
   onClick,
@@ -54,37 +72,23 @@ const NoticeList: React.SFC<NoticeIconTabProps> = ({
           const itemCls = classNames(styles.item, {
             [styles.read]: item.read,
           });
-          // eslint-disable-next-line no-nested-ternary
-          const leftIcon = item.avatar ? (
-            typeof item.avatar === 'string' ? (
-              <Avatar className={styles.avatar} src={item.avatar} />
-            ) : (
-              <span className={styles.iconElement}>{item.avatar}</span>
-            )
-          ) : null;
 
           return (
             <List.Item
               className={itemCls}
               key={item.key || i}
-              onClick={() => onClick && onClick(item)}
+              onClick={() =>
+                openNotification({
+                  title: item.no_transaksi,
+                  status: item.transaction_status,
+                })
+              }
             >
-              <List.Item.Meta
-                className={styles.meta}
-                avatar={leftIcon}
-                title={
-                  <div className={styles.title}>
-                    {item.title}
-                    <div className={styles.extra}>{item.extra}</div>
-                  </div>
-                }
-                description={
-                  <div>
-                    <div className={styles.description}>{item.description}</div>
-                    <div className={styles.datetime}>{item.datetime}</div>
-                  </div>
-                }
-              />
+              <div className={styles.meta}>
+                <div className={styles.title}>{item.nama}</div>
+                <div className={styles.description}>{item.no_transaksi}</div>
+                <div className={styles.description}>{item.transaction_status}</div>
+              </div>
             </List.Item>
           );
         }}
