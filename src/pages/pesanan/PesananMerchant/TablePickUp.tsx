@@ -5,18 +5,24 @@ import { Table } from 'antd';
 import PageError from '@/components/PageError';
 
 import useFetch from '@/hooks/useFetch';
-import useCreate from '@/hooks/useCreate';
 
 import { useTablePickUp } from '../utils/useTableMerchant';
 
 interface Props {
   status: number;
+  status_update: number;
+  loading_update: boolean;
+  updateDelivery: (id: string, id_status: string) => void;
 }
 
-const TablePickUpComponent: React.FC<Props> = ({ status }) => {
+const TablePickUpComponent: React.FC<Props> = ({
+  status,
+  status_update,
+  loading_update,
+  updateDelivery,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
-  const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -25,10 +31,6 @@ const TablePickUpComponent: React.FC<Props> = ({ status }) => {
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update, status]);
-
-  const updateDelivery = (id: string, id_status: string) => {
-    postUpdate(`${REACT_APP_ENV}/merchant/orders/${id}`, JSON.stringify({ id_status }));
-  };
 
   // const createRequest = ({ json, clear }: any) => {
   //   postCreate(`${REACT_APP_ENV}/merchant/gosend-booking`, json, clear);

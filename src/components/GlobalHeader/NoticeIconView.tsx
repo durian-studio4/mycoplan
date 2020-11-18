@@ -16,7 +16,7 @@ const GlobalHeaderRight: React.FC<Props> = () => {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       if (JSON.parse(String(role))) {
-        const user = JSON.parse(String(role))[0] === 'master' ? 'admin' : 'merchant';
+        const user = JSON.parse(String(role))[0] === 'merchant' ? 'merchant' : 'admin';
         return fetchList(`${REACT_APP_ENV}/${user}/notifications/new-orders`);
       }
     }, 0);
@@ -26,7 +26,7 @@ const GlobalHeaderRight: React.FC<Props> = () => {
   return (
     <NoticeIcon
       className={styles.action}
-      // count={data_list.length || 0}
+      count={data_list.length || 0}
       // onItemClick={(item) => {
       //   this.changeReadState(item as NoticeItem);
       // }}

@@ -6,18 +6,27 @@ import LacakComponent from './Lacak';
 import PageError from '@/components/PageError';
 
 import useFetch from '@/hooks/useFetch';
-import useCreate from '@/hooks/useCreate';
 
 import { useTableDelivery } from './utils/useTableAdmin';
 interface Props {
   pesanan_access: any;
   status: number;
+  status_update: number;
+  loading_update: boolean;
+  requestCreate: ({ json, clear }: any) => void;
+  updateDelivery: (id: string, id_status: string) => void;
 }
 
-const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => {
+const TableDeliveryComponent: React.FC<Props> = ({
+  pesanan_access,
+  status,
+  status_update,
+  loading_update,
+  requestCreate,
+  updateDelivery,
+}) => {
   // const [getColumnSearchProps] = useFilterColumn();
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
-  const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
   const [visible, setVisible] = useState(false);
   const [visible_pesanan, setVisiblePesanan] = useState(false);
@@ -49,14 +58,6 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
   const handleVisiblePesananClear = () => {
     setIdTransaction(0);
     setVisiblePesanan(false);
-  };
-
-  const updateDelivery = (id: string, id_status: string) => {
-    postUpdate(`${REACT_APP_ENV}/admin/orders/${id}`, JSON.stringify({ id_status }));
-  };
-
-  const createRequest = ({ json, clear }: any) => {
-    postCreate(`${REACT_APP_ENV}/admin/gosend-booking`, json, clear);
   };
 
   let data_array = [];
@@ -104,7 +105,7 @@ const TableDeliveryComponent: React.FC<Props> = ({ pesanan_access, status }) => 
         <RequestComponent
           visible={visible}
           id_transaction={id_transaction}
-          onCreate={createRequest}
+          onCreate={requestCreate}
           onCancel={handleVisibleClear}
           onLoadButton={Boolean(loading_update)}
         />

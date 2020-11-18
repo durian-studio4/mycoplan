@@ -5,12 +5,13 @@ import styles from './index.less';
 
 import { PermissionContext } from '@/layouts/context';
 
-import TableDelivery from './TableDelivery';
-import TablePickUp from './TablePickUp';
+import { TabDelivery } from './TabsDelivery';
+import { TabPickUp } from './TabsPickUp';
 
 import PageUnauthorized from '@/components/PageUnauthorized';
 
 import useFetch from '@/hooks/useFetch';
+import useCreate from '@/hooks/useCreate';
 
 interface Props {}
 
@@ -30,6 +31,7 @@ const PesananComponent: React.FC<Props> = () => {
   ] = useFetch();
 
   const [data_pick_up, status_pick_up, loading_pick_up, error_pick_up, fetchPickUp] = useFetch();
+  const [loading_update, status_update, postCreate, postUpdate] = useCreate();
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -37,7 +39,7 @@ const PesananComponent: React.FC<Props> = () => {
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [status_update]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -45,7 +47,15 @@ const PesananComponent: React.FC<Props> = () => {
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [status_update]);
+
+  const updateDelivery = (id: string, id_status: string) => {
+    postUpdate(`${REACT_APP_ENV}/admin/orders/${id}`, JSON.stringify({ id_status }));
+  };
+
+  const createRequest = ({ json, clear }: any) => {
+    postCreate(`${REACT_APP_ENV}/admin/gosend-booking`, json, clear);
+  };
 
   let data_jumlah_delivery = (id: number) => {
     if (Boolean(loading_delivery)) {
@@ -94,60 +104,23 @@ const PesananComponent: React.FC<Props> = () => {
         </Row>
         <Tabs>
           <TabPane tab="Delivery" key="1">
-            <Tabs defaultActiveKey="1">
-              <TabPane tab={`Menunggu Pembayaran (${data_jumlah_delivery(1).length || 0})`} key="1">
-                <TableDelivery pesanan_access={pesanan_access} status={1} />
-              </TabPane>
-              <TabPane tab={`Menunggu Konfirmasi (${data_jumlah_delivery(2).length || 0})`} key="2">
-                <TableDelivery pesanan_access={pesanan_access} status={2} />
-              </TabPane>
-              <TabPane tab={`Dalam Proses (${data_jumlah_delivery(3).length || 0})`} key="3">
-                <TableDelivery pesanan_access={pesanan_access} status={3} />
-              </TabPane>
-              <TabPane tab={`Sedang Dikirim (${data_jumlah_delivery(4).length || 0})`} key="4">
-                <TableDelivery pesanan_access={pesanan_access} status={4} />
-              </TabPane>
-              <TabPane tab={`Penyesuaian (${data_jumlah_delivery(6).length || 0})`} key="6">
-                <TableDelivery pesanan_access={pesanan_access} status={6} />
-              </TabPane>
-              <TabPane tab={`Selesai (${data_jumlah_delivery(7).length || 0})`} key="7">
-                <TableDelivery pesanan_access={pesanan_access} status={7} />
-              </TabPane>
-              <TabPane tab={`Batal (${data_jumlah_delivery(8).length || 0})`} key="8">
-                <TableDelivery pesanan_access={pesanan_access} status={8} />
-              </TabPane>
-              <TabPane tab={`Expired (${data_jumlah_delivery(9).length || 0})`} key="9">
-                <TableDelivery pesanan_access={pesanan_access} status={9} />
-              </TabPane>
-            </Tabs>
+            <TabDelivery
+              data_jumlah_delivery={data_jumlah_delivery}
+              pesanan_access={pesanan_access}
+              loading_update={Boolean(loading_update)}
+              status_update={Number(status_update)}
+              updateDelivery={updateDelivery}
+              createRequest={createRequest}
+            />
           </TabPane>
           <TabPane tab="Store Pick Up" key="2">
-            <Tabs defaultActiveKey="1">
-              <TabPane tab={`Menunggu Pembayaran (${data_jumlah_pick_up(1).length || 0})`} key="1">
-                <TablePickUp pesanan_access={pesanan_access} status={1} />
-              </TabPane>
-              <TabPane tab={`Menunggu Konfirmasi (${data_jumlah_pick_up(2).length || 0})`} key="2">
-                <TablePickUp pesanan_access={pesanan_access} status={2} />
-              </TabPane>
-              <TabPane tab={`Dalam Proses (${data_jumlah_pick_up(3).length || 0})`} key="3">
-                <TablePickUp pesanan_access={pesanan_access} status={3} />
-              </TabPane>
-              <TabPane tab={`Menunggu Pick Up (${data_jumlah_pick_up(5).length || 0})`} key="5">
-                <TablePickUp pesanan_access={pesanan_access} status={5} />
-              </TabPane>
-              <TabPane tab={`Penyesuaian (${data_jumlah_pick_up(6).length || 0})`} key="6">
-                <TablePickUp pesanan_access={pesanan_access} status={6} />
-              </TabPane>
-              <TabPane tab={`Selesai (${data_jumlah_pick_up(7).length || 0})`} key="7">
-                <TablePickUp pesanan_access={pesanan_access} status={7} />
-              </TabPane>
-              <TabPane tab={`Batal (${data_jumlah_pick_up(8).length || 0})`} key="8">
-                <TablePickUp pesanan_access={pesanan_access} status={8} />
-              </TabPane>
-              <TabPane tab={`Expired (${data_jumlah_pick_up(9).length || 0})`} key="9">
-                <TablePickUp pesanan_access={pesanan_access} status={9} />
-              </TabPane>
-            </Tabs>
+            <TabPickUp
+              data_jumlah_pick_up={data_jumlah_pick_up}
+              pesanan_access={pesanan_access}
+              loading_update={Boolean(loading_update)}
+              status_update={Number(status_update)}
+              updateDelivery={updateDelivery}
+            />
           </TabPane>
         </Tabs>
       </Card>
