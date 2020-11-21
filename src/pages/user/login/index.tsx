@@ -68,7 +68,7 @@ const Login: React.FC = (props) => {
     if (role === 'admin' || role === 'master') {
       return <Redirect to="/" />;
     } else {
-      return <Redirect to="/dashboard/merchant" />;
+      return <Redirect to="/penjualan/merchant" />;
     }
   }
 

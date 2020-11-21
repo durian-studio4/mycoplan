@@ -97,13 +97,13 @@ export default defineConfig({
               component: './Dashboard',
               authority: ['admin', 'master'],
             },
-            {
-              name: 'Dashboard',
-              icon: 'home',
-              path: '/dashboard/merchant',
-              component: './DashboardMerchant',
-              authority: ['merchant'],
-            },
+            // {
+            //   name: 'Dashboard',
+            //   icon: 'home',
+            //   path: '/dashboard/merchant',
+            //   component: './DashboardMerchant',
+            //   authority: ['merchant'],
+            // },
             {
               name: 'Pengguna',
               icon: 'user',
