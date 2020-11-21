@@ -11,10 +11,11 @@ interface Props {
   visible: boolean;
   role: string;
   id_transaction: number;
+  notes: string | null;
   onCancel: () => void;
 }
 
-const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCancel }) => {
+const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, notes, onCancel }) => {
   const [data_list, status_list, loading_list, error_list, fetchData] = useFetch();
 
   useEffect(() => {
@@ -70,6 +71,12 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, onCanc
                 <p style={{ fontWeight: 'bold', fontSize: 16 }}>
                   {data_list.orderNo ? data_list.orderNo : '-'}
                 </p>
+              </Col>
+            </Row>
+            <Row align="middle" style={{ margin: 10 }}>
+              <Col>
+                <p>Catatan Pembeli</p>
+                <p style={{ fontWeight: 'bold', fontSize: 16 }}>{notes ? notes : '-'}</p>
               </Col>
             </Row>
             <Divider />

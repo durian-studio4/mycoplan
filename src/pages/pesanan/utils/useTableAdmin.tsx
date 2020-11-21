@@ -8,7 +8,7 @@ interface DeliveryProps {
   loading: boolean;
   updateDelivery: (id: string, status: string) => void;
   handleVisible: (id: string) => void;
-  handleVisiblePesanan: (id: string) => void;
+  handleVisiblePesanan: (id: string, notes: string | null) => void;
 }
 
 export const useTableDelivery = ({
@@ -183,7 +183,7 @@ export const useTableDelivery = ({
             <Button
               className={styles.button_action}
               id={props.id}
-              onClick={() => handleVisiblePesanan(props.id)}
+              onClick={() => handleVisiblePesanan(props.id, props.notes)}
               disabled={
                 Boolean(loading) ||
                 props.id_status === 1 ||

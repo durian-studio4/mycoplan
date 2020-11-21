@@ -31,6 +31,8 @@ const TableDeliveryComponent: React.FC<Props> = ({
   const [visible_pesanan, setVisiblePesanan] = useState(false);
   const [id_transaction, setIdTransaction] = useState(0);
 
+  const [notes, setNotes] = useState<string | null>('');
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       fetchList(`${REACT_APP_ENV}/merchant/orders/?method=delivery&status=${status}`);
@@ -49,13 +51,15 @@ const TableDeliveryComponent: React.FC<Props> = ({
     setVisible(!visible);
   };
 
-  const handleVisiblePesanan = (id: string) => {
+  const handleVisiblePesanan = (id: string, notes: string | null) => {
     setIdTransaction(Number(id));
+    setNotes(notes);
     setVisiblePesanan(!visible_pesanan);
   };
 
   const handleVisiblePesananClear = () => {
     setIdTransaction(0);
+    setNotes('');
     setVisiblePesanan(false);
   };
 
@@ -74,6 +78,7 @@ const TableDeliveryComponent: React.FC<Props> = ({
       tanggal: data_list[key].transaction_date,
       jadwal: data_list[key].jadwal,
       telepon: data_list[key].no_telp,
+      notes: data_list[key].notes,
       start: data_list[key].start_time,
       end: data_list[key].end_time,
     });
@@ -113,6 +118,7 @@ const TableDeliveryComponent: React.FC<Props> = ({
           role="merchant"
           visible={visible_pesanan}
           id_transaction={id_transaction}
+          notes={notes}
           onCancel={handleVisiblePesananClear}
         />
       ) : null}
