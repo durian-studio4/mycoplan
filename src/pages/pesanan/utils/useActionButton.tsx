@@ -5,11 +5,20 @@ import styles from '../index.less';
 interface PropsDelivery {
   id: string;
   id_status: number;
+  nama: string | null;
+  telepon: string | null;
+  merchant: string | null;
   notes: string | null;
   loading: boolean;
   updateDelivery: (id: string, status: string) => void;
   handleVisible: (id: string) => void;
-  handleVisiblePesanan: (id: string, notes: string | null) => void;
+  handleVisiblePesanan: (
+    id: string,
+    notes: string | null,
+    nama: string | null,
+    telepon: string | null,
+    merchant: string | null,
+  ) => void;
 }
 
 interface PropsPickUp {
@@ -24,6 +33,9 @@ export const useDeliveryButton = () => {
     id,
     id_status,
     loading,
+    nama,
+    telepon,
+    merchant,
     notes,
     updateDelivery,
     handleVisible,
@@ -105,7 +117,7 @@ export const useDeliveryButton = () => {
           <Button
             className={styles.button_action}
             id={id}
-            onClick={() => handleVisiblePesanan(id, notes)}
+            onClick={() => handleVisiblePesanan(id, notes, nama, telepon, merchant)}
             disabled={loading || [1, 2, 3, 6, 7, 8, 9].includes(id_status)}
             type="primary"
           >

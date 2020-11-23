@@ -12,10 +12,22 @@ interface Props {
   role: string;
   id_transaction: number;
   notes: string | null;
+  nama: string | null;
+  no_telp: string | null;
+  merchant_name: string | null;
   onCancel: () => void;
 }
 
-const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, notes, onCancel }) => {
+const LacakComponent: React.FC<Props> = ({
+  visible,
+  role,
+  id_transaction,
+  notes,
+  nama,
+  no_telp,
+  merchant_name,
+  onCancel,
+}) => {
   const [data_list, status_list, loading_list, error_list, fetchData] = useFetch();
 
   useEffect(() => {
@@ -73,7 +85,30 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, notes,
                 </p>
               </Col>
             </Row>
-            <Row align="middle" style={{ margin: 10 }}>
+            <Divider />
+          </div>
+          <div className={styles.box10}>
+            <p style={{ fontWeight: 'bold', fontSize: 16 }}>Pembeli</p>
+            <Row align="middle" style={{ margin: '5px 10px' }}>
+              <Col>
+                <p style={{ fontWeight: 'bold' }}>Nama Pembeli</p>
+                <p>{nama ? nama : '-'}</p>
+              </Col>
+            </Row>
+            <Row align="middle" style={{ margin: '5px 10px' }}>
+              <Col>
+                <p style={{ fontWeight: 'bold' }}>No.Telp Pembeli</p>
+                <p>{no_telp ? no_telp : '-'}</p>
+              </Col>
+            </Row>
+            <Row align="middle" style={{ margin: '5px 10px' }}>
+              <Col>
+                <p style={{ fontWeight: 'bold' }}>Alamat Pembeli</p>
+                <p>{data_list.buyerAddressName ? data_list.buyerAddressName : '-'}</p>
+                <p>{data_list.buyerAddressDetail ? data_list.buyerAddressDetail : '-'}</p>
+              </Col>
+            </Row>
+            <Row align="middle" style={{ margin: '5px 10px' }}>
               <Col>
                 <p>Catatan Pembeli</p>
                 <p style={{ fontWeight: 'bold', fontSize: 16 }}>{notes ? notes : '-'}</p>
@@ -82,19 +117,16 @@ const LacakComponent: React.FC<Props> = ({ visible, role, id_transaction, notes,
             <Divider />
           </div>
           <div className={styles.box10}>
-            <Row align="middle" style={{ margin: 10 }}>
+            <p style={{ fontWeight: 'bold', fontSize: 16 }}>Penjual</p>
+            <Row align="middle" style={{ margin: '5px 10px' }}>
               <Col>
-                <p style={{ fontWeight: 'bold', fontSize: 16 }}>Pembeli</p>
-                <p>{data_list.buyerAddressName ? data_list.buyerAddressName : '-'}</p>
-                <p>{data_list.buyerAddressDetail ? data_list.buyerAddressDetail : '-'}</p>
+                <p style={{ fontWeight: 'bold' }}>Nama Penjual</p>
+                <p>{merchant_name ? merchant_name : '-'}</p>
               </Col>
             </Row>
-            <Divider />
-          </div>
-          <div className={styles.box10}>
-            <Row align="middle" style={{ margin: 10 }}>
+            <Row align="middle" style={{ margin: '5px 10px' }}>
               <Col>
-                <p style={{ fontWeight: 'bold', fontSize: 16 }}>Penjual</p>
+                <p style={{ fontWeight: 'bold' }}>Alamat Penjual</p>
                 <p>{data_list.sellerAddressName ? data_list.sellerAddressName : '-'}</p>
                 <p>{data_list.sellerAddressDetail ? data_list.sellerAddressDetail : '-'}</p>
               </Col>

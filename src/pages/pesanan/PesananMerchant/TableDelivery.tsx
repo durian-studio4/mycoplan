@@ -34,6 +34,10 @@ const TableDeliveryComponent: React.FC<Props> = ({
   const [id_transaction, setIdTransaction] = useState(0);
 
   const [notes, setNotes] = useState<string | null>('');
+  const [nama, setNama] = useState<string | null>('');
+  const [noTelp, setNoTelp] = useState<string | null>('');
+
+  const [merchantName, setMerchantName] = useState<string | null>('');
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -58,15 +62,27 @@ const TableDeliveryComponent: React.FC<Props> = ({
     setVisible(!visible);
   };
 
-  const handleVisiblePesanan = (id: string, notes: string | null) => {
+  const handleVisiblePesanan = (
+    id: string,
+    notes: string | null,
+    nama: string | null,
+    noTelp: string | null,
+    merchantName: string | null,
+  ) => {
     setIdTransaction(Number(id));
+    setNama(nama);
     setNotes(notes);
+    setNoTelp(noTelp);
+    setMerchantName(merchantName);
     setVisiblePesanan(!visible_pesanan);
   };
 
   const handleVisiblePesananClear = () => {
     setIdTransaction(0);
     setNotes('');
+    setNama('');
+    setNoTelp('');
+    setMerchantName('');
     setVisiblePesanan(false);
   };
 
@@ -126,6 +142,9 @@ const TableDeliveryComponent: React.FC<Props> = ({
           visible={visible_pesanan}
           id_transaction={id_transaction}
           notes={notes}
+          nama={nama}
+          no_telp={noTelp}
+          merchant_name={merchantName}
           onCancel={handleVisiblePesananClear}
         />
       ) : null}

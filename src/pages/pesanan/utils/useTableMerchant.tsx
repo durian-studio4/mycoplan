@@ -9,7 +9,13 @@ interface DeliveryProps {
   loading: boolean;
   updateDelivery: (id: string, status: string) => void;
   handleVisible: (id: string) => void;
-  handleVisiblePesanan: (id: string, notes: string | null) => void;
+  handleVisiblePesanan: (
+    id: string,
+    notes: string | null,
+    nama: string | null,
+    noTelp: string | null,
+    merchantName: string | null,
+  ) => void;
 }
 
 export const useTableDelivery = ({
@@ -92,15 +98,24 @@ export const useTableDelivery = ({
           id,
           id_status,
           notes,
+          nama,
+          telepon,
+          merchant,
         }: {
           id: string;
           id_status: number;
+          nama: string | null;
+          telepon: string | null;
+          merchant: string | null;
           notes: string | null;
         }) => (
           <Row justify="center">
             {actionDeliveryButton({
               id,
               id_status,
+              merchant,
+              nama,
+              telepon,
               notes,
               handleVisible,
               loading: Boolean(loading),
