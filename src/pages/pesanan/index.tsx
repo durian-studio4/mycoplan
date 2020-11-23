@@ -39,6 +39,8 @@ const PesananComponent: React.FC<Props> = () => {
   const [statusDelivery, setStatusDelivery] = useState('1');
   const [statusPickUp, setStatusPickUp] = useState('1');
 
+  const [statusPengiriman, setStatusPengiriman] = useState('dikirim');
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       fetchDelivery(`${REACT_APP_ENV}/admin/orders/?method=delivery`);
@@ -57,6 +59,8 @@ const PesananComponent: React.FC<Props> = () => {
 
   const onChangeStatusDelivery = (key: string) => setStatusDelivery(key);
   const onChangeStatusPickUp = (key: string) => setStatusPickUp(key);
+
+  const onChangeStatusPengiriman = (key: string) => setStatusPengiriman(key);
 
   const updateDelivery = (id: string, id_status: string) => {
     postUpdate(`${REACT_APP_ENV}/admin/orders/${id}`, JSON.stringify({ id_status }));
@@ -115,11 +119,13 @@ const PesananComponent: React.FC<Props> = () => {
           <TabPane tab="Delivery" key="1">
             <TabsDelivery
               onChangeStatus={onChangeStatusDelivery}
+              onChangeStatusPengiriman={onChangeStatusPengiriman}
               data_jumlah_delivery={data_jumlah_delivery}
             >
               <TableDelivery
                 pesanan_access={pesanan_access}
                 status={statusDelivery}
+                status_pengiriman={statusPengiriman}
                 loading_update={Boolean(loading_update)}
                 status_update={Number(status_update)}
                 requestCreate={createRequest}

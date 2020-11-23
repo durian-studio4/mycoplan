@@ -11,6 +11,7 @@ import { useTableDelivery } from './utils/useTableAdmin';
 interface Props {
   pesanan_access: any;
   status: string;
+  status_pengiriman: string;
   status_update: number;
   loading_update: boolean;
   requestCreate: ({ json, clear }: any) => void;
@@ -20,6 +21,7 @@ interface Props {
 const TableDeliveryComponent: React.FC<Props> = ({
   pesanan_access,
   status,
+  status_pengiriman,
   status_update,
   loading_update,
   requestCreate,
@@ -36,11 +38,16 @@ const TableDeliveryComponent: React.FC<Props> = ({
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchList(`${REACT_APP_ENV}/admin/orders/?method=delivery&status=${status}`);
+      if (status === '4') {
+        return fetchList(
+          `${REACT_APP_ENV}/admin/orders/?method=delivery&status=${status}&gosend_status=${status_pengiriman}`,
+        );
+      }
+      return fetchList(`${REACT_APP_ENV}/admin/orders/?method=delivery&status=${status}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status_update, status]);
+  }, [status_update, status, status_pengiriman]);
 
   const handleVisible = (id: string) => {
     setIdTransaction(Number(id));

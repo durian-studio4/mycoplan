@@ -7,12 +7,14 @@ interface Props {
   children: React.ReactNode;
   data_jumlah_delivery: (status: number) => void;
   onChangeStatus: (key: string) => void;
+  onChangeStatusPengiriman: (key: string) => void;
 }
 
 export const TabsDelivery: React.FC<Props> = ({
   children,
   data_jumlah_delivery,
   onChangeStatus,
+  onChangeStatusPengiriman,
 }) => {
   return (
     <>
@@ -21,12 +23,12 @@ export const TabsDelivery: React.FC<Props> = ({
         <TabPane tab={`Menunggu Konfirmasi (${data_jumlah_delivery(2).length || 0})`} key="2" />
         <TabPane tab={`Dalam Proses (${data_jumlah_delivery(3).length || 0})`} key="3" />
         <TabPane tab={`Sedang Dikirim (${data_jumlah_delivery(4).length || 0})`} key="4">
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="Request Delivery Ulang" key="1" />
-            <TabPane tab="Dalam Pengambilan" key="2" />
-            <TabPane tab="Dalam Pengiriman" key="3" />
-            <TabPane tab="Pesanan Selesai" key="4" />
-            <TabPane tab="Pesanan Gagal" key="5" />
+          <Tabs defaultActiveKey="dikirim" onChange={onChangeStatusPengiriman}>
+            <TabPane tab="Request Delivery Ulang" key="dikirim" />
+            <TabPane tab="Dalam Pengambilan" key="pengambilan" />
+            <TabPane tab="Dalam Pengiriman" key="pengiriman" />
+            <TabPane tab="Pesanan Selesai" key="selesai" />
+            <TabPane tab="Pesanan Gagal" key="gagal" />
           </Tabs>
         </TabPane>
         <TabPane tab={`Penyesuaian (${data_jumlah_delivery(6).length || 0})`} key="6" />
