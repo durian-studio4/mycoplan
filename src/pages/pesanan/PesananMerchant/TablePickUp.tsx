@@ -9,7 +9,7 @@ import useFetch from '@/hooks/useFetch';
 import { useTablePickUp } from '../utils/useTableMerchant';
 
 interface Props {
-  status: number;
+  status: string;
   status_update: number;
   loading_update: boolean;
   updateDelivery: (id: string, id_status: string) => void;

@@ -1,14 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Card, Row, Tabs } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
 import { PermissionContext } from '@/layouts/context';
 
-import { TabDelivery } from './TabsDelivery';
-import { TabPickUp } from './TabsPickUp';
+import { TabsDelivery } from './TabsDelivery';
+import { TabsPickUp } from './TabsPickUp';
 
 import PageUnauthorized from '@/components/PageUnauthorized';
+
+import TableDelivery from './TableDelivery';
+import TablePickUp from './TablePickUp';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
@@ -33,6 +36,9 @@ const PesananComponent: React.FC<Props> = () => {
   const [data_pick_up, status_pick_up, loading_pick_up, error_pick_up, fetchPickUp] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate] = useCreate();
 
+  const [statusDelivery, setStatusDelivery] = useState('1');
+  const [statusPickUp, setStatusPickUp] = useState('1');
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       fetchDelivery(`${REACT_APP_ENV}/admin/orders/?method=delivery`);
@@ -48,6 +54,9 @@ const PesananComponent: React.FC<Props> = () => {
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
+
+  const onChangeStatusDelivery = (key: string) => setStatusDelivery(key);
+  const onChangeStatusPickUp = (key: string) => setStatusPickUp(key);
 
   const updateDelivery = (id: string, id_status: string) => {
     postUpdate(`${REACT_APP_ENV}/admin/orders/${id}`, JSON.stringify({ id_status }));
@@ -104,23 +113,33 @@ const PesananComponent: React.FC<Props> = () => {
         </Row>
         <Tabs>
           <TabPane tab="Delivery" key="1">
-            <TabDelivery
+            <TabsDelivery
+              onChangeStatus={onChangeStatusDelivery}
               data_jumlah_delivery={data_jumlah_delivery}
-              pesanan_access={pesanan_access}
-              loading_update={Boolean(loading_update)}
-              status_update={Number(status_update)}
-              updateDelivery={updateDelivery}
-              createRequest={createRequest}
-            />
+            >
+              <TableDelivery
+                pesanan_access={pesanan_access}
+                status={statusDelivery}
+                loading_update={Boolean(loading_update)}
+                status_update={Number(status_update)}
+                requestCreate={createRequest}
+                updateDelivery={updateDelivery}
+              />
+            </TabsDelivery>
           </TabPane>
           <TabPane tab="Store Pick Up" key="2">
-            <TabPickUp
+            <TabsPickUp
               data_jumlah_pick_up={data_jumlah_pick_up}
-              pesanan_access={pesanan_access}
-              loading_update={Boolean(loading_update)}
-              status_update={Number(status_update)}
-              updateDelivery={updateDelivery}
-            />
+              onChangeStatus={onChangeStatusPickUp}
+            >
+              <TablePickUp
+                pesanan_access={pesanan_access}
+                status={statusPickUp}
+                loading_update={Boolean(loading_update)}
+                status_update={Number(status_update)}
+                updateDelivery={updateDelivery}
+              />
+            </TabsPickUp>
           </TabPane>
         </Tabs>
       </Card>

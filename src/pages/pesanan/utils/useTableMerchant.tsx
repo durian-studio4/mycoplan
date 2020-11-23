@@ -1,7 +1,9 @@
 import React, { useMemo, Fragment } from 'react';
-import { Row, Button, Popconfirm } from 'antd';
+import { Row, Button } from 'antd';
 import { NavLink } from 'umi';
 import styles from '../index.less';
+
+import { useDeliveryButton, usePickUpButton } from './useActionButton';
 
 interface DeliveryProps {
   loading: boolean;
@@ -16,6 +18,7 @@ export const useTableDelivery = ({
   handleVisiblePesanan,
   updateDelivery,
 }: DeliveryProps) => {
+  const [actionDeliveryButton] = useDeliveryButton();
   const columns = useMemo(
     () => [
       {
@@ -85,195 +88,35 @@ export const useTableDelivery = ({
         title: 'Action',
         fixed: 'right',
         width: 190,
-        render: (props: any) => (
+        render: ({
+          id,
+          id_status,
+          notes,
+        }: {
+          id: string;
+          id_status: number;
+          notes: string | null;
+        }) => (
           <Row justify="center">
-            <Popconfirm
-              title="Apakah Anda Ingin Terima?"
-              onConfirm={() => updateDelivery(props.id, '3')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 1 ||
-                props.id_status === 3 ||
-                props.id_status === 4 ||
-                props.id_status === 6 ||
-                props.id_status === 7 ||
-                props.id_status === 8 ||
-                props.id_status === 9
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading) ||
-                  props.id_status === 1 ||
-                  props.id_status === 3 ||
-                  props.id_status === 4 ||
-                  props.id_status === 6 ||
-                  props.id_status === 7 ||
-                  props.id_status === 8 ||
-                  props.id_status === 9
-                }
-                type="primary"
-              >
-                Terima
-              </Button>
-            </Popconfirm>
-
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => handleVisible(props.id)}
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 4 ||
-                props.id_status === 6 ||
-                props.id_status === 8 ||
-                props.id_status === 7 ||
-                props.id_status === 9
-              }
-              type="primary"
-            >
-              Request Delivery
-            </Button>
-
-            <Popconfirm
-              title="Apakah Anda Ingin Penyesuaian?"
-              onConfirm={() => updateDelivery(props.id, '6')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 3 ||
-                props.id_status === 6 ||
-                props.id_status === 7 ||
-                props.id_status === 8 ||
-                props.id_status === 9
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading) ||
-                  props.id_status === 1 ||
-                  props.id_status === 2 ||
-                  props.id_status === 3 ||
-                  props.id_status === 6 ||
-                  props.id_status === 7 ||
-                  props.id_status === 8 ||
-                  props.id_status === 9
-                }
-                type="primary"
-              >
-                Penyesuaian
-              </Button>
-            </Popconfirm>
-
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => handleVisiblePesanan(props.id, props.notes)}
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 3 ||
-                props.id_status === 6 ||
-                props.id_status === 8 ||
-                props.id_status === 7 ||
-                props.id_status === 9
-              }
-              type="primary"
-            >
-              Lacak Pesanan
-            </Button>
-
-            <Popconfirm
-              title="Apakah Anda Ingin Selesai?"
-              onConfirm={() => updateDelivery(props.id, '7')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 3 ||
-                props.id_status === 8 ||
-                props.id_status === 7 ||
-                props.id_status === 9
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading) ||
-                  props.id_status === 1 ||
-                  props.id_status === 2 ||
-                  props.id_status === 3 ||
-                  props.id_status === 8 ||
-                  props.id_status === 7 ||
-                  props.id_status === 9
-                }
-                type="primary"
-              >
-                Pesanan Selesai
-              </Button>
-            </Popconfirm>
-
-            <Popconfirm
-              title="Apakah Anda Ingin Batalkan?"
-              onConfirm={() => updateDelivery(props.id, '8')}
-              okText="Yes"
-              cancelText="No"
-              style={{
-                backgroundColor: props.id_status === 10 ? '#ff4d4f' : '',
-              }}
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 4 ||
-                props.id_status === 6 ||
-                props.id_status === 8 ||
-                props.id_status === 7 ||
-                props.id_status === 9
-              }
-            >
-              <Button
-                className={styles.button_action}
-                style={{
-                  backgroundColor: props.id_status === 10 ? '#ff4d4f' : '',
-                }}
-                id={props.id}
-                disabled={
-                  Boolean(loading) ||
-                  props.id_status === 4 ||
-                  props.id_status === 6 ||
-                  props.id_status === 8 ||
-                  props.id_status === 7 ||
-                  props.id_status === 9
-                }
-                type="primary"
-              >
-                Batalkan
-              </Button>
-            </Popconfirm>
+            {actionDeliveryButton({
+              id,
+              id_status,
+              notes,
+              handleVisible,
+              loading: Boolean(loading),
+              handleVisiblePesanan,
+              updateDelivery,
+            })}
 
             <Button className={styles.button_action} disabled={Boolean(loading)} type="primary">
-              <NavLink to={`/pesanan/detail/merchant/${props.id}`}>Lihat Detail</NavLink>
+              <NavLink to={`/pesanan/detail/merchant/${id}`}>Lihat Detail</NavLink>
             </Button>
           </Row>
         ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [actionDeliveryButton],
   );
   return [columns];
 };
@@ -284,6 +127,7 @@ interface PickUpProps {
 }
 
 export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
+  const [actionPickUpButton] = usePickUpButton();
   const columns = useMemo(
     () => [
       {
@@ -353,168 +197,23 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
         title: 'Action',
         fixed: 'right',
         width: 190,
-        render: (props: any) => (
+        render: ({ id, id_status }: { id: string; id_status: number }) => (
           <Row justify="center">
-            <Popconfirm
-              title="Apakah Anda Ingin Terima?"
-              onConfirm={() => updateDelivery(props.id, '3')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 1 ||
-                props.id_status === 3 ||
-                props.id_status === 5 ||
-                props.id_status === 6 ||
-                props.id_status === 7 ||
-                props.id_status === 8 ||
-                props.id_status === 9
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading) ||
-                  props.id_status === 1 ||
-                  props.id_status === 3 ||
-                  props.id_status === 5 ||
-                  props.id_status === 6 ||
-                  props.id_status === 7 ||
-                  props.id_status === 8 ||
-                  props.id_status === 9
-                }
-                type="primary"
-              >
-                Terima
-              </Button>
-            </Popconfirm>
-
-            <Button
-              className={styles.button_action}
-              id={props.id}
-              onClick={() => updateDelivery(props.id, '5')}
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 5 ||
-                props.id_status === 6 ||
-                props.id_status === 7 ||
-                props.id_status === 8 ||
-                props.id_status === 9
-              }
-              type="primary"
-            >
-              Siap Untuk Pick Up
-            </Button>
-
-            <Popconfirm
-              title="Apakah Anda Ingin Penyesuaian?"
-              onConfirm={() => updateDelivery(props.id, '6')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 3 ||
-                props.id_status === 6 ||
-                props.id_status === 7 ||
-                props.id_status === 8 ||
-                props.id_status === 9
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading) ||
-                  props.id_status === 1 ||
-                  props.id_status === 2 ||
-                  props.id_status === 3 ||
-                  props.id_status === 6 ||
-                  props.id_status === 7 ||
-                  props.id_status === 8 ||
-                  props.id_status === 9
-                }
-                type="primary"
-              >
-                Penyesuaian
-              </Button>
-            </Popconfirm>
-
-            <Popconfirm
-              title="Apakah Anda Ingin Selesai?"
-              onConfirm={() => updateDelivery(props.id, '7')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 1 ||
-                props.id_status === 2 ||
-                props.id_status === 3 ||
-                props.id_status === 7 ||
-                props.id_status === 8 ||
-                props.id_status === 9
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading) ||
-                  props.id_status === 1 ||
-                  props.id_status === 2 ||
-                  props.id_status === 3 ||
-                  props.id_status === 7 ||
-                  props.id_status === 8 ||
-                  props.id_status === 9
-                }
-                type="primary"
-              >
-                Pesanan Selesai
-              </Button>
-            </Popconfirm>
-
-            <Popconfirm
-              title="Apakah Anda Ingin Batalkan?"
-              onConfirm={() => updateDelivery(props.id, '8')}
-              okText="Yes"
-              cancelText="No"
-              disabled={
-                Boolean(loading) ||
-                props.id_status === 6 ||
-                props.id_status === 7 ||
-                props.id_status === 8 ||
-                props.id_status === 9
-              }
-            >
-              <Button
-                className={styles.button_action}
-                id={props.id}
-                disabled={
-                  Boolean(loading) ||
-                  props.id_status === 6 ||
-                  props.id_status === 7 ||
-                  props.id_status === 8 ||
-                  props.id_status === 9
-                }
-                type="primary"
-              >
-                Batalkan
-              </Button>
-            </Popconfirm>
-
+            {actionPickUpButton({
+              id,
+              id_status,
+              loading: Boolean(loading),
+              updateDelivery,
+            })}
             <Button className={styles.button_action} disabled={Boolean(loading)} type="primary">
-              <NavLink to={`/pesanan/detail/merchant/${props.id}`}>Lihat Detail</NavLink>
+              <NavLink to={`/pesanan/detail/merchant/${id}`}>Lihat Detail</NavLink>
             </Button>
           </Row>
         ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [actionPickUpButton],
   );
 
   return [columns];

@@ -10,7 +10,7 @@ import useFetch from '@/hooks/useFetch';
 import { useTableDelivery } from './utils/useTableAdmin';
 interface Props {
   pesanan_access: any;
-  status: number;
+  status: string;
   status_update: number;
   loading_update: boolean;
   requestCreate: ({ json, clear }: any) => void;

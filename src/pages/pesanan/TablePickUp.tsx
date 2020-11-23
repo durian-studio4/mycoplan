@@ -9,7 +9,7 @@ import { useTablePickUp } from './utils/useTableAdmin';
 
 interface Props {
   pesanan_access: any;
-  status: number;
+  status: string;
   status_update: number;
   loading_update: boolean;
   updateDelivery: (id: string, id_status: string) => void;
