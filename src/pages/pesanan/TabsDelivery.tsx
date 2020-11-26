@@ -22,8 +22,8 @@ export const TabsDelivery: React.FC<Props> = ({
         <TabPane tab={`Menunggu Pembayaran (${data_jumlah_delivery(1).length || 0})`} key="1" />
         <TabPane tab={`Menunggu Konfirmasi (${data_jumlah_delivery(2).length || 0})`} key="2" />
         <TabPane tab={`Dalam Proses (${data_jumlah_delivery(3).length || 0})`} key="3" />
-        <TabPane tab={`Sedang Dikirim (${data_jumlah_delivery(4).length || 0})`} key="4">
-          <Tabs defaultActiveKey="dikirim" onChange={onChangeStatusPengiriman}>
+        <TabPane tab={`Pengiriman (${data_jumlah_delivery(4).length || 0})`} key="4">
+          <Tabs defaultActiveKey="pengambilan" onChange={onChangeStatusPengiriman}>
             <TabPane tab="Request Delivery Ulang" key="dikirim" />
             <TabPane tab="Dalam Pengambilan" key="pengambilan" />
             <TabPane tab="Dalam Pengiriman" key="pengiriman" />
