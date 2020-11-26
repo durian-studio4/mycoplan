@@ -10,6 +10,7 @@ interface DeliveryProps {
   loading: boolean;
   updateDelivery: (id: string, status: string) => void;
   handleVisible: (id: string) => void;
+  status_pengiriman: string;
   handleVisiblePesanan: (
     id: string,
     notes: string | null,
@@ -21,11 +22,12 @@ interface DeliveryProps {
 
 export const useTableDelivery = ({
   loading,
+  status_pengiriman,
   handleVisible,
   handleVisiblePesanan,
   updateDelivery,
 }: DeliveryProps) => {
-  const [actionDeliveryButton] = useDeliveryButton();
+  const [actionDeliveryButton] = useDeliveryButton(status_pengiriman);
 
   const columns = useMemo(
     () => [
@@ -74,7 +76,7 @@ export const useTableDelivery = ({
           return (
             <Fragment>
               <p>
-                {props.start} -{props.end}
+                {props.start} - {props.end}
               </p>
               <p>{props.jadwal}</p>
             </Fragment>

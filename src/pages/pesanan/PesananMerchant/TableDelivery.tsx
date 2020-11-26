@@ -109,6 +109,7 @@ const TableDeliveryComponent: React.FC<Props> = ({
 
   const [columns] = useTableDelivery({
     loading: Boolean(loading_update),
+    status_pengiriman,
     updateDelivery,
     handleVisiblePesanan,
     handleVisible,

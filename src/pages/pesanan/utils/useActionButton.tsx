@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Popconfirm, Button } from 'antd';
 import styles from '../index.less';
 
@@ -64,7 +64,7 @@ const renderPembatalan = ({
   </>
 );
 
-export const useDeliveryButton = () => {
+export const useDeliveryButton = (status_pengiriman: string) => {
   const renderButton = ({
     id,
     id_status,
@@ -107,7 +107,11 @@ export const useDeliveryButton = () => {
             className={styles.button_action}
             id={id}
             onClick={() => handleVisible(id)}
-            disabled={loading || [1, 2, 4, 6, 7, 8, 9].includes(id_status)}
+            disabled={
+              loading || status_pengiriman === 'dikirim'
+                ? [1, 2, 6, 7, 8, 9].includes(id_status)
+                : [1, 2, 4, 6, 7, 8, 9].includes(id_status)
+            }
             type="primary"
           >
             Request Delivery

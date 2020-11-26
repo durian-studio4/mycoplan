@@ -7,6 +7,7 @@ import { useDeliveryButton, usePickUpButton } from './useActionButton';
 
 interface DeliveryProps {
   loading: boolean;
+  status_pengiriman: string;
   updateDelivery: (id: string, status: string) => void;
   handleVisible: (id: string) => void;
   handleVisiblePesanan: (
@@ -20,11 +21,12 @@ interface DeliveryProps {
 
 export const useTableDelivery = ({
   loading,
+  status_pengiriman,
   handleVisible,
   handleVisiblePesanan,
   updateDelivery,
 }: DeliveryProps) => {
-  const [actionDeliveryButton] = useDeliveryButton();
+  const [actionDeliveryButton] = useDeliveryButton(status_pengiriman);
   const columns = useMemo(
     () => [
       {
