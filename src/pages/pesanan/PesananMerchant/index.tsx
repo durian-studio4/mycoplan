@@ -26,6 +26,26 @@ const PesananComponent: React.FC<Props> = () => {
   ] = useFetch();
 
   const [data_pick_up, status_pick_up, loading_pick_up, error_pick_up, fetchPickUp] = useFetch();
+
+  //sub pengiriman
+  const [data_dikirim, status_dikirim, loading_dikirim, error_dikirim, fetchDikirim] = useFetch();
+  const [
+    data_pengambilan,
+    status_pengambilan,
+    loading_pengambilan,
+    error_pengambilan,
+    fetchPengambilan,
+  ] = useFetch();
+  const [
+    data_pengiriman,
+    status_pengiriman,
+    loading_pengiriman,
+    error_pengiriman,
+    fetchPengiriman,
+  ] = useFetch();
+  const [data_selesai, status_selesai, loading_selesai, error_selesai, fetchSelesai] = useFetch();
+  const [data_gagal, status_gagal, loading_gagal, error_gagal, fetchGagal] = useFetch();
+
   const [loading_update, status_update, postCreate, postUpdate] = useCreate();
 
   const [statusDelivery, setStatusDelivery] = useState('1');
@@ -48,6 +68,64 @@ const PesananComponent: React.FC<Props> = () => {
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      if (statusDelivery === '4') {
+        return fetchDikirim(
+          `${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=dikirim`,
+        );
+      }
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update, statusDelivery]);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      if (statusDelivery === '4') {
+        return fetchPengambilan(
+          `${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=pengambilan`,
+        );
+      }
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update, statusDelivery]);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      if (statusDelivery === '4') {
+        fetchPengiriman(
+          `${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=pengiriman`,
+        );
+      }
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update, statusDelivery]);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      if (statusDelivery === '4') {
+        fetchSelesai(
+          `${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=selesai`,
+        );
+      }
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update, statusDelivery]);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      if (statusDelivery === '4') {
+        fetchGagal(`${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=gagal`);
+      }
+    }, 0);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status_update, statusDelivery]);
 
   const onChangeStatusDelivery = (key: string) => setStatusDelivery(key);
   const onChangeStatusPickUp = (key: string) => setStatusPickUp(key);
@@ -86,6 +164,63 @@ const PesananComponent: React.FC<Props> = () => {
     }
   };
 
+  //data length sub pengiriman
+  let data_jumlah_dikirim = () => {
+    if (Boolean(loading_dikirim)) {
+      return 0;
+    } else {
+      if (status_dikirim !== 200 || error_dikirim) {
+        return 0;
+      } else {
+        return data_dikirim;
+      }
+    }
+  };
+  let data_jumlah_pengambilan = () => {
+    if (Boolean(loading_pengambilan)) {
+      return 0;
+    } else {
+      if (status_pengambilan !== 200 || error_pengambilan) {
+        return 0;
+      } else {
+        return data_pengambilan;
+      }
+    }
+  };
+  let data_jumlah_pengiriman = () => {
+    if (Boolean(loading_pengiriman)) {
+      return 0;
+    } else {
+      if (status_pengiriman !== 200 || error_pengiriman) {
+        return 0;
+      } else {
+        return data_pengiriman;
+      }
+    }
+  };
+  let data_jumlah_selesai = () => {
+    if (Boolean(loading_selesai)) {
+      return 0;
+    } else {
+      if (status_selesai !== 200 || error_selesai) {
+        return 0;
+      } else {
+        return data_selesai;
+      }
+    }
+  };
+  let data_jumlah_gagal = () => {
+    if (Boolean(loading_gagal)) {
+      return 0;
+    } else {
+      if (status_gagal !== 200 || error_gagal) {
+        return 0;
+      } else {
+        return data_gagal;
+      }
+    }
+  };
+
   return (
     <div>
       <p className={styles.title}>Pesanan</p>
@@ -103,6 +238,11 @@ const PesananComponent: React.FC<Props> = () => {
               onChangeStatus={onChangeStatusDelivery}
               onChangeStatusPengiriman={onChangeStatusPengiriman}
               data_jumlah_delivery={data_jumlah_delivery}
+              data_jumlah_dikirim={data_jumlah_dikirim}
+              data_jumlah_pengambilan={data_jumlah_pengambilan}
+              data_jumlah_pengiriman={data_jumlah_pengiriman}
+              data_jumlah_selesai={data_jumlah_selesai}
+              data_jumlah_gagal={data_jumlah_gagal}
             >
               <TableDelivery
                 status={statusDelivery}

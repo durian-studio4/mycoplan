@@ -64,6 +64,102 @@ const renderPembatalan = ({
   </>
 );
 
+const renderTerima = ({
+  loading,
+  update,
+  id,
+}: {
+  loading: boolean;
+  update: (id: string, id_status: string) => void;
+  id: string;
+}) => (
+  <>
+    <Popconfirm
+      title="Apakah Anda Ingin Terima?"
+      onConfirm={() => update(id, '3')}
+      okText="Yes"
+      cancelText="No"
+      disabled={loading}
+    >
+      <Button className={styles.button_action} id={id} disabled={loading} type="primary">
+        Terima
+      </Button>
+    </Popconfirm>
+  </>
+);
+
+const renderPenyesuaian = ({
+  loading,
+  update,
+  id,
+}: {
+  loading: boolean;
+  update: (id: string, id_status: string) => void;
+  id: string;
+}) => (
+  <>
+    <Popconfirm
+      title="Apakah Anda Ingin Penyesuaian?"
+      onConfirm={() => update(id, '6')}
+      okText="Yes"
+      cancelText="No"
+      disabled={loading}
+    >
+      <Button className={styles.button_action} id={id} disabled={loading} type="primary">
+        Penyesuaian
+      </Button>
+    </Popconfirm>
+  </>
+);
+
+const renderSelesai = ({
+  loading,
+  update,
+  id,
+}: {
+  loading: boolean;
+  update: (id: string, id_status: string) => void;
+  id: string;
+}) => (
+  <>
+    <Popconfirm
+      title="Apakah Anda Ingin Selesai?"
+      onConfirm={() => update(id, '7')}
+      okText="Yes"
+      cancelText="No"
+      disabled={loading}
+    >
+      <Button className={styles.button_action} id={id} disabled={loading} type="primary">
+        Pesanan Selesai
+      </Button>
+    </Popconfirm>
+  </>
+);
+
+const renderBatal = ({
+  loading,
+  update,
+  id,
+}: {
+  loading: boolean;
+  update: (id: string, id_status: string) => void;
+  id: string;
+}) => (
+  <>
+    <Popconfirm
+      title="Apakah Anda Ingin Batalkan?"
+      onConfirm={() => update(id, '8')}
+      okText="Yes"
+      cancelText="No"
+      disabled={loading}
+    >
+      <Button className={styles.button_action} id={id} disabled={loading} type="primary">
+        Batalkan
+      </Button>
+    </Popconfirm>
+  </>
+);
+
 export const useDeliveryButton = (status_pengiriman: string) => {
   const renderButton = ({
     id,
@@ -76,205 +172,213 @@ export const useDeliveryButton = (status_pengiriman: string) => {
     updateDelivery,
     handleVisible,
     handleVisiblePesanan,
-  }: PropsDelivery) => (
-    <>
-      {id_status === 10 ? (
-        renderPembatalan({
-          loading,
-          update: updateDelivery,
-          id,
-        })
-      ) : (
-        <>
-          <Popconfirm
-            title="Apakah Anda Ingin Terima?"
-            onConfirm={() => updateDelivery(id, '3')}
-            okText="Yes"
-            cancelText="No"
-            disabled={loading || [1, 3, 4, 6, 7, 8, 9].includes(id_status)}
-          >
+  }: PropsDelivery) => {
+    switch (id_status) {
+      case 1:
+        return (
+          <>
+            {renderBatal({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
+      case 2:
+        return (
+          <>
+            {renderTerima({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+            {renderBatal({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
+      case 3:
+        return (
+          <>
             <Button
               className={styles.button_action}
               id={id}
-              disabled={loading || [1, 3, 4, 6, 7, 8, 9].includes(id_status)}
+              onClick={() => handleVisible(id)}
+              disabled={loading}
               type="primary"
             >
-              Terima
+              Request Delivery
             </Button>
-          </Popconfirm>
-
-          <Button
-            className={styles.button_action}
-            id={id}
-            onClick={() => handleVisible(id)}
-            disabled={
-              loading || status_pengiriman === 'dikirim'
-                ? [1, 2, 6, 7, 8, 9].includes(id_status)
-                : [1, 2, 4, 6, 7, 8, 9].includes(id_status)
-            }
-            type="primary"
-          >
-            Request Delivery
-          </Button>
-
-          <Popconfirm
-            title="Apakah Anda Ingin Penyesuaian?"
-            onConfirm={() => updateDelivery(id, '6')}
-            okText="Yes"
-            cancelText="No"
-            disabled={loading || [1, 2, 3, 6, 7, 8, 9].includes(id_status)}
-          >
+            {renderBatal({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
+      case 4:
+        return (
+          <>
+            {status_pengiriman === 'dikirim' ? (
+              <Button
+                className={styles.button_action}
+                id={id}
+                onClick={() => handleVisible(id)}
+                disabled={loading}
+                type="primary"
+              >
+                Request Delivery
+              </Button>
+            ) : null}
+            {renderPenyesuaian({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
             <Button
               className={styles.button_action}
               id={id}
-              disabled={loading || [1, 2, 3, 6, 7, 8, 9].includes(id_status)}
+              onClick={() => handleVisiblePesanan(id, notes, nama, telepon, merchant)}
+              disabled={loading}
               type="primary"
             >
-              Penyesuaian
+              Lacak Pesanan
             </Button>
-          </Popconfirm>
+            {renderSelesai({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
 
-          <Button
-            className={styles.button_action}
-            id={id}
-            onClick={() => handleVisiblePesanan(id, notes, nama, telepon, merchant)}
-            disabled={loading || [1, 2, 3, 6, 7, 8, 9].includes(id_status)}
-            type="primary"
-          >
-            Lacak Pesanan
-          </Button>
+      case 6:
+        return (
+          <>
+            {renderSelesai({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
 
-          <Popconfirm
-            title="Apakah Anda Ingin Selesai?"
-            onConfirm={() => updateDelivery(id, '7')}
-            okText="Yes"
-            cancelText="No"
-            disabled={loading || [1, 2, 3, 7, 8, 9].includes(id_status)}
-          >
-            <Button
-              className={styles.button_action}
-              id={id}
-              disabled={loading || [1, 2, 3, 7, 8, 9].includes(id_status)}
-              type="primary"
-            >
-              Pesanan Selesai
-            </Button>
-          </Popconfirm>
+      case 10:
+        return (
+          <>
+            {renderPembatalan({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
 
-          <Popconfirm
-            title="Apakah Anda Ingin Batalkan?"
-            onConfirm={() => updateDelivery(id, '8')}
-            okText="Yes"
-            cancelText="No"
-            disabled={loading || [4, 6, 7, 8, 9].includes(id_status)}
-          >
-            <Button
-              className={styles.button_action}
-              id={id}
-              disabled={loading || [4, 6, 7, 8, 9].includes(id_status)}
-              type="primary"
-            >
-              Batalkan
-            </Button>
-          </Popconfirm>
-        </>
-      )}
-    </>
-  );
+      default:
+        return null;
+    }
+  };
   return [renderButton];
 };
 
 export const usePickUpButton = () => {
-  const renderButton = ({ id, id_status, loading, updateDelivery }: PropsPickUp) => (
-    <>
-      {id_status === 10 ? (
-        renderPembatalan({
-          loading,
-          update: updateDelivery,
-          id,
-        })
-      ) : (
-        <>
-          <Popconfirm
-            title="Apakah Anda Ingin Terima?"
-            onConfirm={() => updateDelivery(id, '3')}
-            okText="Yes"
-            cancelText="No"
-            disabled={Boolean(loading) || [1, 3, 5, 6, 7, 8, 9].includes(id_status)}
-          >
+  const renderButton = ({ id, id_status, loading, updateDelivery }: PropsPickUp) => {
+    switch (id_status) {
+      case 1:
+        return (
+          <>
+            {renderBatal({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
+
+      case 2:
+        return (
+          <>
+            {renderTerima({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+            {renderBatal({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
+
+      case 3:
+        return (
+          <>
             <Button
               className={styles.button_action}
               id={id}
-              disabled={Boolean(loading) || [1, 3, 5, 6, 7, 8, 9].includes(id_status)}
+              onClick={() => updateDelivery(id, '5')}
+              disabled={Boolean(loading)}
               type="primary"
             >
-              Terima
+              Siap Untuk Pick Up
             </Button>
-          </Popconfirm>
+            {renderBatal({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
 
-          <Button
-            className={styles.button_action}
-            id={id}
-            onClick={() => updateDelivery(id, '5')}
-            disabled={Boolean(loading) || [1, 2, 5, 6, 7, 8, 9].includes(id_status)}
-            type="primary"
-          >
-            Siap Untuk Pick Up
-          </Button>
+      case 5:
+        return (
+          <>
+            {renderPenyesuaian({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+            {renderSelesai({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+            {renderBatal({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
 
-          <Popconfirm
-            title="Apakah Anda Ingin Penyesuaian?"
-            onConfirm={() => updateDelivery(id, '6')}
-            okText="Yes"
-            cancelText="No"
-            disabled={Boolean(loading) || [1, 2, 3, 6, 7, 8, 9].includes(id_status)}
-          >
-            <Button
-              className={styles.button_action}
-              id={id}
-              disabled={Boolean(loading) || [1, 2, 3, 6, 7, 8, 9].includes(id_status)}
-              type="primary"
-            >
-              Penyesuaian
-            </Button>
-          </Popconfirm>
+      case 6:
+        return (
+          <>
+            {renderSelesai({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
 
-          <Popconfirm
-            title="Apakah Anda Ingin Selesai?"
-            onConfirm={() => updateDelivery(id, '7')}
-            okText="Yes"
-            cancelText="No"
-            disabled={Boolean(loading) || [1, 2, 3, 7, 8, 9].includes(id_status)}
-          >
-            <Button
-              className={styles.button_action}
-              id={id}
-              disabled={Boolean(loading) || [1, 2, 3, 7, 8, 9].includes(id_status)}
-              type="primary"
-            >
-              Pesanan Selesai
-            </Button>
-          </Popconfirm>
+      case 10:
+        return (
+          <>
+            {renderPembatalan({
+              loading,
+              update: updateDelivery,
+              id,
+            })}
+          </>
+        );
 
-          <Popconfirm
-            title="Apakah Anda Ingin Batalkan?"
-            onConfirm={() => updateDelivery(id, '8')}
-            okText="Yes"
-            cancelText="No"
-            disabled={Boolean(loading) || [6, 7, 8, 9].includes(id_status)}
-          >
-            <Button
-              className={styles.button_action}
-              id={id}
-              disabled={Boolean(loading) || [6, 7, 8, 9].includes(id_status)}
-              type="primary"
-            >
-              Batalkan
-            </Button>
-          </Popconfirm>
-        </>
-      )}
-    </>
-  );
+      default:
+        return null;
+    }
+  };
   return [renderButton];
 };
