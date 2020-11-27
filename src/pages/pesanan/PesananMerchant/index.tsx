@@ -31,7 +31,7 @@ const PesananComponent: React.FC<Props> = () => {
   const [statusDelivery, setStatusDelivery] = useState('1');
   const [statusPickUp, setStatusPickUp] = useState('1');
 
-  const [statusPengiriman, setStatusPengiriman] = useState('dikirim');
+  const [statusPengiriman, setStatusPengiriman] = useState('pengambilan');
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
