@@ -133,21 +133,8 @@ const UpdateComponent: React.FC<Props> = () => {
     if (!steps) {
       return setDisabled(true);
     }
-    if (!supermarket.length) {
-      return setDisabled(true);
-    }
     return setDisabled(false);
-  }, [
-    name,
-    author,
-    categories,
-    supermarket,
-    production_time,
-    portion_min,
-    portion_max,
-    ingredients,
-    steps,
-  ]);
+  }, [name, author, categories, production_time, portion_min, portion_max, ingredients, steps]);
 
   const handleVisibleKategori = () => setVisible(!visible);
 

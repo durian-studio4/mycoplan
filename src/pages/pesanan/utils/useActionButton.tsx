@@ -8,13 +8,13 @@ interface PropsDelivery {
   nama: string | null;
   telepon: string | null;
   merchant: string | null;
-  notes: string | null;
+  // notes: string | null;
   loading: boolean;
   updateDelivery: (id: string, status: string) => void;
   handleVisible: (id: string) => void;
   handleVisiblePesanan: (
     id: string,
-    notes: string | null,
+    // notes: string | null,
     nama: string | null,
     telepon: string | null,
     merchant: string | null,
@@ -168,7 +168,7 @@ export const useDeliveryButton = (status_pengiriman: string) => {
     nama,
     telepon,
     merchant,
-    notes,
+    // notes,
     updateDelivery,
     handleVisible,
     handleVisiblePesanan,
@@ -240,7 +240,15 @@ export const useDeliveryButton = (status_pengiriman: string) => {
             <Button
               className={styles.button_action}
               id={id}
-              onClick={() => handleVisiblePesanan(id, notes, nama, telepon, merchant)}
+              onClick={() =>
+                handleVisiblePesanan(
+                  id,
+                  // notes,
+                  nama,
+                  telepon,
+                  merchant,
+                )
+              }
               disabled={loading}
               type="primary"
             >

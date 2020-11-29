@@ -11,7 +11,6 @@ interface Props {
   visible: boolean;
   role: string;
   id_transaction: number;
-  notes: string | null;
   nama: string | null;
   no_telp: string | null;
   merchant_name: string | null;
@@ -22,7 +21,6 @@ const LacakComponent: React.FC<Props> = ({
   visible,
   role,
   id_transaction,
-  notes,
   nama,
   no_telp,
   merchant_name,
@@ -87,6 +85,7 @@ const LacakComponent: React.FC<Props> = ({
             </Row>
             <Divider />
           </div>
+
           <div className={styles.box10}>
             <p style={{ fontWeight: 'bold', fontSize: 16 }}>Pembeli</p>
             <Row align="middle" style={{ margin: '5px 10px' }}>
@@ -104,18 +103,23 @@ const LacakComponent: React.FC<Props> = ({
             <Row align="middle" style={{ margin: '5px 10px' }}>
               <Col>
                 <p style={{ fontWeight: 'bold' }}>Alamat Pembeli</p>
-                <p>{data_list.buyerAddressName ? data_list.buyerAddressName : '-'}</p>
                 <p>{data_list.buyerAddressDetail ? data_list.buyerAddressDetail : '-'}</p>
+                <p>
+                  {data_list.buyer_address && data_list.buyer_address.detail_alamat
+                    ? data_list.buyer_address.detail_alamat
+                    : '-'}
+                </p>
               </Col>
             </Row>
             <Row align="middle" style={{ margin: '5px 10px' }}>
               <Col>
-                <p>Catatan Pembeli</p>
-                <p style={{ fontWeight: 'bold', fontSize: 16 }}>{notes ? notes : '-'}</p>
+                <p style={{ fontWeight: 'bold' }}>Catatan Pembeli</p>
+                <p>{data_list.buyer_note ? data_list.buyer_note : '-'}</p>
               </Col>
             </Row>
             <Divider />
           </div>
+
           <div className={styles.box10}>
             <p style={{ fontWeight: 'bold', fontSize: 16 }}>Penjual</p>
             <Row align="middle" style={{ margin: '5px 10px' }}>
@@ -126,9 +130,21 @@ const LacakComponent: React.FC<Props> = ({
             </Row>
             <Row align="middle" style={{ margin: '5px 10px' }}>
               <Col>
+                <p style={{ fontWeight: 'bold' }}>No.Telp Penjual</p>
+                <p>{data_list.sender_phone ? data_list.sender_phone : '-'}</p>
+              </Col>
+            </Row>
+            <Row align="middle" style={{ margin: '5px 10px' }}>
+              <Col>
                 <p style={{ fontWeight: 'bold' }}>Alamat Penjual</p>
-                <p>{data_list.sellerAddressName ? data_list.sellerAddressName : '-'}</p>
+                {/* <p>{data_list.sellerAddressName ? data_list.sellerAddressName : '-'}</p> */}
                 <p>{data_list.sellerAddressDetail ? data_list.sellerAddressDetail : '-'}</p>
+              </Col>
+            </Row>
+            <Row align="middle" style={{ margin: '5px 10px' }}>
+              <Col>
+                <p style={{ fontWeight: 'bold' }}>Catatan Penjual</p>
+                <p>{data_list.sender_note ? data_list.sender_note : '-'}</p>
               </Col>
             </Row>
             <Divider />

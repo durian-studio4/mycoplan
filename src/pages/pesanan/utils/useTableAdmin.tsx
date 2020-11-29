@@ -13,7 +13,7 @@ interface DeliveryProps {
   status_pengiriman: string;
   handleVisiblePesanan: (
     id: string,
-    notes: string | null,
+    // notes: string | null,
     nama: string | null,
     noTelp: string | null,
     merchantName: string | null,
@@ -103,7 +103,7 @@ export const useTableDelivery = ({
         render: ({
           id,
           id_status,
-          notes,
+          // notes,
           nama,
           telepon,
           merchant,
@@ -113,7 +113,7 @@ export const useTableDelivery = ({
           nama: string | null;
           telepon: string | null;
           merchant: string | null;
-          notes: string | null;
+          // notes: string | null;
         }) => (
           <Row justify="center">
             {actionDeliveryButton({
@@ -122,7 +122,7 @@ export const useTableDelivery = ({
               merchant,
               nama,
               telepon,
-              notes,
+              // notes,
               handleVisible,
               handleVisiblePesanan,
               loading: Boolean(loading),

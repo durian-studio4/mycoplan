@@ -86,15 +86,11 @@ const AddComponent: React.FC<Props> = () => {
     if (!categories.length) {
       return setDisabled(true);
     }
-    if (!supermarket.length) {
-      return setDisabled(true);
-    }
     return setDisabled(false);
   }, [
     name,
     author,
     categories,
-    supermarket,
     production_time,
     portion_min,
     portion_max,

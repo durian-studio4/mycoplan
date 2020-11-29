@@ -34,7 +34,7 @@ const TableDeliveryComponent: React.FC<Props> = ({
   const [visible_pesanan, setVisiblePesanan] = useState(false);
   const [id_transaction, setIdTransaction] = useState(0);
 
-  const [notes, setNotes] = useState<string | null>('');
+  // const [notes, setNotes] = useState<string | null>('');
   const [nama, setNama] = useState<string | null>('');
   const [noTelp, setNoTelp] = useState<string | null>('');
 
@@ -65,14 +65,14 @@ const TableDeliveryComponent: React.FC<Props> = ({
 
   const handleVisiblePesanan = (
     id: string,
-    notes: string | null,
+    // notes: string | null,
     nama: string | null,
     noTelp: string | null,
     merchantName: string | null,
   ) => {
     setIdTransaction(Number(id));
     setNama(nama);
-    setNotes(notes);
+    // setNotes(notes);
     setNoTelp(noTelp);
     setMerchantName(merchantName);
     setVisiblePesanan(!visible_pesanan);
@@ -80,7 +80,7 @@ const TableDeliveryComponent: React.FC<Props> = ({
 
   const handleVisiblePesananClear = () => {
     setIdTransaction(0);
-    setNotes('');
+    // setNotes('');
     setNama('');
     setNoTelp('');
     setMerchantName('');
@@ -144,7 +144,7 @@ const TableDeliveryComponent: React.FC<Props> = ({
           role="admin"
           visible={visible_pesanan}
           id_transaction={id_transaction}
-          notes={notes}
+          // notes={notes}
           nama={nama}
           no_telp={noTelp}
           merchant_name={merchantName}
