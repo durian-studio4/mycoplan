@@ -47,8 +47,11 @@ export const TabsDelivery: React.FC<Props> = ({
               tab={`Dalam Pengiriman (${data_jumlah_pengiriman().length || 0})`}
               key="pengiriman"
             />
-            <TabPane tab={`Pesanan Selesai (${data_jumlah_selesai().length || 0})`} key="selesai" />
-            <TabPane tab={`Pesanan Gagal (${data_jumlah_gagal().length || 0})`} key="gagal" />
+            <TabPane
+              tab={`Pengiriman Selesai (${data_jumlah_selesai().length || 0})`}
+              key="selesai"
+            />
+            <TabPane tab={`Pengiriman Gagal (${data_jumlah_gagal().length || 0})`} key="gagal" />
           </Tabs>
         </TabPane>
         <TabPane tab={`Penyesuaian (${data_jumlah_delivery(6).length || 0})`} key="6" />
