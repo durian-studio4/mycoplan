@@ -10,10 +10,10 @@ interface Props {
 
 const SelectPenyesuaianComponent: React.FC<Props> = ({ initial, handleChange }) => {
   const data = [
-    {
-      id: 'add',
-      value: '+',
-    },
+    // {
+    //   id: 'add',
+    //   value: '+',
+    // },
     {
       id: 'substract',
       value: '-',

@@ -36,7 +36,7 @@ function App() {
         history.push('/user/login');
       }
 
-      if (err.response.data.message) {
+      if (err.response && err.response.data && err.response.data.message) {
         message.warning(err.response.data.message);
       }
     }

@@ -6,6 +6,8 @@ import styles from '../index.less';
 
 import { useDeliveryButton, usePickUpButton } from './useActionButton';
 
+import useFilterColumn from '@/hooks/useFilterColumn';
+
 interface DeliveryProps {
   loading: boolean;
   updateDelivery: (id: string, status: string) => void;
@@ -28,6 +30,7 @@ export const useTableDelivery = ({
   updateDelivery,
 }: DeliveryProps) => {
   const [actionDeliveryButton] = useDeliveryButton(status_pengiriman);
+  const [getColumnSearchProps] = useFilterColumn();
 
   const columns = useMemo(
     () => [
@@ -48,6 +51,7 @@ export const useTableDelivery = ({
         title: 'No. Pesanan',
         dataIndex: 'pesanan',
         key: 'pesanan',
+        ...getColumnSearchProps('pesanan'),
       },
       {
         align: 'center',
@@ -75,10 +79,10 @@ export const useTableDelivery = ({
         render: (props: any) => {
           return (
             <Fragment>
+              <p>{props.jadwal}</p>
               <p>
                 {props.start} - {props.end}
               </p>
-              <p>{props.jadwal}</p>
             </Fragment>
           );
         },
@@ -148,6 +152,8 @@ interface PickUpProps {
 
 export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
   const [actionPickUpButton] = usePickUpButton();
+  const [getColumnSearchProps] = useFilterColumn();
+
   const columns = useMemo(
     () => [
       {
@@ -167,6 +173,7 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
         title: 'No. Pesanan',
         dataIndex: 'pesanan',
         key: 'pesanan',
+        ...getColumnSearchProps('pesanan'),
       },
       {
         align: 'center',
@@ -193,10 +200,10 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
         key: 'jadwal',
         render: (props: any) => (
           <Fragment>
+            <p>{props.jadwal}</p>
             <p>
               {props.start} - {props.end}
             </p>
-            <p>{props.jadwal}</p>
           </Fragment>
         ),
       },

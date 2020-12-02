@@ -5,6 +5,7 @@ import styles from '../index.less';
 
 import { useDeliveryButton, usePickUpButton } from './useActionButton';
 
+import useFilterColumn from '@/hooks/useFilterColumn';
 interface DeliveryProps {
   loading: boolean;
   status_pengiriman: string;
@@ -12,7 +13,6 @@ interface DeliveryProps {
   handleVisible: (id: string) => void;
   handleVisiblePesanan: (
     id: string,
-    notes: string | null,
     nama: string | null,
     noTelp: string | null,
     merchantName: string | null,
@@ -27,6 +27,8 @@ export const useTableDelivery = ({
   updateDelivery,
 }: DeliveryProps) => {
   const [actionDeliveryButton] = useDeliveryButton(status_pengiriman);
+  const [getColumnSearchProps] = useFilterColumn();
+
   const columns = useMemo(
     () => [
       {
@@ -46,6 +48,7 @@ export const useTableDelivery = ({
         title: 'No. Pesanan',
         dataIndex: 'pesanan',
         key: 'pesanan',
+        ...getColumnSearchProps('pesanan'),
       },
       {
         align: 'center',
@@ -72,10 +75,10 @@ export const useTableDelivery = ({
         key: 'jadwal',
         render: (props: any) => (
           <Fragment>
+            <p>{props.jadwal}</p>
             <p>
               {props.start} - {props.end}
             </p>
-            <p>{props.jadwal}</p>
           </Fragment>
         ),
       },
@@ -99,7 +102,6 @@ export const useTableDelivery = ({
         render: ({
           id,
           id_status,
-          notes,
           nama,
           telepon,
           merchant,
@@ -109,7 +111,6 @@ export const useTableDelivery = ({
           nama: string | null;
           telepon: string | null;
           merchant: string | null;
-          notes: string | null;
         }) => (
           <Row justify="center">
             {actionDeliveryButton({
@@ -118,7 +119,6 @@ export const useTableDelivery = ({
               merchant,
               nama,
               telepon,
-              notes,
               handleVisible,
               loading: Boolean(loading),
               handleVisiblePesanan,
@@ -145,6 +145,8 @@ interface PickUpProps {
 
 export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
   const [actionPickUpButton] = usePickUpButton();
+  const [getColumnSearchProps] = useFilterColumn();
+
   const columns = useMemo(
     () => [
       {
@@ -164,6 +166,7 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
         title: 'No. Pesanan',
         dataIndex: 'pesanan',
         key: 'pesanan',
+        ...getColumnSearchProps('pesanan'),
       },
       {
         align: 'center',
@@ -190,10 +193,10 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
         key: 'jadwal',
         render: (props: any) => (
           <Fragment>
+            <p>{props.jadwal}</p>
             <p>
               {props.start} - {props.end}
             </p>
-            <p>{props.jadwal}</p>
           </Fragment>
         ),
       },
