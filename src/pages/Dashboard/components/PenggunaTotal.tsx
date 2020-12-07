@@ -98,7 +98,7 @@ const TotalPenggunaComponent = () => {
             title={
               <FormattedMessage id="total-pengguna-apple" defaultMessage="Total Pengguna Apple" />
             }
-            // total={numeral(Number(data_total.email)).format('0,0')}
+            total={numeral(Number(data_total.apple)).format('0,0')}
             contentHeight={46}
             loading={Boolean(loading_total)}
           >
