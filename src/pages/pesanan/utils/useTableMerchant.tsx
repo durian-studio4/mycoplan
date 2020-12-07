@@ -1,6 +1,7 @@
 import React, { useMemo, Fragment } from 'react';
 import { Row, Button } from 'antd';
 import { NavLink } from 'umi';
+import { format } from 'date-fns';
 import styles from '../index.less';
 
 import { useDeliveryButton, usePickUpButton } from './useActionButton';
@@ -75,7 +76,7 @@ export const useTableDelivery = ({
         key: 'jadwal',
         render: (props: any) => (
           <Fragment>
-            <p>{props.jadwal}</p>
+            <p>{format(new Date(props.jadwal), 'dd-MM-yyyy')}</p>
             <p>
               {props.start} - {props.end}
             </p>
@@ -193,7 +194,7 @@ export const useTablePickUp = ({ loading, updateDelivery }: PickUpProps) => {
         key: 'jadwal',
         render: (props: any) => (
           <Fragment>
-            <p>{props.jadwal}</p>
+            <p>{format(new Date(props.jadwal), 'dd-MM-yyyy')}</p>
             <p>
               {props.start} - {props.end}
             </p>

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Input, InputNumber, Button, Row, Upload, Tag } from 'antd';
+import { Card, Input, InputNumber, Button, Upload, Tag } from 'antd';
 import { useHistory, useParams } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import Quill from '@/components/Quill';
 import styles from './index.less';
 
 import SelectUnit from '@/components/Select/SelectUnit';
+import SelectAlias from '@/components/Select/SelectAlias';
 import SelectKategori from '@/components/Select/SelectKategori';
 import SelectSubKategori from '@/components/Select/SelectSubKategori';
 
@@ -43,6 +44,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
 
   const [categories, onChangeCategories, onClearCategories] = useSelect('');
   const [subcategories, onChangeSubCategories, onClearSubCategories] = useSelect('');
+  const [id_alias, onChangeAlias, onClearAlias] = useSelect('');
   const [id_unit, onChangeUnit, onClearUnit] = useSelect('');
 
   const [loading_update, status_update, postCreate] = useCreate();
@@ -112,6 +114,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
     setFileImg([]);
     setDescription('');
     setInformation('');
+    onClearAlias();
     onClearCategories();
     onClearSubCategories();
     onClearUnit();
@@ -137,6 +140,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
     weight,
     discount,
     id_merchant: id,
+    id_alias: Number(id_alias),
     id_unit: Number(id_unit),
     id_product_category: Number(categories),
     id_product_subcategory: Number(subcategories),
@@ -176,6 +180,14 @@ const ProdukAddComponent: React.FC<Props> = () => {
               value={name}
               onChange={onChangeState}
             />
+          </div>
+        </div>
+        <div className={styles.box10}>
+          <div className={styles.group}>
+            <label className={styles.label} htmlFor="name">
+              Nama Alias
+            </label>
+            <SelectAlias role="admin" handleChange={onChangeAlias} />
           </div>
         </div>
         <div className={styles.box10}>

@@ -92,6 +92,19 @@ const TotalPenggunaComponent = () => {
             {/* <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" /> */}
           </ChartCard>
         </Col>
+        <Col {...topColResponsiveProps}>
+          <ChartCard
+            bordered={false}
+            title={
+              <FormattedMessage id="total-pengguna-apple" defaultMessage="Total Pengguna Apple" />
+            }
+            // total={numeral(Number(data_total.email)).format('0,0')}
+            contentHeight={46}
+            loading={Boolean(loading_total)}
+          >
+            {/* <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" /> */}
+          </ChartCard>
+        </Col>
       </Fragment>
     </Row>
   );

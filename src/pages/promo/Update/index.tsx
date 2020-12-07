@@ -242,7 +242,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
           <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="discount">
-                Diskon
+                Diskon %
               </label>
               <InputNumber
                 style={{ width: '100%' }}

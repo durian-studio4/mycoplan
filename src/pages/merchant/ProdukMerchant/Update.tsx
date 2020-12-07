@@ -6,6 +6,7 @@ import Quill from '@/components/Quill';
 import styles from './index.less';
 
 import SelectUnit from './Select/SelectUnit';
+import SelectAlias from '@/components/Select/SelectAlias';
 import SelectKategori from './Select/SelectKategori';
 import SelectSubKategori from './Select/SelectSubKategori';
 
@@ -58,6 +59,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
   const [subcategories, onChangeSubCategories, onClearSubCategories] = useSelect(
     data_list.id_product_subcategory,
   );
+  const [id_alias, onChangeAlias, onClearAlias] = useSelect(data_list.id_alias);
   const [id_unit, onChangeUnit, onClearUnit] = useSelect(data_list.id_unit);
 
   useEffect(() => {
@@ -170,6 +172,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     setFileImg([]);
     setDescription('');
     setInformation('');
+    onClearAlias();
     onClearCategories();
     onClearSubCategories();
     onClearUnit();
@@ -210,6 +213,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     price,
     weight,
     discount,
+    id_alias: String(id_alias),
     id_unit: String(id_unit),
     id_product_category: String(categories),
     id_product_subcategory: String(subcategories),
@@ -261,6 +265,18 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
                 placeholder=""
                 value={name}
                 onChange={onChangeState}
+              />
+            </div>
+          </div>
+          <div className={styles.box10}>
+            <div className={styles.group}>
+              <label className={styles.label} htmlFor="name">
+                Nama Alias
+              </label>
+              <SelectAlias
+                role="merchant"
+                handleChange={onChangeAlias}
+                initial={data_list.alias && data_list.alias.alias}
               />
             </div>
           </div>

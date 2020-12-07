@@ -86,13 +86,8 @@ const UpdateComponent: React.FC<Props> = () => {
           setSupermarket((state) => [
             ...state,
             {
-              id_merchant: data.merchant.id,
-              name_merchant: data.merchant.name,
-              products: data.products.map((item: any) => ({
-                id_product: item.id,
-                nama_product: item.name,
-                qty: item.qty,
-              })),
+              alias: data.alias,
+              qty: data.qty,
             },
           ]),
         );
@@ -149,69 +144,67 @@ const UpdateComponent: React.FC<Props> = () => {
     return false;
   };
 
-  const onAddSupermarket = () => {
-    setSupermarket((state) => [
-      ...state,
-      {
-        id_merchant: '',
-        name_merchant: '',
-        products: [
-          {
-            id_product: '',
-            nama_product: '',
-            qty: '',
-          },
-        ],
-      },
-    ]);
-  };
+  // const onAddSupermarket = () => {
+  //   setSupermarket((state) => [
+  //     ...state,
+  //     {
+  //       id_merchant: '',
+  //       name_merchant: '',
+  //       products: [
+  //         {
+  //           id_product: '',
+  //           nama_product: '',
+  //           qty: '',
+  //         },
+  //       ],
+  //     },
+  //   ]);
+  // };
 
   const onAddProduct = (e: any, i: number) => {
     const state = [...supermarket];
-    state[i].products.push({
-      id_product: '',
-      nama_product: '',
+    state.push({
+      alias: '',
       qty: '',
     });
     setSupermarket(state);
   };
 
-  const onRemoveSupermarket = (e: any, i: number) => {
+  // const onRemoveSupermarket = (e: any, i: number) => {
+  //   const state = [...supermarket];
+  //   state.splice(i, 1);
+  //   setSupermarket(state);
+  // };
+
+  const onRemoveProduct = (e: any, i: number) => {
     const state = [...supermarket];
     state.splice(i, 1);
     setSupermarket(state);
   };
 
-  const onRemoveProduct = (e: any, i: number, indexProduk: number) => {
+  // const onChangeName = (value: any, option: any, i: number) => {
+  //   const state = [...supermarket];
+  //   state[i].id_merchant = option.id;
+  //   state[i].name_merchant = option.value;
+  //   setSupermarket(state);
+  // };
+
+  const onSelectProduct = (value: any, e: any, i: number) => {
     const state = [...supermarket];
-    state[i].products.splice(indexProduk, 1);
+    state[i].alias = e.children;
     setSupermarket(state);
   };
 
-  const onChangeName = (value: any, option: any, i: number) => {
+  const onChangeProduct = (value: string, i: number) => {
     const state = [...supermarket];
-    state[i].id_merchant = option.id;
-    state[i].name_merchant = option.value;
+    state[i].alias = value;
     setSupermarket(state);
   };
 
-  const onSelectProduct = (value: any, e: any, i: number, indexProduct: number) => {
-    const state = [...supermarket];
-    state[i].products[indexProduct].id_product = e.id;
-    setSupermarket(state);
-  };
-
-  const onChangeProduct = (value: string, i: number, indexProduct: number) => {
-    const state = [...supermarket];
-    state[i].products[indexProduct].nama_product = value;
-    setSupermarket(state);
-  };
-
-  const onChangeJumlah = (e: any, i: number, indexProduct: number) => {
+  const onChangeJumlah = (e: any, i: number) => {
     const { value } = e.target;
     const state = [...supermarket];
-    console.log(state, 'state');
-    state[i].products[indexProduct].qty = value;
+    state[i].qty = value;
     setSupermarket(state);
   };
 
@@ -220,10 +213,9 @@ const UpdateComponent: React.FC<Props> = () => {
     setFileImg(list);
   };
 
-  const onClearProduct = (i: number, indexProduct: number) => {
+  const onClearProduct = (i: number) => {
     const state = [...supermarket];
-    state[i].products[indexProduct].id_product = '';
-    state[i].products[indexProduct].nama_product = '';
+    state[i].alias = '';
     setSupermarket(state);
   };
 
@@ -259,6 +251,7 @@ const UpdateComponent: React.FC<Props> = () => {
     portion_min,
     ingredients,
     steps,
+    supermarkets: JSON.stringify(supermarket),
     difficulty: String(difficulty),
     id_recipe_type: String(id_recipe_type),
     id_recipe_categories: JSON.stringify(id_recipe_categories),
@@ -267,23 +260,22 @@ const UpdateComponent: React.FC<Props> = () => {
 
   const updateResep = () => {
     const formData = new FormData();
-    let data_supermarket = [];
+    // let data_supermarket = [];
 
     for (let [key, value] of Object.entries(DataJSON)) {
       formData.append(key, value);
     }
 
-    for (let key in supermarket) {
-      data_supermarket.push({
-        id_merchant: supermarket[key].id_merchant,
-        products: supermarket[key].products.map((item: any) => ({
-          id_product: item.id_product,
-          qty: item.qty,
-        })),
-      });
-    }
+    // for (let key in supermarket) {
+    //   data_supermarket.push({
+    //     products: supermarket[key].products.map((item: any) => ({
+    //       id_product: item.id_product,
+    //       qty: item.qty,
+    //     })),
+    //   });
+    // }
 
-    formData.append('supermarkets', JSON.stringify(data_supermarket));
+    // formData.append('supermarkets', JSON.stringify(data_supermarket));
 
     if (image.length) {
       for (let key in image) {
@@ -480,9 +472,12 @@ const UpdateComponent: React.FC<Props> = () => {
                 </div>
               ))}
             <div className={styles.box10}>
-              <Button className={styles.button_search} type="primary" onClick={onAddSupermarket}>
+              {/* <Button className={styles.button_search} type="primary" onClick={onAddSupermarket}>
                 + Tambah Supermarket
-              </Button>
+              </Button> */}
+              <label className={styles.label} htmlFor="produk">
+                Produk
+              </label>
             </div>
           </Row>
           {supermarket ? (
@@ -493,9 +488,9 @@ const UpdateComponent: React.FC<Props> = () => {
               onSelectProduct={onSelectProduct}
               onClearProduct={onClearProduct}
               onChangeJumlah={onChangeJumlah}
-              onChangeName={onChangeName}
+              // onChangeName={onChangeName}
               onRemoveProduct={onRemoveProduct}
-              onRemoveSupermarket={onRemoveSupermarket}
+              // onRemoveSupermarket={onRemoveSupermarket}
             />
           ) : null}
           <Button

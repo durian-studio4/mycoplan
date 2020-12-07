@@ -18,15 +18,10 @@ import useSelect from '@/hooks/useSelect';
 interface Props {}
 
 export interface Supermarket {
-  id_merchant: string;
-  name_merchant: string;
-  products: [
-    {
-      nama_product: string;
-      id_product: string;
-      qty: string;
-    },
-  ];
+  // id_merchant: string;
+  // name_merchant: string;
+  alias: string;
+  qty: string;
 }
 
 const initialState = {
@@ -45,7 +40,12 @@ const AddComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const [supermarket, setSupermarket] = useState<Supermarket[]>([]);
+  const [supermarket, setSupermarket] = useState<Supermarket[]>([
+    {
+      alias: '',
+      qty: '',
+    },
+  ]);
 
   const [image, setFileImg] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -112,68 +112,37 @@ const AddComponent: React.FC<Props> = () => {
     return false;
   };
 
-  const onAddSupermarket = () => {
-    setSupermarket((state) => [
-      ...state,
-      {
-        id_merchant: '',
-        name_merchant: '',
-        products: [
-          {
-            nama_product: '',
-            id_product: '',
-            qty: '',
-          },
-        ],
-      },
-    ]);
-  };
-
   const onAddProduct = (e: any, i: number) => {
     const state = [...supermarket];
-    state[i].products.push({
-      nama_product: '',
-      id_product: '',
+    state.push({
+      alias: '',
       qty: '',
     });
     setSupermarket(state);
   };
 
-  const onRemoveSupermarket = (e: any, i: number) => {
+  const onRemoveProduct = (e: any, i: number) => {
     const state = [...supermarket];
     state.splice(i, 1);
     setSupermarket(state);
   };
 
-  const onRemoveProduct = (e: any, i: number, indexProduk: number) => {
+  const onSelectProduct = (value: any, e: any, i: number) => {
     const state = [...supermarket];
-    state[i].products.splice(indexProduk, 1);
+    state[i].alias = e.children;
     setSupermarket(state);
   };
 
-  const onChangeName = (value: any, option: any, i: number) => {
+  const onChangeProduct = (value: string, i: number) => {
     const state = [...supermarket];
-    state[i].id_merchant = option.id;
-    state[i].name_merchant = option.value;
+    state[i].alias = value;
     setSupermarket(state);
   };
 
-  const onSelectProduct = (value: any, e: any, i: number, indexProduct: number) => {
-    const state = [...supermarket];
-    state[i].products[indexProduct].id_product = e.id;
-    setSupermarket(state);
-  };
-
-  const onChangeProduct = (value: string, i: number, indexProduct: number) => {
-    const state = [...supermarket];
-    state[i].products[indexProduct].nama_product = value;
-    setSupermarket(state);
-  };
-
-  const onChangeJumlah = (e: any, i: number, indexProduct: number) => {
+  const onChangeJumlah = (e: any, i: number) => {
     const { value } = e.target;
     const state = [...supermarket];
-    state[i].products[indexProduct].qty = value;
+    state[i].qty = value;
     setSupermarket(state);
   };
 
@@ -182,10 +151,9 @@ const AddComponent: React.FC<Props> = () => {
     setFileImg(list);
   };
 
-  const onClearProduct = (i: number, indexProduct: number) => {
+  const onClearProduct = (i: number) => {
     const state = [...supermarket];
-    state[i].products[indexProduct].id_product = '';
-    state[i].products[indexProduct].nama_product = '';
+    state[i].alias = '';
     setSupermarket(state);
   };
 
@@ -386,9 +354,9 @@ const AddComponent: React.FC<Props> = () => {
             </div>
           </div>
           <div className={styles.box10}>
-            <Button className={styles.button_search} type="primary" onClick={onAddSupermarket}>
-              + Tambah Supermarket
-            </Button>
+            <label className={styles.label} htmlFor="produk">
+              Produk
+            </label>
           </div>
         </Row>
         <SupermarketComponent
@@ -398,9 +366,9 @@ const AddComponent: React.FC<Props> = () => {
           onSelectProduct={onSelectProduct}
           onClearProduct={onClearProduct}
           onChangeJumlah={onChangeJumlah}
-          onChangeName={onChangeName}
+          // onChangeName={onChangeName}
           onRemoveProduct={onRemoveProduct}
-          onRemoveSupermarket={onRemoveSupermarket}
+          // onRemoveSupermarket={onRemoveSupermarket}
         />
         <Button
           className={styles.button}
