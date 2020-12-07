@@ -42,12 +42,14 @@ const SelectAlias: React.FC<Props> = ({ initial, role, disabled, handleChange })
 
   return (
     <Select
+      showSearch
       labelInValue
       defaultValue={{ key: initial || 'Mohon Pilih Alias' }}
       style={{
         width: '100%',
         minHeight: '2em',
       }}
+      // onSearch={(e) => console.log(e)}
       onChange={handleChange}
       loading={loading}
       disabled={disabled}
