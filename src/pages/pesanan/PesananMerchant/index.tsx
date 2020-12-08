@@ -73,7 +73,7 @@ const PesananComponent: React.FC<Props> = () => {
     const timeOut = setTimeout(() => {
       if (statusDelivery === '4') {
         return fetchDikirim(
-          `${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=dikirim`,
+          `${REACT_APP_ENV}/merchant/orders/?method=delivery&status=4&gosend_status=dikirim`,
         );
       }
     }, 0);
@@ -85,7 +85,7 @@ const PesananComponent: React.FC<Props> = () => {
     const timeOut = setTimeout(() => {
       if (statusDelivery === '4') {
         return fetchPengambilan(
-          `${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=pengambilan`,
+          `${REACT_APP_ENV}/merchant/orders/?method=delivery&status=4&gosend_status=pengambilan`,
         );
       }
     }, 0);
@@ -97,7 +97,7 @@ const PesananComponent: React.FC<Props> = () => {
     const timeOut = setTimeout(() => {
       if (statusDelivery === '4') {
         fetchPengiriman(
-          `${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=pengiriman`,
+          `${REACT_APP_ENV}/merchant/orders/?method=delivery&status=4&gosend_status=pengiriman`,
         );
       }
     }, 0);
@@ -109,7 +109,7 @@ const PesananComponent: React.FC<Props> = () => {
     const timeOut = setTimeout(() => {
       if (statusDelivery === '4') {
         fetchSelesai(
-          `${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=selesai`,
+          `${REACT_APP_ENV}/merchant/orders/?method=delivery&status=4&gosend_status=selesai`,
         );
       }
     }, 0);
@@ -120,7 +120,9 @@ const PesananComponent: React.FC<Props> = () => {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       if (statusDelivery === '4') {
-        fetchGagal(`${REACT_APP_ENV}/admin/orders/?method=delivery&status=4&gosend_status=gagal`);
+        fetchGagal(
+          `${REACT_APP_ENV}/merchant/orders/?method=delivery&status=4&gosend_status=gagal`,
+        );
       }
     }, 0);
     return () => clearTimeout(timeOut);
