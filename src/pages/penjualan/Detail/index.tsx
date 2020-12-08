@@ -30,10 +30,10 @@ const PenjualanDetailComponent: React.FC<Props> = () => {
     <div>
       {status_list !== 200 || error_list ? <p>Merchant Tidak Ada</p> : null}
       {Boolean(loading_list) ? <PageLoading /> : <p className={styles.title}>{data_list.name}</p>}
-      <TableTotal />
-      <TableKategori />
-      <TableSubKategori />
-      <TableProduk />
+      <TableTotal name={data_list.name} />
+      <TableKategori name={data_list.name} />
+      <TableSubKategori name={data_list.name} />
+      <TableProduk name={data_list.name} />
     </div>
   );
 };

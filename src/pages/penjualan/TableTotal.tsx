@@ -10,6 +10,7 @@ import { PermissionContext } from '@/layouts/context';
 
 import PageError from '@/components/PageError';
 
+import useDownloadCsv from '@/hooks/useDownloadCsv';
 import useFetch from '@/hooks/useFetch';
 import useFilterColumn from '@/hooks/useFilterColumn';
 
@@ -35,6 +36,8 @@ const TableComponent: React.FC<Props> = ({ id_merchant }) => {
   const [category, setCategory] = useState('day');
 
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
+
+  const [loading_download, onDownloadCSV] = useDownloadCsv();
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -142,7 +145,17 @@ const TableComponent: React.FC<Props> = ({ id_merchant }) => {
     >
       <Row justify="space-between">
         <p className={styles.title}>Total Semua Penjualan</p>
-        <Button className={styles.button} type="primary">
+        <Button
+          className={styles.button}
+          type="primary"
+          disabled={Boolean(loading_download)}
+          onClick={() =>
+            onDownloadCSV({
+              url: `${REACT_APP_ENV}/admin/sales/total?category=${category}&start_date=${rangePickerValue[0]}&end_date=${rangePickerValue[1]}&merchant=${id_merchant}&download=1`,
+              file: 'Total Penjualan',
+            })
+          }
+        >
           <DownloadOutlined /> Download CSV
         </Button>
       </Row>

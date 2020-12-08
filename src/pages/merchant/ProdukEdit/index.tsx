@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Row } from 'antd';
 import { NavLink, useParams } from 'umi';
 import styles from './index.less';
 
 import TableComponent from './Table';
+import { AddCsvComponent, EditCsvComponent } from './Csv';
 
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreateForm';
@@ -16,6 +17,9 @@ const MerchantProdukComponent: React.FC<Props> = () => {
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
 
+  const [visibleAdd, setVisibleAdd] = useState(false);
+  const [visibleEdit, setVisibleEdit] = useState(false);
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       fetchList(`${REACT_APP_ENV}/admin/products/?merchant=${id}`);
@@ -23,6 +27,9 @@ const MerchantProdukComponent: React.FC<Props> = () => {
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status_update]);
+
+  const onChangeVisibleAdd = () => setVisibleAdd(!visibleAdd);
+  const onChangeVisibleEdit = () => setVisibleEdit(!visibleEdit);
 
   const consoleLog = () => console.log('success');
 
@@ -61,6 +68,17 @@ const MerchantProdukComponent: React.FC<Props> = () => {
               value={name}
               onKeyDown={handleKey}
             /> */}
+            <Button
+              className={styles.button_search}
+              type="primary"
+              onClick={onChangeVisibleAdd}
+              danger
+            >
+              Tambah Sekaligus
+            </Button>
+            <Button className={styles.button_ubah} type="primary" onClick={onChangeVisibleEdit}>
+              Ubah Sekaligus
+            </Button>
             <NavLink to={`/merchant/produk/add/${id}/${code}`}>
               <Button className={styles.button_search} type="primary">
                 + Tambah Produk
@@ -80,6 +98,12 @@ const MerchantProdukComponent: React.FC<Props> = () => {
           onDelete={deleteProduk}
         />
       </Card>
+      {visibleAdd ? (
+        <AddCsvComponent visible={visibleAdd} id_merchant={id} onCancel={onChangeVisibleAdd} />
+      ) : null}
+      {visibleEdit ? (
+        <EditCsvComponent visible={visibleEdit} onCancel={onChangeVisibleEdit} />
+      ) : null}
     </div>
   );
 };

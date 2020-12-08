@@ -10,12 +10,16 @@ import { PermissionContext } from '@/layouts/context';
 
 import PageError from '@/components/PageError';
 
+import useDownloadCsv from '@/hooks/useDownloadCsv';
 import useFetch from '@/hooks/useFetch';
 import useFilterColumn from '@/hooks/useFilterColumn';
 
 const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
-interface Props {}
+
+interface Props {
+  name: string | undefined;
+}
 
 let initialDate = new Date();
 let y = initialDate.getFullYear();
@@ -23,7 +27,7 @@ let m = initialDate.getMonth();
 let firstDay = format(new Date(y, m, 1), 'yyyy-MM-dd');
 let lastDay = format(new Date(y, m + 1, 0), 'yyyy-MM-dd');
 
-const TableKategoriComponent: React.FC<Props> = () => {
+const TableKategoriComponent: React.FC<Props> = ({ name }) => {
   const { id } = useParams();
   const context = useContext(PermissionContext);
   const [getColumnSearchProps] = useFilterColumn();
@@ -34,6 +38,8 @@ const TableKategoriComponent: React.FC<Props> = () => {
   const [category, setCategory] = useState('day');
 
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
+
+  const [loading_download, onDownloadCSV] = useDownloadCsv();
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -121,7 +127,17 @@ const TableKategoriComponent: React.FC<Props> = () => {
     >
       <Row justify="space-between">
         <p className={styles.title}>Penjualan Per Kategori</p>
-        <Button className={styles.button} type="primary">
+        <Button
+          className={styles.button}
+          type="primary"
+          disabled={Boolean(loading_download)}
+          onClick={() =>
+            onDownloadCSV({
+              url: `${REACT_APP_ENV}/admin/sales/categories?category=${category}&start_date=${rangePickerValue[0]}&end_date=${rangePickerValue[1]}&merchant=${id}&download=1`,
+              file: `Penjualan Per Kategori ${name}`,
+            })
+          }
+        >
           <DownloadOutlined /> Download CSV
         </Button>
       </Row>

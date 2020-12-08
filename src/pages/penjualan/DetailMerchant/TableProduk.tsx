@@ -8,12 +8,16 @@ import styles from '../index.less';
 
 import PageError from '@/components/PageError';
 
+import useDownloadCsv from '@/hooks/useDownloadCsv';
 import useFetch from '@/hooks/useFetch';
 import useFilterColumn from '@/hooks/useFilterColumn';
 
 const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
-interface Props {}
+
+interface Props {
+  name: string | undefined;
+}
 
 let initialDate = new Date();
 let y = initialDate.getFullYear();
@@ -21,13 +25,15 @@ let m = initialDate.getMonth();
 let firstDay = format(new Date(y, m, 1), 'yyyy-MM-dd');
 let lastDay = format(new Date(y, m + 1, 0), 'yyyy-MM-dd');
 
-const TableProdukComponent: React.FC<Props> = () => {
+const TableProdukComponent: React.FC<Props> = ({ name }) => {
   const [getColumnSearchProps] = useFilterColumn();
 
   const [rangePickerValue, setRangePickerValue] = useState([firstDay, lastDay]);
   const [category, setCategory] = useState('day');
 
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
+
+  const [loading_download, onDownloadCSV] = useDownloadCsv();
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -142,7 +148,17 @@ const TableProdukComponent: React.FC<Props> = () => {
     >
       <Row justify="space-between">
         <p className={styles.title}>Penjualan Per Produk</p>
-        <Button className={styles.button} type="primary">
+        <Button
+          className={styles.button}
+          type="primary"
+          disabled={Boolean(loading_download)}
+          onClick={() =>
+            onDownloadCSV({
+              url: `${REACT_APP_ENV}/admin/sales/products?category=${category}&start_date=${rangePickerValue[0]}&end_date=${rangePickerValue[1]}&download=1`,
+              file: `Penjualan Per Produk ${name}`,
+            })
+          }
+        >
           <DownloadOutlined /> Download CSV
         </Button>
       </Row>

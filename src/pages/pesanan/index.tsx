@@ -13,6 +13,7 @@ import PageUnauthorized from '@/components/PageUnauthorized';
 import TableDelivery from './TableDelivery';
 import TablePickUp from './TablePickUp';
 
+import useDownloadCsv from '@/hooks/useDownloadCsv';
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
 
@@ -55,6 +56,8 @@ const PesananComponent: React.FC<Props> = () => {
   const [data_gagal, status_gagal, loading_gagal, error_gagal, fetchGagal] = useFetch();
 
   const [loading_update, status_update, postCreate, postUpdate] = useCreate();
+
+  const [loading_download, onDownloadCSV] = useDownloadCsv();
 
   const [statusDelivery, setStatusDelivery] = useState('1');
   const [statusPickUp, setStatusPickUp] = useState('1');
@@ -245,7 +248,17 @@ const PesananComponent: React.FC<Props> = () => {
       <Card>
         <Row justify="space-between">
           <div className={styles.row_box}>
-            <Button className={styles.button} type="primary">
+            <Button
+              className={styles.button}
+              type="primary"
+              disabled={Boolean(loading_download)}
+              onClick={() =>
+                onDownloadCSV({
+                  url: `${REACT_APP_ENV}/admin/orders?download=1`,
+                  file: 'Pesanan',
+                })
+              }
+            >
               <DownloadOutlined /> Download CSV
             </Button>
           </div>

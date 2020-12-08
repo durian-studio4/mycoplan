@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Button, Card, Row, Input } from 'antd';
+import { Button, Card, Row } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
@@ -8,6 +8,7 @@ import { PermissionContext } from '@/layouts/context';
 import TableComponent from './Table';
 import UpdateComponent from './Update';
 
+import useDownloadCsv from '@/hooks/useDownloadCsv';
 import useFetch from '@/hooks/useFetch';
 import useCreate from '@/hooks/useCreate';
 
@@ -23,6 +24,7 @@ const PenggunaComponent: React.FC<Props> = () => {
 
   const [data_list, status_list, loading_list, error_list, fetchList] = useFetch();
   const [loading_update, status_update, postCreate, postUpdate, postDelete] = useCreate();
+  const [loading_download, onDownloadCSV] = useDownloadCsv();
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -88,7 +90,17 @@ const PenggunaComponent: React.FC<Props> = () => {
           ) : null}
           {pengguna_access && pengguna_access.create ? (
             <div className={styles.row_box}>
-              <Button className={styles.button} type="primary">
+              <Button
+                className={styles.button}
+                type="primary"
+                disabled={Boolean(loading_download)}
+                onClick={() =>
+                  onDownloadCSV({
+                    url: `${REACT_APP_ENV}/admin/users?download=1`,
+                    file: 'Users',
+                  })
+                }
+              >
                 <DownloadOutlined /> Download CSV
               </Button>
             </div>
