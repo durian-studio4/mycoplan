@@ -20,8 +20,7 @@ function App() {
   const onRemoveImage = (e: any) => {
     setFileImg([]);
   };
-
-  const onHandlePost = async (url: string, data: any, clearState: () => void) => {
+  const onHandlePost = async ({ url, data }: { url: string; data: any }) => {
     setLoading(true);
     try {
       const posting = await axios({
@@ -33,7 +32,6 @@ function App() {
       });
       const result = await posting.data;
       setLoading(false);
-      clearState();
       message.success('success');
       return result;
     } catch (error) {

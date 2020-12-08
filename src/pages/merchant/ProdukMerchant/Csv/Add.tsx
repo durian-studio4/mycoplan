@@ -4,19 +4,16 @@ import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 
 import useUploadCsv from '@/hooks/useUploadCsv';
-import useDownloadCsv from '@/hooks/useDownloadCsv';
+
 interface Props {
   visible: boolean;
-  id_merchant: string;
   onCancel: () => void;
 }
 
-export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCancel }) => {
+export const AddCsvComponent: React.FC<Props> = ({ visible, onCancel }) => {
   const [file_csv, loading_upload, onChangeFile, onRemoveFile, onUpload] = useUploadCsv();
-  const [loading_download, onDownloadCSV] = useDownloadCsv();
 
   const DataJSON = {
-    id_merchant,
     file_csv: file_csv[0],
   };
 
@@ -28,7 +25,7 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCanc
     }
 
     onUpload({
-      url: `${REACT_APP_ENV}/admin/products/bulk-update`,
+      url: `${REACT_APP_ENV}/merchant/products/bulk-create`,
       data: formData,
     });
   };
@@ -37,8 +34,8 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCanc
     <Modal
       visible={visible}
       onCancel={onCancel}
-      width={700}
-      title="Ubah Sekaligus"
+      width={800}
+      title="Tambah Sekaligus"
       closable={false}
       footer={null}
     >
@@ -50,7 +47,7 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCanc
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              height: 200,
+              height: 250,
             }}
           >
             <p style={{ textAlign: 'center', fontSize: '1rem', fontWeight: 'bold' }}>
@@ -59,12 +56,8 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCanc
             <DownloadOutlined style={{ fontSize: 40, color: '#FF4D4F' }} />
             <Button
               type="primary"
-              disabled={Boolean(loading_download)}
               onClick={() =>
-                onDownloadCSV({
-                  url: `${REACT_APP_ENV}/admin/products?merchant=${id_merchant}&download=1`,
-                  file: 'product_template_edit',
-                })
+                window.open('https://api.mycoplan.id/storage/templates/product_template.csv')
               }
             >
               Download Template
@@ -76,6 +69,7 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCanc
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
+              height: 250,
             }}
           >
             <p style={{ textAlign: 'center', fontSize: '1rem', fontWeight: 'bold' }}>

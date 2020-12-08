@@ -7,16 +7,14 @@ import useUploadCsv from '@/hooks/useUploadCsv';
 import useDownloadCsv from '@/hooks/useDownloadCsv';
 interface Props {
   visible: boolean;
-  id_merchant: string;
   onCancel: () => void;
 }
 
-export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCancel }) => {
+export const EditCsvComponent: React.FC<Props> = ({ visible, onCancel }) => {
   const [file_csv, loading_upload, onChangeFile, onRemoveFile, onUpload] = useUploadCsv();
   const [loading_download, onDownloadCSV] = useDownloadCsv();
 
   const DataJSON = {
-    id_merchant,
     file_csv: file_csv[0],
   };
 
@@ -28,7 +26,7 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCanc
     }
 
     onUpload({
-      url: `${REACT_APP_ENV}/admin/products/bulk-update`,
+      url: `${REACT_APP_ENV}/merchant/products/bulk-update`,
       data: formData,
     });
   };
@@ -37,7 +35,7 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCanc
     <Modal
       visible={visible}
       onCancel={onCancel}
-      width={700}
+      width={800}
       title="Ubah Sekaligus"
       closable={false}
       footer={null}
@@ -62,7 +60,7 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCanc
               disabled={Boolean(loading_download)}
               onClick={() =>
                 onDownloadCSV({
-                  url: `${REACT_APP_ENV}/admin/products?merchant=${id_merchant}&download=1`,
+                  url: `${REACT_APP_ENV}/merchant/products?download=1`,
                   file: 'product_template_edit',
                 })
               }

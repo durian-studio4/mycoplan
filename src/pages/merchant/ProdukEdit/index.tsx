@@ -102,7 +102,7 @@ const MerchantProdukComponent: React.FC<Props> = () => {
         <AddCsvComponent visible={visibleAdd} id_merchant={id} onCancel={onChangeVisibleAdd} />
       ) : null}
       {visibleEdit ? (
-        <EditCsvComponent visible={visibleEdit} onCancel={onChangeVisibleEdit} />
+        <EditCsvComponent visible={visibleEdit} id_merchant={id} onCancel={onChangeVisibleEdit} />
       ) : null}
     </div>
   );

@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, Row, Button, Upload } from 'antd';
 import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 
-// import useDownloadCsv from '@/hooks/useDownloadCsv';
-// import useUploadCsv from '@/hooks/useUploadCsv';
+import useUploadCsv from '@/hooks/useUploadCsv';
 
 interface Props {
   visible: boolean;
@@ -13,17 +12,24 @@ interface Props {
 }
 
 export const AddCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCancel }) => {
-  // const [loading_download, onDownloadCSV] = useDownloadCsv();
+  const [file_csv, loading_upload, onChangeFile, onRemoveFile, onUpload] = useUploadCsv();
 
-  const [file_img, setFileImg] = useState([]);
-
-  const onChangeImage = (file: any) => {
-    setFileImg((state) => [...state, file]);
-    return false;
+  const DataJSON = {
+    id_merchant,
+    file_csv: file_csv[0],
   };
 
-  const onRemoveImage = (e: any) => {
-    setFileImg([]);
+  const uploadFile = () => {
+    const formData = new FormData();
+
+    for (let [key, value] of Object.entries(DataJSON)) {
+      formData.append(key, value);
+    }
+
+    onUpload({
+      url: `${REACT_APP_ENV}/admin/products/bulk-create`,
+      data: formData,
+    });
   };
 
   return (
@@ -49,16 +55,12 @@ export const AddCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCance
             <p style={{ textAlign: 'center', fontSize: '1rem', fontWeight: 'bold' }}>
               Download dan isi file Excel
             </p>
-            <DownloadOutlined style={{ fontSize: 40 }} />
+            <DownloadOutlined style={{ fontSize: 40, color: '#FF4D4F' }} />
             <Button
               type="primary"
-              // disabled={Boolean(loading_download)}
-              // onClick={() =>
-              //   onDownloadCSV({
-              //     url: `${REACT_APP_ENV}/admin/products?merchant=${id_merchant}&download=1`,
-              //     file: 'Produk',
-              //   })
-              // }
+              onClick={() =>
+                window.open('https://api.mycoplan.id/storage/templates/product_template.csv')
+              }
             >
               Download Template
             </Button>
@@ -79,15 +81,22 @@ export const AddCsvComponent: React.FC<Props> = ({ visible, id_merchant, onCance
               style={{
                 display: 'flex',
                 justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              <Upload listType="picture" onRemove={onRemoveImage} beforeUpload={onChangeImage}>
-                {file_img.length ? null : (
-                  <UploadOutlined style={{ fontSize: 40, cursor: 'pointer' }} />
+              <Upload listType="picture" onRemove={onRemoveFile} beforeUpload={onChangeFile}>
+                {file_csv.length ? null : (
+                  <UploadOutlined style={{ fontSize: 40, cursor: 'pointer', color: '#FFC234' }} />
                 )}
               </Upload>
             </div>
-            <Button type="primary">Upload Template</Button>
+            <Button
+              type="primary"
+              disabled={Boolean(loading_upload) || !file_csv.length}
+              onClick={uploadFile}
+            >
+              Upload Template
+            </Button>
           </div>
         </Row>
       </div>
