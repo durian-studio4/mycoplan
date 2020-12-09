@@ -52,7 +52,7 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, onCancel }) => {
             }}
           >
             <p style={{ textAlign: 'center', fontSize: '1rem', fontWeight: 'bold' }}>
-              Download dan isi file Csv
+              Download dan isi file CSV
             </p>
             <DownloadOutlined style={{ fontSize: 40, color: '#FF4D4F' }} />
             <Button
@@ -77,7 +77,7 @@ export const EditCsvComponent: React.FC<Props> = ({ visible, onCancel }) => {
             }}
           >
             <p style={{ textAlign: 'center', fontSize: '1rem', fontWeight: 'bold' }}>
-              Upload file Csv
+              Upload file CSV
             </p>
             <div
               style={{

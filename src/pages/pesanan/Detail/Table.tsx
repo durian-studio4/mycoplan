@@ -62,7 +62,7 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, handleAdd, han
         render: (props) => (
           <img
             alt={`gambar_detail-${props.id}`}
-            style={{ width: '100%', height: '30%', objectFit: 'contain' }}
+            style={{ width: '100%', height: 'auto', margin: '5px', objectFit: 'contain' }}
             src={props.image}
           />
         ),

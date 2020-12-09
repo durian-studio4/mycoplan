@@ -33,7 +33,7 @@ const initialState = {
   name: '',
   email: '',
   password: '',
-  push_notif_key: '',
+  // push_notif_key: '',
   confirm_password: '',
   description: '',
 };
@@ -47,7 +47,14 @@ const UpdateComponent: React.FC<Props> = ({
 }) => {
   const [schedule, setSchedule] = useState([]);
   const [
-    { name, email, password, push_notif_key, confirm_password, description },
+    {
+      name,
+      email,
+      password,
+      // push_notif_key,
+      confirm_password,
+      description,
+    },
     setState,
   ] = useState(initialState);
   const [isDisabled, setDisabled] = useState(false);
@@ -86,7 +93,6 @@ const UpdateComponent: React.FC<Props> = ({
         const {
           name,
           email,
-          push_notif_key,
           description,
           schedule,
           address,
@@ -95,7 +101,7 @@ const UpdateComponent: React.FC<Props> = ({
           logo,
         } = data_merchant;
         const merchant = JSON.parse(schedule);
-        setState({ name, email, push_notif_key, description });
+        setState({ name, email, description });
         setSchedule(merchant);
         setCurrentPosition({
           lat: Number(latitude),
@@ -227,7 +233,7 @@ const UpdateComponent: React.FC<Props> = ({
     latitude: currentPosition.lat,
     longitude: currentPosition.lng,
     schedule: JSON.stringify(data_schedule),
-    push_notif_key,
+    // push_notif_key,
     status: 'active',
   };
 
@@ -417,7 +423,7 @@ const UpdateComponent: React.FC<Props> = ({
               />
             </div>
           </div>
-          <div className={styles.box10}>
+          {/* <div className={styles.box10}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="push_notif_key">
                 Notif Key
@@ -430,7 +436,7 @@ const UpdateComponent: React.FC<Props> = ({
                 onChange={onChangeState}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       ) : null}
       <Row justify="end">

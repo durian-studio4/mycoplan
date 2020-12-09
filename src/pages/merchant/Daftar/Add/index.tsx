@@ -78,7 +78,7 @@ const initialState = {
   name: '',
   email: '',
   password: '',
-  push_notif_key: '',
+  // push_notif_key: '',
   confirm_password: '',
   description: '',
 };
@@ -86,7 +86,14 @@ const initialState = {
 const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButton }) => {
   const [schedule, setSchedule] = useState(initialSchedule);
   const [
-    { name, email, password, push_notif_key, confirm_password, description },
+    {
+      name,
+      email,
+      password,
+      // push_notif_key,
+      confirm_password,
+      description,
+    },
     setState,
   ] = useState(initialState);
   const [isDisabled, setDisabled] = useState(false);
@@ -231,7 +238,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
     longitude: currentPosition.lng,
     schedule: JSON.stringify(data_schedule),
     logo: logo[0],
-    push_notif_key,
+    // push_notif_key,
     status: 'active',
   };
 
@@ -368,7 +375,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             />
           </div>
         </div>
-        <div className={styles.box10}>
+        {/* <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="push_notif_key">
               Notif Key
@@ -381,7 +388,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
               onChange={onChangeState}
             />
           </div>
-        </div>
+        </div> */}
       </div>
       <Row justify="end">
         {/* {onError ? <p style={{ color: 'red' }}>{onError}</p> : null} */}
