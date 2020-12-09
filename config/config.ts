@@ -196,6 +196,13 @@ export default defineConfig({
                   component: './merchant/UnitProduk',
                   authority: ['admin', 'master'],
                 },
+                {
+                  name: 'Alias Produk',
+                  icon: 'inbox',
+                  path: '/merchant/alias',
+                  component: './merchant/Alias',
+                  authority: ['admin', 'master'],
+                },
               ],
             },
             {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
+import { WindowsFilled } from '@ant-design/icons';
 
 message.config({
   top: 100,
@@ -33,6 +34,7 @@ function App() {
       const result = await posting.data;
       setLoading(false);
       message.success('success');
+      window.location.reload(false);
       return result;
     } catch (error) {
       if (error.response) {

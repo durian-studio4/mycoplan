@@ -16,12 +16,12 @@ interface Props {
 }
 
 const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onLoadButton }) => {
-  const [name, setName] = useState('');
+  const [alias, setAlias] = useState('');
   const [data_update, status_update, loading_update, error_update, fetchUpdate] = useFetch();
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetchUpdate(`${REACT_APP_ENV}/admin/units/${id}`);
+      fetchUpdate(`${REACT_APP_ENV}/admin/product-aliases/${id}`);
     }, 0);
     return () => clearTimeout(timeOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,30 +29,30 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
 
   useEffect(() => {
     if (data_update) {
-      const data = data_update && data_update.name;
-      setName(data);
+      const data = data_update && data_update.alias;
+      setAlias(data);
     }
   }, [data_update]);
 
   const onChangeState = (e: { target: HTMLInputElement }) => {
     const { value } = e.target;
-    setName(value);
+    setAlias(value);
   };
 
   const onClearState = () => {
-    setName('');
+    setAlias('');
     onCancel();
   };
 
   const updateUnit = () => {
     onUpdate({
-      json: { name },
+      json: { alias },
     });
     onClearState();
   };
 
   return (
-    <Modal visible={visible} title="Update Unit Produk" closable={false} footer={null}>
+    <Modal visible={visible} title="Update Alias Produk" closable={false} footer={null}>
       {status_update !== 200 || error_update ? <PageError /> : null}
       {loading_update ? (
         <PageLoading />
@@ -60,15 +60,15 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
         <div className={styles.modal_body}>
           <div className={styles.box10}>
             <div className={styles.group}>
-              <label className={styles.label} htmlFor="name">
-                Unit Produk
+              <label className={styles.label} htmlFor="alias">
+                Alias Produk
               </label>
               <Input
                 className={styles.input}
                 type="text"
-                id="name"
-                placeholder="Unit Produk"
-                value={name}
+                id="alias"
+                placeholder="Alias Produk"
+                value={alias}
                 onChange={onChangeState}
               />
             </div>
