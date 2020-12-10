@@ -9,15 +9,15 @@ interface Props {
 }
 
 const MerchantUnitProdukAddComponent: React.FC<Props> = ({ onCreate, onLoadButton }) => {
-  const [name, setName] = useState('');
+  const [alias, setAlias] = useState('');
 
-  const onChangeState = (e: { target: HTMLInputElement }) => setName(e.target.value);
+  const onChangeState = (e: { target: HTMLInputElement }) => setAlias(e.target.value);
 
-  const onClearState = () => setName('');
+  const onClearState = () => setAlias('');
 
-  const createUnit = () => {
+  const createAlias = () => {
     const formData = new FormData();
-    formData.append('name', name);
+    formData.append('alias', alias);
     onCreate({
       json: formData,
       clear: onClearState,
@@ -33,15 +33,15 @@ const MerchantUnitProdukAddComponent: React.FC<Props> = ({ onCreate, onLoadButto
             <Input
               className={styles.input}
               placeholder="Alias Produk"
-              value={name}
+              value={alias}
               onChange={onChangeState}
             />
           </div>
         </Row>
         <Button
           className={styles.button}
-          disabled={!name || onLoadButton}
-          onClick={createUnit}
+          disabled={!alias || onLoadButton}
+          onClick={createAlias}
           type="primary"
         >
           Simpan

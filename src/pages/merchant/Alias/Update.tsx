@@ -89,7 +89,7 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
         <Button
           className={styles.button}
           onClick={updateUnit}
-          disabled={!name || onLoadButton}
+          disabled={!alias || onLoadButton}
           type="primary"
         >
           Simpan
