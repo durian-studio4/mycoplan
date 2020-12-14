@@ -154,7 +154,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
     id_unit: String(id_unit),
     id_product_category: String(categories),
     id_product_subcategory: String(subcategories),
-    other_packaging: !data_packaging.length ? [] : JSON.stringify(data_packaging),
+    other_packaging: !data_packaging.length ? JSON.stringify([]) : JSON.stringify(data_packaging),
     description,
     information: !information ? '' : information,
     status: 'active',
