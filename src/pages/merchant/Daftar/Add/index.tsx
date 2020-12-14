@@ -210,8 +210,8 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   };
 
   const onClearState = () => {
+    setSchedule(initialSchedule);
     setState({ ...initialState });
-    setSchedule({ ...initialSchedule });
     setLogo([]);
     onCancel();
   };
@@ -316,7 +316,7 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             />
           </div>
         </div>
-        {initialSchedule.map((data: any, i: number) => (
+        {schedule.map((data: any, i: number) => (
           <div className={styles.box10} key={i}>
             <div className={styles.group}>
               <label className={styles.label}>{data.day}</label>

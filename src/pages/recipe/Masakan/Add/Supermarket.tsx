@@ -43,6 +43,7 @@ const SupermarketComponent: React.FC<Props> = ({
                     </div>
                     <div className={styles.box5} style={{ marginTop: '10px' }}>
                       <AutoAlias
+                        role="admin"
                         value={data.alias}
                         onChange={(v: any) => onChangeProduct(v, i)}
                         onSelect={(v: any, e: any) => onSelectProduct(v, e, i)}
