@@ -6,10 +6,12 @@ import Quill from '@/components/Quill';
 import styles from './index.less';
 
 import SelectUnit from '@/components/Select/SelectUnit';
-import SelectAlias from '@/components/Select/SelectAlias';
 import SelectKategori from '@/components/Select/SelectKategori';
 import SelectSubKategori from '@/components/Select/SelectSubKategori';
 
+import AutoAlias from '@/components/Autocomplete/Alias';
+
+import useAutoComplete from '@/hooks/useAutoComplete';
 import useSelect from '@/hooks/useSelect';
 import useCreate from '@/hooks/useCreateForm';
 
@@ -44,8 +46,18 @@ const ProdukAddComponent: React.FC<Props> = () => {
 
   const [categories, onChangeCategories, onClearCategories] = useSelect('');
   const [subcategories, onChangeSubCategories, onClearSubCategories] = useSelect('');
-  const [id_alias, onChangeAlias, onClearAlias] = useSelect('');
   const [id_unit, onChangeUnit, onClearUnit] = useSelect('');
+
+  const {
+    id: id_alias,
+    text: text_alias,
+    changeText: onChangeAlias,
+    selectText: onSelectAlias,
+    clearText: onClearAlias,
+  } = useAutoComplete({
+    idSelect: 0,
+    textSelect: '',
+  });
 
   const [loading_update, status_update, postCreate] = useCreate();
 
@@ -187,7 +199,12 @@ const ProdukAddComponent: React.FC<Props> = () => {
             <label className={styles.label} htmlFor="name">
               Nama Alias
             </label>
-            <SelectAlias role="admin" handleChange={onChangeAlias} />
+            <AutoAlias
+              role="admin"
+              value={text_alias}
+              onChange={onChangeAlias}
+              onSelect={onSelectAlias}
+            />
           </div>
         </div>
         <div className={styles.box10}>

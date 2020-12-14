@@ -7,6 +7,7 @@ const Option = AutoComplete.Option;
 
 interface Props {
   value: any;
+  role: string;
   onSelect: (value: any, e: any) => void;
   onChange: (value: string) => void;
   // onClear: () => void;
@@ -14,6 +15,7 @@ interface Props {
 
 const AutoProdukComponent: React.FC<Props> = ({
   value,
+  role,
   onSelect,
   onChange,
   // onClear
@@ -34,7 +36,7 @@ const AutoProdukComponent: React.FC<Props> = ({
     try {
       const wait = await axios({
         method: 'get',
-        baseURL: `${REACT_APP_ENV}/admin/product-aliases`,
+        baseURL: `${REACT_APP_ENV}/${role}/product-aliases`,
         withCredentials: true,
       });
       const json = await wait.data;

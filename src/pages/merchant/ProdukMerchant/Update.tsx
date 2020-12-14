@@ -6,10 +6,12 @@ import Quill from '@/components/Quill';
 import styles from './index.less';
 
 import SelectUnit from './Select/SelectUnit';
-import SelectAlias from '@/components/Select/SelectAlias';
 import SelectKategori from './Select/SelectKategori';
 import SelectSubKategori from './Select/SelectSubKategori';
 
+import AutoAlias from '@/components/Autocomplete/Alias';
+
+import useAutoComplete from '@/hooks/useAutoComplete';
 import useSelect from '@/hooks/useSelect';
 import useCreate from '@/hooks/useCreateForm';
 import useFetch from '@/hooks/useFetch';
@@ -59,8 +61,18 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
   const [subcategories, onChangeSubCategories, onClearSubCategories] = useSelect(
     data_list.id_product_subcategory,
   );
-  const [id_alias, onChangeAlias, onClearAlias] = useSelect(data_list.id_alias);
   const [id_unit, onChangeUnit, onClearUnit] = useSelect(data_list.id_unit);
+
+  const {
+    id: id_alias,
+    text: text_alias,
+    changeText: onChangeAlias,
+    selectText: onSelectAlias,
+    clearText: onClearAlias,
+  } = useAutoComplete({
+    idSelect: data_list.id_alias,
+    textSelect: data_list.alias && data_list.alias.alias,
+  });
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -217,7 +229,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     id_unit: String(id_unit),
     id_product_category: String(categories),
     id_product_subcategory: String(subcategories),
-    other_packaging: JSON.stringify(data_packaging),
+    other_packaging: !data_packaging.length ? [] : JSON.stringify(data_packaging),
     description,
     information: !information ? '' : information,
     status: 'active',
@@ -273,10 +285,11 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
               <label className={styles.label} htmlFor="name">
                 Nama Alias
               </label>
-              <SelectAlias
+              <AutoAlias
                 role="merchant"
-                handleChange={onChangeAlias}
-                initial={data_list.alias && data_list.alias.alias}
+                value={text_alias}
+                onChange={onChangeAlias}
+                onSelect={onSelectAlias}
               />
             </div>
           </div>
