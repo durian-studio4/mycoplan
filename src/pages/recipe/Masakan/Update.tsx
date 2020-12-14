@@ -96,14 +96,7 @@ const UpdateComponent: React.FC<Props> = () => {
       setCategories(recipe_categories);
 
       supermarkets && supermarkets.length
-        ? supermarkets.map((data: any) =>
-            setSupermarket((state) => [
-              {
-                alias: data.alias,
-                qty: data.qty,
-              },
-            ]),
-          )
+        ? setSupermarket(supermarkets)
         : setSupermarket(() => [
             {
               alias: '',
