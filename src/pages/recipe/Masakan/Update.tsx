@@ -39,7 +39,7 @@ const UpdateComponent: React.FC<Props> = () => {
   const [visible, setVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const [supermarket, setSupermarket] = useState<Supermarket[]>([]);
+  const [supermarket, setSupermarket] = useState<Supermarket[]>();
 
   const [image, setFileImg] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -81,16 +81,7 @@ const UpdateComponent: React.FC<Props> = () => {
         supermarkets,
         images,
       } = data_list;
-      supermarkets &&
-        supermarkets.map((data: any) =>
-          setSupermarket((state) => [
-            ...state,
-            {
-              alias: data.alias,
-              qty: data.qty,
-            },
-          ]),
-        );
+
       setState({
         name,
         author,
@@ -103,6 +94,22 @@ const UpdateComponent: React.FC<Props> = () => {
       setSteps(steps);
       setIngredients(ingredients);
       setCategories(recipe_categories);
+
+      supermarkets && supermarkets.length
+        ? supermarkets.map((data: any) =>
+            setSupermarket((state) => [
+              {
+                alias: data.alias,
+                qty: data.qty,
+              },
+            ]),
+          )
+        : setSupermarket(() => [
+            {
+              alias: '',
+              qty: '',
+            },
+          ]);
     }
   }, [data_list]);
 
@@ -480,19 +487,17 @@ const UpdateComponent: React.FC<Props> = () => {
               </label>
             </div>
           </Row>
-          {supermarket ? (
-            <SupermarketComponent
-              supermarket={supermarket}
-              onAddProduct={onAddProduct}
-              onChangeProduct={onChangeProduct}
-              onSelectProduct={onSelectProduct}
-              onClearProduct={onClearProduct}
-              onChangeJumlah={onChangeJumlah}
-              // onChangeName={onChangeName}
-              onRemoveProduct={onRemoveProduct}
-              // onRemoveSupermarket={onRemoveSupermarket}
-            />
-          ) : null}
+          <SupermarketComponent
+            supermarket={supermarket}
+            onAddProduct={onAddProduct}
+            onChangeProduct={onChangeProduct}
+            onSelectProduct={onSelectProduct}
+            onClearProduct={onClearProduct}
+            onChangeJumlah={onChangeJumlah}
+            // onChangeName={onChangeName}
+            onRemoveProduct={onRemoveProduct}
+            // onRemoveSupermarket={onRemoveSupermarket}
+          />
           <Button
             className={styles.button}
             disabled={disabled || Boolean(loading_update)}

@@ -31,66 +31,70 @@ const SupermarketComponent: React.FC<Props> = ({
 }) => {
   return (
     <>
-      {supermarket.map((data, i: number) => (
-        <Fragment key={i}>
-          <Row>
-            <Fragment key={i}>
-              <div className={styles.box5}>
-                <Row style={{ marginTop: '1em' }}>
-                  <Fragment>
-                    <div className={styles.box4} style={{ marginTop: '10px' }}>
-                      <label htmlFor="produk">Produk {i + 1}</label>
+      {supermarket &&
+        supermarket.map((data, i: number) => (
+          <Fragment key={i}>
+            <Row>
+              <Fragment key={i}>
+                <div className={styles.box5}>
+                  <Row style={{ marginTop: '1em' }}>
+                    <Fragment>
+                      <div className={styles.box4} style={{ marginTop: '10px' }}>
+                        <label htmlFor="produk">Produk {i + 1}</label>
+                      </div>
+                      <div className={styles.box5} style={{ marginTop: '10px' }}>
+                        <AutoAlias
+                          role="admin"
+                          value={data.alias}
+                          onChange={(v: any) => onChangeProduct(v, i)}
+                          onSelect={(v: any, e: any) => onSelectProduct(v, e, i)}
+                          // onClear={() => onClearProduct(i,indexProduk)}
+                        />
+                      </div>
+                    </Fragment>
+                  </Row>
+                </div>
+                <div className={styles.box3}>
+                  <Row style={{ marginTop: '1em' }}>
+                    <Fragment>
+                      <div
+                        className={styles.box3}
+                        style={{ textAlign: 'center', marginTop: '10px' }}
+                      >
+                        <label>Jumlah</label>
+                      </div>
+                      <div className={styles.box3} style={{ marginTop: '10px' }}>
+                        <Input value={data.qty} onChange={(e) => onChangeJumlah(e, i)} />
+                      </div>
+                    </Fragment>
+                  </Row>
+                </div>
+                <div className={styles.box2}>
+                  <Row style={{ marginTop: '1em' }}>
+                    <div className={styles.box10} key={i} style={{ marginTop: '10px' }}>
+                      <Button
+                        className={styles.button_delete}
+                        onClick={(e) => onRemoveProduct(e, i)}
+                        disabled={Boolean(!i)}
+                        type="primary"
+                        danger
+                      >
+                        <DeleteOutlined />
+                      </Button>
+                      <Button
+                        className={styles.button_add}
+                        onClick={(e) => onAddProduct(e, i)}
+                        type="primary"
+                      >
+                        <PlusOutlined />
+                      </Button>
                     </div>
-                    <div className={styles.box5} style={{ marginTop: '10px' }}>
-                      <AutoAlias
-                        role="admin"
-                        value={data.alias}
-                        onChange={(v: any) => onChangeProduct(v, i)}
-                        onSelect={(v: any, e: any) => onSelectProduct(v, e, i)}
-                        // onClear={() => onClearProduct(i,indexProduk)}
-                      />
-                    </div>
-                  </Fragment>
-                </Row>
-              </div>
-              <div className={styles.box3}>
-                <Row style={{ marginTop: '1em' }}>
-                  <Fragment>
-                    <div className={styles.box3} style={{ textAlign: 'center', marginTop: '10px' }}>
-                      <label>Jumlah</label>
-                    </div>
-                    <div className={styles.box3} style={{ marginTop: '10px' }}>
-                      <Input value={data.qty} onChange={(e) => onChangeJumlah(e, i)} />
-                    </div>
-                  </Fragment>
-                </Row>
-              </div>
-              <div className={styles.box2}>
-                <Row style={{ marginTop: '1em' }}>
-                  <div className={styles.box10} key={i} style={{ marginTop: '10px' }}>
-                    <Button
-                      className={styles.button_delete}
-                      onClick={(e) => onRemoveProduct(e, i)}
-                      disabled={Boolean(!i)}
-                      type="primary"
-                      danger
-                    >
-                      <DeleteOutlined />
-                    </Button>
-                    <Button
-                      className={styles.button_add}
-                      onClick={(e) => onAddProduct(e, i)}
-                      type="primary"
-                    >
-                      <PlusOutlined />
-                    </Button>
-                  </div>
-                </Row>
-              </div>
-            </Fragment>
-          </Row>
-        </Fragment>
-      ))}
+                  </Row>
+                </div>
+              </Fragment>
+            </Row>
+          </Fragment>
+        ))}
     </>
   );
 };
