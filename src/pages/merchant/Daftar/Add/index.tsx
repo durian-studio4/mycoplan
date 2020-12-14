@@ -106,6 +106,62 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   const [currentPosition, setCurrentPosition] = useState(initialLatLng);
 
   useEffect(() => {
+    setState({ ...initialState });
+    setSchedule([
+      {
+        id: 0,
+        day: 'Senin',
+        open_time: '07:00',
+        close_time: '18:00',
+        is_close: false,
+      },
+      {
+        id: 1,
+        day: 'Selasa',
+        open_time: '07:00',
+        close_time: '18:00',
+        is_close: false,
+      },
+      {
+        id: 2,
+        day: 'Rabu',
+        open_time: '07:00',
+        close_time: '18:00',
+        is_close: false,
+      },
+      {
+        id: 3,
+        day: 'Kamis',
+        open_time: '07:00',
+        close_time: '18:00',
+        is_close: false,
+      },
+      {
+        id: 4,
+        day: 'Jumat',
+        open_time: '07:00',
+        close_time: '18:00',
+        is_close: false,
+      },
+      {
+        id: 5,
+        day: 'Sabtu',
+        open_time: '07:00',
+        close_time: '18:00',
+        is_close: false,
+      },
+      {
+        id: 6,
+        day: 'Minggu',
+        open_time: '07:00',
+        close_time: '18:00',
+        is_close: false,
+      },
+    ]);
+    setLogo([]);
+  }, [visible]);
+
+  useEffect(() => {
     navigator.geolocation.getCurrentPosition(onSuccess);
   }, []);
 
@@ -210,9 +266,6 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
   };
 
   const onClearState = () => {
-    setSchedule(initialSchedule);
-    setState({ ...initialState });
-    setLogo([]);
     onCancel();
   };
 
@@ -316,29 +369,30 @@ const AddComponent: React.FC<Props> = ({ visible, onCreate, onCancel, onLoadButt
             />
           </div>
         </div>
-        {schedule.map((data: any, i: number) => (
-          <div className={styles.box10} key={i}>
-            <div className={styles.group}>
-              <label className={styles.label}>{data.day}</label>
-              <Row>
-                <RangePicker
-                  className={styles.picker}
-                  disabled={data.is_close}
-                  format={format}
-                  onChange={(values: any, formatString: [string, string]) =>
-                    onChangeTime(values, formatString, i)
-                  }
-                />
-                <Checkbox
-                  className={styles.button_schedule}
-                  onChange={(e: any) => onChangeDisabled(e, i)}
-                >
-                  Disabled
-                </Checkbox>
-              </Row>
+        {schedule &&
+          schedule.map((data: any, i: number) => (
+            <div className={styles.box10} key={i}>
+              <div className={styles.group}>
+                <label className={styles.label}>{data.day}</label>
+                <Row>
+                  <RangePicker
+                    className={styles.picker}
+                    disabled={data.is_close}
+                    format={format}
+                    onChange={(values: any, formatString: [string, string]) =>
+                      onChangeTime(values, formatString, i)
+                    }
+                  />
+                  <Checkbox
+                    className={styles.button_schedule}
+                    onChange={(e: any) => onChangeDisabled(e, i)}
+                  >
+                    Disabled
+                  </Checkbox>
+                </Row>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
         <div className={styles.box10}>
           <div className={styles.group}>
             <label className={styles.label} htmlFor="email">
