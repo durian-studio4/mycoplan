@@ -133,7 +133,7 @@ const TableSubKategoriComponent: React.FC<Props> = ({ name }) => {
           disabled={Boolean(loading_download)}
           onClick={() =>
             onDownloadCSV({
-              url: `${REACT_APP_ENV}/admin/sales/sub-categories?category=${category}&start_date=${rangePickerValue[0]}&end_date=${rangePickerValue[1]}&download=1`,
+              url: `${REACT_APP_ENV}/merchant/sales/sub-categories?category=${category}&start_date=${rangePickerValue[0]}&end_date=${rangePickerValue[1]}&download=1`,
               file: `Penjualan Per Sub Kategori ${name}`,
             })
           }
