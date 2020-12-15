@@ -225,7 +225,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
     price,
     weight,
     discount,
-    id_alias: text_alias ? Number(id_alias) : 0,,
+    id_alias: text_alias ? Number(id_alias) : 0,
     id_unit: Number(id_unit),
     id_product_category: Number(categories),
     id_product_subcategory: Number(subcategories),
