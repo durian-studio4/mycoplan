@@ -152,7 +152,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
     weight,
     discount,
     id_merchant: id,
-    id_alias: Number(id_alias),
+    id_alias: text_alias ? Number(id_alias) : 0,
     id_unit: Number(id_unit),
     id_product_category: Number(categories),
     id_product_subcategory: Number(subcategories),
