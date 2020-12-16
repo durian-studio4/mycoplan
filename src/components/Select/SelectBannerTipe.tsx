@@ -5,10 +5,11 @@ const Option = Select.Option;
 
 interface Props {
   initial?: string;
+  disabled?: boolean;
   handleChange: (value: any, option: any) => void;
 }
 
-const SelectBannerTipeComponent: React.FC<Props> = ({ initial, handleChange }) => {
+const SelectBannerTipeComponent: React.FC<Props> = ({ initial, disabled, handleChange }) => {
   const data = [
     {
       id: 0,
@@ -25,6 +26,7 @@ const SelectBannerTipeComponent: React.FC<Props> = ({ initial, handleChange }) =
   return (
     <Select
       labelInValue
+      disabled={disabled}
       defaultValue={{ key: initial || 'Mohon Pilih' }}
       style={{
         width: '100%',
