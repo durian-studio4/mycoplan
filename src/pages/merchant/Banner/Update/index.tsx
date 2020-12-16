@@ -187,7 +187,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                 Tipe Banner
               </label>
               <SelectBannerTipe
-                disabled={true}
                 initial={data_update.banner_type === 'gambar' ? 'Gambar Saja' : 'Gambar & Detail'}
                 handleChange={onChangeBannerType}
               />
@@ -304,7 +303,6 @@ const UpdateComponent: React.FC<Props> = ({ visible, id, onCancel, onUpdate, onL
                   Kode Promo
                 </label>
                 <SelectAll
-                  disabled={true}
                   address={`${REACT_APP_ENV}/admin/vouchers`}
                   initial={data_update.voucher && data_update.voucher.name}
                   handleChange={onChangeVoucher}
