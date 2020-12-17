@@ -1,5 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Table, Row, Button, Popconfirm } from 'antd';
+import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
 import { format } from 'date-fns';
 import styles from './index.less';
 
@@ -17,6 +20,45 @@ interface Props {
   onDeactive: (id: string) => void;
 }
 
+const RNDContext = createDndContext(HTML5Backend);
+
+const type = 'DragableBodyRow';
+
+const DragableBodyRow = ({ index, moveRow, className, style, ...restProps }: any) => {
+  const ref = React.useRef();
+  const [{ isOver, dropClassName }, drop] = useDrop({
+    accept: type,
+    collect: (monitor) => {
+      const { index: dragIndex } = monitor.getItem() || {};
+      if (dragIndex === index) {
+        return {};
+      }
+      return {
+        isOver: monitor.isOver(),
+        dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward',
+      };
+    },
+    drop: (item) => {
+      moveRow(item.index, index);
+    },
+  });
+  const [, drag] = useDrag({
+    item: { type, index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+  drop(drag(ref));
+  return (
+    <tr
+      ref={ref}
+      className={`${className}${isOver ? dropClassName : ''}`}
+      style={{ cursor: 'move', ...style }}
+      {...restProps}
+    />
+  );
+};
+
 const TableComponent: React.FC<Props> = ({
   management_access,
   data,
@@ -29,23 +71,51 @@ const TableComponent: React.FC<Props> = ({
   onDeactive,
 }) => {
   // const [getColumnSearchProps] = useFilterColumn();
-  let data_array = [];
+  const [data_banner, setData] = useState([]);
+  const manager = useRef(RNDContext);
 
-  for (let key in data) {
-    data_array.push({
-      no: Number(key) + 1,
-      id: data[key].id,
-      name: data[key].name,
-      title: data[key].title,
-      description: data[key].description,
-      start: data[key].start,
-      end: data[key].end,
-      terms_conditions: data[key].terms_conditions,
-      image: data[key].image,
-      promo: data[key].voucher ? data[key].voucher.code : '',
-      status: data[key].status,
-    });
-  }
+  const components = {
+    body: {
+      row: DragableBodyRow,
+    },
+  };
+
+  useEffect(() => {
+    let data_array = [];
+    if (data) {
+      for (let key in data) {
+        data_array.push({
+          no: Number(key) + 1,
+          id: data[key].id,
+          name: data[key].name,
+          title: data[key].title,
+          description: data[key].description,
+          start: data[key].start,
+          end: data[key].end,
+          terms_conditions: data[key].terms_conditions,
+          image: data[key].image,
+          promo: data[key].voucher ? data[key].voucher.code : '',
+          status: data[key].status,
+        });
+      }
+      setData([...data_array]);
+    }
+  }, [data]);
+
+  const moveRow = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragRow = data_banner[dragIndex];
+      setData(
+        update(data_banner, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragRow],
+          ],
+        }),
+      );
+    },
+    [data_banner],
+  );
 
   const columns = useMemo(
     () => [
@@ -175,13 +245,20 @@ const TableComponent: React.FC<Props> = ({
   }
 
   return (
-    <Table
-      columns={columns}
-      dataSource={data_array}
-      loading={loading}
-      scroll={{ x: 1300 }}
-      style={{ display: management_access && management_access.read ? 'block' : 'none' }}
-    />
+    <DndProvider manager={manager.current.dragDropManager}>
+      <Table
+        columns={columns}
+        dataSource={data_banner}
+        loading={loading}
+        scroll={{ x: 1300 }}
+        components={components}
+        onRow={(record, index) => ({
+          index,
+          moveRow,
+        })}
+        style={{ display: management_access && management_access.read ? 'block' : 'none' }}
+      />
+    </DndProvider>
   );
 };
 
