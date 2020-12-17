@@ -106,6 +106,10 @@ const MapComponent: React.FC<Props> = ({
             onChange={onHandleChange}
             onSelect={onHandleSelect}
             shouldFetchSuggestions={address.length > 3}
+            searchOptions={{
+              location: currentPosition,
+              types: ['address'],
+            }}
           >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
               <div>

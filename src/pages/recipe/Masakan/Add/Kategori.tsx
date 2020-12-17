@@ -46,7 +46,7 @@ const KategoriComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: any) => {
-      console.log('selected', selectedRows);
+      console.log('selected row', selectedRows);
       setKategori(selectedRows);
     },
     getCheckboxProps: (record: any) => ({
