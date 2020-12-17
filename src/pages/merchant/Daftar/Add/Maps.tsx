@@ -68,7 +68,6 @@ const MapComponent: React.FC<Props> = ({
   onHandleChange,
   onHandleSelect,
 }) => {
-  console.log(new google.maps.LatLng(currentPosition));
   return (
     <Fragment>
       <div className={styles.box10}>

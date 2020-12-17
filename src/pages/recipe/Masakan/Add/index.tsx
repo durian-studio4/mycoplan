@@ -99,6 +99,8 @@ const AddComponent: React.FC<Props> = () => {
     image,
   ]);
 
+  console.log(categories);
+
   const handleVisibleKategori = () => setVisible(!visible);
 
   const onChangeState = (e: any) => {
@@ -326,6 +328,7 @@ const AddComponent: React.FC<Props> = () => {
                 {visible ? (
                   <KategoriComponent
                     visible={visible}
+                    categories={categories}
                     onSet={setCategories}
                     onCancel={handleVisibleKategori}
                   />

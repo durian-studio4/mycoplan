@@ -372,6 +372,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
       {visible ? (
         <KemasanComponent
           visible={visible}
+          kemasan={other_packaging}
           category={String(categories)}
           subcategory={String(subcategories)}
           onSet={setOtherPackaging}

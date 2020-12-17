@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useMemo, Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
-import { Modal, Row, Input, Button, Table } from 'antd';
+import { Modal, Row, Button, Table } from 'antd';
 import styles from '../index.less';
 
 interface Props {
   visible: boolean;
+  categories: never[];
   onSet: Dispatch<SetStateAction<never[]>>;
   onCancel: () => void;
 }
 
-const KategoriComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
+const KategoriComponent: React.FC<Props> = ({ visible, categories, onCancel, onSet }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [kategori, setKategori] = useState([]);
+
+  const [dataKategori, setDataKategori] = useState([]);
+
+  const [selectedKategori, setSelectedKategori] = useState([]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -20,6 +24,11 @@ const KategoriComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
     }, 0);
     return () => clearTimeout(timeOut);
   }, []);
+
+  useEffect(() => {
+    setDataKategori(categories);
+    setSelectedKategori(categories.map((item) => item.id));
+  }, [categories]);
 
   const fetching = async (param: string) => {
     setLoading(true);
@@ -40,15 +49,16 @@ const KategoriComponent: React.FC<Props> = ({ visible, onCancel, onSet }) => {
   };
 
   const onSave = () => {
-    onSet(kategori);
+    onSet(dataKategori);
     onCancel();
   };
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: any) => {
-      console.log('selected row', selectedRows);
-      setKategori(selectedRows);
+      setSelectedKategori(selectedRowKeys);
+      setDataKategori(selectedRows);
     },
+    selectedRowKeys: selectedKategori,
     getCheckboxProps: (record: any) => ({
       name: record.name,
     }),

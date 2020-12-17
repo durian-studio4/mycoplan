@@ -488,6 +488,7 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
       {visible ? (
         <KemasanComponent
           visible={visible}
+          kemasan={other_packaging}
           onSet={setOtherPackaging}
           onCancel={handleVisible}
           id_merchant={id_merchant}

@@ -175,6 +175,8 @@ const ProdukAddComponent: React.FC<Props> = () => {
     postCreate(`${REACT_APP_ENV}/admin/products`, formData, onClearState);
   };
 
+  console.log(other_packaging);
+
   return (
     <div>
       <p className={styles.title}>Tambah Produk</p>
@@ -377,6 +379,7 @@ const ProdukAddComponent: React.FC<Props> = () => {
           id_merchant={id}
           category={String(categories)}
           subcategory={String(subcategories)}
+          kemasan={other_packaging}
           onSet={setOtherPackaging}
           onCancel={handleVisible}
         />

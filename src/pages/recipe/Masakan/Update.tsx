@@ -422,6 +422,7 @@ const UpdateComponent: React.FC<Props> = () => {
                   </Button>
                   {visible ? (
                     <KategoriComponent
+                      categories={categories}
                       visible={visible}
                       onSet={setCategories}
                       onCancel={handleVisibleKategori}

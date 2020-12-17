@@ -11,16 +11,31 @@ interface Props {
   onCancel: () => void;
   category: string;
   subcategory: string;
+  kemasan: never[];
   onSet: Dispatch<SetStateAction<never[]>>;
 }
 
-const KemasanComponent: React.FC<Props> = ({ visible, category, subcategory, onCancel, onSet }) => {
+const KemasanComponent: React.FC<Props> = ({
+  visible,
+  kemasan,
+  category,
+  subcategory,
+  onCancel,
+  onSet,
+}) => {
   const [getColumnSearchProps] = useFilterColumn();
 
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
   const [loading, setLoading] = useState(false);
-  const [kemasan, setKemasan] = useState([]);
+
+  const [dataKemasan, setDataKemasan] = useState([]);
+  const [selectedKemasan, setSelectedKemasan] = useState([]);
+
+  useEffect(() => {
+    setDataKemasan(kemasan);
+    setSelectedKemasan(kemasan.map((item) => item.id_product || item.id));
+  }, [kemasan]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -50,14 +65,17 @@ const KemasanComponent: React.FC<Props> = ({ visible, category, subcategory, onC
   };
 
   const onSave = () => {
-    onSet(kemasan);
+    onSet(dataKemasan);
     onCancel();
   };
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: any) => {
-      setKemasan(selectedRows);
+      console.log(selectedRowKeys, selectedRows);
+      setSelectedKemasan(selectedRowKeys);
+      setDataKemasan(selectedRows);
     },
+    selectedRowKeys: selectedKemasan,
     getCheckboxProps: (record: any) => ({
       name: record.name,
     }),
