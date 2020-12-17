@@ -68,6 +68,7 @@ const MapComponent: React.FC<Props> = ({
   onHandleChange,
   onHandleSelect,
 }) => {
+  console.log(new google.maps.LatLng(currentPosition));
   return (
     <Fragment>
       <div className={styles.box10}>
@@ -107,7 +108,7 @@ const MapComponent: React.FC<Props> = ({
             onSelect={onHandleSelect}
             shouldFetchSuggestions={address.length > 3}
             searchOptions={{
-              location: currentPosition,
+              location: new google.maps.LatLng(currentPosition),
               radius: 30000,
               types: ['address'],
             }}
