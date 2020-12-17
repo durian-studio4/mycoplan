@@ -107,6 +107,10 @@ const MapComponent: React.FC<Props> = ({
             onChange={onHandleChange}
             onSelect={onHandleSelect}
             shouldFetchSuggestions={address.length > 3}
+            searchOptions={{
+              types: ['address'],
+              componentRestrictions: { country: 'id' },
+            }}
             // searchOptions={{
             //   location: new google.maps.LatLng(currentPosition),
             //   radius: 30000,
