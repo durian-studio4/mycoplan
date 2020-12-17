@@ -107,11 +107,11 @@ const MapComponent: React.FC<Props> = ({
             onChange={onHandleChange}
             onSelect={onHandleSelect}
             shouldFetchSuggestions={address.length > 3}
-            searchOptions={{
-              location: new google.maps.LatLng(currentPosition),
-              radius: 30000,
-              types: ['address'],
-            }}
+            // searchOptions={{
+            //   location: new google.maps.LatLng(currentPosition),
+            //   radius: 30000,
+            //   types: ['address'],
+            // }}
           >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
               <div>

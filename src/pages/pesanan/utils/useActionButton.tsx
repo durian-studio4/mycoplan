@@ -237,7 +237,7 @@ export const useDeliveryButton = (status_pengiriman: string) => {
               update: updateDelivery,
               id,
             })}
-            <Button
+            {/* <Button
               className={styles.button_action}
               id={id}
               onClick={() =>
@@ -253,7 +253,7 @@ export const useDeliveryButton = (status_pengiriman: string) => {
               type="primary"
             >
               Lacak Pesanan
-            </Button>
+            </Button> */}
             {renderSelesai({
               loading,
               update: updateDelivery,
