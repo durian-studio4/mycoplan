@@ -108,6 +108,7 @@ const MapComponent: React.FC<Props> = ({
             shouldFetchSuggestions={address.length > 3}
             searchOptions={{
               location: currentPosition,
+              radius: 30000,
               types: ['address'],
             }}
           >
