@@ -26,7 +26,7 @@ interface Props {}
 const initialState = {
   name: '',
   sku: '',
-  quantity: '',
+  quantity: '0',
   weight: '',
 };
 
@@ -124,9 +124,6 @@ const ProdukUpdateComponent: React.FC<Props> = () => {
       return setDisabled(true);
     }
     if (!weight) {
-      return setDisabled(true);
-    }
-    if (!quantity) {
       return setDisabled(true);
     }
     if (!price) {
