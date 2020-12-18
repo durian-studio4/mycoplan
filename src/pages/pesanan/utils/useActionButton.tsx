@@ -237,23 +237,25 @@ export const useDeliveryButton = (status_pengiriman: string) => {
               update: updateDelivery,
               id,
             })}
-            {/* <Button
-              className={styles.button_action}
-              id={id}
-              onClick={() =>
-                handleVisiblePesanan(
-                  id,
-                  // notes,
-                  nama,
-                  telepon,
-                  merchant,
-                )
-              }
-              disabled={loading}
-              type="primary"
-            >
-              Lacak Pesanan
-            </Button> */}
+            {status_pengiriman !== 'dikirim' ? (
+              <Button
+                className={styles.button_action}
+                id={id}
+                onClick={() =>
+                  handleVisiblePesanan(
+                    id,
+                    // notes,
+                    nama,
+                    telepon,
+                    merchant,
+                  )
+                }
+                disabled={loading}
+                type="primary"
+              >
+                Lacak Pesanan
+              </Button>
+            ) : null}
             {renderSelesai({
               loading,
               update: updateDelivery,
