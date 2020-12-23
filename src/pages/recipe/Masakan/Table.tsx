@@ -4,6 +4,7 @@ import { NavLink } from 'umi';
 import { format } from 'date-fns';
 import styles from './index.less';
 
+import useFilterColumn from '@/hooks/useFilterColumn';
 import PageError from '@/components/PageError';
 
 interface Props {
@@ -29,7 +30,7 @@ const TableComponent: React.FC<Props> = ({
   onDeactive,
   onDelete,
 }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
 
   let data_array = [];
 
@@ -58,12 +59,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
         title: 'ID Resep',
         dataIndex: 'code',
         key: 'code',
+        ...getColumnSearchProps('code'),
       },
       {
         align: 'center',
@@ -89,12 +92,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'Nama Resep',
         dataIndex: 'name',
         key: 'name',
+        ...getColumnSearchProps('name'),
       },
       {
         align: 'center',
         title: 'Pembuat',
         dataIndex: 'author',
         key: 'author',
+        ...getColumnSearchProps('author'),
       },
       // {
       //   align: 'center',
@@ -135,12 +140,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'Tanggal Dimasukkan',
         dataIndex: 'created_at',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+        ...getColumnSearchProps('created_at'),
       },
       {
         align: 'center',
         title: 'Status',
         key: 'status',
         dataIndex: 'status',
+        ...getColumnSearchProps('status'),
       },
       {
         align: 'center',
