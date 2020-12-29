@@ -32,8 +32,8 @@ const TableComponent: React.FC<Props> = ({
     data_array.push({
       no: Number(key) + 1,
       id: data[key].id,
-      name: data[key].name,
       image: data[key].image,
+      sub_kategori: data[key].name,
       kategori: data[key].parent.name,
     });
   }
@@ -69,9 +69,9 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Sub Kategori Produk',
-        dataIndex: 'name',
-        key: 'name',
-        ...getColumnSearchProps('name'),
+        dataIndex: 'sub_kategori',
+        key: 'sub_kategori',
+        ...getColumnSearchProps('sub_kategori'),
       },
       {
         align: 'center',

@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 interface Props {
   data: any;
@@ -15,7 +16,7 @@ interface Props {
 }
 
 const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelete }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
 
   let data_array = [];
 
@@ -37,30 +38,35 @@ const TableComponent: React.FC<Props> = ({ data, loading, status, error, onDelet
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
         title: 'Nama',
         dataIndex: 'name',
         key: 'name',
+        ...getColumnSearchProps('name'),
       },
       {
         align: 'left',
         title: 'Email',
         dataIndex: 'email',
         key: 'email',
+        ...getColumnSearchProps('email'),
       },
       {
         align: 'center',
         title: 'Peran',
         dataIndex: 'role',
         key: 'role',
+        ...getColumnSearchProps('role'),
       },
       {
         align: 'center',
         title: 'Tanggal Dimasukkan',
         dataIndex: 'created_at',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+        ...getColumnSearchProps('created_at'),
       },
       // {
       //   align: 'center',

@@ -1,8 +1,9 @@
-import React, { useMemo, useState, Fragment } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Table, Row, Button, Card, Popconfirm } from 'antd';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 import AddComponent from './AddRecipeKategori';
 interface Props {
@@ -26,7 +27,8 @@ const TableComponent: React.FC<Props> = ({
   onCreate,
   onDelete,
 }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
+
   const [visible, setVisible] = useState(false);
 
   const handleVisible = () => setVisible(!visible);
@@ -38,7 +40,7 @@ const TableComponent: React.FC<Props> = ({
       no: Number(key) + 1,
       id: data[key].id,
       id_kategori: data[key].recipe_category.id,
-      name: data[key].recipe_category.name,
+      kategori: data[key].recipe_category.name,
       image: data[key].recipe_category.image,
     });
   }
@@ -50,6 +52,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
@@ -67,8 +70,9 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Kategori Resep',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'kategori',
+        key: 'kategori',
+        ...getColumnSearchProps('kategori'),
       },
       {
         align: 'center',

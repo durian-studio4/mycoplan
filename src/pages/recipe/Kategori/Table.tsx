@@ -3,6 +3,7 @@ import { Table, Row, Button, Popconfirm } from 'antd';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 interface Props {
   recipe_access: any;
@@ -23,7 +24,7 @@ const TableComponent: React.FC<Props> = ({
   onDelete,
   visibleUpdate,
 }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
 
   let data_array = [];
 
@@ -31,7 +32,7 @@ const TableComponent: React.FC<Props> = ({
     data_array.push({
       no: Number(key) + 1,
       id: data[key].id,
-      name: data[key].name,
+      kategori: data[key].name,
       image: data[key].image,
     });
   }
@@ -43,6 +44,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
@@ -60,8 +62,9 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Kategori Resep',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'kategori',
+        key: 'kategori',
+        ...getColumnSearchProps('kategori'),
       },
       {
         align: 'center',

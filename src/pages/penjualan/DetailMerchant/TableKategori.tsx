@@ -81,24 +81,28 @@ const TableKategoriComponent: React.FC<Props> = ({ name }) => {
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
         title: 'Tanggal',
         dataIndex: 'tanggal',
         key: 'tanggal',
+        ...getColumnSearchProps('tanggal'),
       },
       {
         align: 'center',
         title: 'Kategori',
         dataIndex: 'category',
         key: 'category',
+        ...getColumnSearchProps('category'),
       },
       {
         align: 'center',
         title: 'Unit',
         dataIndex: 'unit',
         key: 'unit',
+        ...getColumnSearchProps('unit'),
       },
       {
         align: 'center',

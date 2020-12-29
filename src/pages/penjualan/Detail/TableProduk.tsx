@@ -30,6 +30,7 @@ let lastDay = format(new Date(y, m + 1, 0), 'yyyy-MM-dd');
 const TableProdukComponent: React.FC<Props> = ({ name }) => {
   const { id } = useParams();
   const context = useContext(PermissionContext);
+
   const [getColumnSearchProps] = useFilterColumn();
 
   const penjualan_access = context && context[6];
@@ -91,36 +92,42 @@ const TableProdukComponent: React.FC<Props> = ({ name }) => {
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
         title: 'Tanggal',
         dataIndex: 'tanggal',
         key: 'tanggal',
+        ...getColumnSearchProps('tanggal'),
       },
       {
         align: 'center',
         title: 'ID Produk',
         dataIndex: 'id_product',
         key: 'id_product',
+        ...getColumnSearchProps('id_product'),
       },
       {
         align: 'center',
         title: 'SKU',
         dataIndex: 'sku',
         key: 'sku',
+        ...getColumnSearchProps('sku'),
       },
       {
         align: 'center',
         title: 'Nama Produk',
         dataIndex: 'name_product',
         key: 'name_product',
+        ...getColumnSearchProps('name_product'),
       },
       {
         align: 'center',
         title: 'Kategori',
         dataIndex: 'category',
         key: 'category',
+        ...getColumnSearchProps('category'),
       },
       {
         align: 'center',

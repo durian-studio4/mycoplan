@@ -150,6 +150,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
+        ...getColumnSearchProps('status'),
       },
       {
         align: 'center',

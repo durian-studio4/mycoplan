@@ -3,6 +3,7 @@ import { Table, Row, Button, Popconfirm } from 'antd';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 interface Props {
   merchant_access: any;
@@ -23,7 +24,7 @@ const TableComponent: React.FC<Props> = ({
   onDelete,
   visibleUpdate,
 }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
 
   let data_array = [];
 
@@ -42,12 +43,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
         title: 'Alias Produk',
         dataIndex: 'alias',
         key: 'alias',
+        ...getColumnSearchProps('alias'),
       },
       {
         align: 'center',

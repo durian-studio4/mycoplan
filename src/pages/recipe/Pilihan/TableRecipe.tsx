@@ -1,8 +1,9 @@
-import React, { useMemo, useState, Fragment } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Table, Row, Button, Card, Popconfirm } from 'antd';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 import AddComponent from './AddRecipe';
 
@@ -27,7 +28,8 @@ const TableComponent: React.FC<Props> = ({
   onCreate,
   onDelete,
 }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
+
   const [visible, setVisible] = useState(false);
 
   const handleVisible = () => setVisible(!visible);
@@ -39,7 +41,7 @@ const TableComponent: React.FC<Props> = ({
       no: Number(key) + 1,
       id: data[key].id,
       id_recipe: data[key].recipe.id,
-      name: data[key].recipe.name,
+      recipe: data[key].recipe.name,
       author: data[key].recipe.author,
       images: data[key].recipe.images,
     });
@@ -52,12 +54,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
         title: 'ID Resep',
         dataIndex: 'id_recipe',
         key: 'id_recipe',
+        ...getColumnSearchProps('id_recipe'),
       },
       {
         align: 'center',
@@ -74,14 +78,16 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Nama Resep',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'recipe',
+        key: 'recipe',
+        ...getColumnSearchProps('recipe'),
       },
       {
         align: 'center',
         title: 'Pembuat',
         dataIndex: 'author',
         key: 'author',
+        ...getColumnSearchProps('author'),
       },
       {
         align: 'center',

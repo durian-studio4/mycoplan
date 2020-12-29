@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 interface Props {
   merchant_access: any;
@@ -70,7 +71,8 @@ const TableComponent: React.FC<Props> = ({
   onDelete,
   onDeactive,
 }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
+
   const [data_banner, setData] = useState([]);
   const manager = useRef(RNDContext);
 
@@ -124,6 +126,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
@@ -143,6 +146,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'Judul Banner Merchant',
         dataIndex: 'title',
         key: 'title',
+        ...getColumnSearchProps('title'),
       },
       // {
       //   align: 'left',
@@ -155,12 +159,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'Waktu Mulai',
         dataIndex: 'start',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+        ...getColumnSearchProps('start'),
       },
       {
         align: 'center',
         title: 'Waktu Akhir',
         dataIndex: 'end',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+        ...getColumnSearchProps('end'),
       },
       // {
       //   align: 'center',
@@ -173,6 +179,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'Kode Promo',
         dataIndex: 'promo',
         key: 'promo',
+        ...getColumnSearchProps('promo'),
       },
       // {
       //   align: 'center',
@@ -185,6 +192,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
+        ...getColumnSearchProps('status'),
       },
       {
         align: 'center',

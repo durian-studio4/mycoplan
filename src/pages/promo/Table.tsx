@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 interface Props {
   promo_access: any;
@@ -28,6 +29,8 @@ const TableComponent: React.FC<Props> = ({
   onDeactive,
   onDelete,
 }) => {
+  const [getColumnSearchProps] = useFilterColumn();
+
   let data_array = [];
 
   for (let key in data) {
@@ -57,12 +60,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
         title: 'Nama',
         dataIndex: 'name',
         key: 'name',
+        ...getColumnSearchProps('name'),
       },
       // {
       //   align: 'center',
@@ -82,12 +87,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'Kategori',
         dataIndex: 'category',
         key: 'category',
+        ...getColumnSearchProps('category'),
       },
       {
         align: 'center',
         title: 'Kode Promo',
         dataIndex: 'code',
         key: 'code',
+        ...getColumnSearchProps('code'),
       },
       // {
       //   align: 'center',
@@ -114,12 +121,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'Waktu Mulai',
         dataIndex: 'start',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+        ...getColumnSearchProps('start'),
       },
       {
         align: 'center',
         title: 'Waktu Akhir',
         dataIndex: 'end',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+        ...getColumnSearchProps('end'),
       },
       // {
       //   align: 'center',
@@ -132,12 +141,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'Maks. Penukaran',
         dataIndex: 'quantity',
         key: 'quantity',
+        ...getColumnSearchProps('quantity'),
       },
       {
         align: 'center',
         title: 'Sudah Ditukar',
         dataIndex: 'used',
         key: 'used',
+        ...getColumnSearchProps('used'),
       },
       // {
       //   align: 'center',
@@ -148,6 +159,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
+        ...getColumnSearchProps('status'),
       },
       {
         align: 'center',

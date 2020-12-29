@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import styles from './index.less';
 
 import PageError from '@/components/PageError';
+import useFilterColumn from '@/hooks/useFilterColumn';
 
 interface Props {
   management_access: any;
@@ -70,7 +71,8 @@ const TableComponent: React.FC<Props> = ({
   onDelete,
   onDeactive,
 }) => {
-  // const [getColumnSearchProps] = useFilterColumn();
+  const [getColumnSearchProps] = useFilterColumn();
+
   const [data_banner, setData] = useState([]);
   const manager = useRef(RNDContext);
 
@@ -88,7 +90,7 @@ const TableComponent: React.FC<Props> = ({
           no: Number(key) + 1,
           id: data[key].id,
           name: data[key].name,
-          title: data[key].title,
+          judul: data[key].title,
           description: data[key].description,
           start: data[key].start,
           end: data[key].end,
@@ -124,6 +126,7 @@ const TableComponent: React.FC<Props> = ({
         title: 'No.',
         dataIndex: 'no',
         key: 'no',
+        ...getColumnSearchProps('no'),
       },
       {
         align: 'center',
@@ -141,8 +144,9 @@ const TableComponent: React.FC<Props> = ({
       {
         align: 'center',
         title: 'Judul',
-        dataIndex: 'title',
-        key: 'title',
+        dataIndex: 'judul',
+        key: 'judul',
+        ...getColumnSearchProps('judul'),
       },
       // {
       //   align: 'left',
@@ -155,12 +159,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'Waktu Mulai',
         dataIndex: 'start',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+        ...getColumnSearchProps('start'),
       },
       {
         align: 'center',
         title: 'Waktu Akhir',
         dataIndex: 'end',
         render: (props) => <div>{format(new Date(props), 'dd-MM-yyyy')}</div>,
+        ...getColumnSearchProps('end'),
       },
       // {
       //   align: 'center',
@@ -173,12 +179,14 @@ const TableComponent: React.FC<Props> = ({
         title: 'Kode Promo',
         dataIndex: 'promo',
         key: 'promo',
+        ...getColumnSearchProps('promo'),
       },
       {
         align: 'center',
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
+        ...getColumnSearchProps('status'),
       },
       {
         align: 'center',
