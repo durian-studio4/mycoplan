@@ -104,17 +104,17 @@ const LacakComponent: React.FC<Props> = ({
               <Col>
                 <p style={{ fontWeight: 'bold' }}>Alamat Pembeli</p>
                 <p>{data_list.buyerAddressDetail ? data_list.buyerAddressDetail : '-'}</p>
-                <p>
-                  {data_list.buyer_address && data_list.buyer_address.detail_alamat
-                    ? data_list.buyer_address.detail_alamat
-                    : '-'}
-                </p>
               </Col>
             </Row>
             <Row align="middle" style={{ margin: '5px 10px' }}>
               <Col>
                 <p style={{ fontWeight: 'bold' }}>Catatan Pembeli</p>
-                <p>{data_list.buyer_note ? data_list.buyer_note : '-'}</p>
+                {/* <p>{data_list.buyer_note ? data_list.buyer_note : '-'}</p> */}
+                <p>
+                  {data_list.buyer_address && data_list.buyer_address.detail_alamat
+                    ? data_list.buyer_address.detail_alamat
+                    : '-'}
+                </p>
               </Col>
             </Row>
             <Divider />
